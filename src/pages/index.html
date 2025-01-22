@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/input.css">
+    <link href="../../dist/output.css" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+    <img src="../assets/Icct-Bldg.png" alt="" srcset="" class="invisible sm:visible w-full h-3/5 absolute top-0 right-0 z-10 object-cover object-right-top rounded-b-2xl shadow-lg">
+    <div class="invisible sm:visible w-full h-3/5 absolute top-0 right-0 z-10 object-cover object-right-top rounded-b-2xl gradient-filter">
+    </div>
+    
+    <div class="signInForm z-10">
+        <div class="logo-wrapper">
+            <img src="../assets/logo-auth-png.png" alt="" srcset="" class="w-32 aspect-video">
+        </div>
+        <div class="header-wrapper">
+            <span class="sign-up-header">
+                Sign Up
+            </span>
+            <p class="instruction">
+                Create an account to monitor your computer logs.
+            </p>
+        </div>
+        <div class="inputs-wrapper">
+            <div class="details-wrapper">
+                <div class="info-details-wrapper flex" id="login-details-wrapper">
+                    <h2 class="header-two">Login Details</h2>
+                    <div class="input-wrapper">
+                        <div class="w-full h-auto flex items-center justify-start"><label for="studentId">Student ID<span class="text-red-600">*</span></label></div>
+                        <div class="w-full h-fit relative"><input type="text" class="input" name="studentId" id="studentId" placeholder="UA202100700" required>
+                       </div>
+                        <!-- <span class="absolute top-[-26px] right-0">Hello</span> -->
+                    </div>
+                    <div class="input-wrapper">
+                        <div class="w-full h-auto flex items-center justify-start"><label for="password">Password<span class="text-red-600">*</span></label></div>
+                        <div class="w-full h-fit relative">
+                            <input type="password" class="input" name="password" id="password" placeholder="●●●●●●" required>
+                            
+                            <button class="show-hide-password" id="password-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 flex">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 hidden">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
+                                  </svg>
+                                  
+                            </button>
+                        </div>
+                    </div>
+                    <div class="input-wrapper">
+                        <div class="w-full h-auto flex items-center justify-start"><label for="repassword">Re-type Password<span class="text-red-600">*</span></label></div>
+                        <div class="w-full h-fit relative">
+                            <input type="password" class="input" name="repassword" id="repassword" placeholder="●●●●●●" required disabled>
+                            
+                            <button class="show-hide-password" id="repassword-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
+                                  </svg>
+                                  
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-details-wrapper hidden" id="info-details-wrapper">
+                    <h2 class="header-two">Personal Details</h2>
+                    <div class="input-wrapper">
+                        <div class="w-full h-auto flex items-center justify-start"><label for="name">Name<span class="text-red-600">*</span></label></div>
+                        <div class="w-full h-fit relative"><input type="text" class="input" name="name" id="name" placeholder="John Doe" required></div>
+                    </div>
+                
+                    <div class="input-wrapper">
+                        <div class="w-full h-auto flex items-center justify-start"><label for="section">Section<span class="text-red-600">*</span></label></div>
+                        <div class="w-full h-fit relative"><input type="text" class="input" name="section" id="section" placeholder="LFAU322E004" required></div>
+                    </div>
+                    <div class="input-wrapper">
+                        <div class="w-full h-auto flex items-center justify-start"><label for="email">Email<span class="text-red-600">*</span></label></div>
+                        <div class="w-full h-fit relative"><input type="email" class="input" name="email" id="email" placeholder="johndoe@gmail.com" required></div>
+                    </div>
+                </div>
+            </div>
+            <div class="agreement-checkbox-wrapper hidden" id="agreement-checkbox">
+                <input type="checkbox" class="checkbox-xs checkbox-primary" id="agreement-checkbox"/>
+                <p>
+                    I agree to the <a href="#my_modal_8" id="agreement"><u>privacy policy</u></a>.
+                </p>
+                 
+            </div>
+            <div class="modal" role="dialog" id="my_modal_8">
+                <div class="modal-box" id="modal-box">
+                    <div class="modal-action mt-0">
+                        <a href="#" class="btn btn-sm font-inter">✕</a>
+                    </div>
+                    <div>
+                        <h1 class="">Privacy Policy for Authentikey</h1>
+                        
+                        <p><strong>Effective Date:</strong> January 22, 2025</p>
+                        <br/>
+                        <h2>Introduction</h2>
+                        <p>
+                            Authentikey is committed to protecting the privacy of its users. This privacy policy outlines how we collect, use, and protect your personal information in the context of our project, which aims to provide a secure and efficient solution for managing student access to computers in academic environments.
+                        </p>
+                        <br/>
+                        <h2>1. Information We Collect</h2>
+                        <p>We collect the following types of personal information:</p>
+                        <ul class="px-6">
+                            <li class="list-disc list-inside">Student ID</li>
+                            <li class="list-disc list-inside">Password</li>
+                            <li class="list-disc list-inside">Name</li>
+                            <li class="list-disc list-inside">Section</li>
+                            <li class="list-disc list-inside">Email</li>
+                            <li class="list-disc list-inside">Record of logs</li>
+                        </ul>
+                        <br/>
+                        <h2>2. How We Use Your Information</h2>
+                        <ul class="px-6">
+                            <li class="list-disc list-inside"><strong>Identification:</strong> Personal information such as Student ID, name, section, and email is used for user identification.</li>
+                            <li class="list-disc list-inside"><strong>Logs Display:</strong> Records of logs are displayed on the webpage to monitor access and usage.</li>
+                        </ul>
+                        <br/>
+                        <h2>3. Data Sharing</h2>
+                        <p>We do not share your personal information with third-party services. However, some personal data may be displayed during demonstrations to authorized school personnel, such as professors, for educational purposes.</p>
+                        <br/>
+                        <h2>4. Data Protection</h2>
+                        <p>We take the protection of your data seriously by employing encryption to safeguard your personal information.</p>
+                        <br/>
+                        <h2>5. Your Rights</h2>
+                        <p>Users have the right to:</p>
+                        <ul class="px-6">
+                            <li class="list-disc list-inside">Directly update personal information, excluding student computer usage logs.</li>
+                            <li class="list-disc list-inside">Delete the account immediately without prior consent.</li>
+                            <li class="list-disc list-inside">Request corrections for inaccuracies in the student's computer usage logs.</li>
+                        </ul>
+                        <br/>
+                        <h2>6. Contact Information</h2>
+                        <p>As of now, we do not have specific contact information for queries regarding this policy.</p>
+                        <br/>
+                        <h2>Conclusion</h2>
+                        <p>
+                            Your privacy is important to us, and we are committed to handling your data responsibly. If you have any concerns about how your data is managed, please reach out to the project administrators when contact details are available.
+                        </p>
+                    </div>
+                    
+                </div>
+            </div>
+            
+            
+        </div>
+        <button class="register-btn btn" id="continue-btn" disabled>Continue</button>
+        
+        <div class="reg-bck-wrapper">
+            <button id="register-btn" class="register-btn hidden" disabled>Register</button>
+            <button class="hidden" id="back-btn">Go Back</button>
+        </div>
+        <div class="circle-wrapper">
+            <div class="circle bg-primary scale-125 ease-in-out" id="circle-one"></div>
+            <div class="circle bg-[#8d73ff] scale-100" id="circle-two"></div>
+        </div>
+        <div class="singIn-to-logIn-wrapper">
+            <span>Already have an account? <a href=""><u>Sign in</u></a></span>
+        </div>
+    </div>
+
+    
+    <script src="../js/index.js"></script>
+</body>
+</html>

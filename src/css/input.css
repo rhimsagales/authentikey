@@ -1,0 +1,161 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    @apply m-0 p-0;
+}
+body {
+    @apply w-full h-auto min-h-svh bg-base-200 flex items-center justify-center font-inter text-gray-900 sm:py-6;
+
+    /* background: #f2f2f2;
+    background: -webkit-linear-gradient(225deg, #f2f2f2 0%, #4a00ff 100%);
+    background: linear-gradient(225deg, #f2f2f2 0%, #4a00ff 100%); */
+}
+
+.signInForm {
+    @apply w-[85%] min-w-[320px] max-w-[380px] h-auto min-h-[654px] p-0 flex flex-col justify-center items-center gap-4 font-poppins bg-white px-4 py-10 shadow-xl rounded-lg;
+}
+
+.header-wrapper {
+    @apply  flex flex-col gap-2 justify-start w-full h-auto;    
+}
+
+.sign-up-header {
+    @apply text-4xl font-medium;
+}
+
+.instruction {
+    @apply text-[14px]  font-medium text-gray-600 text-left;
+}
+
+.inputs-wrapper {
+    @apply w-full flex flex-col gap-2;
+}
+.input-wrapper {
+    @apply  w-full flex flex-col gap-1;
+}
+
+.input-wrapper > div >label {
+    @apply text-sm font-semibold text-gray-500 font-inter;
+}
+
+.input-wrapper > div > input {
+    @apply w-full bg-gray-200 rounded text-[14px];
+}
+
+.input-wrapper > div  > input:hover, .input-wrapper > div >input:focus {
+    @apply outline-primary ease-in-out duration-100;
+}
+
+.input {
+    @apply h-11 font-inter;
+}
+
+.register-btn {
+    @apply  btn-md btn-primary w-full text-base-100 font-inter font-medium;
+}
+
+#back-btn {
+    @apply btn-active btn-ghost bg-base-300 w-[49%] font-inter font-medium;
+}
+/* #register-btn {
+    @apply hidden;
+} */
+
+.agreement-checkbox-wrapper {
+    @apply gap-2 w-full text-sm items-start justify-start;
+}
+.agreement-checkbox-wrapper > p > a {
+    @apply text-secondary;
+}
+
+.logo-wrapper {
+    @apply flex items-start justify-start w-full h-[15svh] min-h-[82px] text-4xl font-bold text-primary;
+}
+
+.info-details-wrapper {
+    @apply flex-col gap-2;
+}
+
+/* #info-details-wrapper {
+    @apply hidden;
+} */
+
+.header-two {
+    @apply text-xl sm:text-2xl font-medium;
+}
+
+.details-wrapper {
+    @apply flex flex-col gap-6;
+}
+.circle-wrapper {
+    @apply w-full flex items-center justify-center gap-2;
+}
+.circle {
+    @apply size-[6px]  rounded-full;
+}
+
+.reg-bck-wrapper {
+    @apply flex flex-row-reverse items-center justify-between w-full box-border;
+
+}
+
+#register-btn {
+    @apply w-[49%];
+    
+    
+    
+}
+#register-btn:disabled, #continue-btn:disabled {
+    @apply bg-gray-400 text-gray-600 cursor-not-allowed;
+    
+}
+.singIn-to-logIn-wrapper > span{
+    @apply text-sm font-inter font-medium text-gray-500;
+}
+
+.singIn-to-logIn-wrapper > span > a {
+    @apply text-secondary;
+}
+
+#agreement-checkbox {
+    @apply accent-secondary;
+}
+
+#my_modal_8 > div > div > h1 {
+    @apply text-2xl font-bold;
+}
+#my_modal_8 > div > div > h2 {
+    @apply text-lg font-semibold ;
+}
+
+.modal-box  {
+    @apply box-border w-3/4 font-inter overflow-y-auto;
+}
+
+body > .gradient-filter {
+    background: #252525;
+    background: -webkit-linear-gradient(0deg, #252525 0%, rgba(214, 214, 214, 0.267) 100%);
+    background: linear-gradient(0deg, #252525 0%, rgba(214, 214, 214, 0.267) 100%);
+}
+
+.show-hide-password {
+    @apply absolute top-1/2 translate-y-[-50%] right-2 btn-sm btn-ghost rounded-full;
+}
+
+.show-hide-password > svg:nth-child(1) {
+    display: flex;
+}
+
+.show-hide-password > svg:nth-child(2) {
+    display: none;
+}
+
+.show-hide-password.show-password > svg:nth-child(1){
+    display: none;
+}
+
+.show-hide-password.show-password > svg:nth-child(2){
+    display: flex;
+}
