@@ -116,7 +116,12 @@ function isInputsFilled(array) {
 loginInputs.forEach(input => {
     input.addEventListener('input', () => {
         if(isInputsFilled(loginInputs)) {
-            continueBtn.disabled = false;
+            if(repasswordinput.value == passwordinput.value) {
+                continueBtn.disabled = false;
+            }
+            else {
+                continueBtn.disabled = true;
+            }
         }
         else {
             continueBtn.disabled = true;
@@ -127,11 +132,10 @@ loginInputs.forEach(input => {
 agreeChckBox.addEventListener('change', () => {
     if(agreeChckBox.checked) {
         agreeChckBox.checked = false;
-        console.log('no')
+
     }
     else {
         agreeChckBox.checked = true;
-        console.log('yes')
     }
 
     if (agreeChckBox.checked && isInputsFilled(personalInputs)) {
@@ -207,9 +211,7 @@ repasswordinput.addEventListener('focusout', () => {
 
 registerBtn.addEventListener('click', (event) => {
     event.preventDefault();
-    for(const inputs of registerInputs) {
-        console.log(inputs.value)
-    }
+    registerBtn.disabled = true;
 })
 
 

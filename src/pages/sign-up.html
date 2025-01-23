@@ -15,8 +15,10 @@
     <title>Document</title>
 </head>
 <body>
-    <img src="../assets/Icct-Bldg.png" alt="" srcset="" class="invisible sm:visible w-full h-3/5 absolute top-0 right-0 z-10 object-cover object-right-top rounded-b-2xl shadow-lg">
-    <div class="invisible sm:visible w-full h-3/5 absolute top-0 right-0 z-10 object-cover object-right-top rounded-b-2xl gradient-filter">
+    
+    <div class="invisible sm:visible w-full h-3/5 absolute top-0 right-0 z-10 object-cover object-right-top rounded-b-2xl gradient-filter flex items-center justify-center">
+        
+        <img src="../assets/Icct-Bldg.png" alt="" srcset="" class="invisible sm:visible w-full h-full absolute top-0 right-0 bottom-0 z-10 object-cover object-right-top rounded-b-2xl  mix-blend-overlay">
     </div>
     
     <div class="signInForm z-10">
@@ -36,7 +38,9 @@
                 <div class="info-details-wrapper flex" id="login-details-wrapper">
                     <h2 class="header-two">Login Details</h2>
                     <div class="input-wrapper">
-                        <div class="w-full h-auto flex items-center justify-start"><label for="studentId">Student ID<span class="text-red-600">*</span></label></div>
+                        <div class="w-full h-auto flex items-center justify-start">
+                            <label for="studentId">Student ID<span class="text-red-600">*</span></label>
+                        </div>
                         <div class="w-full h-fit relative"><input type="text" class="input" name="studentId" id="studentId" placeholder="UA202100700" required>
                        </div>
                         <!-- <span class="absolute top-[-26px] right-0">Hello</span> -->
@@ -171,11 +175,11 @@
             <div class="circle bg-[#8d73ff] scale-100" id="circle-two"></div>
         </div>
         <div class="singIn-to-logIn-wrapper">
-            <span>Already have an account? <a href=""><u>Sign in</u></a></span>
+            <span>Already have an account? <a href="./sign-in.html"><u>Sign in</u></a></span>
         </div>
     </div>
 
     
-    <script src="../js/index.js"></script>
+    <script src="../js/sign-up-front.js"></script>
 </body>
 </html>

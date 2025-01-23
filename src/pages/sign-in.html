@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/input.css">
+    <link href="../../dist/output.css" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body class="si-body">
+    <div class="invisible sm:visible w-full h-3/5 absolute top-0 right-0 z-10 object-cover object-right-top rounded-b-2xl gradient-filter flex items-center justify-center">
+        
+        <img src="../assets/Icct-Bldg.png" alt="" srcset="" class="invisible sm:visible w-full h-full absolute top-0 right-0 bottom-0 z-10 object-cover object-right-top rounded-b-2xl  mix-blend-overlay">
+    </div>
+    <div class="si-sign-in-container">
+        <div class="c-carousel" src="">
+
+        </div>
+        <div class="si-login-input-container">
+            <div class="logo-wrapper">
+                <img src="../assets/logo-auth-png.png" alt="" srcset="" class="w-32 aspect-video">
+            </div>
+            <div class="header-wrapper">
+                <div class="sign-up-header">
+                    Sign In
+                </div>
+                <p class="instruction">
+                    Log in to your account to access and monitor your computer logs effortlessly.
+                </p>
+            </div>
+            <div class="si-input-label-wrapper">
+                <div class="label-errTxt-wrapper">
+                    <label for="si-studentid" class="label">Student ID</label>
+                </div>
+                <input type="text" class="input si-input" placeholder="UA202200726" id="si-studentid" >
+            </div>
+            <div class="si-input-label-wrapper">
+                <div class="label-errTxt-wrapper">
+                    <label for="si-password" class="label">Password</label>
+                </div>
+                <input type="password" class="input si-input" placeholder="●●●●●●" id="si-password" >
+                <div class="forgot-pass-wrapper">
+                    <a href="">Forgot Password</a>
+                </div>
+            </div>
+            <button class="login-btn" id="login-btn"  disabled>Login</button>
+            <div class="dont-have-account-wrapper">
+                <span>Don't have an account? <a href="./sign-up.html">Sign Up</a></span>
+            </div>
+        </div>
+    </div>
+    <script src="../js/sign-in-front.js"></script>
+</body>
+</html>
