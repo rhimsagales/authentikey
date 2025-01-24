@@ -6,12 +6,12 @@
     @apply m-0 p-0;
 }
 body {
-    @apply w-full h-auto min-h-svh bg-base-100 flex items-center justify-center font-inter text-gray-900 sm:py-6;
+    @apply w-full h-auto min-h-svh bg-base-100 flex items-center justify-center font-inter text-gray-900;
 
 }
 
 .signInForm {
-    @apply w-[85%] min-w-[320px] max-w-[380px] h-auto min-h-[654px] p-0 flex flex-col justify-center items-center gap-4 font-poppins bg-white px-4 py-10 shadow-xl rounded-lg;
+    @apply w-[85%] min-w-[320px] max-w-[380px] h-auto min-h-[654px] p-0 flex-col justify-center items-center gap-4 font-poppins bg-white px-4 py-10 shadow-xl rounded-lg;
 }
 
 .header-wrapper {
@@ -176,7 +176,7 @@ background: linear-gradient(0deg, #4a00ff 0%, #ff00d3 100%); */
 }
 
 .si-login-input-container {
-    @apply w-full sm:w-1/2 h-full px-4 py-8 sm:px-6 box-border flex flex-col gap-4;
+    @apply w-full sm:w-1/2 h-full;
 }
 .si-header-wrapper{
     @apply w-full h-[10%] font-inter ;
@@ -211,3 +211,14 @@ background: linear-gradient(0deg, #4a00ff 0%, #ff00d3 100%); */
 .dont-have-account-wrapper > span > a{
     @apply text-secondary underline;
 }
+
+#loading-screen {
+    background: hsla(0, 0%, 11%, 0.5);
+}
+
+.forgot-password-container {
+    @apply flex-col items-center justify-center gap-4 w-full h-full px-4 py-8 sm:px-6 box-border; 
+}
+/* #si-email {
+    @apply w-full bg-gray-300;
+} */

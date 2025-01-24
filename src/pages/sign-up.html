@@ -19,17 +19,18 @@
     <link rel="manifest" href="../assets/favicon_io/site.webmanifest">
     <title>Sign-Up | Authentikey</title>
 </head>
-<body>
+<body class="py-6">
     
-    <div class="invisible sm:visible w-full h-3/5 absolute top-0 right-0 z-10 object-cover object-right-top rounded-b-2xl gradient-filter flex items-center justify-center">
+    <div class="invisible sm:visible w-full h-3/5 absolute top-0 right-0 z-10 object-cover object-right-top rounded-b-2xl gradient-filter flex items-center justify-center" id="background-img">
         
         <img src="../assets/Icct-Bldg.png" alt="" srcset="" class="invisible sm:visible w-full h-full absolute top-0 right-0 bottom-0 z-10 object-cover object-right-top rounded-b-2xl  mix-blend-overlay">
     </div>
     
-    <div class="signInForm z-10">
+    <div class="signInForm z-10 flex" id="sign-up-form">
         <div class="logo-wrapper">
             <img src="../assets/logo-auth-png.png" alt="" srcset="" class="w-32 aspect-video">
         </div>
+
         <div class="header-wrapper">
             <span class="sign-up-header">
                 Sign Up
@@ -38,6 +39,7 @@
                 Create an account to monitor your computer logs.
             </p>
         </div>
+        
         <div class="inputs-wrapper">
             <div class="details-wrapper">
                 <div class="info-details-wrapper flex" id="login-details-wrapper">
@@ -184,6 +186,14 @@
         </div>
     </div>
 
+    <div class="w-full h-svh hidden items-center justify-center absolute z-50" id="loading-screen">
+        <div class="w-40 aspect-video bg-base-100 flex flex-col items-center justify-center gap-1 rounded-md">
+            <span class="loading loading-spinner text-accent"></span>
+            <span class="text-accent text-sm">Just a moment...</span>
+        </div>
+    </div>
+
+    
     
     <script src="../js/sign-up-front.js"></script>
 </body>

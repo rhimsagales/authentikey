@@ -8,6 +8,13 @@ const showHidePass = document.querySelectorAll('.show-hide-password');
 const siLoginBtn = document.getElementById('password-btn');
 const siPasswordInput = document.getElementById('si-password');
 
+const forgotAnchor = document.getElementById('forgot-anchor')
+
+const goBackBtn = document.getElementById('si-go-back-btn');
+const sendCodeBtn = document.getElementById('si-send-code-btn');
+
+const signInContainer = document.getElementById('si-login-input-container');
+const forgotPassContainer = document.getElementById('forgot-password-container');
 function isInputsFilled(array) {
     for (const input of array) {
         if (input.value === "") {
@@ -17,6 +24,16 @@ function isInputsFilled(array) {
     }
     return true;
 }
+
+function capitalizeInput(inputElement) {
+    if (!inputElement) return; 
+    
+    inputElement.addEventListener('input', (event) => {
+        inputElement.value = event.target.value.toUpperCase();
+    });
+};
+
+capitalizeInput(studentIdInput)
 
 loginInputs.forEach(input => {
     input.addEventListener('input', () => {
@@ -29,7 +46,17 @@ loginInputs.forEach(input => {
     })
 })
 
+forgotAnchor.addEventListener('click', (event) => {
+    event.preventDefault();
 
+    
+
+    signInContainer.classList.replace('flex', 'hidden');
+    forgotPassContainer.classList.replace('hidden', 'flex');
+
+    
+
+})
 
 
 showHidePass.forEach(button => {
@@ -50,4 +77,11 @@ siLoginBtn.addEventListener('click', (event) => {
     else {
         siPasswordInput.type = 'password';
     }
+})
+
+goBackBtn.addEventListener('click', (event) => {
+    event.preventDefault();
+    signInContainer.classList.replace('hidden', 'flex');
+    forgotPassContainer.classList.replace('flex', 'hidden');
+
 })

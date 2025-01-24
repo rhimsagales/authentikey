@@ -113,6 +113,19 @@ function isInputsFilled(array) {
     }
     return true;
 }
+
+
+function capitalizeInput(inputElement) {
+    if (!inputElement) return; 
+    
+    inputElement.addEventListener('input', (event) => {
+        inputElement.value = event.target.value.toUpperCase();
+    });
+};
+
+capitalizeInput(studentIDinput);
+capitalizeInput(sectioninput);
+
 loginInputs.forEach(input => {
     input.addEventListener('input', () => {
         if(isInputsFilled(loginInputs)) {
@@ -212,6 +225,14 @@ repasswordinput.addEventListener('focusout', () => {
 registerBtn.addEventListener('click', (event) => {
     event.preventDefault();
     registerBtn.disabled = true;
+    const body = document.querySelector('body');
+    const loadingScreen = document.getElementById('loading-screen');
+
+    body.classList.replace('py-6', 'py-0')
+    loadingScreen.classList.replace('hidden', 'flex');
+
+
+
 })
 
 
