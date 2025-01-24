@@ -4,6 +4,10 @@ const loginBtn = document.getElementById('login-btn');
 
 const loginInputs = [studentIdInput, passWordInput];
 
+const showHidePass = document.querySelectorAll('.show-hide-password');
+const siLoginBtn = document.getElementById('password-btn');
+const siPasswordInput = document.getElementById('si-password');
+
 function isInputsFilled(array) {
     for (const input of array) {
         if (input.value === "") {
@@ -23,4 +27,27 @@ loginInputs.forEach(input => {
             loginBtn.disabled = true;
         }
     })
+})
+
+
+
+
+showHidePass.forEach(button => {
+    button.addEventListener('click', (event) => {
+        event.preventDefault();
+    
+        button.classList.toggle('show-password');
+    })
+});
+
+
+siLoginBtn.addEventListener('click', (event) => {
+    event.preventDefault();
+
+    if(siLoginBtn.classList.contains('show-password')) {
+        siPasswordInput.type = 'text';
+    }
+    else {
+        siPasswordInput.type = 'password';
+    }
 })
