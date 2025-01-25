@@ -166,7 +166,7 @@ background: linear-gradient(0deg, #4a00ff 0%, #ff00d3 100%); */
 
 
 .si-sign-in-container {
-    @apply w-[90%] sm:w-[95%] min-w-[310px] max-w-[400px] sm:max-w-[850px] md:max-w-[900px] md:w-[80%] h-[90%] max-h-[600px] min-h-[440px] bg-base-100 rounded-lg overflow-hidden shadow-lg sm:flex z-10;
+    @apply w-[90%] sm:w-[95%] min-w-[310px] max-w-[400px] sm:max-w-[850px] md:max-w-[900px] md:w-[80%] h-[90%] max-h-[600px] min-h-[540px] bg-base-100 rounded-lg overflow-hidden shadow-lg sm:flex z-10;
     
 } 
 
@@ -222,3 +222,16 @@ background: linear-gradient(0deg, #4a00ff 0%, #ff00d3 100%); */
 /* #si-email {
     @apply w-full bg-gray-300;
 } */
+
+
+/* For modern browsers */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* For Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
+}

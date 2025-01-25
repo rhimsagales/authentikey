@@ -19,7 +19,38 @@
     <link rel="manifest" href="../assets/favicon_io/site.webmanifest">
     <title>Sign-In | Authentikey</title>
 </head>
-<body class="si-body">
+<body class="si-body min-h-[550px]">
+    <div class="w-full h-auto   absolute top-4 left-0 z-[100] overflow-hidden px-6">
+        <div role="alert" class="alert alert-success animate-fadeoutTen">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6 shrink-0 stroke-current"
+              fill="none"
+              viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span class="text-sm">Your password has been successfully changed.</span>
+        </div>
+        <div role="alert" class="alert alert-error animate-fadeoutTen">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6 shrink-0 stroke-current"
+                fill="none"
+                viewBox="0 0 24 24">
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span class="text-sm">Failed to change your password.</span>
+        </div>
+    </div>
+
     <div class="invisible sm:visible w-full h-3/5 absolute top-0 right-0 z-10 object-cover object-right-top rounded-b-2xl gradient-filter flex items-center justify-center">
         
         <img src="../assets/Icct-Bldg.png" alt="" srcset="" class="invisible sm:visible w-full h-full absolute top-0 right-0 bottom-0 z-10 object-cover object-right-top rounded-b-2xl  mix-blend-overlay">
@@ -28,8 +59,8 @@
         <div class="c-carousel" src="">
 
         </div>
-        <div class="si-login-input-container">
-            <div class="w-full h-full px-4 py-8 sm:px-6 box-border hidden flex-col gap-4" id="si-login-input-container">
+        <form class="si-login-input-container" id="si-login-input-form">
+            <div class="w-full h-full px-4 py-8 sm:px-6 box-border flex flex-col gap-4" id="si-login-input-container">
                 <div class="logo-wrapper">
                     <img src="../assets/logo-auth-png.png" alt="" srcset="" class="w-32 aspect-video">
                 </div>
@@ -45,7 +76,7 @@
                     <div class="label-errTxt-wrapper">
                         <label for="si-studentid" class="label">Student ID</label>
                     </div>
-                    <input type="text" class="input si-input" placeholder="UA202200726" id="si-studentid" >
+                    <input type="text" class="input si-input" placeholder="UA202200726" id="si-studentid" form="si-login-input-form" required>
                 </div>
                 <div class="si-input-label-wrapper">
                     <div class="label-errTxt-wrapper">
@@ -68,15 +99,16 @@
                         <a href="" id="forgot-anchor">Forgot Password</a>
                     </div>
                 </div>
-                <button class="login-btn" id="login-btn"  disabled>Login</button>
+                <button class="login-btn" id="login-btn" type="submit" form="si-login-input-form" disabled>Login</button>
                 <div class="dont-have-account-wrapper">
                     <span>Don't have an account? <a href="./sign-up.html">Sign Up</a></span>
                 </div>
             </div>
-            <div class="forgot-password-container flex" id="forgot-password-container">
+            <div class="forgot-password-container hidden" id="forgot-password-container">
                 <div class="logo-wrapper">
                     <img src="../assets/logo-auth-png.png" alt="" srcset="" class="w-32 aspect-video">
                 </div>
+
                 <div class="header-wrapper">
                     <div class="sign-up-header">
                         Change Password
@@ -85,17 +117,51 @@
                         Change your password to keep your account secure and protected.
                     </p>
                 </div>
-                <div class="flex flex-col w-full h-auto">
-                    <label for="si-email" class="label">Email</label>
-                    <input type="email" placeholder="johndoe@gmail.com" class="input si-input" id="si-email">
-                </div>
-                <div class="flex items-center justify-center gap-4 w-full">
+
+                <div id="si-get-email-container" class="w-full flex flex-col items-center justify-center gap-4">
+                    <div class="flex flex-col w-full h-auto gap-1">
+                        <div class="w-full flex items-center justify-between label-err-container">
+                            <label for="si-email" class="label">Email</label>
+                            <!-- <span class="text-sm text-error italic font-medium font-inter">Enter a valid email.</span> -->
+                        </div>
+                        <input type="email" form="si-login-input-form" placeholder="johndoe@gmail.com" class="input si-input" id="si-email" required>
+                    </div>
+                    <div class=" items-center justify-center gap-4 w-full">
                     
-                    <button class="btn w-[49%] btn-ghost bg-base-300" id="si-go-back-btn">Go Back</button>
-                    <button class="btn w-[49%] btn-primary" id="si-send-code-btn">Send Code</button>
+                        <button class="btn w-[49%] btn-ghost bg-base-300" id="si-go-back-btn">Go Back</button>
+                        <button class="btn w-[49%] btn-primary" id="si-send-code-btn" type="submit" form="si-login-input-form" value="send-code" disabled>Send Code</button>
+                    </div>
                 </div>
 
+                <div id="si-submit-code-container" class="w-full hidden flex-col items-center justify-center gap-4">
+                    <div class="flex flex-col w-full h-auto gap-2">
+                        <label for="si-code" class="label">Enter Code</label>
+                        <input type="number" placeholder="123456" class="input si-input num" id="si-code">
+                    </div>
+                    
+                    <div class="flex items-center justify-center w-full">
+                    
+                        <button class="btn w-full btn-primary" id="si-submit-code-btn" disabled>Submit</button>
+                    </div>
+                </div>
+                <div id="si-changePass-container" class="w-full hidden flex-col items-center justify-center gap-4">
+                    <div class="flex flex-col w-full h-auto gap-1">
+                        <label for="si-new-pass" class="label">Enter New Password</label>
+                        <input type="text" placeholder="New Password" class="input si-input" id="si-new-pass">
+                    </div>
+                    
+                    <div class="flex items-center justify-center w-full">
+                    
+                        <button class="btn w-full btn-primary" id="si-newPass-btn" disabled>Change Password</button>
+                    </div>
+                </div>
             </div>
+        </form>
+    </div>
+    <div class="w-full h-svh hidden items-center justify-center absolute z-50" id="loading-screen">
+        <div class="w-40 aspect-video bg-base-100 flex flex-col items-center justify-center gap-1 rounded-md">
+            <span class="loading loading-spinner text-accent"></span>
+            <span class="text-accent text-sm">Just a moment...</span>
         </div>
     </div>
     <script src="../js/sign-in-front.js"></script>
