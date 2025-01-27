@@ -28,11 +28,9 @@ const loginInputs = [studentIDinput, passwordinput,repasswordinput];
 const personalInputs = [nameinput, sectioninput, emailinput];
 
 
-continueBtn.addEventListener('click', (event) => {
-    event.preventDefault();
-
+export function displaPersonalContainer() {
     loginDetailsWrapper.classList.replace('flex', 'hidden');
-    
+        
     personalDetailsWrapper.classList.replace('hidden', 'flex');
 
     continueBtn.classList.replace('btn', 'hidden');
@@ -47,13 +45,27 @@ continueBtn.addEventListener('click', (event) => {
 
     circleOne.classList.replace('scale-125', 'scale-100');
     circleTwo.classList.replace('scale-100', 'scale-125');
+}
 
 
+export function displayLoginContainer() {
+    loginDetailsWrapper.classList.replace('hidden', 'flex');
+        
+    personalDetailsWrapper.classList.replace('flex', 'hidden');
 
+    continueBtn.classList.replace('hidden', 'btn');
 
+    registerBtn.classList.replace('btn', 'hidden');
+    backBtn.classList.replace('btn', 'hidden');
 
-});
+    agreeChckBox.classList.replace('flex', 'hidden');
 
+    circleOne.classList.replace('bg-[#8d73ff]', 'bg-primary');
+    circleTwo.classList.replace('bg-primary', 'bg-[#8d73ff]');
+
+    circleOne.classList.replace('scale-100', 'scale-125');
+    circleTwo.classList.replace('scale-125', 'scale-100');
+}
 
 backBtn.addEventListener('click', (event) => {
     event.preventDefault();
@@ -269,3 +281,4 @@ passBtn.addEventListener('click', (event) => {
         passwordinput.type = 'password';
     }
 })
+

@@ -127,8 +127,7 @@ forgotAnchor.addEventListener('click', (event) => {
 showHidePass.forEach(button => {
     button.addEventListener('click', (event) => {
         event.preventDefault();
-    
-        button.classList.toggle('show-password');
+     gle('show-password');
     })
 });
 
@@ -206,3 +205,4 @@ notifAlert.forEach(alert => {
         alert.remove();
     })  
 })
+

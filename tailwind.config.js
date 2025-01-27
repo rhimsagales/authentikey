@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/**/*.{html,js,css}"],
+  content: ["./src/**/*.{html,js,css,ejs}"],
   theme: {
     extend: {
       fontFamily : {
@@ -30,6 +30,7 @@ module.exports = {
     animation : {
       fadein: 'fade-in 1s ease-in-out 0.25s 1',
       fadeoutTen: 'fade-out 1s ease-out 10s 1',
+      fadeoutThree: 'fade-out 1s ease-out 3s 1',
     }
   },
   daisyui: {

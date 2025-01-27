@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/input.css">
-    <link href="../../dist/output.css" rel="stylesheet">
+    <link href="../dist/output.css" rel="stylesheet">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,13 +20,15 @@
     <title>Sign-Up | Authentikey</title>
 </head>
 <body class="py-6">
-    
+    <div class="w-full h-auto max-h-[114px] min-h-[62px]  absolute top-4 left-0 z-[100] overflow-hidden px-6 alert-container">
+        
+    </div>
     <div class="invisible sm:visible w-full h-3/5 absolute top-0 right-0 z-10 object-cover object-right-top rounded-b-2xl gradient-filter flex items-center justify-center" id="background-img">
         
         <img src="../assets/Icct-Bldg.png" alt="" srcset="" class="invisible sm:visible w-full h-full absolute top-0 right-0 bottom-0 z-10 object-cover object-right-top rounded-b-2xl  mix-blend-overlay">
     </div>
     
-    <div class="signInForm z-10 flex" id="sign-up-form">
+    <div class="signInForm z-10 flex min-h-[654px]" id="sign-up-form">
         <div class="logo-wrapper">
             <img src="../assets/logo-auth-png.png" alt="" srcset="" class="w-32 aspect-video">
         </div>
@@ -182,11 +184,11 @@
             <div class="circle bg-[#8d73ff] scale-100" id="circle-two"></div>
         </div>
         <div class="singIn-to-logIn-wrapper">
-            <span>Already have an account? <a href="./index.html"><u>Sign in</u></a></span>
+            <span>Already have an account? <a href="./sign-in.html"><u>Sign in</u></a></span>
         </div>
     </div>
 
-    <div class="w-full h-svh hidden items-center justify-center absolute z-50" id="loading-screen">
+    <div class="w-full h-full hidden items-center justify-center absolute top-0 left-0 right-0 bottom-0 z-50" id="loading-screen">
         <div class="w-40 aspect-video bg-base-100 flex flex-col items-center justify-center gap-1 rounded-md">
             <span class="loading loading-spinner text-accent"></span>
             <span class="text-accent text-sm">Just a moment...</span>
@@ -195,6 +197,7 @@
 
     
     
-    <script src="../js/sign-up-front.js"></script>
+    <script src="../js/sign-up-front.js" type="module"></script>
+    <script src="../js/sign-up-fetch.js" type="module"></script>
 </body>
 </html>

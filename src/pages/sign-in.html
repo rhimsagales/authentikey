@@ -3,8 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Development -->
     <link rel="stylesheet" href="../css/input.css">
-    <link href="../../dist/output.css" rel="stylesheet">
+    <link href="../dist/output.css" rel="stylesheet">
+
+    <!-- Server -->
+    <!-- <link rel="stylesheet" href="../css/input.css">
+    <link href="/dist/output.css" rel="stylesheet"> -->
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,18 +26,18 @@
     <title>Sign-In | Authentikey</title>
 </head>
 <body class="si-body min-h-[550px]">
-    <div class="w-full h-auto   absolute top-4 left-0 z-[100] overflow-hidden px-6">
+    <div class="w-full h-auto max-h-[114px] min-h-[62px] absolute top-4 left-0 z-[100] overflow-hidden px-6">
         <div role="alert" class="alert alert-success animate-fadeoutTen">
             <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6 shrink-0 stroke-current"
-              fill="none"
-              viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6 shrink-0 stroke-current"
+                fill="none"
+                viewBox="0 0 24 24">
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             <span class="text-sm">Your password has been successfully changed.</span>
         </div>
@@ -41,11 +47,11 @@
                 class="h-6 w-6 shrink-0 stroke-current"
                 fill="none"
                 viewBox="0 0 24 24">
-            <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             <span class="text-sm">Failed to change your password.</span>
         </div>
