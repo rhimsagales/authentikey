@@ -24,7 +24,10 @@ mongoose.connect(mongoURI)
 
 const studentIDPassSchema = new mongoose.Schema({
     studentID : String,
-    password : String
+    password : {
+        type: String,
+        required : false
+    }
 });
 
 const studentIDPassModel = mongoose.model('studentidspasswords', studentIDPassSchema);
@@ -51,6 +54,10 @@ app.get('/pages/:name', (req, res) => {
     const pageName = req.params.name;
     res.sendFile(path.join(__dirname, `src/pages/${pageName}.html`));
 });
+
+app.get('/users/dashboard', (req, res) => {
+    res.send('Dashboard');
+})
 
 app.post('/pages/sign-up/check-studentid-availability', async (req, res) => {
     const { studentID } = req.body; 
@@ -87,7 +94,7 @@ app.post('/pages/sign-up/check-studentid-availability', async (req, res) => {
     }
 });
 
-app.post('pages/sign-up/register-account', async (req, res) => {
+app.post('/pages/sign-up/register-account', async (req, res) => {
     const { studentID, password, confirmPassword, name, section, email, agreePolicy } = req.body;
 
     
@@ -152,11 +159,18 @@ app.post('pages/sign-up/register-account', async (req, res) => {
 
 app.post('/pages/sign-in/login', async(req, res) => {
     const {studentID, password} = req.body;
+    if(!studentID || !password) {
+        return res.status(400).json({
+            successLogin: false,
+            message: "Please enter both student ID and password.",
+        })
+    }
 
     try {
         const user = await studentIDPassModel.findOne({studentID});
 
         if(!user) {
+            console.log(user)
             return res.status(400).json({
                 successLogin: false,
                 message: "The student ID is not registered in the database."
@@ -167,7 +181,7 @@ app.post('/pages/sign-in/login', async(req, res) => {
         if (!isMatch) {
             return res.status(400).json({
                 successLogin: false,
-                message: "Invalid student ID or password."
+                message: "Incorrect password. Please try again."
             });
         }
 
@@ -185,6 +199,9 @@ app.post('/pages/sign-in/login', async(req, res) => {
         });
     }
 })
+
+
+
 app.listen(3000, () => {
     console.log('Server running at http://localhost:3000');
 });

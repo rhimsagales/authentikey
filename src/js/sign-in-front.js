@@ -4,8 +4,8 @@ const loginBtn = document.getElementById('login-btn');
 
 const loginInputs = [studentIdInput, passWordInput];
 
-const showHidePass = document.querySelectorAll('.show-hide-password');
-const siLoginBtn = document.getElementById('password-btn');
+// const showHidePass = document.querySelectorAll('.show-hide-password');
+const siShowHideBtn = document.getElementById('show-hide-btn');
 const siPasswordInput = document.getElementById('si-password');
 
 const forgotAnchor = document.getElementById('forgot-anchor')
@@ -124,18 +124,19 @@ forgotAnchor.addEventListener('click', (event) => {
 })
 
 
-showHidePass.forEach(button => {
-    button.addEventListener('click', (event) => {
-        event.preventDefault();
-     gle('show-password');
-    })
-});
 
 
-siLoginBtn.addEventListener('click', (event) => {
+siShowHideBtn.addEventListener('click', (event) => {
+    event.preventDefault();
+    siShowHideBtn.classList.toggle('show-password');
+
+})
+
+
+siShowHideBtn.addEventListener('click', (event) => {
     event.preventDefault();
 
-    if(siLoginBtn.classList.contains('show-password')) {
+    if(siShowHideBtn.classList.contains('show-password')) {
         siPasswordInput.type = 'text';
     }
     else {
