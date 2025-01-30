@@ -27,6 +27,15 @@ function alertAnimationListener(){
         
     }) 
 }
+
+function reloadAfterAnimation() {
+    const alert = document.querySelector('.alert');
+    alert.addEventListener('animationend', () => {
+        location.reload(); 
+        
+        
+    })
+}
 document.addEventListener('keydown', (event) => {
     
 
@@ -162,6 +171,28 @@ suContinueBtn.addEventListener('click', async (event) => {
 suRegisterBtn.addEventListener('click', async (event) => {
     event.preventDefault();
 
+    if (!suStudentId.value || !suPassword.value || !suRePassword.value || !suName.value || !suSection.value || !suEmail.value || !suAgreeCheckBox.value) {
+        alertContainer.innerHTML = `<div role="alert" class="alert alert-warning animate-fadeoutThree">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6 shrink-0 stroke-current"
+                fill="none"
+                viewBox="0 0 24 24">
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span class="text-sm">All fields must be filled.</span>
+        </div>`;
+        
+        alertAnimationListener();
+        reloadAfterAnimation();
+        return;
+
+    }
+
     loadingScreen.classList.replace('hidden', 'flex');
     suBody.classList.replace('py-6', 'py-0');
     suSignInForm.classList.replace('min-h-[654px]', 'max-h-svh');
@@ -192,7 +223,7 @@ suRegisterBtn.addEventListener('click', async (event) => {
             suBody.classList.remove('max-h-svh');
 
             loadingScreen.classList.replace('flex', 'hidden');
-            alertContainer.innerHTML = `<div role="alert" class="alert alert-error animate-fadeoutTen">
+            alertContainer.innerHTML = `<div role="alert" class="alert alert-warning animate-fadeoutTen">
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="h-6 w-6 shrink-0 stroke-current"
@@ -248,7 +279,7 @@ suRegisterBtn.addEventListener('click', async (event) => {
 
             loadingScreen.classList.replace('flex', 'hidden');
 
-            alertContainer.innerHTML = `<div role="alert" class="alert alert-error animate-fadeoutTen">
+            alertContainer.innerHTML = `<div role="alert" class="alert alert-warning animate-fadeoutTen">
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="h-6 w-6 shrink-0 stroke-current"
@@ -273,7 +304,7 @@ suRegisterBtn.addEventListener('click', async (event) => {
         suBody.classList.remove('max-h-svh');
 
         loadingScreen.classList.replace('flex', 'hidden');
-        alertContainer.innerHTML = `<div role="alert" class="alert alert-warning animate-fadeoutTen">
+        alertContainer.innerHTML = `<div role="alert" class="alert alert-error animate-fadeoutTen">
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="h-6 w-6 shrink-0 stroke-current"

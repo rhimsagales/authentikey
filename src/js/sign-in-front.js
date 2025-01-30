@@ -152,16 +152,20 @@ goBackBtn.addEventListener('click', (event) => {
 })
 
 
-sendCodeBtn.addEventListener('click', (event) => {
-    event.preventDefault();
+// sendCodeBtn.addEventListener('click', (event) => {
+//     event.preventDefault();
 
     
 
 
+//     siGetEmailContainer.classList.replace('flex', 'hidden');
+//     siSubmitCodeContainer.classList.replace('hidden', 'flex');
+// })
+
+export function hideEmailDisplaySubmit() {
     siGetEmailContainer.classList.replace('flex', 'hidden');
     siSubmitCodeContainer.classList.replace('hidden', 'flex');
-})
-
+}
 
 
 
