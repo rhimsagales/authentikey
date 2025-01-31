@@ -170,13 +170,18 @@ export function hideEmailDisplaySubmit() {
 
 
 
-siSubmitCodeBtn.addEventListener('click', (event) => {
-    event.preventDefault();
+// siSubmitCodeBtn.addEventListener('click', (event) => {
+//     event.preventDefault();
 
+//     siSubmitCodeContainer.classList.replace('flex', 'hidden');
+//     siNewPasswordContainer.classList.replace('hidden', 'flex');   
+// })
+
+
+export function hideSubmitDisplayPass(){
     siSubmitCodeContainer.classList.replace('flex', 'hidden');
-    siNewPasswordContainer.classList.replace('hidden', 'flex');   
-})
-
+    siNewPasswordContainer.classList.replace('hidden', 'flex');
+}
 
 siChangePassBtn.addEventListener('click', (event) => {
     event.preventDefault();

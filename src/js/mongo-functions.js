@@ -3,8 +3,8 @@ const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const mongoURI = process.env.MongoURI;
 const Mailjet = require('node-mailjet');
-const emailjs = require('emailjs');
-const server = require("./email-service");
+
+
 
 
 
@@ -40,7 +40,10 @@ const emailModel = mongoose.model('emails', emailSchema);
 const resetRecordSchema = new mongoose.Schema({
     email : String,
     resetCode : Number,
-    expirationTime : Date
+    expirationTime : {
+        type : Date,
+        required : false
+    }
 });
 
 const resetRecordModel = mongoose.model('passwordresets', resetRecordSchema);
@@ -68,7 +71,7 @@ function isTransientError(error) {
 
 async function retryWithExponentialDelay(func, retries = 5, delay = 1000) {
     let retryCount = 1;
-    while (retryCount < retries) {
+    while (retryCount <= retries) {
         
         try {
             
@@ -297,79 +300,151 @@ function login(req, res) {
     login();
 }
 
-async function createResetPassDoc(email, resetCode, expirationTime) {
+async function createResetPassDoc(req, res) {
+    let { email } = req.body;
+
+    
+    const resetCode = Math.floor(100000 + Math.random() * 900000);
+    const expirationTime = Date.now() + 5 * 60 * 1000;
     try {
-        let createResetDoc = await resetRecordModel.create({
-            email: email,
-            resetCode: resetCode,
-            expirationTime: expirationTime, 
-        });
+        if (!email) {
+            throw new Error("Please provide an email.")
+        }
+        let existingEmail = await retryWithExponentialDelay(() => 
+            emailModel.findOne({
+                email : email
+            })
+        );
+
+        if(!existingEmail) {
+            throw new Error("The email you entered is not found in our database.")
+        }
+
+
+        let createResetDoc = await retryWithExponentialDelay(() =>
+            resetRecordModel.create({
+                email: email,
+                resetCode: resetCode,
+                expirationTime: expirationTime, 
+            })
+        );
 
         if (!createResetDoc) {
             throw new Error("Unable to process your reset code.");
         }
-        return true; 
-    } catch (error) {
-        return false; 
+        console.log(createResetDoc)
+        return res.status(200).json({
+            success: true,
+            message: "Reset password document created successfully.",
+            resetCode: resetCode,
+            email : email,
+            expirationTime: expirationTime, 
+        }); 
+        
+        // throw new Error("The email you entered is not found in our database.")
+        
+    } 
+    catch (error) {
+        console.log(`CreationResetPassDocsERR: ${error}`)
+        return res.status(400).json({
+            success: false,
+            message: error.message
+        })
     }
 }
 
-async function sendCode(req, res) {
-    const { to } = req.body;
-    const resetCode = Math.floor(100000 + Math.random() * 900000);
-    const expirationTime = Date.now() + 5 * 60 * 1000;
+async function deleteResetPassDocs(req, res) {
+    const { email, resetCode, expirationTime } = req.body;
 
-    const isCreated = await createResetPassDoc(to, resetCode, expirationTime);
-    if (!isCreated) {
-        return res.status(400).json({ message: "Unable to process your reset code." });
-    }
+    
 
     try {
-        // Call EmailJS API using fetch
-        const response = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                service_id: process.env.EmailJsService,  // Your Service ID from EmailJS
-                template_id: process.env.EmailJsTemplate,  // Your Template ID from EmailJS
-                user_id: process.env.EmailJsPublic,  // Your Public User ID from EmailJS
-                template_params: {
-                    to_email: to,  // Recipient email
-                    reset_code: resetCode,  // The reset code to send
-                },
-            }),
-        });
-         // Check if the response is JSON
-         let responseBody;
-         const contentType = response.headers.get("Content-Type");
- 
-         if (contentType && contentType.includes("application/json")) {
-             // If the response is JSON, parse it
-             responseBody = await response.json();
-         } else {
-             // If not, return the raw text for debugging
-             responseBody = await response.text();
-             console.log("Raw Response Body (not JSON):", responseBody);
-         }
- 
-         // Log response for debugging
-         console.log("Response from EmailJS:", responseBody);
- 
-
-        // Check if the email was sent successfully
-        if (response.ok) {
-            res.json({ success: true, message: "Email sent using template!" });
-        } else {
-            throw new Error('Failed to send email');
+        if(!email || !resetCode || !expirationTime) {
+            throw new Error('Inputs are empty.');
         }
+        let existingEmail = await retryWithExponentialDelay(() =>
+        resetRecordModel.findOne({ email: email , resetCode : resetCode, expirationTime : expirationTime}));
+
+        if(!existingEmail) {
+            throw new Error("The email you entered is not found in our database.")
+        }
+
+        let deleteSuccess = await retryWithExponentialDelay(() =>
+        resetRecordModel.deleteOne({ email: email , resetCode : resetCode, expirationTime : expirationTime}));
+
+        if(!deleteSuccess) {
+            throw new Error("Unable to delete the reset code document.")
+        }
+        console.log(deleteSuccess)
+        return res.status(200).json({
+            success: true,
+            message: "Reset password document deleted successfully.",
+        })
+    }
+    catch(error) {
+        res.status(400).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
+
+async function compareResetCode(req, res) {
+    const { email, resetCode } = req.body;
+    
+    try {
+        // Check if all necessary fields are provided
+        if (!email || !resetCode) {
+            throw new Error('Inputs are empty.');
+        }
+
+        // Find the latest reset password document for the email and reset code
+        const latestResetPassDoc = await retryWithExponentialDelay(() => resetRecordModel.findOne({
+            email: email,
+            resetCode: resetCode,
+        }));
+
+        // Check if the document exists
+        if (!latestResetPassDoc) {
+            throw new Error("The reset code doesn't match our records.");
+        }
+
+        // Compare expirationTime with the current date
+        if (new Date(latestResetPassDoc.expirationTime) < new Date()) {
+            const isDeleteSuccess = await retryWithExponentialDelay(() => resetRecordModel.deleteOne({
+                email: email,
+                resetCode: resetCode,
+            }));
+
+            if (isDeleteSuccess.deletedCount === 0) {
+                throw new Error("Unable to delete the reset code document.");
+            }
+
+            throw new Error("The reset code has expired.");
+        }
+
+        
+        const isDeleteSuccess = await retryWithExponentialDelay(() => resetRecordModel.deleteOne({
+            email: email,
+            resetCode: resetCode,
+        }));
+
+        if (isDeleteSuccess.deletedCount === 0) {
+            throw new Error("Unable to delete the reset code document.");
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "Reset code is valid and has not expired."
+        });
+
     } catch (error) {
-        console.error('Error sending email:', error);
-        res.status(500).json({ success: false, error: error.message });
+        return res.status(400).json({
+            success: false,
+            message: error.message
+        });
     }
 }
 
 
-
-module.exports = { connectToMongoDB, checkStudentIdAvailability, registerAccount, login, sendCode };
+module.exports = { connectToMongoDB, checkStudentIdAvailability, registerAccount, login, createResetPassDoc, deleteResetPassDocs, compareResetCode };

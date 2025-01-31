@@ -13,11 +13,13 @@
     "nodemon": "nodemon ./express-server.js"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "autoprefixer": "^10.4.20",
+    "axios": "^1.7.9",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
-    "emailjs": "^4.0.3",
+    "emailjs-com": "^3.2.0",
     "express": "^4.21.2",
     "mongoose": "8.9.5",
     "node-mailjet": "^6.0.6",

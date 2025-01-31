@@ -55,6 +55,20 @@
             </svg>
             <span class="text-sm">Failed to change your password.</span>
         </div> -->
+        <!-- <div role="alert" class="alert alert-warning animate-fadeoutTen">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6 shrink-0 stroke-current"
+                fill="none"
+                viewBox="0 0 24 24">
+                <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span class="text-sm">${responseData.message}</span>
+        </div>  -->
     </div>
 
     <div class="invisible sm:visible w-full h-3/5 absolute top-0 right-0 z-10 object-cover object-right-top rounded-b-2xl gradient-filter flex items-center justify-center">
@@ -82,7 +96,7 @@
                     <div class="label-errTxt-wrapper">
                         <label for="si-studentid" class="label">Student ID</label>
                     </div>
-                    <input type="text" class="input si-input" placeholder="UA202200726" id="si-studentid"  required>
+                    <input type="text" class="input si-input" placeholder="UA202200726" id="si-studentid">
                 </div>
                 <div class="si-input-label-wrapper">
                     <div class="label-errTxt-wrapper">
@@ -130,7 +144,7 @@
                             <label for="si-email" class="label">Email</label>
                             <!-- <span class="text-sm text-error italic font-medium font-inter">Enter a valid email.</span> -->
                         </div>
-                        <input type="email" form="si-login-input-form" placeholder="johndoe@gmail.com" class="input si-input" id="si-email" required>
+                        <input type="email" form="si-login-input-form" placeholder="johndoe@gmail.com" class="input si-input" id="si-email" >
                     </div>
                     <div class=" items-center justify-center gap-4 w-full">
                     
@@ -170,7 +184,20 @@
             <span class="text-accent text-sm">Just a moment...</span>
         </div>
     </div>
+
+
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+    </script>
+    <script type="text/javascript">
+    (function(){
+        emailjs.init({
+            publicKey: "KcptGPY0Uy2sCiwpy",
+        });
+    })();
+    </script>
     <script src="../js/sign-in-front.js" type="module"></script>
     <script src="../js/sign-in-fetch.js" type="module"></script>
+    
 </body>
 </html>

@@ -6,6 +6,8 @@ const cors = require('cors');
 const path = require('path');
 const mongoose = require('mongoose');
 const app = express();
+// const emailjs = require('emailjs-com');
+const axios = require('axios');
 
 
 
@@ -45,10 +47,17 @@ app.post('/pages/sign-in/login', async(req, res) => {
     mongoFunctions.login(req, res);
 })
 
-app.post('/pages/sign-in/login/send-code', (req, res) => {
-    mongoFunctions.sendCode(req, res);
+app.post('/pages/sign-in/login/send-code', async (req, res) => {
+    mongoFunctions.createResetPassDoc(req, res);
+    
 })
 
+app.delete('/pages/sign-in/login/delete-code', async(req, res) => {
+    mongoFunctions.deleteResetPassDocs(req, res);
+})
+app.post('/pages/sign-in/login/verify-code', async(req, res) => {
+    mongoFunctions.compareResetCode(req, res);
+})
 
 app.listen(3000, () => {
     console.log('Server running at http://localhost:3000');
