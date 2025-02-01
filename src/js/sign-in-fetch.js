@@ -228,6 +228,7 @@ siSendCodeBtn.addEventListener('click', async (event) => {
     loadingScreen.classList.replace('hidden', 'flex');
 
     if(!siEmailInput.value) {
+        loadingScreen.classList.replace('flex', 'hidden');
         alertContainer.innerHTML = `<div role="alert" class="alert alert-warning animate-fadeoutThree">
             <svg
                 xmlns="http://www.w3.org/2000/svg"
