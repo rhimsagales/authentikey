@@ -59,6 +59,10 @@ app.post('/pages/sign-in/login/verify-code', async(req, res) => {
     mongoFunctions.compareResetCode(req, res);
 })
 
+app.post('/pages/sign-in/login/change-password', async(req, res) => {
+    mongoFunctions.changePassword(req, res);
+})
+
 app.listen(3000, () => {
     console.log('Server running at http://localhost:3000');
 });

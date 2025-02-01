@@ -1,3 +1,5 @@
+
+
 const continueBtn = document.getElementById('continue-btn');
 const registerBtn = document.getElementById('register-btn');
 const backBtn = document.getElementById('back-btn');
@@ -21,12 +23,60 @@ const sectioninput = document.getElementById('section');
 const emailinput = document.getElementById('email');
 const agreeChckBox = document.getElementById('agreement-checkbox');
 
-const errorText = document.getElementById('error-text');
+// const errorText = document.getElementById('error-text');
 
 const registerInputs = [studentIDinput, passwordinput,repasswordinput,  nameinput, sectioninput, emailinput];
 const loginInputs = [studentIDinput, passwordinput,repasswordinput];
 const personalInputs = [nameinput, sectioninput, emailinput];
 
+const bgImg = document.getElementById('bg-image');
+const skeleton = document.getElementById('bg-skeleton');
+
+
+// bgImg.addEventListener("load", () => {
+//     bgImg.classList.replace('hidden', 'flex');
+//     skeleton.classList.replace('flex', 'hidden');
+// });
+
+
+
+
+function validateEmail(email) {
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return !emailRegex.test(email);
+}
+
+emailinput.addEventListener('input', () => {
+    
+    const parentElement = emailinput.parentElement;
+    
+    const errorTextElem = parentElement.querySelector('.err-txt');
+    if (validateEmail(emailinput.value)) {
+        
+        if (errorTextElem) {
+            errorTextElem.remove();
+            const errorText = document.createElement('span');
+            errorText.className = 'absolute top-[-26px] right-0 text-red-500 err-txt italic text-sm font-inter';
+            errorText.textContent = 'Invalid Email.'; 
+            parentElement.appendChild(errorText);
+            
+        }
+        else {
+            const errorText = document.createElement('span');
+            errorText.className = 'absolute top-[-26px] right-0 text-red-500 err-txt italic text-sm font-inter';
+            errorText.textContent = 'Invalid Email.'; 
+            parentElement.appendChild(errorText);
+            
+        }
+    } 
+    else {
+        
+        if (errorTextElem) {
+            errorTextElem.remove();
+        }
+    }
+    
+})
 
 export function displaPersonalContainer() {
     loginDetailsWrapper.classList.replace('flex', 'hidden');
@@ -95,9 +145,8 @@ backBtn.addEventListener('click', (event) => {
 
 
 registerInputs.forEach(input => {
-    input.addEventListener('focusout', (event) => {
-        event.preventDefault();
-
+    input.addEventListener('focusout', () => {
+        
         const parentElement = input.parentElement;
         const errorTextElem = parentElement.querySelector('.err-txt');
 
@@ -108,8 +157,17 @@ registerInputs.forEach(input => {
                 errorText.textContent = 'This field is required'; 
                 parentElement.appendChild(errorText);
             }
-        } else {
-            if (errorTextElem) {
+            else {
+                errorTextElem.remove();
+                const errorText = document.createElement('span');
+                errorText.className = 'absolute top-[-26px] right-0 text-red-500 err-txt italic text-sm font-inter';
+                errorText.textContent = 'This field is required.'; 
+                parentElement.appendChild(errorText);
+                
+            }
+        } 
+        else {
+            if (errorTextElem && !validateEmail(input.value)) {
                 errorTextElem.remove();
             }
         }
@@ -282,3 +340,21 @@ passBtn.addEventListener('click', (event) => {
     }
 })
 
+
+window.onload = () => {
+
+    if (bgImg.complete && bgImg.naturalWidth !== 0) {
+        bgImg.classList.replace('hidden', 'flex');
+        skeleton.classList.replace('flex', 'hidden');
+    }
+    else {
+        bgImg.addEventListener("load", () => {
+            bgImg.classList.replace('hidden', 'flex');
+            skeleton.classList.replace('flex', 'hidden');
+        });
+        bgImg.addEventListener("error", () => {
+            skeleton.classList.replace('hidden', 'flex');
+            bgImg.classList.replace('flex', 'hidden');
+        });
+    }
+};

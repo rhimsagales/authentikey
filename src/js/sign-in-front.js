@@ -61,7 +61,7 @@ const siNewPass = document.getElementById('si-new-pass');
 toggleButtonState(siCode, siSubmitCodeBtn);
 toggleButtonState(siNewPass, siChangePassBtn);
 
-function validateEmail(event) {
+export function validateEmail(event) {
     const emailInput = event.target;
     const email = emailInput.value;
     
@@ -99,6 +99,30 @@ siGetEmail.addEventListener('blur', validateEmail);
 siGetEmail.addEventListener('focus', validateEmail);
 siGetEmail.addEventListener('input', validateEmail);
 
+
+document.addEventListener('keydown', (event) => {
+    
+
+    if(event.key === "Enter") {
+        event.preventDefault()
+        if(signInContainer.classList.contains('flex')) {
+            loginBtn.click();
+        }
+        else if (forgotPassContainer.classList.contains('flex') && siGetEmailContainer.classList.contains('flex')) {
+            sendCodeBtn.click();
+        }
+        else if (forgotPassContainer.classList.contains('flex') && siSubmitCodeContainer.classList.contains('flex')) {
+            siSubmitCodeBtn.click();
+        }
+        else if (forgotPassContainer.classList.contains('flex') && siNewPasswordContainer.classList.contains('flex')) {
+            siChangePassBtn.click();
+        }
+        else {
+            return;
+        }
+    }
+
+})  
 
 loginInputs.forEach(input => {
     input.addEventListener('input', () => {

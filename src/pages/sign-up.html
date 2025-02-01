@@ -25,12 +25,14 @@
     </div>
     <div class="invisible sm:visible w-full h-3/5 absolute top-0 right-0 z-10 object-cover object-right-top rounded-b-2xl gradient-filter flex items-center justify-center" id="background-img">
         
-        <img src="../assets/Icct-Bldg.png" alt="" srcset="" class="invisible sm:visible w-full h-full absolute top-0 right-0 bottom-0 z-10 object-cover object-right-top rounded-b-2xl  mix-blend-overlay">
+        <img src="../assets/Icct-Bldg.png" alt="" srcset="" class="hidden invisible sm:visible w-full h-full absolute top-0 right-0 bottom-0 z-10 object-cover object-right-top rounded-b-2xl  mix-blend-overlay" id="bg-image">
+        <div class="flex skeleton " id="bg-skeleton"></div>
     </div>
     
-    <div class="signInForm z-10 flex min-h-[654px]" id="sign-up-form">
+    <div class="signInForm z-10 flex min-h-[654px] ease-in-out duration-300 overflow-x-hidden relative" id="sign-up-form">
+        
         <div class="logo-wrapper">
-            <img src="../assets/logo-auth-png.png" alt="" srcset="" class="w-32 aspect-video">
+            <img src="../assets/logo-auth-png.png" alt="" srcset="" class="w-32 aspect-video mix-blend-multiply">
         </div>
 
         <div class="header-wrapper">
@@ -195,8 +197,38 @@
         </div>
     </div>
 
-    
-    
+    <!-- class="absolute bottom-0 left-0 right-0" -->
+    <svg class="absolute bottom-0 left-0 right-0 w-full h-[180px] z-[9]" 
+        xmlns="http://www.w3.org/2000/svg" 
+        viewBox="0 0 1440 320" 
+        preserveAspectRatio="none">
+        <path fill="#4a00ff" fill-opacity="0.85" 
+            d="M0,256L48,224C96,192,192,144,288,128C384,112,480,144,576,176C672,208,768,256,864,272C960,288,1056,256,1152,224C1248,192,1344,160,1392,144L1440,128L1440,320H0Z">
+            </path>
+    </svg>
+
+    <svg class="absolute bottom-0 left-0 right-0 w-full h-[160px] z-[6]" 
+        xmlns="http://www.w3.org/2000/svg" 
+        viewBox="0 0 1440 320" 
+        preserveAspectRatio="none">
+        <path fill="#e7008a" fill-opacity="0.75" 
+            d="M0,288L48,256C96,224,192,176,288,160C384,144,480,160,576,192C672,224,768,256,864,256C960,256,1056,224,1152,192C1248,160,1344,144,1392,128L1440,112L1440,320H0Z">
+        </path>
+    </svg>
+
+    <svg class="absolute bottom-0 left-0 right-0 w-full h-[140px] z-[5]" 
+        xmlns="http://www.w3.org/2000/svg" 
+        viewBox="0 0 1440 320" 
+        preserveAspectRatio="none">
+        <path fill="#00d7c0" fill-opacity="0.65" 
+            d="M0,256L30,224C60,192,120,144,180,128C240,112,300,128,360,160C420,192,480,224,540,240C600,256,660,256,720,224C780,192,840,160,900,144C960,128,1020,128,1080,144C1140,160,1200,192,1260,208C1320,224,1380,224,1410,208L1440,192L1440,320H0Z">
+        </path>
+    </svg>
+
+
+
+
+
     <script src="../js/sign-up-front.js" type="module"></script>
     <script src="../js/sign-up-fetch.js" type="module"></script>
 </body>

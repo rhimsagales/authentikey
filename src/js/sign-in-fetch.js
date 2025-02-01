@@ -438,6 +438,7 @@ siSubmitResetCodeBtn.addEventListener('click', async (event) => {
 
 siChangePasswordBtn.addEventListener('click', async (event) => {
     event.preventDefault();
+    
 
     try {
         loadingScreen.classList.replace('hidden', 'flex');
@@ -454,7 +455,8 @@ siChangePasswordBtn.addEventListener('click', async (event) => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                newPassword: siNewPassInput.value
+                email : siEmailInput.value,
+                password: siNewPassInput.value
             })
         });
 

@@ -388,7 +388,7 @@ async function deleteResetPassDocs(req, res) {
         if(!deleteSuccess) {
             throw new Error("Unable to delete the reset code document.")
         }
-        console.log(deleteSuccess)
+        
         return res.status(200).json({
             success: true,
             message: "Reset password document deleted successfully.",
@@ -460,7 +460,50 @@ async function compareResetCode(req, res) {
 }
 
 
-// async function changePassword
+async function changePassword(req, res) {
+    const { email ,password } = req.body;
+
+   
+
+    try {
+        if(!password) {
+            throw new Error("Password field is empty.")
+        }
+
+        const newHashedPass = await retryWithExponentialDelay(() => bcrypt.hash(password, 10)); 
+
+        const result = await retryWithExponentialDelay(() => flexibleModel.updateOne(
+            {
+                email : email
+            },
+            {
+                $set: {
+                    password : newHashedPass,
+                    confirmPassword : newHashedPass
+                }
+            }
+            ) 
+        ) 
+
+        if (result.matchedCount === 0) {
+            throw new Error("User not found");
+        }
+
+        else if (result.modifiedCount === 0) {
+            throw new Error("Password not updated");
+        }
+        return res.status(200).json({
+            success: true,
+            message: "Password updated successfully"
+        })
+    }
+    catch(error) {
+        return res.status(400).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
 
 
 
@@ -655,7 +698,7 @@ async function createResetPassDoc(req, res) {
         });
 
     } catch (error) {
-        console.log(`CreationResetPassDocsERR: ${error}`);
+        
         return res.status(400).json({
             success: false,
             message: error.message
@@ -665,4 +708,4 @@ async function createResetPassDoc(req, res) {
 
 
 
-module.exports = { connectToMongoDB, checkStudentIdAvailability, registerAccount, login, createResetPassDoc, deleteResetPassDocs, compareResetCode };
+module.exports = { connectToMongoDB, checkStudentIdAvailability, registerAccount, login, createResetPassDoc, deleteResetPassDocs, compareResetCode, changePassword };

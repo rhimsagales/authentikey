@@ -2,16 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
+
+@layer components {
+    .skeleton {
+      background-image: linear-gradient(
+        105deg,
+        transparent 0%,
+        transparent 40%,
+        var(--fallback-b1, oklch(var(--b1)/0.2)) 50%, /* Reduce brightness */
+        transparent 60%,
+        transparent 100%
+      ) !important; /* Ensure it overrides DaisyUI */
+      @apply invisible sm:visible w-full h-full absolute top-0 right-0 bottom-0 z-10 bg-gray-500 rounded-b-2xl rounded-t-none !important;
+    }
+}
 * {
     @apply m-0 p-0;
 }
 body {
-    @apply w-full h-auto min-h-svh bg-base-100 flex items-center justify-center font-inter text-gray-900;
+    @apply w-full h-auto min-h-svh bg-base-200 flex items-center justify-center font-inter text-gray-900 relative;
+    /* color: #4800ff71; */
 
 }
 
 .signInForm {
-    @apply w-[85%] min-w-[320px] max-w-[380px] h-auto  p-0 flex-col justify-center items-center gap-4 font-poppins bg-white px-4 py-10 shadow-xl rounded-lg;
+    @apply w-[85%] min-w-[320px] max-w-[400px] h-auto  p-0 flex-col justify-center items-center gap-4 font-poppins bg-white px-4 py-10 shadow-xl rounded-lg;
 }
 
 .header-wrapper {
