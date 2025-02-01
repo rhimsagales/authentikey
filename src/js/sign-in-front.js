@@ -183,13 +183,19 @@ export function hideSubmitDisplayPass(){
     siNewPasswordContainer.classList.replace('hidden', 'flex');
 }
 
-siChangePassBtn.addEventListener('click', (event) => {
-    event.preventDefault();
+export function hidePassDisplaySignin() {
+    forgotPassContainer.classList.replace('flex', 'hidden');
+    signInContainer.classList.replace('hidden', 'flex');
 
-    const loadingScreen = document.getElementById('loading-screen');
+}
 
-    loadingScreen.classList.replace('hidden', 'flex');
-});
+// siChangePassBtn.addEventListener('click', (event) => {
+//     event.preventDefault();
+
+//     const loadingScreen = document.getElementById('loading-screen');
+
+//     loadingScreen.classList.replace('hidden', 'flex');
+// });
 // Loading Screen when the user want to send code to email 
 // sendCodeBtn.addEventListener('click', (event) => {
 //     event.preventDefault();
@@ -200,13 +206,13 @@ siChangePassBtn.addEventListener('click', (event) => {
 // })
 
 
-loginBtn.addEventListener('click', (event) => {
-    event.preventDefault();
+// loginBtn.addEventListener('click', (event) => {
+//     event.preventDefault();
 
-    const loadingScreen = document.getElementById('loading-screen');
+//     const loadingScreen = document.getElementById('loading-screen');
 
-    loadingScreen.classList.replace('hidden', 'flex');
-});
+//     loadingScreen.classList.replace('hidden', 'flex');
+// });
 
 
 const notifAlert = document.querySelectorAll('.alert');

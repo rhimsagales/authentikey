@@ -95,6 +95,12 @@ function reloadAfterAnimation() {
     })
 }
 
+function signInAfterAlert() {
+    const alert = document.querySelector('.alert');
+    alert.addEventListener('animationend', () => {
+        signInFront.hidePassDisplaySignin();
+    })
+}
 
 
 
@@ -102,8 +108,9 @@ function reloadAfterAnimation() {
 
 siLoginBtn.addEventListener('click',async (event) => {
     event.preventDefault();
-    
+    loadingScreen.classList.replace('hidden', 'flex');
     if(!siStudentIdInput.value || !siPassword.value) {
+        loadingScreen.classList.replace('flex', 'hidden');
         alertContainer.innerHTML = `<div role="alert" class="alert alert-warning animate-fadeoutThree">
             <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -150,10 +157,10 @@ siLoginBtn.addEventListener('click',async (event) => {
                     fill="none"
                     viewBox="0 0 24 24">
                     <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
                 <span class="text-sm">${responseData.message}</span>
             </div> 
@@ -177,10 +184,10 @@ siLoginBtn.addEventListener('click',async (event) => {
                     fill="none"
                     viewBox="0 0 24 24">
                     <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
                 <span class="text-sm">${responseData.message}</span>
             </div> 
@@ -427,3 +434,99 @@ siSubmitResetCodeBtn.addEventListener('click', async (event) => {
     }
 })
 
+
+siChangePasswordBtn.addEventListener('click', async (event) => {
+    event.preventDefault();
+
+    try {
+        loadingScreen.classList.replace('hidden', 'flex');
+        if(!siNewPassInput.value) {
+            throw {
+                message: 'Please enter a new password',
+                status : 400
+            };
+        }
+        
+        const response = await fetch('/pages/sign-in/login/change-password', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                newPassword: siNewPassInput.value
+            })
+        });
+
+        const responseData = await response.json();
+
+        if(!response.ok) {
+            throw {
+                message: responseData.message,
+                status: response.status
+            }
+        }
+        else {
+            loadingScreen.classList.replace('flex', 'hidden');
+            alertContainer.innerHTML = `
+            <div role="alert" class="alert alert-success animate-fadeoutThree">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6 shrink-0 stroke-current"
+                    fill="none"
+                    viewBox="0 0 24 24">
+                    <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span class="text-sm">${responseData.message}</span>
+            </div> 
+            `;
+            alertAnimationListener();
+            signInAfterAlert();
+        }
+    }
+    catch (error) {
+        if(error.status === 400){
+            loadingScreen.classList.replace('flex', 'hidden');
+            alertContainer.innerHTML = `
+            <div role="alert" class="alert alert-warning animate-fadeoutTen">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6 shrink-0 stroke-current"
+                    fill="none"
+                    viewBox="0 0 24 24">
+                    <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                <span class="text-sm">${error.message}</span>
+            </div> 
+            `;
+            alertAnimationListener();
+        }
+        else {
+            loadingScreen.classList.replace('flex', 'hidden');
+            alertContainer.innerHTML = `
+            <div role="alert" class="alert alert-error animate-fadeoutTen">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6 shrink-0 stroke-current"
+                    fill="none"
+                    viewBox="0 0 24 24">
+                    <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span class="text-sm">${error.message}</span>
+            </div> 
+            `;
+            alertAnimationListener();
+        }
+    }
+})

@@ -36,11 +36,11 @@ app.get('/users/dashboard', (req, res) => {
 })
 
 app.post('/pages/sign-up/check-studentid-availability', async (req, res) => {
-    mongoFunctions.checkStudentIdAvailability(res, req);
+    mongoFunctions.checkStudentIdAvailability(req, res);
 });
 
 app.post('/pages/sign-up/register-account', async (req, res) => {
-    mongoFunctions.registerAccount(res, req);
+    mongoFunctions.registerAccount(req, res);
 });
 
 app.post('/pages/sign-in/login', async(req, res) => {
