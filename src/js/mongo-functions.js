@@ -2,7 +2,7 @@ require('dotenv').config();
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const mongoURI = process.env.MongoURI;
-const Mailjet = require('node-mailjet');
+// const Mailjet = require('node-mailjet');
 
 
 

@@ -101,7 +101,7 @@ function reloadAfterAnimation() {
 function signInAfterAlert() {
     const alert = document.querySelector('.alert');
     alert.addEventListener('animationend', () => {
-        signInFront.hidePassDisplaySignin();
+        location.reload(); 
     })
 }
 
@@ -494,6 +494,7 @@ siChangePasswordBtn.addEventListener('click', async (event) => {
             </div> 
             `;
             alertAnimationListener();
+        
             signInAfterAlert();
         }
     }
