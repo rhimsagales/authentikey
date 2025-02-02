@@ -15,18 +15,35 @@
       ) !important; /* Ensure it overrides DaisyUI */
       @apply invisible sm:visible w-full h-full absolute top-0 right-0 bottom-0 z-10 bg-gray-500 rounded-b-2xl rounded-t-none !important;
     }
+    /* .animate-fadeindown {
+        animation-delay: 1s !important;
+    }
+
+    .animate-slideinup {
+        animation-delay: 1s !important;
+    } */
+    
 }
 * {
     @apply m-0 p-0;
 }
 body {
-    @apply w-full h-auto min-h-svh bg-base-200 flex items-center justify-center font-inter text-gray-900 relative;
+    @apply w-full h-auto bg-base-200 flex items-center justify-center font-inter text-gray-900 relative min-h-svh;
     /* color: #4800ff71; */
 
 }
 
+.bg-container {
+    opacity: 0;
+    transform: translate3d(0, -100%, 0);
+    animation-fill-mode: forwards;
+}
+
 .signInForm {
     @apply w-[85%] min-w-[320px] max-w-[400px] h-auto  p-0 flex-col justify-center items-center gap-4 font-poppins bg-white px-4 py-10 shadow-xl rounded-lg;
+    transform: translate3d(0, 100%, 0);
+    visibility: hidden;
+    animation-fill-mode: forwards;
 }
 
 .header-wrapper {
@@ -81,7 +98,7 @@ body {
 }
 
 .logo-wrapper {
-    @apply flex items-start justify-start w-full h-[15svh] min-h-[82px] text-4xl font-bold text-primary;
+    @apply flex items-start justify-start w-full h-[15svh] min-h-[82px] max-h-[112px] text-4xl font-bold text-primary;
 }
 
 .info-details-wrapper {
@@ -182,6 +199,9 @@ background: linear-gradient(0deg, #4a00ff 0%, #ff00d3 100%); */
 
 .si-sign-in-container {
     @apply w-[90%] sm:w-[95%] min-w-[310px] max-w-[400px] sm:max-w-[850px] md:max-w-[900px] md:w-[80%] h-[90%] max-h-[600px] min-h-[540px] bg-base-100 rounded-lg overflow-hidden shadow-lg sm:flex z-10;
+    transform: translate3d(0, 100%, 0);
+    visibility: hidden;
+    animation-fill-mode: forwards;
     
 } 
 

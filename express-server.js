@@ -14,6 +14,14 @@ const axios = require('axios');
 
 app.use(cors());
 app.use(express.json());
+
+
+app.use((req, res, next) => {
+    if (req.path.endsWith('.html')) {
+        return res.status(403).send('Access Denied');
+    }
+    next(); // Continue if not an .html file
+});
 app.use(express.static(path.join(__dirname, 'src')));
 
 
@@ -27,7 +35,9 @@ app.get('/', (req, res) => {
 });
 
 app.get('/pages/:name', (req, res) => {
-    const pageName = req.params.name;
+    const pageName = req.params.name; // Extract filename
+
+    
     res.sendFile(path.join(__dirname, `src/pages/${pageName}.html`));
 });
 
@@ -61,6 +71,15 @@ app.post('/pages/sign-in/login/verify-code', async(req, res) => {
 
 app.post('/pages/sign-in/login/change-password', async(req, res) => {
     mongoFunctions.changePassword(req, res);
+})
+
+app.get('/pages/sign-in/change-pass/send/secret', (req, res) => {
+    const secrets = {
+        serviceID : process.env.EmailJsService,
+        templateID : process.env.EmailJsTemplate,
+        publicID : process.env.EmailJsPublic,
+    }
+    res.json(secrets);
 })
 
 app.listen(3000, () => {

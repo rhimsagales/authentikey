@@ -39,6 +39,29 @@ const skeleton = document.getElementById('bg-skeleton');
 // });
 
 
+const bgContainer = document.querySelector('.bg-container');
+const mainSignInContainer = document.querySelector('#sign-up-form');
+const body = document.querySelector('body');
+const cover = document.querySelector('.cover');
+
+document.addEventListener('DOMContentLoaded', function() {
+    cover.classList.replace('flex', 'hidden');
+});
+window.addEventListener('load', () => {
+    
+    bgContainer.classList.add('animate-fadeindown');
+    mainSignInContainer.classList.add('animate-slideinup');
+    
+})
+mainSignInContainer.addEventListener('animationend', () => {
+    setTimeout(() => {
+        
+        body.classList.replace('overflow-y-hidden', 'overflow-y-auto');
+    }, 2000);
+})
+// let viewportHeight = window.innerHeight;
+// body.style.minHeight = `${viewportHeight}px`;
+
 
 
 function validateEmail(email) {

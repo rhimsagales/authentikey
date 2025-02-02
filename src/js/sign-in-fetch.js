@@ -23,11 +23,14 @@ async function send(to, resetCode) {
     };
 
     try {
+        const responseFetch = await fetch('/pages/sign-in/change-pass/send/secret');
+
+        const secrets = await responseFetch.json();
         const response = await emailjs.send(
-            'service_t08tvaj',   // Service ID
-            'template_mk9iid6',  // Template ID
+            secrets.serviceID,   // Service ID
+            secrets.templateID,  // Template ID
             templateParams,      // Template parameters
-            'KcptGPY0Uy2sCiwpy'  // User ID
+            secrets.publicID  // User ID
         );
         if(!response) {
             throw new Error("Theres something wrong.")
@@ -356,7 +359,11 @@ siSendCodeBtn.addEventListener('click', async (event) => {
 })
 
 
-
+siConfirmCodeInput.addEventListener("input", function () {
+    if (siConfirmCodeInput.value.length > 6) {
+      siConfirmCodeInput.value = siConfirmCodeInput.value.slice(0, 6); // Truncate to 6 digits
+    }
+  });
 
 siSubmitResetCodeBtn.addEventListener('click', async (event) => {
     event.preventDefault();

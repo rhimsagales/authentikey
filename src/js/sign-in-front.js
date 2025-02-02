@@ -22,6 +22,16 @@ const siSubmitCodeContainer = document.getElementById('si-submit-code-container'
 const siSubmitCodeBtn = document.getElementById('si-submit-code-btn');
 const siChangePassBtn = document.getElementById('si-newPass-btn');
 
+const bgImg = document.getElementById('bg-image');
+const skeleton = document.getElementById('bg-skeleton');
+
+const bgContainer = document.querySelector('.bg-container');
+const mainSignInContainer = document.querySelector('.si-sign-in-container');
+
+window.addEventListener('load', () => {
+    bgContainer.classList.add('animate-fadeindown');
+    mainSignInContainer.classList.add('animate-slideinup');
+})
 
 function isInputsFilled(array) {
     for (const input of array) {
@@ -98,7 +108,6 @@ export function validateEmail(event) {
 siGetEmail.addEventListener('blur', validateEmail);
 siGetEmail.addEventListener('focus', validateEmail);
 siGetEmail.addEventListener('input', validateEmail);
-
 
 document.addEventListener('keydown', (event) => {
     
@@ -246,3 +255,20 @@ notifAlert.forEach(alert => {
     })  
 })
 
+window.onload = () => {
+
+    if (bgImg.complete && bgImg.naturalWidth !== 0) {
+        bgImg.classList.replace('hidden', 'flex');
+        skeleton.classList.replace('flex', 'hidden');
+    }
+    else {
+        bgImg.addEventListener("load", () => {
+            bgImg.classList.replace('hidden', 'flex');
+            skeleton.classList.replace('flex', 'hidden');
+        });
+        bgImg.addEventListener("error", () => {
+            skeleton.classList.replace('hidden', 'flex');
+            bgImg.classList.replace('flex', 'hidden');
+        });
+    }
+};

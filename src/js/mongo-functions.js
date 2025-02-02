@@ -626,7 +626,7 @@ function login(req, res) {
             const user = await retryWithExponentialDelay(() => flexibleModel.findOne({ studentID }));
 
             if (!user) {
-                console.log(user);
+                
                 return res.status(400).json({
                     successLogin: false,
                     message: "The student ID is not registered in the database."
@@ -660,7 +660,9 @@ function login(req, res) {
 async function createResetPassDoc(req, res) {
     let { email } = req.body;
 
-    const resetCode = Math.floor(100000 + Math.random() * 900000);
+    const generateResetCode = () => Math.floor(100000 + Math.random() * 900000);
+
+    let resetCode = generateResetCode();
     const expirationTime = Date.now() + 5 * 60 * 1000;
 
     try {
@@ -676,6 +678,13 @@ async function createResetPassDoc(req, res) {
             throw new Error("The email you entered is not found in our database.");
         }
 
+        
+        let existingCode = await resetRecordModel.findOne({ resetCode });
+        while (existingCode) {
+            resetCode = generateResetCode(); 
+            existingCode = await resetRecordModel.findOne({ resetCode });
+        }
+
         let createResetDoc = await retryWithExponentialDelay(() =>
             resetRecordModel.create({
                 email: email,
@@ -688,7 +697,7 @@ async function createResetPassDoc(req, res) {
             throw new Error("Unable to process your reset code.");
         }
 
-        console.log(createResetDoc);
+        
         return res.status(200).json({
             success: true,
             message: "Reset password document created successfully.",
@@ -698,13 +707,13 @@ async function createResetPassDoc(req, res) {
         });
 
     } catch (error) {
-        
         return res.status(400).json({
             success: false,
             message: error.message
         });
     }
 }
+
 
 
 

@@ -25,7 +25,7 @@
     <link rel="manifest" href="../assets/favicon_io/site.webmanifest">
     <title>Sign-In | Authentikey</title>
 </head>
-<body class="si-body min-h-[550px]">
+<body class="si-body min-h-[550px] overflow-y-hidden">
     <div class="w-full h-auto max-h-[114px] min-h-[62px] absolute top-4 left-0 z-[100] overflow-hidden px-6 alert-container">
         <!-- <div role="alert" class="alert alert-success animate-fadeoutTen">
             <svg
@@ -71,11 +71,12 @@
         </div>  -->
     </div>
 
-    <div class="invisible sm:visible w-full h-3/5 absolute top-0 right-0 z-10 object-cover object-right-top rounded-b-2xl gradient-filter flex items-center justify-center">
+    <div class="invisible sm:visible w-full h-3/5 absolute top-0 right-0 z-10 object-cover object-right-top rounded-b-2xl gradient-filter flex items-center justify-center bg-container">
         
-        <img src="../assets/Icct-Bldg.png" alt="" srcset="" class="invisible sm:visible w-full h-full absolute top-0 right-0 bottom-0 z-10 object-cover object-right-top rounded-b-2xl  mix-blend-overlay">
+        <img src="../assets/Icct-Bldg.png" alt="" srcset="" class="invisible sm:visible w-full h-full absolute top-0 right-0 bottom-0 z-10 object-cover object-right-top rounded-b-2xl  mix-blend-overlay" id="bg-image">
+        <div class="flex skeleton " id="bg-skeleton"></div>
     </div>
-    <div class="si-sign-in-container">
+    <div class="si-sign-in-container ">
         <div class="c-carousel" src="">
 
         </div>
@@ -121,7 +122,7 @@
                 </div>
                 <button class="login-btn" id="login-btn" type="submit" form="si-login-input-form" disabled>Login</button>
                 <div class="dont-have-account-wrapper">
-                    <span>Don't have an account? <a href="./sign-up.html">Sign Up</a></span>
+                    <span>Don't have an account? <a href="/pages/sign-up">Sign Up</a></span>
                 </div>
             </div>
             <div class="forgot-password-container hidden" id="forgot-password-container">
@@ -156,7 +157,7 @@
                 <div id="si-submit-code-container" class="w-full hidden flex-col items-center justify-center gap-4">
                     <div class="flex flex-col w-full h-auto gap-2">
                         <label for="si-code" class="label">Enter Code</label>
-                        <input type="number" placeholder="123456" class="input si-input num" id="si-code">
+                        <input type="number" placeholder="123456" class="input si-input num" min="100000" max="999999" id="si-code">
                     </div>
                     
                     <div class="flex items-center justify-center w-full">
@@ -216,9 +217,12 @@
         src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
     </script>
     <script type="text/javascript">
-    (function(){
+    (async function(){
+        const responseFetch = await fetch('/pages/sign-in/change-pass/send/secret');
+
+        const secrets = await responseFetch.json();
         emailjs.init({
-            publicKey: "KcptGPY0Uy2sCiwpy",
+            publicKey: secrets.PublicID,
         });
     })();
     </script>
