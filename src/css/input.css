@@ -162,9 +162,6 @@ body > .gradient-filter {
     background: -webkit-linear-gradient(0deg, #252525 0%, rgba(214, 214, 214, 0.267) 100%);
     background: linear-gradient(0deg, #252525 0%, rgba(214, 214, 214, 0.267) 100%);
     @apply shadow-2xl;
-    /* background: #4a00ff;
-background: -webkit-linear-gradient(0deg, #4a00ff 0%, #ff00d3 100%);
-background: linear-gradient(0deg, #4a00ff 0%, #ff00d3 100%); */
 }
 
 .show-hide-password {
@@ -189,10 +186,6 @@ background: linear-gradient(0deg, #4a00ff 0%, #ff00d3 100%); */
 
 
 .si-body {
-    /* background-color:hsla(238,100%,63%,1);
-    background-image:
-    radial-gradient(at 80% 95%, hsla(173,100%,42%,1) 0px, transparent 50%),
-    radial-gradient(at 20% 5%, hsla(278,100%,64%,1) 0px, transparent 50%); */
     @apply flex items-center justify-center w-full h-svh bg-base-200;
 }
 
@@ -254,19 +247,17 @@ background: linear-gradient(0deg, #4a00ff 0%, #ff00d3 100%); */
 .forgot-password-container {
     @apply flex-col items-center justify-center gap-4 w-full h-full px-4 py-8 sm:px-6 box-border; 
 }
-/* #si-email {
-    @apply w-full bg-gray-300;
-} */
 
 
-/* For modern browsers */
+
+
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
 
-/* For Firefox */
+
 input[type="number"] {
     -moz-appearance: textfield;
 }

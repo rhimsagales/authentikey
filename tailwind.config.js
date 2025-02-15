@@ -6,6 +6,8 @@ module.exports = {
       fontFamily : {
         inter : ['Inter', 'serif'],
         poppins: ['Poppins', 'serif'],
+        oi : [ "Oi", "serif"],
+        chickle : ["Chicle", "serif"]
       },
       keyframes : {
         "fade-in": {

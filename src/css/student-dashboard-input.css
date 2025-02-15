@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    @apply w-full h-[200svh];
+}
+
+#my-account.open-modal > div > div, #my-account-two.open-modal {
+    @apply bg-primary;
+}
+
+#my-account.open-modal > div > div > svg, #my-account:hover > div > div > svg,  #my-account-two.open-modal > div > svg  {
+    @apply stroke-white;
+}
+
+#my-account-two.open-modal {
+    @apply text-white;
+}
+
+
+#sidebar div > ul > li > button.selected {
+    @apply bg-primary text-white;
+}
