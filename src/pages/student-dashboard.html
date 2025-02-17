@@ -27,7 +27,7 @@
     <link rel="manifest" href="../assets/favicon_io/site.webmanifest">
     <title>Dashboard | Authentikey</title>
 </head>
-<body class="relative bg-[#FAF9F6] box-border font-inter ">
+<body class="relative bg-[#f3f3f2] box-border font-inter ">
     <header class="bg-white flex shadow-md w-full h-16 md:h-20 rounded-t-none rounded-b-xl fixed top-0 right-0 left-0 px-4 lg:px-36 z-10">
         <div class="w-1/2 lg:w-1/4 h-full flex items-center justify-start">
             <a href="./student-dashboard.html">
@@ -97,7 +97,7 @@
             </button>
         </div>
     </header>
-    <nav class="flex lg:hidden w-56 h-dvh z-10 pt-[72px] md:pt-[88px] overflow-y-hidden fixed" id="sidebar">
+    <nav class="flex lg:hidden w-56 h-dvh z-10 pt-[72px] md:pt-[88px] min-h-[376px]  fixed overflow-y-hidden" id="sidebar">
         <div class="w-52 bg-white h-full rounded p-2 shadow-xl flex flex-col items-center justify-between">
             <div class="w-full">
                 <div class="flex items-end px-2 mt-6  gap-2 text-[20px] font-semibold">
@@ -250,7 +250,7 @@
             
         </div>
         <div class="searchBar w-full h-full min-h-full">
-            <label class="input input-bordered flex items-center gap-2 h-full w-full rounded">
+            <label class="input input-bordered flex items-center gap-2 h-full w-full rounded hover:outline-primary">
                 <input type="text" class="grow search" placeholder="Search" />
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -343,13 +343,13 @@
                 </table>
             </div>
         </div>
-        <div class="graph w-full h-full min-h-full shadow-lg p-1 md:p-4 bg-indigo-950 rounded-lg  flex items-center justify-center">
-            <canvas id="myChart" class="w-full h-full shadow-lg bg-white p-2 rounded-md"></canvas>
+        <div class="graph w-full h-full min-h-full shadow-lg p-1 box-border md:p-4 bg-white rounded-lg  flex items-center justify-center">
+            <canvas id="myChart" class="w-full h-full p-2 rounded-md"></canvas>
             
         </div>
     </main>
 
-    <footer class="footer bg-neutral text-neutral-content p-10 mt-2">
+    <footer class="footer bg-neutral text-neutral-content p-10 mt-4">
         <aside>
             <svg
                 width="50"
@@ -409,9 +409,22 @@
             </div>
         </nav>
     </footer>
+    <div class="error h-screen place-content-center bg-white px-4">
+        <div class="text-center">
+            <h1 class="text-9xl font-black text-gray-200">404</h1>
+        
+            <p class="text-2xl font-bold tracking-tight text-gray-900 sm:text-4xl">Uh-oh!</p>
+        
+            <p class="mt-4 text-gray-500">We don't support devices with a width less than 320px or a height less than 480px.</p>
+        
+            
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         const canvas = document.getElementById("myChart");
+        
         
         
         const ctx = canvas.getContext("2d");

@@ -4021,6 +4021,9 @@ details.collapse summary::-webkit-details-marker {
 .max-h-\[114px\] {
   max-height: 114px;
 }
+.max-h-\[48px\] {
+  max-height: 48px;
+}
 .max-h-\[600px\] {
   max-height: 600px;
 }
@@ -4035,6 +4038,9 @@ details.collapse summary::-webkit-details-marker {
 }
 .min-h-32 {
   min-height: 8rem;
+}
+.min-h-\[376px\] {
+  min-height: 376px;
 }
 .min-h-\[540px\] {
   min-height: 540px;
@@ -4327,6 +4333,12 @@ details.collapse summary::-webkit-details-marker {
 .gap-4 {
   gap: 1rem;
 }
+.gap-6 {
+  gap: 1.5rem;
+}
+.gap-8 {
+  gap: 2rem;
+}
 .space-y-1 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;
   margin-top: calc(0.25rem * calc(1 - var(--tw-space-y-reverse)));
@@ -4377,6 +4389,9 @@ details.collapse summary::-webkit-details-marker {
 }
 .overflow-x-scroll {
   overflow-x: scroll;
+}
+.overflow-y-scroll {
+  overflow-y: scroll;
 }
 .whitespace-nowrap {
   white-space: nowrap;
@@ -4449,9 +4464,9 @@ details.collapse summary::-webkit-details-marker {
   --tw-bg-opacity: 1;
   background-color: rgb(141 115 255 / var(--tw-bg-opacity, 1));
 }
-.bg-\[\#FAF9F6\] {
+.bg-\[\#f3f3f2\] {
   --tw-bg-opacity: 1;
-  background-color: rgb(250 249 246 / var(--tw-bg-opacity, 1));
+  background-color: rgb(243 243 242 / var(--tw-bg-opacity, 1));
 }
 .bg-accent {
   --tw-bg-opacity: 1;
@@ -4468,6 +4483,10 @@ details.collapse summary::-webkit-details-marker {
 .bg-base-300 {
   --tw-bg-opacity: 1;
   background-color: var(--fallback-b3,oklch(var(--b3)/var(--tw-bg-opacity, 1)));
+}
+.bg-black {
+  --tw-bg-opacity: 1;
+  background-color: rgb(0 0 0 / var(--tw-bg-opacity, 1));
 }
 .bg-blue-100 {
   --tw-bg-opacity: 1;
@@ -4825,6 +4844,9 @@ details.collapse summary::-webkit-details-marker {
 .uppercase {
   text-transform: uppercase;
 }
+.lowercase {
+  text-transform: lowercase;
+}
 .italic {
   font-style: italic;
 }
@@ -5033,7 +5055,7 @@ details.collapse summary::-webkit-details-marker {
 }
 
 body {
-  height: 100lvh;
+  height: auto;
   width: 100%;
 }
 
@@ -5181,10 +5203,6 @@ body {
     height: 5rem;
   }
 
-  .md\:w-1\/2 {
-    width: 50%;
-  }
-
   .md\:w-\[80\%\] {
     width: 80%;
   }
@@ -5195,14 +5213,6 @@ body {
 
   .md\:p-4 {
     padding: 1rem;
-  }
-
-  .md\:p-6 {
-    padding: 1.5rem;
-  }
-
-  .md\:pt-24 {
-    padding-top: 6rem;
   }
 
   .md\:pt-\[88px\] {

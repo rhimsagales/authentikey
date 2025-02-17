@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-    @apply w-full h-lvh;
+    @apply w-full h-auto;
 }
 
 #my-account.open-modal > div > div, #my-account-two.open-modal {
@@ -22,3 +22,5 @@ body {
 #sidebar div > ul > li > button.selected {
     @apply bg-primary text-white;
 }
+
+

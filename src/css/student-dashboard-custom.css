@@ -55,7 +55,7 @@ body {
 @media(max-width: 767px) {
     .main-student-dashboard {
         grid-template-columns: 1fr .5fr .5fr 1fr;
-        grid-template-rows: 1.2fr 1.2fr .3fr 2.5fr 2.5fr;
+        grid-template-rows: 1.2fr 1.2fr .4fr 2.5fr 2.5fr;
         grid-template-areas: 
         'totalLogin totalLogin recentUsed recentUsed'
         'pendingRequest pendingRequest pendingRequest pendingRequest'
@@ -114,3 +114,18 @@ body {
     
 } */
 
+
+.error {
+    display: none;
+}
+
+
+@media (max-width: 319px), (max-height: 480px) {
+    header, nav, main, footer {
+        display: none !important;
+    }
+
+    .error {
+        display: grid;
+    }
+}
