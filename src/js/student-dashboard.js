@@ -100,3 +100,57 @@ myAccountTwo.addEventListener('click', (event) => {
 
     }
 })
+
+
+function filterTable(searchInput, table) {
+
+    searchInput.addEventListener('input', function() {
+        const searchTerm = searchInput.value.toLowerCase(); 
+        const rows = table.querySelectorAll('tbody > tr');
+    
+        rows.forEach(row => {
+            const cells = row.querySelectorAll('td'); 
+            let match = false;
+    
+            cells.forEach(cell => {
+            const cellText = cell.textContent.trim().toLowerCase();
+    
+            
+            if (isValidDate(cellText)) {
+                const date = parseDate(cellText); 
+                if (date && date.includes(searchTerm)) {
+                match = true;
+                }
+            } 
+            else if (cellText.includes(searchTerm)) {
+                match = true;
+            }
+        });
+  
+        
+        if (match) {
+            row.style.display = ''; 
+            table.style.height ='auto'; 
+        } 
+        else {
+            row.style.display = 'none'; 
+        }
+        });
+    });
+}
+function isValidDate(dateStr) {
+    const regex = /^\d{2}\/\d{2}\/\d{4}$/;
+    return regex.test(dateStr);
+}
+
+function parseDate(dateStr) {
+    const [day, month, year] = dateStr.split('/'); 
+    return `${day}/${month}/${year}`; 
+}
+
+
+
+
+const table = document.querySelector('table');
+const search = document.querySelector('.search')
+filterTable(search, table)

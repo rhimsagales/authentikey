@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-    @apply w-full h-[200svh];
+    @apply w-full h-lvh;
 }
 
 #my-account.open-modal > div > div, #my-account-two.open-modal {
