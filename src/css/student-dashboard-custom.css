@@ -36,7 +36,7 @@ body {
 
 .main-student-dashboard {
     display: grid;
-    gap: 8px;
+    gap: 16px;
     grid-template-columns: 1fr .5fr .5fr 1fr;
     grid-template-rows: 1.5fr .5fr 5fr;
     grid-template-areas: 
@@ -62,7 +62,6 @@ body {
         'searchBar searchBar searchBar searchBar'
         'table-user table-user table-user table-user'
         'graph graph graph graph';
-        max-height: none;
         max-height: 1000px;
         min-height: 1000px;
         height: 160%;
