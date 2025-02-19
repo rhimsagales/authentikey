@@ -3,6 +3,10 @@
     padding: 0;
 }
 
+:root {
+    overscroll-behavior: none;
+    scroll-behavior: smooth;
+}
 body {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
@@ -35,7 +39,7 @@ body {
 }
 
 .main-student-dashboard {
-    display: grid;
+    
     gap: 16px;
     grid-template-columns: 1fr .5fr .5fr 1fr;
     grid-template-rows: 1.5fr .5fr 5fr;
@@ -98,26 +102,20 @@ body {
 .searchBar {
     grid-area: searchBar;
 }
-/* .down-report {
-    grid-area: down-report;
-} */
 
-/* #echarts-container {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-} */
-/* #echarts-container > div,   #echarts-container > div > canvas{
-
-    width: fit !important;
-    
-} */
 
 
 .error {
     display: none;
 }
 
+.black-low-opacity {
+    background: rgba(27,27,27,0.6);
+-webkit-backdrop-filter: blur(3px);
+backdrop-filter: blur(3px);
+
+
+}
 
 @media (max-width: 319px), (max-height: 480px) {
     header, nav, main, footer {

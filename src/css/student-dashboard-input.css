@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-    @apply w-full h-auto;
+    @apply w-full h-auto min-h-lvh;
 }
 
 #my-account.open-modal > div > div, #my-account-two.open-modal {
@@ -23,4 +23,8 @@ body {
     @apply bg-primary text-white;
 }
 
+
+caption {
+    @apply border-t-0 !important;
+}
 

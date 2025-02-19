@@ -27,8 +27,13 @@
 * {
     @apply m-0 p-0;
 }
+
+:root {
+    overscroll-behavior: none;
+    scroll-behavior: smooth;
+}
 body {
-    @apply w-full h-auto bg-base-200 flex items-center justify-center font-inter text-gray-900 relative min-h-svh;
+    @apply w-full h-auto bg-base-200 flex items-center justify-center font-inter text-gray-900 relative min-h-svh ;
     /* color: #4800ff71; */
 
 }
@@ -40,7 +45,7 @@ body {
 }
 
 .signInForm {
-    @apply w-[85%] min-w-[320px] max-w-[400px] h-auto  p-0 flex-col justify-center items-center gap-4 font-poppins bg-white px-4 py-10 shadow-xl rounded-lg;
+    @apply w-[95%] min-w-[320px] max-w-[400px] h-auto  p-0 flex-col justify-center items-center gap-4 font-poppins bg-white px-4 py-10 shadow-xl rounded-lg;
     transform: translate3d(0, 100%, 0);
     visibility: hidden;
     animation-fill-mode: forwards;
@@ -153,8 +158,11 @@ body {
     @apply text-lg font-semibold ;
 }
 
+.modal {
+    @apply w-full h-full flex items-center justify-center min-h-0 !important;
+}
 .modal-box  {
-    @apply box-border w-3/4 font-inter overflow-y-auto;
+    @apply box-border w-[95%] h-[80%] md:w-3/4 font-inter overflow-y-auto   !important;
 }
 
 body > .gradient-filter {
@@ -191,7 +199,7 @@ body > .gradient-filter {
 
 
 .si-sign-in-container {
-    @apply w-[90%] sm:w-[95%] min-w-[310px] max-w-[400px] sm:max-w-[850px] md:max-w-[900px] md:w-[80%] h-[90%] max-h-[600px] min-h-[540px] bg-base-100 rounded-lg overflow-hidden shadow-lg sm:flex z-10;
+    @apply w-[95%] min-w-[310px] max-w-[400px] sm:max-w-[850px] md:max-w-[900px] md:w-[80%] h-[90%] max-h-[600px] min-h-[540px] bg-base-100 rounded-lg overflow-hidden shadow-lg sm:flex z-10;
     transform: translate3d(0, 100%, 0);
     visibility: hidden;
     animation-fill-mode: forwards;
@@ -261,3 +269,4 @@ input[type="number"]::-webkit-inner-spin-button {
 input[type="number"] {
     -moz-appearance: textfield;
 }
+
