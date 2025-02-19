@@ -69,6 +69,7 @@ body {
         max-height: 1000px;
         min-height: 1000px;
         height: 160%;
+        gap: 6px;
     }
     ;
 }

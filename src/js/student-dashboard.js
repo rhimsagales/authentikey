@@ -32,10 +32,20 @@ profQrSignOutAnchor.forEach(anchorArr => {
             event.preventDefault();
 
             if(event.currentTarget.innerText == "Personal Information") {
+                window.scrollTo({
+                    top: 0,
+                    left: 0,
+                    behavior: 'smooth' 
+                });
                 customModal.classList.replace('hidden', 'flex');
                 profileContainer.classList.replace('hidden', 'flex');
             }
             else if(event.currentTarget.innerText == "My QR Code") {
+                window.scrollTo({
+                    top: 0,
+                    left: 0,
+                    behavior: 'smooth' 
+                });
                 customModal.classList.replace('hidden', 'flex');
                 viewQrCodeContainer.classList.replace('hidden', 'flex');
             }
@@ -331,3 +341,51 @@ closeModalBtnArray.forEach(closeModalBtn => {
     })
 })
 
+const crName = document.getElementById('cr-full-name');
+const crEmail = document.getElementById('cr-email');
+const crSubject = document.getElementById('cr-subject');
+const crDateRecord = document.getElementById('cr-date-record');
+const crCorrDetails = document.getElementById('cr-correction-details');
+
+const crSubmitBtn = document.getElementById('cr-submit');
+
+crSubmitBtn.addEventListener('click', async (event) => {
+    event.preventDefault();
+    console.log(crCorrDetails.value)
+    try {
+        if(!crName.value || !crEmail.value || !crSubject.value || !crDateRecord.value || !crCorrDetails.value ) {
+            console.log({
+                fullName : crName.value,
+                email : crEmail.value,
+                subject : crSubject.value,
+                dateRecord : crDateRecord.value,
+                correctionDetails : crCorrDetails.value
+
+            })
+            throw new Error('All fields are required.');
+        }
+        console.log('reached here')
+        const response = await fetch('/send-correction-request', {
+            method : 'POST',
+            headers : { 'Content-Type' : 'application/json', },
+            body : JSON.stringify({
+                fullName : crName.value,
+                email : crEmail.value,
+                subject : crSubject.value,
+                dateRecord : crDateRecord.value,
+                correctionDetails : crCorrDetails.value
+
+            })
+        });
+
+        const responseData = await response.json();
+
+        if(!response.ok) {
+            throw new Error(responseData.message);
+        }
+        console.log(responseData.message);
+    }
+    catch(error) {
+        console.log(error.message);
+    }
+})

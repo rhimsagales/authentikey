@@ -174,7 +174,7 @@ siLoginBtn.addEventListener('click',async (event) => {
         if(responseData.successLogin) {
             
             loadingScreen.classList.replace('flex', 'hidden');
-            window.location.href = '/users/dashboard';
+            window.location.href = '/users/student-dashboard';
         }
         else {
             

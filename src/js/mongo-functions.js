@@ -2,7 +2,7 @@ require('dotenv').config();
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const mongoURI = process.env.MongoURI;
-// const Mailjet = require('node-mailjet');
+
 
 
 
@@ -13,39 +13,14 @@ const flexibleSchema = new mongoose.Schema({
     name: { type: String, required: false },
     section: { type: String, required: false },
     email: { type: String, required: false },
-    agreePolicy: { type: Boolean, required: false }
+    agreePolicy: { type: Boolean, required: false },
+    logs : { type: Array,  required: false},
+    correctionRequest: { type: Array,  required: false}
 });
 
 const flexibleModel = mongoose.model('accounts', flexibleSchema);
 
 
-// const studentIDPassSchema = new mongoose.Schema({
-//     studentID : String,
-//     password : {
-//         type: String,
-//         required : false
-//     }
-// });
-
-// const studentIDPassModel = mongoose.model('studentidspasswords', studentIDPassSchema);
-
-// const registerInputSchema = new mongoose.Schema({
-//     studentID : String,
-//     password : String,
-//     confirmPassword : String,
-//     name : String,
-//     section : String,
-//     email : String,
-//     agreePolicy : Boolean
-// });
-
-// const registerInputModel = mongoose.model('accounts', registerInputSchema);
-
-// const emailSchema = new mongoose.Schema({
-//     email : String
-// })
-
-// const emailModel = mongoose.model('emails', emailSchema);
 
 const resetRecordSchema = new mongoose.Schema({
     email : String,
@@ -141,230 +116,7 @@ async function connectToMongoDB() {
     }
 }
 
-// function checkStudentIdAvailability(res, req) {
-    
-//     let check = async () => {
-//         const { studentID } = req.body; 
-//         if (!studentID) {
-//                 return res.status(400).json({ 
-//                     available : false,
-//                     message: 'Student ID is required.' 
-//                 });
-//         }
-//         try {
-//             const existingUser = await retryWithExponentialDelay(() => studentIDPassModel.findOne({ studentID }));
-    
-//             if (existingUser) {
-//                 return res.json({ 
-//                     available: false,
-//                     message: 'Student ID already exists.'
-//                 });
-//             } 
-//             else {
-//                 return res.json({ 
-//                     available: true 
-//                 });
-//             }
-//         } 
-    
-//         catch (error) {
-//             console.error('CheckingStudentidERR', error);
-//             res.status(500).json({
-//                 available : false,
-//                 message : "Student ID availability check failed. Please try again."
-//             });
-//         }
-//     }
-//     retryWithExponentialDelay(check);
-// }
 
-
-
-
-// function registerAccount(res, req) {
-//     let register = async () => {
-//         const { studentID, password, confirmPassword, name, section, email, agreePolicy } = req.body;
-    
-        
-//         if (!studentID || !password || !confirmPassword || !name || !section || !email || !agreePolicy) {
-//             return res.status(400).json({
-//                 successRegistration: false,
-//                 message: "All fields are required.",
-//             });
-//         }
-        
-        
-//         if (password !== confirmPassword) {
-//             return res.status(400).json({
-//                 successRegistration: false,
-//                 message: "Passwords do not match.",
-//             });
-//         }
-
-        
-
-//         try {
-//             const existingEmail = await retryWithExponentialDelay(() => emailModel.findOne({
-//                 email: email
-//             }));
-
-//             if(existingEmail) {
-//                 return res.status(400).json({
-//                     successRegistration: false,
-//                     message: "Email already exists. Please try another email.",
-//                 })
-//             }
-
-
-//             const existingStudent = await retryWithExponentialDelay(() => studentIDPassModel.findOne({ studentID }));
-//             if (existingStudent) {
-//                 return res.status(400).json({
-//                     successRegistration: false,
-//                     message: "Student ID already exists.",
-//                 });
-//             }
-
-            
-//             const hashedPassword = await retryWithExponentialDelay(() => bcrypt.hash(password, 10)); 
-
-//             const account = await retryWithExponentialDelay(() => registerInputModel.create({
-//                 studentID: studentID,
-//                 password: hashedPassword,
-//                 confirmPassword: hashedPassword,  
-//                 name: name,
-//                 section: section,
-//                 email: email,
-//                 agreePolicy: agreePolicy
-//             }));
-
-            
-//             const newStudentID = await retryWithExponentialDelay(() => studentIDPassModel.create({
-//                 studentID: studentID,
-//                 password: hashedPassword
-//             }));
-
-//             const newEmail = await retryWithExponentialDelay(() => emailModel.create({
-//                 email: email
-//             }))
-
-//             if (newStudentID && account && newEmail) {
-//                 res.status(201).json({
-//                     successRegistration: true,
-//                     message: "Registration completed successfully."
-//                 });
-//             }
-//         } 
-//         catch (error) {
-//             console.error('RegisterERR:', error);
-//             res.status(500).json({
-//                 successRegistration: false,
-//                 message: "Registration failed. Please try again.",
-//             });
-//         }
-//     }
-
-//     register();
-    
-// }
-
-// function login(req, res) {
-//     let login = async () => {
-//         const {studentID, password} = req.body;
-//         if(!studentID || !password) {
-//             return res.status(400).json({
-//                 successLogin: false,
-//                 message: "Please enter both student ID and password.",
-//             })
-//         }
-
-//         try {
-//             const user = await retryWithExponentialDelay(() => studentIDPassModel.findOne({studentID}));
-
-//             if(!user) {
-//                 console.log(user)
-//                 return res.status(400).json({
-//                     successLogin: false,
-//                     message: "The student ID is not registered in the database."
-//                 });
-//             }
-
-//             const isMatch = await retryWithExponentialDelay(() => bcrypt.compare(password, user.password));
-//             if (!isMatch) {
-//                 return res.status(400).json({
-//                     successLogin: false,
-//                     message: "Incorrect password. Please try again."
-//                 });
-//             }
-
-//             res.status(200).json({
-//                 successLogin: true,
-//                 message: "Login successful."
-//             });
-
-//         }
-//         catch (error) {
-//             console.log(`LoginERR: ${error}`)
-//             res.status(500).json({
-//                 successLogin: false,
-//                 message: "Login failed. Please try again."
-//             });
-//         }
-//     };
-//     login();
-// }
-
-// async function createResetPassDoc(req, res) {
-//     let { email } = req.body;
-
-    
-//     const resetCode = Math.floor(100000 + Math.random() * 900000);
-//     const expirationTime = Date.now() + 5 * 60 * 1000;
-//     try {
-//         if (!email) {
-//             throw new Error("Please provide an email.")
-//         }
-//         let existingEmail = await retryWithExponentialDelay(() => 
-//             emailModel.findOne({
-//                 email : email
-//             })
-//         );
-
-//         if(!existingEmail) {
-//             throw new Error("The email you entered is not found in our database.")
-//         }
-
-
-//         let createResetDoc = await retryWithExponentialDelay(() =>
-//             resetRecordModel.create({
-//                 email: email,
-//                 resetCode: resetCode,
-//                 expirationTime: expirationTime, 
-//             })
-//         );
-
-//         if (!createResetDoc) {
-//             throw new Error("Unable to process your reset code.");
-//         }
-//         console.log(createResetDoc)
-//         return res.status(200).json({
-//             success: true,
-//             message: "Reset password document created successfully.",
-//             resetCode: resetCode,
-//             email : email,
-//             expirationTime: expirationTime, 
-//         }); 
-        
-//         // throw new Error("The email you entered is not found in our database.")
-        
-//     } 
-//     catch (error) {
-//         console.log(`CreationResetPassDocsERR: ${error}`)
-//         return res.status(400).json({
-//             success: false,
-//             message: error.message
-//         })
-//     }
-// }
 
 async function deleteResetPassDocs(req, res) {
     const { email, resetCode, expirationTime } = req.body;
@@ -640,7 +392,7 @@ function login(req, res) {
                     message: "Incorrect password. Please try again."
                 });
             }
-
+            req.session.user = user.toObject();
             res.status(200).json({
                 successLogin: true,
                 message: "Login successful."
@@ -714,7 +466,55 @@ async function createResetPassDoc(req, res) {
     }
 }
 
+async function insertCorrectionRequest(req, res) {
+    const { fullName, email, subject, dateRecord, correctionDetails } = req.body;
+
+    try {
+        if (!fullName || !email || !subject || !dateRecord || !correctionDetails) {
+            console.log({
+                fullName,
+                email,
+                subject,
+                dateRecord,
+                correctionDetails
+            })
+            return res.status(400).json({ success: false, message: 'All fields are required.' }); // More specific return
+        }
+
+        const user = await retryWithExponentialDelay(() => flexibleModel.findOne({ email })); // Use studentID consistently
+
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found.' }); // 404 for not found
+        }
+
+        const requestNumber = user.correctionRequest ? user.correctionRequest.length + 1 : 1; // Handle initial request
+
+        const correctionRequestObj = {
+            requestNumber,
+            fullName,
+            email,
+            subject,
+            dateRecord,
+            correctionDetails,
+        };
+
+        const updatedDocument = await retryWithExponentialDelay(() => flexibleModel.findOneAndUpdate(
+            { email : email },
+            { $push: { correctionRequest: correctionRequestObj } },
+            { new: true, useFindAndModify: false }
+        ));
+
+        if (!updatedDocument) {
+            throw new Error('Failed to submit correction request.');
+        }
+
+        return res.status(200).json({ success: true, message: 'Correction request submitted successfully.' });
+
+    } catch (error) {
+        console.error("Error submitting correction request:", error); // Log the error for debugging
+        return res.status(500).json({ success: false, message: 'An error occurred. Please try again later.' }); // Generic error message for security
+    }
+}
 
 
-
-module.exports = { connectToMongoDB, checkStudentIdAvailability, registerAccount, login, createResetPassDoc, deleteResetPassDocs, compareResetCode, changePassword };
+module.exports = { connectToMongoDB, checkStudentIdAvailability, registerAccount, login, createResetPassDoc, deleteResetPassDocs, compareResetCode, changePassword, insertCorrectionRequest };

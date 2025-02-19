@@ -186,22 +186,41 @@
         
         <article class="totalLogin w-full h-full ">
             <article
-            class="totalLogin flex flex-col gap-2 rounded-lg border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 w-full h-full shadow-md">
-                <div
-                    class="inline-flex items-center gap-2 self-end rounded-sm bg-green-100 p-1 text-green-600 dark:bg-green-700 dark:text-green-50">
+            class="totalLogin flex flex-col gap-2 rounded-lg border border-gray-100 bg-white p-2 sm:p-4 dark:border-gray-800 dark:bg-gray-900 w-full h-full shadow-md">
+                <%
+                    let thisWeekLogins = loginThisWeek;
+                    let lastWeekLogins = loginLastWeek;
+                    let change = thisWeekLogins - lastWeekLogins;
+                    let percentageChange = lastWeekLogins > 0 ? (change / lastWeekLogins) * 100 : 100;
+                    let isIncrease = change > 0;
+                    let isSame = change === 0;
+                    let bgColor = isIncrease ? 'bg-green-100 dark:bg-green-700 text-green-600 dark:text-green-50' 
+                                : (isSame ? 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-50' 
+                                : 'bg-red-100 dark:bg-red-700 text-red-600 dark:text-red-50');
+                    let iconPath = isIncrease ? "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" 
+                                : (isSame ? "M4 12h16" 
+                                : "M13 17h8m0 0v-8m0 8l-8-8-4 4-6-6");
+                %>
+                
+                <div class="inline-flex items-center gap-2 self-end rounded-sm <%= bgColor %> p-1">
                     <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="<%= iconPath %>" />
                     </svg>
-            
-                    <span class="text-xs font-medium"> 67.81% </span>
+                    <span class="text-xs font-medium">
+                        <%= percentageChange.toFixed(2) %>% 
+                    </span>
                 </div>
+        
+        
             
                 <div class="flex flex-col  w-full gap-2">
                     <strong class="block text-sm font-medium text-gray-500 dark:text-gray-400"> Total Logins </strong>
             
                     <p>
-                        <span class="text-2xl font-medium text-gray-900 dark:text-white"> 1,245 </span>
-                        <span class="text-xs text-gray-500 dark:text-gray-400"> from 980 </span>
+                        <span class="text-2xl font-medium text-gray-900 dark:text-white"> <%= loginThisWeek %> </span>
+                        <span class="text-xs text-gray-500 dark:text-gray-400 text-nowrap"> this week | <span class="font-semibold text-black "><%= loginLastWeek %></span> last week </span>
+
+
                     </p>
                     
 
@@ -210,19 +229,32 @@
             </article>
         </article>
         <article class="recentUsed w-full h-full min-h-full">
-            <article class="flex flex-col gap-2 rounded-lg border border-gray-100 bg-white p-4  dark:border-gray-800 dark:bg-gray-900 h-full w-full shadow-md">
+            <article class="flex flex-col gap-2 rounded-lg border border-gray-100 bg-white p-2 sm:p-4  dark:border-gray-800 dark:bg-gray-900 h-full w-full shadow-md">
                 <div class="inline-flex items-center gap-2 self-end rounded-sm bg-blue-100 p-1 text-blue-600 dark:bg-blue-700 dark:text-blue-50">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="size-4" viewBox="0 0 20 20" fill="currentColor" class="size-5">
-                        <path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm.75-13a.75.75 0 0 0-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 0 0 0-1.5h-3.25V5Z" clip-rule="evenodd" />
-                      </svg>
-                      
-                    <span class="text-xs font-medium"> Recently Used </span>
+                    <svg viewBox="0 0 24 24" id="_24x24_On_Light_Recent" data-name="24x24/On Light/Recent" xmlns="http://www.w3.org/2000/svg" fill="#2563eb" class="size-5">
+                        <g id="SVGRepo_bgCarrier" stroke-width="1.5">
+                        </g>
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                        <g id="SVGRepo_iconCarrier"> 
+                            <rect id="view-box" width="24" height="24" fill="none"></rect> 
+                            <path id="Shape" d="M9.682,18.75a.75.75,0,0,1,.75-.75,8.25,8.25,0,1,0-6.189-2.795V12.568a.75.75,0,0,1,1.5,0v4.243a.75.75,0,0,1-.751.75H.75a.75.75,0,0,1,0-1.5H3a9.75,9.75,0,1,1,7.433,3.44A.75.75,0,0,1,9.682,18.75Zm2.875-4.814L9.9,11.281a.754.754,0,0,1-.22-.531V5.55a.75.75,0,1,1,1.5,0v4.889l2.436,2.436a.75.75,0,1,1-1.061,1.06Z" transform="translate(1.568 2.25)" fill="#2563eb">
+                            </path> 
+                        </g>
+                    </svg>
+                    <span class="text-xs font-medium"> 
+                        Recently Used 
+                    </span>
                 </div>
         
                 <div class="flex items-center gap-3">
                     <div class="flex flex-col  w-full gap-2">
                         <strong class="block text-sm font-medium text-gray-500 dark:text-gray-400"> Last Used PC </strong>
-                        <p class="text-2xl font-semibold text-gray-900 dark:text-white"> PC-12 </p>
+                        <p class="text-xl font-semibold text-gray-900 dark:text-white">
+                            PC-<%= lastPcUsed %> 
+                            <span class="text-xs text-gray-500 dark:text-gray-400">
+                                Last Used: <%= lastUsedDate%>
+                            </span>
+                        </p>
                     </div>
                     
                 </div>
@@ -230,19 +262,22 @@
         </article>
 
         <div class="pendingRequest w-full h-full min-h-full">
-            <article class="flex flex-col gap-2 rounded-lg border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 h-full w-full shadow-md">
+            <article class="flex flex-col gap-2 rounded-lg border border-gray-100 bg-white p-2 sm:p-4 dark:border-gray-800 dark:bg-gray-900 h-full w-full shadow-md">
                 <div class="inline-flex items-center gap-2 self-end rounded-sm bg-yellow-100 p-1 text-yellow-600 dark:bg-yellow-700 dark:text-yellow-50">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="size-4" viewBox="0 0 20 20" fill="currentColor" class="size-5">
-                        <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd" />
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                     </svg>
-                      
-                    <span class="text-xs font-medium"> Pending Requests </span>
+                    <span class="text-xs font-medium"> 
+                        Pending Requests 
+                    </span>
                 </div>
             
                 <div class="flex items-center gap-3">
                     <div class="flex flex-col  w-full gap-2">
                         <strong class="block text-sm font-medium text-gray-500 dark:text-gray-400"> Requests Awaiting Approval </strong>
-                        <p class="text-2xl font-semibold text-gray-900 dark:text-white"> 5 <span class="text-xs text-gray-500 dark:text-gray-400"> Feb 15, 2025</span></p>
+                        <p class="text-2xl text-gray-900 dark:text-white font-semibold">
+                            <%= correctionRequestCount%> 
+                        </p>
                         
                     </div>
                 </div>
@@ -266,13 +301,13 @@
         </div>
         
         <div class="table-user w-full h-full  min-h-full oveflow-y-scroll">
-            <div class="overflow-x-scroll rounded-lg border border-gray-200 shadow-md w-full h-full">
+            <div class="overflow-x-auto rounded-lg border border-gray-200 shadow-md w-full h-full">
                 <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm w-full h-full">
                     <thead>
                         <caption class="text-xl text-left px-4 py-4 font-inter text-nowrap bg-white font-semibold">Computer Access Record</caption>
                     </thead>
                     <thead class="h-12">
-                        <tr class="h-12 max-h-12">
+                        <tr class="h-12">
                             <th class="px-6 py-3 text-left font-medium text-gray-900 text-base text-nowrap">Name</th>
                             <th class="px-6 py-3 text-left font-medium text-gray-900 text-base text-nowrap">Date</th>
                             <th class="px-6 py-3 text-left font-medium text-gray-900 text-base text-nowrap">Time In</th>
@@ -282,12 +317,40 @@
                     </thead>
                     <tbody class="divide-y divide-gray-200">
                         
+                        <% function formatDate(dateString) {
+                            const date = new Date(dateString);
+                            if (isNaN(date)) {
+                                return "Invalid Date";
+                            }
+                            const options = { month: "short", day: "numeric", year: "numeric" };
+                            return date.toLocaleDateString("en-US", options);
+                        } %>
+
+                        <% allLogs.forEach(item => { %>
+                            <tr class="odd:bg-purple-50 h-12">
+                                <td class="px-6 py-3 font-medium text-gray-900 text-nowrap max-h-[48px]"><%= name %></td>
+                                
+                                <% Object.entries(item).forEach(([key, value]) => { %>
+                                    <% if (key === 'date') { %> 
+                                        <td class="px-6 py-3 text-gray-700 text-nowrap max-h-[48px]">
+                                            <%= formatDate(value) %>
+                                        </td> 
+                                    <% } else { %> 
+                                        <td class="px-6 py-3 text-gray-700 text-nowrap max-h-[48px]">
+                                            <%= value %>
+                                        </td> 
+                                    <% }; %>
+                                <% }); %>
+                            </tr>    
+                        <% }); %>
                     </tbody>
                 </table>
             </div>
         </div>
         <div class="graph w-full h-full min-h-full shadow-lg p-1 box-border md:p-4 bg-white rounded-lg  flex items-center justify-center">
-            <canvas id="myChart" class="w-full h-full p-2 rounded-md" style="height: 100%; width: 100%; object-fit: fill;"></canvas>
+            <canvas id="myChart" class="p-2 rounded-md" style="height: 100%; width: 100%; object-fit: fill;">
+
+            </canvas>
             
         </div>
     </main>
@@ -299,32 +362,36 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700">Full Name</label>
                 <input type="text" name="name" required
-                    class="mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary">
+                    class="mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary" id="cr-full-name" value="<%= name%>" disabled>
             </div>
     
 
             <div>
                 <label class="block text-sm font-medium text-gray-700">Email</label>
                 <input type="email" name="email" required
-                    class="mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary">
+                    class="mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary" id="cr-email" value="<%= email%>" disabled>
             </div>
     
-
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Subject</label>
+                <input type="text" name="subject" required
+                    class="mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary" id="cr-subject">
+            </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700">Date of Record</label>
                 <input type="date" name="date" required
-                    class="bg-white mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary">
+                    class="bg-white mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary"  id="cr-date-record">
             </div>
     
             <div>
                 <label class="block text-sm font-medium text-gray-700">Correction Details</label>
                 <textarea name="details" required rows="4"
-                    class="mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary"></textarea>
+                    class="mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary" id="cr-correction-details"></textarea>
             </div>
     
 
             <button type="submit"
-                class="btn text-sm w-full bg-primary text-white py-2 rounded-lg font-medium hover:bg-indigo-700 transition">
+                class="btn text-sm w-full bg-primary text-white py-2 rounded-lg font-medium hover:bg-indigo-700 transition"  id="cr-submit">
                 Submit Request
             </button>
         </form>
@@ -340,13 +407,13 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700">Full Name</label>
                 <input type="text" name="name" required
-                    class="mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary">
+                    class="mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary" value="<%= name%>" disabled>
             </div>
         
             <div>
                 <label class="block text-sm font-medium text-gray-700">Email</label>
                 <input type="email" name="email" required
-                    class="mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary">
+                    class="mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary" value="<%= email%>" disabled>
             </div>
         
             <div>
@@ -397,22 +464,22 @@
             <hr class="h-[2px] "/>
             <div class="w-full h-auto flex items-center justify-between text-xs">
                 <span class="w-20 sm:w-28 flex items-center justify-between font-semibold"><span>Name</span><span>:</span></span>
-                <span class="w-full max-w-full overflow-x-auto flex items-center justify-end" id="new-name">Rhim Angelo Sagales</span>
+                <span class="w-full max-w-full overflow-x-auto flex items-center justify-end" id="new-name"><%= name%></span>
             </div>
             <hr class="h-[2px]"/>
             <div class="w-full h-auto flex items-center justify-between text-xs">
                 <span class="w-20 sm:w-28 flex items-center justify-between font-semibold"><span>Stud #</span><span>:</span></span>
-                <span class="w-full max-w-full overflow-x-auto flex items-center justify-end"  id="new-studId">UA202200726</span>
+                <span class="w-full max-w-full overflow-x-auto flex items-center justify-end"  id="new-studId"><%= studentID%></span>
             </div>
             <hr class="h-[2px]"/>
             <div class="w-full h-auto flex items-center justify-between text-xs">
                 <span class="w-20 sm:w-28 flex items-center justify-between font-semibold"><span>Section</span><span>:</span></span>
-                <span class="w-full max-w-full overflow-x-auto flex items-center justify-end" id="new-section">LFAU322E004</span>
+                <span class="w-full max-w-full overflow-x-auto flex items-center justify-end" id="new-section"><%= section%></span>
             </div>
             <hr class="h-[2px]"/>
             <div class="w-full h-auto flex items-center justify-between text-xs">
                 <span class="w-20 max-w-full overflow-x-auto sm:w-28 flex items-center justify-between font-semibold"><span>Email</span><span>:</span></span>
-                <span class="w-full flex items-center justify-end" id="new-email">yeqiu.jinwoo@gmail.com</span>
+                <span class="w-full flex items-center justify-end" id="new-email"><%= email%></span>
             </div>
             <hr class="h-[2px]"/>
             <div class="w-full h-auto hidden items-center justify-end gap-2 text-xs personal-save-cancel-container">
@@ -543,6 +610,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
     <script>
+        function getMonths() {
+            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            let currentMonthIndex = new Date().getMonth(); 
+            
+            return [months[(currentMonthIndex + 10) % 12], months[(currentMonthIndex + 11) % 12], months[currentMonthIndex]];
+        }
         const canvas = document.getElementById("myChart");
         
         const ctx = canvas.getContext("2d");
@@ -550,29 +623,29 @@
         new Chart(ctx, {
             type: "bar",
             data: {
-                labels: ["Jan", "Feb", "Mar"],
+                labels: getMonths(),
                 datasets: [{
-                label: "Usage of computer per month", 
-                data: [12, 19, 3],
-                backgroundColor: ["#1dcdbc", "#f000b8", "#570df8"]
+                    label: "Usage of computer per month",
+                    data: <%- JSON.stringify(lastThreeMonthsLogins) %>, 
+                    backgroundColor: ["#1dcdbc", "#f000b8", "#570df8"]
                 }]
             },
             options: {
                 plugins: {
                     legend: {
                         labels: {
-                            boxWidth: 0 
+                            boxWidth: 0
                         }
                     }
                 }
             }
-            }
-        );
+        });
+
 
         document.addEventListener('DOMContentLoaded', () => {
             const qrContainer = document.querySelector(".qr-code");
             const qr = new QRCode(qrContainer, {
-                text: "UA202200726",
+                text: '<%= studentID%>',
                 width: 208,
                 height: 208
             });

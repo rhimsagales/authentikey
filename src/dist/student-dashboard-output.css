@@ -4695,6 +4695,10 @@ details.collapse summary::-webkit-details-marker {
   max-height: 2.5rem;
 }
 
+.max-h-12 {
+  max-height: 3rem;
+}
+
 .max-h-14 {
   max-height: 3.5rem;
 }
@@ -4908,8 +4912,8 @@ details.collapse summary::-webkit-details-marker {
   max-width: 400px;
 }
 
-.max-w-\[600px\] {
-  max-width: 600px;
+.max-w-\[500px\] {
+  max-width: 500px;
 }
 
 .max-w-full {
@@ -4926,10 +4930,6 @@ details.collapse summary::-webkit-details-marker {
 
 .max-w-xl {
   max-width: 36rem;
-}
-
-.max-w-\[500px\] {
-  max-width: 500px;
 }
 
 .flex-none {
@@ -5422,14 +5422,14 @@ details.collapse summary::-webkit-details-marker {
   border-color: rgb(209 213 219 / var(--tw-border-opacity, 1));
 }
 
-.border-gray-800 {
-  --tw-border-opacity: 1;
-  border-color: rgb(31 41 55 / var(--tw-border-opacity, 1));
-}
-
 .border-gray-400 {
   --tw-border-opacity: 1;
   border-color: rgb(156 163 175 / var(--tw-border-opacity, 1));
+}
+
+.border-gray-800 {
+  --tw-border-opacity: 1;
+  border-color: rgb(31 41 55 / var(--tw-border-opacity, 1));
 }
 
 .bg-\[\#8d73ff\] {
@@ -5517,6 +5517,11 @@ details.collapse summary::-webkit-details-marker {
   background-color: rgb(75 85 99 / var(--tw-bg-opacity, 1));
 }
 
+.bg-gray-700 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(55 65 81 / var(--tw-bg-opacity, 1));
+}
+
 .bg-gray-800 {
   --tw-bg-opacity: 1;
   background-color: rgb(31 41 55 / var(--tw-bg-opacity, 1));
@@ -5582,9 +5587,19 @@ details.collapse summary::-webkit-details-marker {
   background-color: rgb(216 180 254 / var(--tw-bg-opacity, 1));
 }
 
+.bg-red-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(254 226 226 / var(--tw-bg-opacity, 1));
+}
+
 .bg-red-300 {
   --tw-bg-opacity: 1;
   background-color: rgb(252 165 165 / var(--tw-bg-opacity, 1));
+}
+
+.bg-red-700 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(185 28 28 / var(--tw-bg-opacity, 1));
 }
 
 .bg-secondary {
@@ -5726,6 +5741,11 @@ details.collapse summary::-webkit-details-marker {
   padding-right: 2.5rem;
 }
 
+.px-12 {
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+
 .px-2 {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
@@ -5854,11 +5874,6 @@ details.collapse summary::-webkit-details-marker {
 .py-8 {
   padding-top: 2rem;
   padding-bottom: 2rem;
-}
-
-.px-12 {
-  padding-left: 3rem;
-  padding-right: 3rem;
 }
 
 .pb-2 {
@@ -6088,6 +6103,11 @@ details.collapse summary::-webkit-details-marker {
   color: rgb(156 163 175 / var(--tw-text-opacity, 1));
 }
 
+.text-gray-50 {
+  --tw-text-opacity: 1;
+  color: rgb(249 250 251 / var(--tw-text-opacity, 1));
+}
+
 .text-gray-500 {
   --tw-text-opacity: 1;
   color: rgb(107 114 128 / var(--tw-text-opacity, 1));
@@ -6136,6 +6156,11 @@ details.collapse summary::-webkit-details-marker {
 .text-primary {
   --tw-text-opacity: 1;
   color: var(--fallback-p,oklch(var(--p)/var(--tw-text-opacity, 1)));
+}
+
+.text-red-50 {
+  --tw-text-opacity: 1;
+  color: rgb(254 242 242 / var(--tw-text-opacity, 1));
 }
 
 .text-red-500 {
@@ -6493,6 +6518,10 @@ caption {
     max-width: 850px;
   }
 
+  .sm\:p-4 {
+    padding: 1rem;
+  }
+
   .sm\:px-6 {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
@@ -6539,21 +6568,6 @@ caption {
     padding: 1.5rem;
   }
 
-  .md\:px-12 {
-    padding-left: 3rem;
-    padding-right: 3rem;
-  }
-
-  .md\:px-8 {
-    padding-left: 2rem;
-    padding-right: 2rem;
-  }
-
-  .md\:px-6 {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-  }
-
   .md\:pt-\[88px\] {
     padding-top: 88px;
   }
@@ -6593,6 +6607,11 @@ caption {
     background-color: rgb(29 78 216 / var(--tw-bg-opacity, 1));
   }
 
+  .dark\:bg-gray-700 {
+    --tw-bg-opacity: 1;
+    background-color: rgb(55 65 81 / var(--tw-bg-opacity, 1));
+  }
+
   .dark\:bg-gray-900 {
     --tw-bg-opacity: 1;
     background-color: rgb(17 24 39 / var(--tw-bg-opacity, 1));
@@ -6601,6 +6620,11 @@ caption {
   .dark\:bg-green-700 {
     --tw-bg-opacity: 1;
     background-color: rgb(21 128 61 / var(--tw-bg-opacity, 1));
+  }
+
+  .dark\:bg-red-700 {
+    --tw-bg-opacity: 1;
+    background-color: rgb(185 28 28 / var(--tw-bg-opacity, 1));
   }
 
   .dark\:bg-yellow-700 {
@@ -6618,9 +6642,19 @@ caption {
     color: rgb(156 163 175 / var(--tw-text-opacity, 1));
   }
 
+  .dark\:text-gray-50 {
+    --tw-text-opacity: 1;
+    color: rgb(249 250 251 / var(--tw-text-opacity, 1));
+  }
+
   .dark\:text-green-50 {
     --tw-text-opacity: 1;
     color: rgb(240 253 244 / var(--tw-text-opacity, 1));
+  }
+
+  .dark\:text-red-50 {
+    --tw-text-opacity: 1;
+    color: rgb(254 242 242 / var(--tw-text-opacity, 1));
   }
 
   .dark\:text-white {
