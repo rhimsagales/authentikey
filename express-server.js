@@ -115,6 +115,20 @@ mongoFunctions.connectToMongoDB();
 
 
 
+app.get('/user/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error("Error destroying session:", err);
+            return res.status(500).end();
+        }
+
+        res.clearCookie("connect.sid"); // Clear session cookie
+        res.redirect("/pages/sign-in"); // Redirect to sign-in page
+    });
+});
+
+
+
 app.get('/', (req, res) => {
     res.send('Server is online.');
 });
@@ -126,23 +140,40 @@ app.get('/pages/:name', (req, res) => {
     res.sendFile(path.join(__dirname, `src/pages/${pageName}.html`));
 });
 
-app.get('/users/student-dashboard', (req, res) => {
-    const lastUsedPcDate = getLastPCUsed(req.session.user.logs);
-    const userData = {
-        name : req.session.user.name,
-        studentID : req.session.user.studentID,
-        section : req.session.user.section,
-        email : req.session.user.email,
-        loginLastWeek : getLoginsLastWeek(req.session.user.logs),
-        loginThisWeek : getLoginsThisWeek(req.session.user.logs),
-        percentageChange : calculatePercentageChange(req.session.user.logs),
-        lastPcUsed : lastUsedPcDate[0],
-        lastUsedDate : lastUsedPcDate[1],
-        correctionRequestCount : req.session.user.correctionRequest.length,
-        lastThreeMonthsLogins : getLastThreeMonthsLogins(req.session.user.logs),
-        allLogs : req.session.user.logs
+app.get('/users/student-dashboard', async (req, res) => {
+
+    try {
+        
+        if (!req.session || !req.session.studentID) {
+            
+            
+            return res.redirect("/pages/sign-in");
+        }
+        
+        await mongoFunctions.getAllLogs(req, res, req.session.studentID);
+        
+
+        const lastUsedPcDate = getLastPCUsed(req.session.user.logs);
+        const userData = {
+            name: req.session.user.name,
+            studentID: req.session.user.studentID,
+            section: req.session.user.section,
+            email: req.session.user.email,
+            loginLastWeek: getLoginsLastWeek(req.session.user.logs),
+            loginThisWeek: getLoginsThisWeek(req.session.user.logs),
+            percentageChange: calculatePercentageChange(req.session.user.logs),
+            lastPcUsed: lastUsedPcDate[0],
+            lastUsedDate: lastUsedPcDate[1],
+            correctionRequestCount: req.session.user.correctionRequest.length,
+            lastThreeMonthsLogins: getLastThreeMonthsLogins(req.session.user.logs),
+            allLogs: req.session.user.logs
+        };
+    
+        res.render('student-dashboard', userData);
+    } catch (err) {
+        return res.redirect("/pages/sign-in");
     }
-    res.render('student-dashboard', userData);
+    
 })
 
 app.post('/pages/sign-up/check-studentid-availability', async (req, res) => {
@@ -174,6 +205,11 @@ app.post('/pages/sign-in/login/change-password', async(req, res) => {
 })
 
 app.get('/pages/sign-in/change-pass/send/secret', (req, res) => {
+    if (!req.session || !req.session.studentID) {
+            
+            
+        return res.status(302).redirect("/pages/sign-in");
+    }
     const secrets = {
         serviceID : process.env.EmailJsService,
         templateID : process.env.EmailJsTemplate,
@@ -183,8 +219,23 @@ app.get('/pages/sign-in/change-pass/send/secret', (req, res) => {
 })
 
 app.post('/send-correction-request', (req, res) => {
+    if (!req.session || !req.session.studentID) {
+        console.log("reached-here")
+            
+        return res.status(302).redirect("/pages/sign-in");
+    }
+    console.log("reached-here-2")
     mongoFunctions.insertCorrectionRequest(req, res);
 })
+
+
+app.get('/check-session', (req, res) => {
+    if (!req.session || !req.session.studentID) {
+        return res.json({ loggedIn: false });
+    }
+    res.json({ loggedIn: true, studentID: req.session.studentID });
+});
+
 
 app.listen(3000, () => {
     console.log('Server running at http://localhost:3000');

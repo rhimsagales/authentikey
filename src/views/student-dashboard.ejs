@@ -399,7 +399,7 @@
 
     <main class="main-contact-dev w-full h-auto min-h-lvh pt-[72px] md:pt-[88px] px-2 lg:px-36 hidden items-start justify-center mb-4">
         <form class="bg-white w-[600px] h-auto shadow-lg rounded-lg p-4 md:p-6 space-y-4">
-            <h2 class="text-2xl font-bold text-gray-800 text-center mt-12">Contact Dev</h2>
+            <h2 class="text-2xl font-bold text-gray-800 text-center mt-12">Report Bugs</h2>
             <div class=" w-full h-auto grid place-items-center mt-0">
                 <span class="text-sm text-center mb-12 flex w-full sm:w-3/4">You can report any bugs or issues directly to the development team for assistance.</span>  
             </div>  
@@ -407,30 +407,30 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700">Full Name</label>
                 <input type="text" name="name" required
-                    class="mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary" value="<%= name%>" disabled>
+                    class="mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary" value="<%= name%>" disabled id="rb-name">
             </div>
         
             <div>
                 <label class="block text-sm font-medium text-gray-700">Email</label>
                 <input type="email" name="email" required
-                    class="mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary" value="<%= email%>" disabled>
+                    class="mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary" value="<%= email%>" disabled id="rb-email">
             </div>
         
             <div>
                 <label class="block text-sm font-medium text-gray-700">Subject</label>
                 <input type="text" name="subject" required
-                    class="mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary">
+                    class="mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary"  id="rb-subject">
             </div>
         
             <div>
                 <label class="block text-sm font-medium text-gray-700">Message</label>
                 <textarea name="message" required rows="4"
-                    class="mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary"></textarea>
+                    class="mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary"  id="rb-message"></textarea>
             </div>
         
             <button type="submit"
-                class="btn text-sm w-full bg-primary text-white py-2 rounded-lg font-medium hover:bg-indigo-700 transition ">
-                Send Message
+                class="btn text-sm w-full bg-primary text-white py-2 rounded-lg font-medium hover:bg-indigo-700 transition "  id="rb-button">
+                Report
             </button>
         </form>
         
@@ -676,8 +676,20 @@
 
     </script>
     
-      
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+    </script>
+    <script type="text/javascript">
+    (async function(){
+        const responseFetch = await fetch('/pages/sign-in/change-pass/send/secret');
+
+        const secrets = await responseFetch.json();
+        emailjs.init({
+            publicKey: secrets.PublicID,
+        });
+    })();
+    </script>
     
-    <script src="../js/student-dashboard.js"></script>
+    <script src="../js/student-dashboard.js" type="module"></script>
 </body>
 </html>

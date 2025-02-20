@@ -1,3 +1,14 @@
+
+import * as alert from './alert.js'
+
+class CustomError extends Error {
+    constructor(message, statusCode) {
+        super(message);
+        this.statusCode = statusCode;
+    }
+}
+
+
 const burgerBtn = document.getElementById('burger-btn');
 const sidebar = document.getElementById('sidebar');
 const navLinksButton = document.querySelectorAll('.desk-nav-btn');
@@ -351,7 +362,17 @@ const crSubmitBtn = document.getElementById('cr-submit');
 
 crSubmitBtn.addEventListener('click', async (event) => {
     event.preventDefault();
-    console.log(crCorrDetails.value)
+
+
+    await fetch('/check-session')
+    .then(response => response.json())
+    .then(data => {
+        if (!data.loggedIn) {
+            window.location.reload(); // Redirect if not logged in
+        }
+    });
+    
+    crSubmitBtn.disabled = true;
     try {
         if(!crName.value || !crEmail.value || !crSubject.value || !crDateRecord.value || !crCorrDetails.value ) {
             console.log({
@@ -381,11 +402,137 @@ crSubmitBtn.addEventListener('click', async (event) => {
         const responseData = await response.json();
 
         if(!response.ok) {
-            throw new Error(responseData.message);
+            throw new CustomError(responseData.message, responseData.status);
         }
-        console.log(responseData.message);
+        const alertDiv = alert.createSuccessAlert(responseData.message);
+        alertDiv.addEventListener('animationend', () => {
+            crSubmitBtn.disabled = false;
+        });
     }
     catch(error) {
-        console.log(error.message);
+        console.log(error.statusCode);
+        console.log(error.status);
+        if(error.statusCode === 500 || error.statusCode === 400 || error.statusCode === 404){
+            const alertDiv = alert.createErrorAlert(error.message);
+            alertDiv.addEventListener('animationend', () => {
+                crSubmitBtn.disabled = false;
+            });
+        }
+        const alertDiv = alert.createErrorAlert("Oops! This action isn't allowed. Please check your request and try again.");
+        
+        alertDiv.addEventListener('animationend', () => {
+            crSubmitBtn.disabled = false;
+        });
+        
+        
     }
 })
+
+
+
+const rbName = document.getElementById('rb-name');
+const rbEmail = document.getElementById('rb-email');
+const rbSubject = document.getElementById('rb-subject');
+const rbMessage = document.getElementById('rb-message');
+
+const rbButton = document.getElementById('rb-button');
+
+
+async function sendReportBugs(name, email, subject, message){
+    const templateParams = {
+        email : email,
+        name : name,
+        subject : subject,
+        message : message
+        
+    };
+    try {
+        const responseFetch = await fetch('/pages/sign-in/change-pass/send/secret');
+
+        const secrets = await responseFetch.json();
+        const response = await emailjs.send(
+            secrets.serviceID,   // Service ID
+            "template_zshg8ei",  // Template ID
+            templateParams,      // Template parameters
+            secrets.publicID  // User ID
+        );
+        if(!response) {
+            throw new Error("We ran into issues while sending your email.", 500)
+        }
+
+        return { 
+            success: true, 
+            message: `The email was successfully sent to the developers.`,
+            statusCode: 200
+        };
+    } catch (error) {
+        return { 
+            success: false, 
+            message: `The email could not be sent to this address: authentikey.icct.contact@gmail.com`,
+            statusCode: 500
+        };
+    }
+}
+
+
+rbButton.addEventListener('click', async(event) => {
+    event.preventDefault();
+    
+    await fetch('/check-session')
+    .then(response => response.json())
+    .then(data => {
+        if (!data.loggedIn) {
+            window.location.reload(); 
+        }
+    });
+
+
+    rbButton.disabled = true;
+    try {
+        const inputs = [rbName, rbEmail, rbSubject, rbMessage];
+
+        if (inputs.some(input => !input?.value)) {
+            throw new CustomError("All fields are required.", 400);
+        }
+
+        const emailSendingStatus = await sendReportBugs(rbName.value, rbEmail.value, rbSubject.value, rbMessage.value);
+
+        if(emailSendingStatus.statusCode == 500) {
+            console.log(emailSendingStatus.statusCode)
+            throw new CustomError(emailSendingStatus.message, emailSendingStatus.statusCode)
+        }
+        
+        const alertDiv = alert.createSuccessAlert(emailSendingStatus.message);
+        alertDiv.addEventListener('animationend', () => {
+            rbButton.disabled = false;
+        });
+        console.log(emailSendingStatus);
+        
+
+    }
+    catch(e) {
+        if(e.statusCode == 400) {
+            const alertDiv = alert.createWarningAlert(e.message);
+            alertDiv.addEventListener('animationend', () => {
+                rbButton.disabled = false;
+            });
+            return
+        }
+        else if (e.statusCode == 500) {
+            const alertDiv = alert.createErrorAlert(e.message);
+            alertDiv.addEventListener('animationend', () => {
+                rbButton.disabled = false;
+            });
+            return
+        }
+        const alertDiv = alert.createErrorAlert("Oops! This action isn't allowed. Please check your request and try again.");
+        alertDiv.addEventListener('animationend', () => {
+            rbButton.disabled = false;
+        });
+        return
+        
+    }
+    
+})
+
+

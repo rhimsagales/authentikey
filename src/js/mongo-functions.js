@@ -392,7 +392,8 @@ function login(req, res) {
                     message: "Incorrect password. Please try again."
                 });
             }
-            req.session.user = user.toObject();
+            // req.session.user = user.toObject();
+            req.session.studentID = user.toObject().studentID;
             res.status(200).json({
                 successLogin: true,
                 message: "Login successful."
@@ -408,6 +409,32 @@ function login(req, res) {
     };
     login();
 }
+
+
+async function getAllLogs(req, res, studentID) {
+    try {
+        const user = await retryWithExponentialDelay(() => flexibleModel.findOne({ studentID }));
+
+        if (!user) {
+            
+            return res.status(400).json({
+                successLogin: false,
+                message: "The student ID is not registered in the database."
+            });
+        }
+
+        
+        
+        req.session.user = user.toObject();
+        
+    } catch (error) {
+        console.log(`LoginERR: ${error}`);
+        res.status(500).json({
+            successLogin: false,
+            message: "Login failed. Please try again."
+        });
+    }
+} 
 
 async function createResetPassDoc(req, res) {
     let { email } = req.body;
@@ -517,4 +544,4 @@ async function insertCorrectionRequest(req, res) {
 }
 
 
-module.exports = { connectToMongoDB, checkStudentIdAvailability, registerAccount, login, createResetPassDoc, deleteResetPassDocs, compareResetCode, changePassword, insertCorrectionRequest };
+module.exports = { connectToMongoDB, checkStudentIdAvailability, registerAccount, login, createResetPassDoc, deleteResetPassDocs, compareResetCode, changePassword, insertCorrectionRequest, getAllLogs };

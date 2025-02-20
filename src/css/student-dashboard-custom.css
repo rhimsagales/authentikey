@@ -73,6 +73,14 @@ body {
     }
     ;
 }
+
+
+@media(max-width: 500px) {
+    .alert {
+        left: 8px;
+    }
+}
+
 .totalLogin {
     grid-area: totalLogin;
     min-height: 140px;
