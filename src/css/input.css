@@ -45,7 +45,7 @@ body {
 }
 
 .signInForm {
-    @apply w-[95%] min-w-[320px] max-w-[400px] h-auto  p-0 flex-col justify-center items-center gap-4 font-poppins bg-white px-4 py-10 shadow-xl rounded-lg;
+    @apply w-[95%] min-w-[310px] max-w-[400px] h-auto  p-0 flex-col justify-center items-center gap-4 font-poppins bg-white px-4 py-10 shadow-xl rounded-lg;
     transform: translate3d(0, 100%, 0);
     visibility: hidden;
     animation-fill-mode: forwards;
@@ -103,7 +103,7 @@ body {
 }
 
 .logo-wrapper {
-    @apply flex items-start justify-start w-full h-[15svh] min-h-[82px] max-h-[112px] text-4xl font-bold text-primary;
+    @apply flex items-start justify-center w-full h-[15svh] min-h-[82px] max-h-[112px] text-4xl font-bold text-primary;
 }
 
 .info-details-wrapper {
@@ -207,7 +207,10 @@ body > .gradient-filter {
 } 
 
 .c-carousel {
-    @apply hidden sm:flex sm:w-[50%] h-full bg-accent
+    @apply hidden sm:flex sm:w-[50%] h-full;
+    background: url('../assets/poster.png');
+    background-size: 100% 100%;
+
     
 }
 

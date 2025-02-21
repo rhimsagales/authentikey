@@ -166,9 +166,10 @@ app.get('/users/student-dashboard', async (req, res) => {
             lastUsedDate: lastUsedPcDate[1],
             correctionRequestCount: req.session.user.correctionRequest.length,
             lastThreeMonthsLogins: getLastThreeMonthsLogins(req.session.user.logs),
-            allLogs: req.session.user.logs
+            allLogs: req.session.user.logs,
+            allCorrectionRequest : req.session.user.correctionRequest
         };
-    
+        
         res.render('student-dashboard', userData);
     } catch (err) {
         return res.redirect("/pages/sign-in");

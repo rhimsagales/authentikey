@@ -28,3 +28,6 @@ caption {
     @apply border-t-0 !important;
 }
 
+.export-excel-btn {
+    @apply h-full w-[38%] max-w-[220px] flex items-center justify-center gap-2 rounded active:scale-95 duration-200 ease-in-out !important;
+}

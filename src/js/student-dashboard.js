@@ -36,6 +36,7 @@ const profQrSignOutAnchor = [viewProfAnchor, viewQrAnchor, signOutAnchor];
 
 const profileContainer = document.querySelector('.profile');
 const viewQrCodeContainer = document.querySelector('.view-qr-code');
+const viewPendingContainer = document.querySelector('.view-pending');
 
 profQrSignOutAnchor.forEach(anchorArr => {
     anchorArr.forEach(anchor => {
@@ -63,7 +64,8 @@ profQrSignOutAnchor.forEach(anchorArr => {
             else {
                 window.location.href = '/user/logout'
             }
-            document.querySelector('body').classList.replace('overflow-y-auto', 'overflow-y-hidden')
+            document.querySelector('body').classList.replace('overflow-y-auto', 'overflow-y-hidden');
+            
             
 
         })
@@ -348,6 +350,10 @@ closeModalBtnArray.forEach(closeModalBtn => {
         viewQrCodeContainer.classList.remove('flex');
         viewQrCodeContainer.classList.remove('hidden');
         viewQrCodeContainer.classList.add('hidden');
+
+        viewPendingContainer.classList.remove('flex');
+        viewPendingContainer.classList.remove('hidden');
+        viewPendingContainer.classList.add('hidden');
 
     })
 })
@@ -685,3 +691,24 @@ deleteStudentBtn.addEventListener("click", async () => {
         console.error("Error deleting student:", error);
     }
 });
+
+
+const pendingRequest = document.querySelector('.pendingRequest');
+
+
+pendingRequest.addEventListener('click', (event) => {
+    event.stopImmediatePropagation();
+    event.preventDefault();
+
+    customModal.classList.replace('hidden', 'flex');
+    viewPendingContainer.classList.replace('hidden', 'flex');
+    document.querySelector('body').classList.replace('overflow-y-auto', 'overflow-y-hidden');
+    window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth' 
+    });
+
+
+
+})

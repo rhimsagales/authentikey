@@ -10,7 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch:css": "npx tailwindcss -i ./src/css/input.css -o ./src/dist/output.css --watch",
     "watch:student-css": "npx tailwindcss -i ./src/css/student-dashboard-input.css -o ./src/dist/student-dashboard-output.css --watch",
-    "build:css": "postcss src/input.css -o dist/output.css",
+    "build:css": "postcss ./src/css/input.css -o ./src/dist/output.css",
     "build:student-css": "npx postcss ./src/css/student-dashboard-input.css -o ./src/dist/output.css",
     "nodemon": "nodemon ./express-server.js"
   },
