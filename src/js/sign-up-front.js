@@ -25,7 +25,7 @@ const agreeChckBox = document.getElementById('agreement-checkbox');
 
 // const errorText = document.getElementById('error-text');
 
-const registerInputs = [studentIDinput, passwordinput,repasswordinput,  nameinput, sectioninput, emailinput];
+const registerInputs = [studentIDinput, passwordinput,repasswordinput,  nameinput, sectioninput];
 const loginInputs = [studentIDinput, passwordinput,repasswordinput];
 const personalInputs = [nameinput, sectioninput, emailinput];
 
@@ -70,6 +70,38 @@ function validateEmail(email) {
 }
 
 emailinput.addEventListener('input', () => {
+    
+    const parentElement = emailinput.parentElement;
+    
+    const errorTextElem = parentElement.querySelector('.err-txt');
+    if (validateEmail(emailinput.value)) {
+        
+        if (errorTextElem) {
+            errorTextElem.remove();
+            const errorText = document.createElement('span');
+            errorText.className = 'absolute top-[-26px] right-0 text-red-500 err-txt italic text-sm font-inter';
+            errorText.textContent = 'Invalid Email.'; 
+            parentElement.appendChild(errorText);
+            
+        }
+        else {
+            const errorText = document.createElement('span');
+            errorText.className = 'absolute top-[-26px] right-0 text-red-500 err-txt italic text-sm font-inter';
+            errorText.textContent = 'Invalid Email.'; 
+            parentElement.appendChild(errorText);
+            
+        }
+    } 
+    else {
+        
+        if (errorTextElem) {
+            errorTextElem.remove();
+        }
+    }
+    
+})
+
+emailinput.addEventListener('focusout', () => {
     
     const parentElement = emailinput.parentElement;
     
@@ -190,12 +222,44 @@ registerInputs.forEach(input => {
             }
         } 
         else {
-            if (errorTextElem && !validateEmail(input.value)) {
+            if (errorTextElem) {
                 errorTextElem.remove();
             }
         }
     });
 });
+
+registerInputs.forEach(input => {
+    input.addEventListener('input', () => {
+        
+        const parentElement = input.parentElement;
+        const errorTextElem = parentElement.querySelector('.err-txt');
+
+        if (input.value === "") {
+            if (!errorTextElem) {
+                const errorText = document.createElement('span');
+                errorText.className = 'absolute top-[-26px] right-0 text-red-500 err-txt italic text-sm font-inter';
+                errorText.textContent = 'This field is required'; 
+                parentElement.appendChild(errorText);
+            }
+            else {
+                errorTextElem.remove();
+                const errorText = document.createElement('span');
+                errorText.className = 'absolute top-[-26px] right-0 text-red-500 err-txt italic text-sm font-inter';
+                errorText.textContent = 'This field is required.'; 
+                parentElement.appendChild(errorText);
+                
+            }
+        } 
+        else {
+            // console.log('here')
+            if (errorTextElem) {
+                errorTextElem.remove();
+            }
+        }
+    });
+});
+// && !validateEmail(input.value)
 
 function isInputsFilled(array) {
     for (const input of array) {
@@ -244,7 +308,7 @@ agreeChckBox.addEventListener('change', () => {
         agreeChckBox.checked = true;
     }
 
-    if (agreeChckBox.checked && isInputsFilled(personalInputs)) {
+    if (agreeChckBox.checked && isInputsFilled(personalInputs) && isInputsFilled(registerInputs) && emailinput.value && !validateEmail(emailinput.value)) {
         registerBtn.disabled = false;
     }
     else {
@@ -256,8 +320,12 @@ agreeChckBox.addEventListener('change', () => {
 
 personalInputs.forEach(input => {
     input.addEventListener('input', () => {
+        console.log(agreeChckBox.checked);
+        console.log(isInputsFilled(personalInputs));
+        console.log(isInputsFilled(registerInputs));
+        console.log(emailinput.value);
         
-        if (agreeChckBox.checked && isInputsFilled(personalInputs)) {
+        if (agreeChckBox.checked && isInputsFilled(personalInputs) && isInputsFilled(registerInputs) && emailinput.value && !validateEmail(emailinput.value)) {
             registerBtn.disabled = false;
         }
         else {
@@ -267,6 +335,34 @@ personalInputs.forEach(input => {
         
     });
 });
+
+
+// registerInputs.forEach(input => {
+//     input.addEventListener('input', () => {
+//         if (!agreeChckBox || !personalInputs || !registerInputs || !emailinput) {
+//             console.error("One or more required elements are missing");
+//             return;
+//         }
+
+//         console.log(agreeChckBox.checked);
+//         console.log(isInputsFilled(personalInputs));
+//         console.log(isInputsFilled(registerInputs));
+//         console.log(emailinput.value);
+
+//         if (
+//             agreeChckBox.checked && 
+//             isInputsFilled(personalInputs) === true && 
+//             isInputsFilled(registerInputs) === true && 
+//             emailinput.value.trim() !== ""
+//         ) {
+//             console.log('here')
+//             registerBtn.disabled = false;
+//         } else {
+//             registerBtn.disabled = true;
+//         }
+//     });
+// });
+
 
 passwordinput.addEventListener('input', (event) => {
     

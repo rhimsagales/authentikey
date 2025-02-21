@@ -241,14 +241,14 @@
 
         <article class="totalLogin w-full h-full ">
             <article
-                class="totalLogin flex flex-col gap-2 rounded-lg border border-gray-100 bg-white p-2 sm:p-4 dark:border-gray-800 dark:bg-gray-900 w-full h-full shadow-md">
+                class="totalLogin flex flex-col gap-2 rounded-lg border border-gray-100 bg-white p-2 sm:p-4  w-full h-full shadow-md">
                 <% let thisWeekLogins=loginThisWeek; let lastWeekLogins=loginLastWeek; let change=thisWeekLogins -
                     lastWeekLogins; let percentageChange=lastWeekLogins> 0 ? (change / lastWeekLogins) * 100 : 100;
                     let isIncrease = change > 0;
                     let isSame = change === 0;
-                    let bgColor = isIncrease ? 'bg-green-100 dark:bg-green-700 text-green-600 dark:text-green-50'
-                    : (isSame ? 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-50'
-                    : 'bg-red-100 dark:bg-red-700 text-red-600 dark:text-red-50');
+                    let bgColor = isIncrease ? 'bg-green-100  text-green-600 '
+                    : (isSame ? 'bg-gray-100  text-gray-600 '
+                    : 'bg-red-100  text-red-600 ');
                     let iconPath = isIncrease ? "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
                     : (isSame ? "M4 12h16"
                     : "M13 17h8m0 0v-8m0 8l-8-8-4 4-6-6");
@@ -267,14 +267,14 @@
 
 
                     <div class="flex flex-col  w-full gap-2">
-                        <strong class="block text-sm font-medium text-gray-500 dark:text-gray-400"> Total Logins
+                        <strong class="block text-sm font-medium text-gray-500 "> Total Logins
                         </strong>
 
                         <p>
-                            <span class="text-2xl font-medium text-gray-900 dark:text-white">
+                            <span class="text-2xl font-medium text-gray-900 ">
                                 <%= loginThisWeek %>
                             </span>
-                            <span class="text-xs text-gray-500 dark:text-gray-400 text-nowrap"> this week | <span
+                            <span class="text-xs text-gray-500  text-nowrap"> this week | <span
                                     class="font-semibold text-black ">
                                     <%= loginLastWeek %>
                                 </span> last week </span>
@@ -289,9 +289,9 @@
         </article>
         <article class="recentUsed w-full h-full min-h-full">
             <article
-                class="flex flex-col gap-2 rounded-lg border border-gray-100 bg-white p-2 sm:p-4  dark:border-gray-800 dark:bg-gray-900 h-full w-full shadow-md">
+                class="flex flex-col gap-2 rounded-lg border border-gray-100 bg-white p-2 sm:p-4  h-full w-full shadow-md">
                 <div
-                    class="inline-flex items-center gap-2 self-end rounded-sm bg-blue-100 p-1 text-blue-600 dark:bg-blue-700 dark:text-blue-50">
+                    class="inline-flex items-center gap-2 self-end rounded-sm bg-blue-100 p-1 text-blue-600 ">
                     <svg viewBox="0 0 24 24" id="_24x24_On_Light_Recent" data-name="24x24/On Light/Recent"
                         xmlns="http://www.w3.org/2000/svg" fill="#2563eb" class="size-5">
                         <g id="SVGRepo_bgCarrier" stroke-width="1.5">
@@ -312,11 +312,11 @@
 
                 <div class="flex items-center gap-3">
                     <div class="flex flex-col  w-full gap-2">
-                        <strong class="block text-sm font-medium text-gray-500 dark:text-gray-400"> Last Used PC
+                        <strong class="block text-sm font-medium text-gray-500 "> Last Used PC
                         </strong>
-                        <p class="text-xl font-semibold text-gray-900 dark:text-white">
+                        <p class="text-xl font-semibold text-gray-900 ">
                             PC-<%= lastPcUsed %>
-                                <span class="text-xs text-gray-500 dark:text-gray-400">
+                                <span class="text-xs text-gray-500 ">
                                     Last Used: <%= lastUsedDate%>
                                 </span>
                         </p>
@@ -329,9 +329,9 @@
         <div
             class="cursor-pointer duration-300 ease-in-out active:scale-95 px-0 pendingRequest w-full h-full min-h-full hover:border-0">
             <article
-                class="flex flex-col gap-2 rounded-lg border border-gray-100 bg-white p-2 sm:p-4 dark:border-gray-800 dark:bg-gray-900 h-full w-full shadow-md">
+                class="flex flex-col gap-2 rounded-lg border border-gray-100 bg-white p-2 sm:p-4  h-full w-full shadow-md">
                 <div
-                    class="inline-flex items-center gap-2 self-end rounded-sm bg-yellow-100 p-1 text-yellow-600 dark:bg-yellow-700 dark:text-yellow-50">
+                    class="inline-flex items-center gap-2 self-end rounded-sm bg-yellow-100 p-1 text-yellow-600 ">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-5">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -344,9 +344,9 @@
 
                 <div class="flex items-center gap-3">
                     <div class="flex flex-col  w-full gap-2">
-                        <strong class="block text-sm font-medium text-gray-500 dark:text-gray-400"> Requests Awaiting
+                        <strong class="block text-sm font-medium text-gray-500 "> Requests Awaiting
                             Approval </strong>
-                        <p class="text-2xl text-gray-900 dark:text-white font-semibold">
+                        <p class="text-2xl text-gray-900  font-semibold">
                             <%= correctionRequestCount%>
                         </p>
 
