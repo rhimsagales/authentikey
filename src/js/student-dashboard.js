@@ -535,4 +535,153 @@ rbButton.addEventListener('click', async(event) => {
     
 })
 
+const saveNewPersonalInfoBtn = document.getElementById("save-new-personal-info");
 
+saveNewPersonalInfoBtn.addEventListener("click", async (event) => {
+    event.stopPropagation();
+    event.preventDefault();
+    await fetch('/check-session')
+        .then(response => response.json())
+        .then(data => {
+            if (!data.loggedIn) {
+                window.location.reload();
+            }
+        });
+
+    const name = document.getElementById("new-name").innerText.trim();
+    const studentID = document.getElementById("new-studId").innerText.trim();
+    const email = document.getElementById("new-email").innerText.trim();
+    const section = document.getElementById("new-section").innerText.trim();
+
+    if (!name || !studentID || !email || !section) {
+        alert.createWarningAlert("All fields are required.");
+        return;
+    }
+
+    try {
+        const response = await fetch("/user/update-personal-info", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, studentID, email, section })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            alert.createSuccessAlert(data.message);
+            personalSaveCancelContainer.classList.replace('flex', 'hidden');
+            personalNewFieldArray.forEach(field => {
+                field.contentEditable = false;
+            });
+        } else {
+            alert.createWarningAlert(data.message);
+            personalSaveCancelContainer.classList.replace('flex', 'hidden');
+            personalNewFieldArray.forEach(field => {
+                field.contentEditable = false;
+            });
+        }
+    } catch (error) {
+        alert.createWarningAlert("Error updating personal info.");
+        personalSaveCancelContainer.classList.replace('flex', 'hidden');
+        console.error("Error updating personal info:", error);
+        personalNewFieldArray.forEach(field => {
+            field.contentEditable = false;
+        });
+    }
+});
+
+
+
+const saveNewPassBtn= document.getElementById("save-new-password");
+
+saveNewPassBtn.addEventListener("click", async () => {
+    await fetch('/check-session')
+        .then(response => response.json())
+        .then(data => {
+            if (!data.loggedIn) {
+                window.location.reload();
+            }
+        });
+
+    const password = document.getElementById("new-password").value.trim();
+    const studentID = document.getElementById("new-studId").innerText.trim(); // Assuming student ID is needed
+
+    if (!password) {
+        console.log
+        alert.createWarningAlert("All fields are required.");
+        return;
+    }
+
+    try {
+        const response = await fetch("/user/change-password", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ password, studentID })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            alert.createSuccessAlert(data.message);
+            document.getElementById("new-password").disabled = false;
+            document.getElementById("new-password").value = "";
+            changePassSaveCancelContainer.classList.replace('flex', 'hidden');
+
+        } else {
+            alert.createWarningAlert(data.message);
+            document.getElementById("new-password").disabled = false;
+            document.getElementById("new-password").value = "";
+            changePassSaveCancelContainer.classList.replace('flex', 'hidden');
+        }
+    } catch (error) {
+        alert.createWarningAlert("Error updating password.");
+        console.error("Error updating password:", error);
+        document.getElementById("new-password").disabled = false;
+        document.getElementById("new-password").value = "";
+        changePassSaveCancelContainer.classList.replace('flex', 'hidden');  
+    }
+});
+
+
+const deleteStudentBtn = document.getElementById('delete-student-btn');
+
+
+deleteStudentBtn.addEventListener("click", async () => {
+    await fetch('/check-session')
+        .then(response => response.json())
+        .then(data => {
+            if (!data.loggedIn) {
+                window.location.reload();
+            }
+        });
+
+    const studentID = document.getElementById("new-studId").innerText.trim();
+
+    if (!studentID) {
+        alert.createWarningAlert("Student ID is required.");
+        return;
+    }
+
+    try {
+        const response = await fetch("/user/delete-student", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ studentID })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            const alertDiv = alert.createSuccessAlert(data.message);
+            
+            alertDiv.addEventListener("animationend", () => {
+                window.location.href = "/pages/sign-in";
+            });
+        } else {
+            alert.createWarningAlert(data.message);
+        }
+    } catch (error) {
+        alert.createWarningAlert("Error deleting student.");
+        console.error("Error deleting student:", error);
+    }
+});

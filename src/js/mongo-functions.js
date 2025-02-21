@@ -222,7 +222,7 @@ async function changePassword(req, res) {
             throw new Error("Password field is empty.")
         }
 
-        const newHashedPass = await retryWithExponentialDelay(() => bcrypt.hash(password, 10)); 
+        const newHashedPass = await retryWithExponentialDelay(() => bcrypt.hash(password, 10));
 
         const result = await retryWithExponentialDelay(() => flexibleModel.updateOne(
             {
@@ -516,6 +516,8 @@ async function insertCorrectionRequest(req, res) {
 
         const requestNumber = user.correctionRequest ? user.correctionRequest.length + 1 : 1; // Handle initial request
 
+        const status = "";
+
         const correctionRequestObj = {
             requestNumber,
             fullName,
@@ -523,6 +525,8 @@ async function insertCorrectionRequest(req, res) {
             subject,
             dateRecord,
             correctionDetails,
+            status
+            
         };
 
         const updatedDocument = await retryWithExponentialDelay(() => flexibleModel.findOneAndUpdate(
@@ -543,5 +547,96 @@ async function insertCorrectionRequest(req, res) {
     }
 }
 
+async function updatePersonalInfo (req, res) {
+    try {
+        // Destructure req.body
+        const { name, studentID, email, section } = req.body;
 
-module.exports = { connectToMongoDB, checkStudentIdAvailability, registerAccount, login, createResetPassDoc, deleteResetPassDocs, compareResetCode, changePassword, insertCorrectionRequest, getAllLogs };
+        // Validate required fields
+        if (!name || !studentID || !email || !section) {
+            return res.status(400).json({ message: "All fields are required." });
+        }
+
+        // Find student by studentID
+        const student = await retryWithExponentialDelay(() => flexibleModel.findOne({ studentID }));
+        if (!student) {
+            return res.status(404).json({ message: "Student not found." });
+        }
+
+        // Update fields
+        student.name = name;
+        student.email = email;
+        student.section = section;
+
+        // Save the updated document
+        await student.save();
+
+        return res.status(200).json({ message: "Student updated successfully.", student });
+    } catch (error) {
+        console.error(error);
+        return res.status(400).json({ message: "Internal Server Error." });
+    }
+};
+
+
+async function updatePassword (req, res) {
+    try {
+        // Destructure req.body
+        const { password, studentID } = req.body;
+
+        // Validate required fields
+        if (!password || !studentID) {
+            return res.status(400).json({ message: "All fields are required." });
+        }
+
+        
+
+        // Find student by studentID
+        const student = await flexibleModel.findOne({ studentID });
+        if (!student) {
+            return res.status(404).json({ message: "Student not found." });
+        }
+
+        // Hash new password
+        const newHashedPass = await retryWithExponentialDelay(() => bcrypt.hash(password, 10));
+
+        // Update password fields
+        student.password = newHashedPass;
+        student.confirmPassword = newHashedPass;
+
+        // Save the updated document
+        await student.save();
+
+        return res.status(200).json({ message: "Password updated successfully." });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Internal Server Error." });
+    }
+};
+
+
+async function deleteStudent  (req, res) {
+    try {
+        // Destructure req.body
+        const { studentID } = req.body;
+
+        // Validate required field
+        if (!studentID) {
+            return res.status(400).json({ message: "Student ID is required." });
+        }
+
+        // Find and delete student by studentID using retryWithExponentialDelay
+        const deletedStudent = await retryWithExponentialDelay(() => flexibleModel.findOneAndDelete({ studentID }));
+        if (!deletedStudent) {
+            return res.status(404).json({ message: "Student not found." });
+        }
+
+        return res.status(200).json({ message: "Student deleted successfully." });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Internal Server Error." });
+    }
+};
+
+
+module.exports = { connectToMongoDB, checkStudentIdAvailability, registerAccount, login, createResetPassDoc, deleteResetPassDocs, compareResetCode, changePassword, insertCorrectionRequest, getAllLogs, updatePersonalInfo, updatePassword, deleteStudent};

@@ -205,11 +205,7 @@ app.post('/pages/sign-in/login/change-password', async(req, res) => {
 })
 
 app.get('/pages/sign-in/change-pass/send/secret', (req, res) => {
-    if (!req.session || !req.session.studentID) {
-            
-            
-        return res.status(302).redirect("/pages/sign-in");
-    }
+    
     const secrets = {
         serviceID : process.env.EmailJsService,
         templateID : process.env.EmailJsTemplate,
@@ -219,12 +215,7 @@ app.get('/pages/sign-in/change-pass/send/secret', (req, res) => {
 })
 
 app.post('/send-correction-request', (req, res) => {
-    if (!req.session || !req.session.studentID) {
-        console.log("reached-here")
-            
-        return res.status(302).redirect("/pages/sign-in");
-    }
-    console.log("reached-here-2")
+    
     mongoFunctions.insertCorrectionRequest(req, res);
 })
 
@@ -236,6 +227,19 @@ app.get('/check-session', (req, res) => {
     res.json({ loggedIn: true, studentID: req.session.studentID });
 });
 
+
+app.post('/user/update-personal-info', (req, res) => {
+    mongoFunctions.updatePersonalInfo(req, res);
+})
+
+
+app.post('/user/change-password', (req, res) => {
+    mongoFunctions.updatePassword(req, res);
+})
+
+app.post('/user/delete-student', (req, res) => {
+    mongoFunctions.deleteStudent(req, res);
+})
 
 app.listen(3000, () => {
     console.log('Server running at http://localhost:3000');
