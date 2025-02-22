@@ -668,21 +668,24 @@ async function deleteStudent  (req, res) {
 
 async function findAndPushData(req, res) {
     try {
-        const { studentId, timeIn, timeOut, date, pcNumber } = req.body;
+        const { studentID, timeIn, timeOut, date, pcNumber } = req.body;
 
-        if (!studentId || !timeIn || !date || !pcNumber) {
+        
+
+        if (!studentID || !timeIn || !date || !pcNumber) {
             return res.status(400).json({ error: "Missing required fields" });
         }
 
         // Find the document by studentId
-        const document = await flexibleModel.findOne({ studentId });
+        const document = await flexibleModel.findOne({ studentID });
+        
 
         if (!document) {
             return res.status(404).json({ error: "Document not found" });
         }
 
         // Create log entry
-        const newLog = { timeIn, timeOut, date, pcNumber };
+        const newLog = { date, timeIn, timeOut, pcNumber };
 
         // Push new log entry to logs array
         document.logs.push(newLog);

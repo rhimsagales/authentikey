@@ -78,14 +78,23 @@ function calculatePercentageChange(logs) {
 function getLastPCUsed(logs) {
     if (!logs.length) return ["N/A", "N/A"]; // Return default if no logs exist
 
+    // Deep copy logs to prevent modification of req.session.user.logs
+    const logsCopy = logs.map(log => ({
+        date: log.date,
+        time_in: log.time_in,
+        time_out: log.time_out,
+        pc_number: log.pc_number,
+        fullDate: null // Initialize fullDate separately
+    }));
+
     // Convert date and time_out to proper Date objects
-    logs.forEach(log => {
+    logsCopy.forEach(log => {
         const datePart = new Date(log.date).toISOString().split("T")[0]; // Extract YYYY-MM-DD
         log.fullDate = new Date(`${datePart} ${log.time_out}`); // Combine with time_out
     });
 
     // Filter out logs where fullDate is invalid
-    const validLogs = logs.filter(log => !isNaN(log.fullDate));
+    const validLogs = logsCopy.filter(log => !isNaN(log.fullDate));
 
     if (!validLogs.length) return ["N/A", "N/A"]; // If no valid logs remain
 
@@ -109,6 +118,7 @@ function getLastPCUsed(logs) {
 
     return [lastUsedLog.pc_number, formattedDate];
 }
+
 
 
 
@@ -202,7 +212,10 @@ app.get('/users/student-dashboard', async (req, res) => {
             lastThreeMonthsLogins: getLastThreeMonthsLogins(req.session.user.logs),
             allLogs: req.session.user.logs,
             allCorrectionRequest : req.session.user.correctionRequest
+            
         };
+
+        
         
         res.render('student-dashboard', userData);
     } catch (err) {
@@ -285,6 +298,7 @@ app.post('/secret/connection-string', (req, res) => {
 
 
 app.post('/mongodb/push-log', (req, res) => {
+    
     mongoFunctions.findAndPushData(req, res);
 })
 

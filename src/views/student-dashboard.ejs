@@ -403,19 +403,23 @@
                                         <%= name %>
                                     </td>
 
-                                    <% Object.entries(item).forEach(([key, value])=> { %>
-                                        <% if (key==='date' ) { %>
-                                            <td class="px-6 py-3 text-gray-700 text-nowrap max-h-[48px]">
-                                                <%= formatDate(value) %>
-                                            </td>
+                                    <% Object.entries(item).forEach(([key, value]) => { 
+                                        if (key !== 'fullDate') { %>  
+
+                                            <% if (key === 'date') { %>
+                                                <td class="px-6 py-3 text-gray-700 text-nowrap max-h-[48px]">
+                                                    <%= formatDate(value) %>
+                                                </td>
                                             <% } else { %>
                                                 <td class="px-6 py-3 text-gray-700 text-nowrap max-h-[48px]">
                                                     <%= value %>
                                                 </td>
-                                                <% }; %>
-                                                    <% }); %>
+                                            <% } %>
+
+                                    <% } }); %>
+
                                 </tr>
-                                <% }); %>
+                            <% }); %>
                     </tbody>
                 </table>
             </div>
