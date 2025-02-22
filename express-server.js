@@ -76,16 +76,43 @@ function calculatePercentageChange(logs) {
 }
 
 function getLastPCUsed(logs) {
-    if (logs.length === 0) return ["N/A", "N/A"]; // Return default values if no logs exist
+    if (!logs.length) return ["N/A", "N/A"]; // Return default if no logs exist
 
-    // Sort logs by date and time_in to get the most recent entry
-    logs.sort((a, b) => new Date(b.date + ' ' + b.time_in) - new Date(a.date + ' ' + a.time_in));
+    // Convert date and time_out to proper Date objects
+    logs.forEach(log => {
+        const datePart = new Date(log.date).toISOString().split("T")[0]; // Extract YYYY-MM-DD
+        log.fullDate = new Date(`${datePart} ${log.time_out}`); // Combine with time_out
+    });
 
-    // Format the date as "Feb 15, 2025"
-    const lastUsedDate = new Date(logs[0].date).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" });
+    // Filter out logs where fullDate is invalid
+    const validLogs = logs.filter(log => !isNaN(log.fullDate));
 
-    return [logs[0].pc_number, lastUsedDate]; // Return PC number and formatted date
+    if (!validLogs.length) return ["N/A", "N/A"]; // If no valid logs remain
+
+    // Find the most recent date
+    const latestDate = validLogs.reduce((max, log) => 
+        new Date(log.date) > max ? new Date(log.date) : max, 
+        new Date(validLogs[0].date)
+    );
+
+    // Filter logs that match the latest date
+    const recentLogs = validLogs.filter(log => new Date(log.date).toDateString() === latestDate.toDateString());
+
+    // Find the log with the latest time_out
+    const lastUsedLog = recentLogs.reduce((max, log) => 
+        log.fullDate > max.fullDate ? log : max, 
+        recentLogs[0]
+    );
+
+    // Format date as "Feb 15, 2025"
+    const formattedDate = lastUsedLog.fullDate.toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" });
+
+    return [lastUsedLog.pc_number, formattedDate];
 }
+
+
+
+
 
 
 app.set("view engine", "ejs");
@@ -160,6 +187,7 @@ app.get('/users/student-dashboard', async (req, res) => {
         
 
         const lastUsedPcDate = getLastPCUsed(req.session.user.logs);
+        
         const userData = {
             name: req.session.user.name,
             studentID: req.session.user.studentID,
@@ -246,6 +274,18 @@ app.post('/user/change-password', (req, res) => {
 
 app.post('/user/delete-student', (req, res) => {
     mongoFunctions.deleteStudent(req, res);
+})
+
+
+app.post('/secret/connection-string', (req, res) => {
+    res.status(200).json({
+        connectionString : process.env.MongoURI
+    })
+});
+
+
+app.post('/mongodb/push-log', (req, res) => {
+    mongoFunctions.findAndPushData(req, res);
 })
 
 app.listen(3000, () => {

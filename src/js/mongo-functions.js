@@ -666,4 +666,43 @@ async function deleteStudent  (req, res) {
 };
 
 
-module.exports = { connectToMongoDB, checkStudentIdAvailability, registerAccount, login, createResetPassDoc, deleteResetPassDocs, compareResetCode, changePassword, insertCorrectionRequest, getAllLogs, updatePersonalInfo, updatePassword, deleteStudent};
+async function findAndPushData(req, res) {
+    try {
+        const { studentId, timeIn, timeOut, date, pcNumber } = req.body;
+
+        if (!studentId || !timeIn || !date || !pcNumber) {
+            return res.status(400).json({ error: "Missing required fields" });
+        }
+
+        // Find the document by studentId
+        const document = await flexibleModel.findOne({ studentId });
+
+        if (!document) {
+            return res.status(404).json({ error: "Document not found" });
+        }
+
+        // Create log entry
+        const newLog = { timeIn, timeOut, date, pcNumber };
+
+        // Push new log entry to logs array
+        document.logs.push(newLog);
+
+        // Save the updated document
+        await document.save();
+
+        res.status(200).json({ message: "Log added successfully", updatedDocument: document });
+    } catch (error) {
+        console.error("Error updating document:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+}
+
+
+
+
+
+
+
+
+
+module.exports = { connectToMongoDB, checkStudentIdAvailability, registerAccount, login, createResetPassDoc, deleteResetPassDocs, compareResetCode, changePassword, insertCorrectionRequest, getAllLogs, updatePersonalInfo, updatePassword, deleteStudent, findAndPushData};
