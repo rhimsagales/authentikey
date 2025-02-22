@@ -105,11 +105,38 @@ async function retryMongoConnection(uri, retries = 5, delay = 1000) {
     }
 }
 
+function handleMongoDisconnection(MONGO_URI, maxRetries = 10, delay = 5000) {
+    let retryCount = 0;
+
+    mongoose.connection.removeAllListeners('disconnected'); // Prevent duplicate listeners
+    mongoose.connection.on('disconnected', async () => {
+        if (retryCount >= maxRetries) {
+            console.error('Max reconnection attempts reached. Exiting...');
+            process.exit(1);
+        }
+
+        console.warn(`MongoDB disconnected! Attempting to reconnect... (Attempt ${retryCount + 1}/${maxRetries})`);
+        retryCount++;
+
+        await new Promise(resolve => setTimeout(resolve, delay));
+        try {
+            await mongoose.connect(MONGO_URI);
+            console.log('Reconnected to MongoDB');
+            retryCount = 0;
+        } catch (err) {
+            console.error('Reconnection failed:', err.message);
+        }
+    });
+}
+
+
+
 
 
 async function connectToMongoDB() {
     try {
-        await retryMongoConnection(mongoURI); 
+        await retryMongoConnection(mongoURI);
+        handleMongoDisconnection(mongoURI);
     } catch (err) {
         console.error('Failed to connect to MongoDB after retries:');
         process.exit(1); 
