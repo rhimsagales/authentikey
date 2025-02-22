@@ -5,6 +5,7 @@ const cors = require('cors');
 const path = require('path');
 const app = express();
 const session = require("express-session");
+const MongoStore = require('connect-mongo');
 
 function getLastThreeMonthsLogins(data) {
     const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -92,10 +93,15 @@ app.use(cors());
 app.use(express.json());
 app.use(
     session({
-        secret: "your_secret_key", 
+        secret: process.env.SessionSecret, 
         resave: false,
-        saveUninitialized: true,
-        cookie: { secure: false }, 
+        saveUninitialized: false,
+        cookie: { 
+            secure: false,
+            httpOnly: true
+
+        },
+        store: MongoStore.create({ mongoUrl: process.env.MongoURI })
     })
 );
 
