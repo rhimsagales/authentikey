@@ -225,7 +225,7 @@ function getLastPCUsed(logs) {
     };
 
     // Sort logs by date (newest to oldest), using UTC+8 time
-    const sortedLogs = logs.sort((a, b) => {
+    const sortedLogs = [...logs].sort((a, b) => {
         return convertToUTC8(b.date) - convertToUTC8(a.date);
     });
 
@@ -247,28 +247,16 @@ function getLastPCUsed(logs) {
 
     if (currentDateGroup.length) groupedLogs.push(currentDateGroup); // Push the last group
 
-    // Now, check the most recent group (which is the first group in groupedLogs)
-    const latestGroup = groupedLogs[0];
+    // Now, for each group, find the most recent log
+    const latestLog = groupedLogs[0].reduce((max, log) => {
+        const currentLogTime = convertToUTC8(log.date).getTime(); // Get the timestamp of the current log
+        const maxLogTime = convertToUTC8(max.date).getTime(); // Get the timestamp of the max log
 
-    // If there are multiple logs for the same day, find the one with the latest timeOut
-    let lastUsedLog = latestGroup.reduce((max, log) => {
-        // Assuming timeOut is in 12-hour format like '07:25 PM'
-        const [time, period] = log.timeOut.split(" "); // Extract time and AM/PM
-        let [hours, minutes] = time.split(":").map(Number);
-
-        // Convert 12-hour format to 24-hour format
-        if (period === "PM" && hours !== 12) hours += 12;
-        if (period === "AM" && hours === 12) hours = 0;
-
-        const timeInMinutes = hours * 60 + minutes; // Convert to minutes since midnight
-        const maxTimeInMinutes = max.timeOutMinutes || 0;
-        log.timeOutMinutes = timeInMinutes; // Save time in minutes
-
-        return timeInMinutes > maxTimeInMinutes ? log : max;
+        return currentLogTime > maxLogTime ? log : max; // Return the log with the latest timestamp
     });
 
     // Adjust formattedDate for UTC+8 and get correct formatted date string
-    const formattedDate = convertToUTC8(lastUsedLog.date);
+    const formattedDate = convertToUTC8(latestLog.date);
 
     // Explicitly use the Philippines time zone (UTC+8) and format the adjusted date
     const adjustedFormattedDate = formattedDate.toLocaleDateString("en-US", {
@@ -278,8 +266,23 @@ function getLastPCUsed(logs) {
         year: "numeric"
     });
 
-    return [lastUsedLog.pcNumber, adjustedFormattedDate];
+    return [latestLog.pcNumber, adjustedFormattedDate];
 }
+
+
+
+function sortLogsByDate(logs) {
+    return logs.sort((a, b) => {
+        return new Date(b.date) - new Date(a.date); // Sort by date, newest first
+    });
+}
+
+
+
+
+
+
+
 
 
 
@@ -392,12 +395,12 @@ app.get('/users/student-dashboard', async (req, res) => {
             lastUsedDate: lastUsedPcDate[1],
             correctionRequestCount: req.session.user.correctionRequest.length,
             lastThreeMonthsLogins: getLastThreeMonthsLogins(req.session.user.logs),
-            allLogs: req.session.user.logs,
+            allLogs: sortLogsByDate(req.session.user.logs),
             allCorrectionRequest : req.session.user.correctionRequest
             
         };
 
-         
+        console.log(req.session.user.logs)
         
         res.render('student-dashboard', userData);
     } catch (err) {
