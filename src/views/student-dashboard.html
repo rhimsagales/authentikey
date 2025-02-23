@@ -398,12 +398,19 @@
                             if (isNaN(date)) {
                                 return "Invalid Date"; 
                             }
-                            return date.toUTCString().split(" ").slice(1, 4).join(" "); // "Feb 24 2025"
+
+                            // Adjust for UTC-8 (convert from UTC to UTC-8) and then to Philippines Time (UTC+8)
+                            const adjustedDate = new Date(date);
+                            adjustedDate.setHours(adjustedDate.getHours() + 8); // Convert to UTC+8 (Philippines timezone)
+
+                            // Format the date string to "Month Day Year" (e.g., "Feb 24 2025")
+                            return adjustedDate.toUTCString().split(" ").slice(1, 4).join(" ");
                         } %>
 
 
+
                             <% allLogs.forEach(item=> { %>
-                                <tr class="odd:bg-purple-50 h-12 hover">
+                                <tr class="odd:bg-purple-50 h-12 max-h-12 hover">
                                     <td class="px-6 py-3 font-medium text-gray-900 text-nowrap max-h-[48px] h-12">
                                         <%= name %>
                                     </td>
@@ -671,7 +678,7 @@
             </div>
         </main>
         <main
-            class="view-pending w-[95%] max-w-[500px] aspect-square max-h-[500px] bg-white rounded-md px-4 py-14 relative hidden flex-col items-center justify-center gap-3">
+            class="view-pending w-[95%] max-w-[500px] h-fit bg-white rounded-md px-4 py-14 relative hidden flex-col items-center justify-center gap-3">
             <button class="btn btn-ghost btn-sm rounded-full px-2 absolute right-2 top-2 close-modal">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="size-4">
