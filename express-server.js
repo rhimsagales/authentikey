@@ -22,32 +22,115 @@ function getLastThreeMonthsLogins(data) {
 }
 
 function getLoginsThisWeek(logs) {
-    if (logs.length === 0) return "0";
+    if (logs.length === 0) return 0;
 
     const now = new Date();
-    const startOfWeek = new Date(now);
-    startOfWeek.setDate(now.getDate() - now.getDay()); // Uses local time
-    startOfWeek.setHours(0, 0, 0, 0); // Reset to start of the day
+    now.setUTCHours(now.getUTCHours() + 8); // Adjust to Philippines time (UTC+8)
+    console.log("Current Date (PH Time):", now.toISOString());
 
-    return logs.filter(log => new Date(log.date) >= startOfWeek).length;
+    const dayOfWeek = now.getUTCDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+    const daysSinceMonday = (dayOfWeek === 0 ? 6 : dayOfWeek - 1); // Adjust to get Monday as start
+
+    // Start of the current week (Monday, 12:00 AM PH Time)
+    const startOfWeek = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - daysSinceMonday));
+    startOfWeek.setUTCHours(0 - 8, 0, 0, 0); // Convert back to UTC
+
+    // End of the current week (Sunday, 11:59:59 PM PH Time)
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setUTCDate(startOfWeek.getUTCDate() + 6);
+    endOfWeek.setUTCHours(23 - 8, 59, 59, 999); // Convert back to UTC
+
+    console.log("Start of This Week (PH Time converted to UTC):", startOfWeek.toISOString());
+    console.log("End of This Week (PH Time converted to UTC):", endOfWeek.toISOString());
+
+    return logs.filter(log => {
+        const logDate = new Date(log.date);
+        const isInRange = logDate >= startOfWeek && logDate <= endOfWeek;
+        // console.log(`Log Date: ${logDate.toISOString()} | In range? ${isInRange}`);
+        return isInRange;
+    }).length;
 }
+
+
+
 
 
 
 
 
 function getLoginsLastWeek(logs) {
-    if (logs.length === 0) return "0";
+    if (logs.length === 0) return 0;
+
+    // ✅ Step 1: Get the current time in PH Time (UTC+8)
     const now = new Date();
-    const startOfThisWeek = new Date(now);
-    startOfThisWeek.setDate(now.getDate() - now.getDay()); // Sunday of this week
-    startOfThisWeek.setHours(0, 0, 0, 0);
+    const nowPH = new Date(now.getTime() + (8 * 60 * 60 * 1000)); // Convert to PH Time
 
-    const startOfLastWeek = new Date(startOfThisWeek);
-    startOfLastWeek.setDate(startOfLastWeek.getDate() - 7); // Sunday of last week
+    console.log("Current Date (PH Time):", nowPH.toISOString());
 
-    return logs.filter(log => new Date(log.date) >= startOfLastWeek && new Date(log.date) < startOfThisWeek).length;
+    // ✅ Step 2: Find the start of the current week (Monday 00:00:00 PH Time)
+    const dayOfWeek = nowPH.getUTCDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+    const daysSinceMonday = (dayOfWeek === 0 ? 6 : dayOfWeek - 1);
+
+    const startOfThisWeekPH = new Date(Date.UTC(
+        nowPH.getUTCFullYear(),
+        nowPH.getUTCMonth(),
+        nowPH.getUTCDate() - daysSinceMonday
+    ));
+    startOfThisWeekPH.setUTCHours(0, 0, 0, 0); // Set to start of day (PH Time)
+
+    // ✅ Step 3: Get start and end of last week (PH Time)
+    const startOfLastWeekPH = new Date(startOfThisWeekPH);
+    startOfLastWeekPH.setUTCDate(startOfThisWeekPH.getUTCDate() - 7);
+    startOfLastWeekPH.setUTCHours(0, 0, 0, 0);
+
+    const endOfLastWeekPH = new Date(startOfLastWeekPH);
+    endOfLastWeekPH.setUTCDate(startOfLastWeekPH.getUTCDate() + 6);
+    endOfLastWeekPH.setUTCHours(23, 59, 59, 999);
+
+    console.log("Start of Last Week (PH Time):", startOfLastWeekPH.toISOString());
+    console.log("End of Last Week (PH Time):", endOfLastWeekPH.toISOString());
+
+    // ✅ Step 4: Count logs within last week's range (Comparing in PH Time)
+    let count = 0;
+
+    logs.forEach(log => {
+        const logDateUTC = new Date(log.date);
+        const logDatePH = new Date(logDateUTC.getTime() + (8 * 60 * 60 * 1000)); // Convert to PH Time
+        const isInRange = logDatePH >= startOfLastWeekPH && logDatePH <= endOfLastWeekPH;
+
+        console.log(`Log Date (PH Time): ${logDatePH.toISOString()} | In range? ${isInRange}`);
+
+        if (isInRange) count++;
+    });
+
+    console.log(`Total Logs Found in Range: ${count}`);
+    return count;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 function calculatePercentageChange(logs) {
@@ -83,46 +166,51 @@ function calculatePercentageChange(logs) {
 function getLastPCUsed(logs) {
     if (!logs.length) return ["N/A", "N/A"]; // Return default if no logs exist
 
-    // Deep copy logs to prevent modification of req.session.user.logs
+    // Create a copy with correct property names
     const logsCopy = logs.map(log => ({
-        date: log.date,
-        time_in: log.time_in,
-        time_out: log.time_out,
-        pc_number: log.pc_number,
-        fullDate: null // Initialize fullDate separately
+        date: new Date(log.date), // Convert date to Date object
+        timeIn: log.timeIn, 
+        timeOut: log.timeOut,
+        pcNumber: log.pcNumber,
+        fullDate: null
     }));
 
-    // Convert date and time_out to proper Date objects
+    // Convert timeOut into a valid Date object
     logsCopy.forEach(log => {
-        const datePart = new Date(log.date).toISOString().split("T")[0]; // Extract YYYY-MM-DD
-        log.fullDate = new Date(`${datePart} ${log.time_out}`); // Combine with time_out
+        if (!log.timeOut) return; // Skip if timeOut is missing
+
+        const dateObj = new Date(log.date);
+        const [time, period] = log.timeOut.split(" "); // Extract time and AM/PM
+        let [hours, minutes] = time.split(":").map(Number);
+
+        // Convert 12-hour format to 24-hour format
+        if (period === "PM" && hours !== 12) hours += 12;
+        if (period === "AM" && hours === 12) hours = 0;
+
+        // Set correct time to date
+        dateObj.setUTCHours(hours, minutes, 0, 0);
+        log.fullDate = dateObj;
     });
 
-    // Filter out logs where fullDate is invalid
-    const validLogs = logsCopy.filter(log => !isNaN(log.fullDate));
+    // Filter out invalid logs
+    const validLogs = logsCopy.filter(log => log.fullDate && !isNaN(log.fullDate));
 
-    if (!validLogs.length) return ["N/A", "N/A"]; // If no valid logs remain
+    if (!validLogs.length) return ["N/A", "N/A"];
 
-    // Find the most recent date
-    const latestDate = validLogs.reduce((max, log) => 
-        new Date(log.date) > max ? new Date(log.date) : max, 
-        new Date(validLogs[0].date)
-    );
-
-    // Filter logs that match the latest date
-    const recentLogs = validLogs.filter(log => new Date(log.date).toDateString() === latestDate.toDateString());
-
-    // Find the log with the latest time_out
-    const lastUsedLog = recentLogs.reduce((max, log) => 
+    // Find the log with the latest fullDate
+    const lastUsedLog = validLogs.reduce((max, log) => 
         log.fullDate > max.fullDate ? log : max, 
-        recentLogs[0]
+        validLogs[0]
     );
 
-    // Format date as "Feb 15, 2025"
-    const formattedDate = lastUsedLog.fullDate.toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" });
+    // Fix date formatting to prevent timezone shifts
+    const formattedDate = lastUsedLog.fullDate.toUTCString().split(" ").slice(1, 4).join(" "); // Outputs "Feb 24 2025"
 
-    return [lastUsedLog.pc_number, formattedDate];
+    return [lastUsedLog.pcNumber, formattedDate];
 }
+
+
+
 
 
 
@@ -189,7 +277,7 @@ app.get('/pages/:name', (req, res) => {
 });
 
 app.get('/users/student-dashboard', async (req, res) => {
-    console.log(getLoginsThisWeek(req.session.user.logs))
+    // console.log(getLoginsThisWeek(req.session.user.logs))
 
     try {
         
