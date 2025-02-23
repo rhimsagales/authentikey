@@ -23,11 +23,16 @@ function getLastThreeMonthsLogins(data) {
 
 function getLoginsThisWeek(logs) {
     if (logs.length === 0) return "0";
+
     const now = new Date();
-    const startOfWeek = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - now.getUTCDay()));
-    
+    const startOfWeek = new Date(now);
+    startOfWeek.setDate(now.getDate() - now.getDay()); // Uses local time
+    startOfWeek.setHours(0, 0, 0, 0); // Reset to start of the day
+
     return logs.filter(log => new Date(log.date) >= startOfWeek).length;
 }
+
+
 
 
 
@@ -184,6 +189,7 @@ app.get('/pages/:name', (req, res) => {
 });
 
 app.get('/users/student-dashboard', async (req, res) => {
+    console.log(getLoginsThisWeek(req.session.user.logs))
 
     try {
         
@@ -215,7 +221,7 @@ app.get('/users/student-dashboard', async (req, res) => {
             
         };
 
-        
+         
         
         res.render('student-dashboard', userData);
     } catch (err) {

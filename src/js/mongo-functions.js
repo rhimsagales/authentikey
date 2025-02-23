@@ -670,10 +670,12 @@ async function findAndPushData(req, res) {
     try {
         const { studentID, timeIn, timeOut, date, pcNumber } = req.body;
 
-        
+        console.log("Raw request body:", req.body);
 
         if (!studentID || !timeIn || !date || !pcNumber) {
-            return res.status(400).json({ error: "Missing required fields" });
+            return res.status(400).json({ error: "Missing required fields",
+                body : req.body
+             });
         }
 
         // Find the document by studentId
