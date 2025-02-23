@@ -393,13 +393,18 @@
                     </thead>
                     <tbody class="divide-y divide-gray-200">
 
-                        <% function formatDate(dateString) { const date=new Date(dateString); if (isNaN(date)) {
-                            return "Invalid Date" ; } const options={ month: "short" , day: "numeric" , year: "numeric"
-                            }; return date.toLocaleDateString("en-US", options); } %>
+                        <% function formatDate(dateString) { 
+                            const date = new Date(dateString); 
+                            if (isNaN(date)) {
+                                return "Invalid Date"; 
+                            }
+                            return date.toUTCString().split(" ").slice(1, 4).join(" "); // "Feb 24 2025"
+                        } %>
+
 
                             <% allLogs.forEach(item=> { %>
                                 <tr class="odd:bg-purple-50 h-12 hover">
-                                    <td class="px-6 py-3 font-medium text-gray-900 text-nowrap max-h-[48px]">
+                                    <td class="px-6 py-3 font-medium text-gray-900 text-nowrap max-h-[48px] h-12">
                                         <%= name %>
                                     </td>
 

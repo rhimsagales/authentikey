@@ -687,7 +687,7 @@ async function findAndPushData(req, res) {
         }
 
         // Create log entry
-        const newLog = { date, timeIn, timeOut, pcNumber };
+        const newLog = { date : new Date(date), timeIn, timeOut, pcNumber };
 
         // Push new log entry to logs array
         document.logs.push(newLog);
