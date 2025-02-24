@@ -363,6 +363,13 @@ app.get('/', (req, res) => {
 app.get('/pages/:name', (req, res) => {
     const pageName = req.params.name; 
 
+    if(pageName == "sign-in" || pageName == "sign-up") {
+        if (req.session.studentID) {
+            
+            
+            return res.redirect("/users/student-dashboard");
+        }
+    }
     
     res.sendFile(path.join(__dirname, `src/pages/${pageName}.html`));
 });
