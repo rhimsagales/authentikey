@@ -349,8 +349,8 @@ app.get('/user/logout', (req, res) => {
             return res.status(500).end();
         }
 
-        res.clearCookie("connect.sid"); // Clear session cookie
-        res.redirect("/pages/sign-in"); // Redirect to sign-in page
+        res.clearCookie("connect.sid");
+        res.redirect("/pages/sign-in"); 
     });
 });
 
@@ -400,7 +400,7 @@ app.get('/users/student-dashboard', async (req, res) => {
             
         };
 
-        console.log(req.session.user.logs)
+        // console.log(req.session.user.logs)
         
         res.render('student-dashboard', userData);
     } catch (err) {

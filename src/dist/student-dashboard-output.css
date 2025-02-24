@@ -4898,10 +4898,6 @@ details.collapse summary::-webkit-details-marker {
   max-height: 48px;
 }
 
-.max-h-\[500px\] {
-  max-height: 500px;
-}
-
 .max-h-\[600px\] {
   max-height: 600px;
 }
@@ -6737,6 +6733,10 @@ caption {
 
   .sm\:flex {
     display: flex;
+  }
+
+  .sm\:inline-flex {
+    display: inline-flex;
   }
 
   .sm\:w-1\/2 {
