@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.admin-signin-body {
+    @apply w-full h-auto min-h-svh bg-gray-100 grid place-items-center font-inter -z-20 relative text-gray-800;
+
+}
+
+.admin-signin-body::before {
+    @apply w-full h-3/5 absolute top-0 left-0 -z-10 rounded-b-2xl;
+}
+
+.admin-signin-form {
+    @apply w-[310px] sm:w-[400px] aspect-[4/6] sm:aspect-[4/5] bg-white shadow-lg rounded-lg px-2 sm:px-4 py-8 flex flex-col items-center justify-around sm:justify-between;
+}
+
+.admin-signin-logo-container {
+    @apply w-full h-[25%] sm:h-[30%] flex items-start justify-center;
+}
+
+input {
+    @apply text-sm;
+}
+
+.input-field-error-text {
+    @apply absolute right-0 top-[-20px] sm:top-[-22px] text-error text-xs sm:text-sm italic font-semibold;
+}
+
+
+.admin-signin-input-fields-label-container {
+    @apply w-full h-[50%] sm:h-[60%] flex flex-col justify-between sm:justify-around;
+}
+
+.admin-signin-form-header {
+    @apply w-full flex flex-col gap-2;
+}
+
+.admin-signin-form-header > h1 {
+    @apply text-3xl sm:text-4xl font-semibold font-inter text-nowrap break-all;
+}
+
+.admin-signin-form-header > span {
+    @apply text-sm sm:text-base text-gray-700;
+}
+
+.admin-sign-custom-input-label-field {
+    @apply input input-bordered border-gray-400 focus-within:input-primary flex items-center gap-2 bg-transparent relative;
+}
+
+.admin-signin-login-btn-container {
+    @apply w-full h-auto flex items-center;
+}
