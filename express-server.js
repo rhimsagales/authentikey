@@ -327,7 +327,7 @@ app.use(
 );
 
 app.use((req, res, next) => {
-    if (req.path.endsWith('.html')) {
+    if (req.path.endsWith('.html') || req.path.endsWith('.ejs')) {
         return res.status(403).send('Access Denied');
     }
     next(); 
@@ -490,7 +490,11 @@ app.post('/secret/connection-string', (req, res) => {
 
 
 app.post('/mongodb/push-log', (req, res) => {
-    
+    if(req.body.password != "authentikey-valid") {
+        res.status(400).json({
+            message : "Wrong Password"
+        })
+    }
     mongoFunctions.findAndPushData(req, res);
 })
 

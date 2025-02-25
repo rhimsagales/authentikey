@@ -261,7 +261,7 @@ registerInputs.forEach(input => {
 });
 // && !validateEmail(input.value)
 
-function isInputsFilled(array) {
+export function isInputsFilled(array) {
     for (const input of array) {
         if (input.value === "") {
             return false;
