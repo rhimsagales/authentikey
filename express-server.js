@@ -490,7 +490,7 @@ app.post('/secret/connection-string', (req, res) => {
 
 
 app.post('/mongodb/push-log', (req, res) => {
-    if(req.body.password != "authentikey-valid") {
+    if(req.body.password != process.env.MongoPushPass) {
         return res.status(400).json({
             message : "Wrong Password"
         })
