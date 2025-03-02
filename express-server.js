@@ -30,7 +30,6 @@ function getLastThreeMonthsLogins(data) {
 }
 
 
-
 function getLoginsThisWeek(logs) {
     if (logs.length === 0) return 0;
 
@@ -74,17 +73,6 @@ function getLoginsThisWeek(logs) {
     // console.log(`Total logins this week: ${count}`);
     return count;
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 function getLoginsLastWeek(logs) {

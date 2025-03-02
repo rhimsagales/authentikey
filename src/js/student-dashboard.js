@@ -219,6 +219,14 @@ myAccountTwo.addEventListener('click', (event) => {
 })
 
 
+document.addEventListener('click', (event) => {
+    if (!sidebar.contains(event.target) && !burgerBtn.contains(event.target)) {
+        sidebar.classList.toggle('expand');
+        burgerBtn.classList.toggle('show-sidebar');
+    }
+});
+
+
 function filterTable(searchInput, table) {
 
     searchInput.addEventListener('input', function() {
