@@ -4380,6 +4380,10 @@ details.collapse summary::-webkit-details-marker {
   pointer-events: none;
 }
 
+.pointer-events-auto {
+  pointer-events: auto;
+}
+
 .visible {
   visibility: visible;
 }
@@ -4423,6 +4427,10 @@ details.collapse summary::-webkit-details-marker {
 
 .bottom-\[-100px\] {
   bottom: -100px;
+}
+
+.bottom-\[-170px\] {
+  bottom: -170px;
 }
 
 .left-0 {
@@ -4574,6 +4582,11 @@ details.collapse summary::-webkit-details-marker {
   margin-right: auto;
 }
 
+.my-1 {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
 .my-12 {
   margin-top: 3rem;
   margin-bottom: 3rem;
@@ -4608,6 +4621,10 @@ details.collapse summary::-webkit-details-marker {
 
 .mb-4 {
   margin-bottom: 1rem;
+}
+
+.mb-6 {
+  margin-bottom: 1.5rem;
 }
 
 .mb-8 {
@@ -4656,10 +4673,6 @@ details.collapse summary::-webkit-details-marker {
 
 .mt-6 {
   margin-top: 1.5rem;
-}
-
-.mb-6 {
-  margin-bottom: 1.5rem;
 }
 
 .box-border {
@@ -5037,6 +5050,10 @@ details.collapse summary::-webkit-details-marker {
   width: 25%;
 }
 
+.w-10 {
+  width: 2.5rem;
+}
+
 .w-12 {
   width: 3rem;
 }
@@ -5137,6 +5154,10 @@ details.collapse summary::-webkit-details-marker {
   width: 69.04231625835189%;
 }
 
+.w-\[700px\] {
+  width: 700px;
+}
+
 .w-\[95\%\] {
   width: 95%;
 }
@@ -5154,12 +5175,12 @@ details.collapse summary::-webkit-details-marker {
   width: 100%;
 }
 
-.w-\[700px\] {
-  width: 700px;
-}
-
 .min-w-0 {
   min-width: 0px;
+}
+
+.min-w-4 {
+  min-width: 1rem;
 }
 
 .min-w-\[150px\] {
@@ -5382,6 +5403,10 @@ details.collapse summary::-webkit-details-marker {
   animation: slide-in-up 1s ease-in-out 0.25s 1;
 }
 
+.cursor-not-allowed {
+  cursor: not-allowed;
+}
+
 .cursor-pointer {
   cursor: pointer;
 }
@@ -5504,6 +5529,10 @@ details.collapse summary::-webkit-details-marker {
 .gap-x-8 {
   -moz-column-gap: 2rem;
        column-gap: 2rem;
+}
+
+.gap-y-2 {
+  row-gap: 0.5rem;
 }
 
 .gap-y-6 {
@@ -5987,6 +6016,10 @@ details.collapse summary::-webkit-details-marker {
   stroke: #fff;
 }
 
+.stroke-2 {
+  stroke-width: 2;
+}
+
 .object-contain {
   -o-object-fit: contain;
      object-fit: contain;
@@ -6019,6 +6052,14 @@ details.collapse summary::-webkit-details-marker {
   padding: 2.5rem;
 }
 
+.p-12 {
+  padding: 3rem;
+}
+
+.p-16 {
+  padding: 4rem;
+}
+
 .p-2 {
   padding: 0.5rem;
 }
@@ -6037,14 +6078,6 @@ details.collapse summary::-webkit-details-marker {
 
 .p-px {
   padding: 1px;
-}
-
-.p-12 {
-  padding: 3rem;
-}
-
-.p-16 {
-  padding: 4rem;
 }
 
 .px-0 {
@@ -6261,12 +6294,20 @@ details.collapse summary::-webkit-details-marker {
   text-align: right;
 }
 
+.font-anton {
+  font-family: Anton, sans-serif;
+}
+
 .font-chickle {
   font-family: Chicle, serif;
 }
 
 .font-inter {
   font-family: Inter, serif;
+}
+
+.font-monomakh {
+  font-family: Monomakh, system-ui;
 }
 
 .font-oi {
@@ -6300,6 +6341,10 @@ details.collapse summary::-webkit-details-marker {
 .text-9xl {
   font-size: 8rem;
   line-height: 1;
+}
+
+.text-\[11px\] {
+  font-size: 11px;
 }
 
 .text-\[12px\] {
@@ -6339,10 +6384,6 @@ details.collapse summary::-webkit-details-marker {
   line-height: 1rem;
 }
 
-.text-\[10px\] {
-  font-size: 10px;
-}
-
 .font-black {
   font-weight: 900;
 }
@@ -6355,16 +6396,16 @@ details.collapse summary::-webkit-details-marker {
   font-weight: 500;
 }
 
+.font-normal {
+  font-weight: 400;
+}
+
 .font-semibold {
   font-weight: 600;
 }
 
 .font-thin {
   font-weight: 100;
-}
-
-.font-normal {
-  font-weight: 400;
 }
 
 .uppercase {
@@ -6477,6 +6518,11 @@ details.collapse summary::-webkit-details-marker {
   color: rgb(79 70 229 / var(--tw-text-opacity, 1));
 }
 
+.text-info {
+  --tw-text-opacity: 1;
+  color: var(--fallback-in,oklch(var(--in)/var(--tw-text-opacity, 1)));
+}
+
 .text-neutral-content {
   --tw-text-opacity: 1;
   color: var(--fallback-nc,oklch(var(--nc)/var(--tw-text-opacity, 1)));
@@ -6520,11 +6566,6 @@ details.collapse summary::-webkit-details-marker {
 .text-yellow-600 {
   --tw-text-opacity: 1;
   color: rgb(202 138 4 / var(--tw-text-opacity, 1));
-}
-
-.text-info {
-  --tw-text-opacity: 1;
-  color: var(--fallback-in,oklch(var(--in)/var(--tw-text-opacity, 1)));
 }
 
 .underline {
@@ -6805,6 +6846,14 @@ caption {
     background-color: var(--fallback-b3,oklch(var(--b3)/var(--tw-bg-opacity)));
   }
 
+  
+.menu li > .disabled\:active:disabled*:not(ul, .menu-title, details, .btn) {
+    --tw-bg-opacity: 1;
+    background-color: var(--fallback-n,oklch(var(--n)/var(--tw-bg-opacity)));
+    --tw-text-opacity: 1;
+    color: var(--fallback-nc,oklch(var(--nc)/var(--tw-text-opacity)));
+  }
+
   .table .disabled\:hover:disabledtr:hover,
   .table .disabled\:hover:disabledtr:nth-child(even):hover {
     --tw-bg-opacity: 1;
@@ -6816,6 +6865,48 @@ caption {
     --tw-bg-opacity: 1;
     background-color: var(--fallback-b3,oklch(var(--b3)/var(--tw-bg-opacity)));
   }
+}
+
+.btm-nav > *:where(.disabled\:active:disabled) {
+  border-top-width: 2px;
+  --tw-bg-opacity: 1;
+  background-color: var(--fallback-b1,oklch(var(--b1)/var(--tw-bg-opacity)));
+}
+
+
+.menu li > .disabled\:active:disabled*:not(ul, .menu-title, details, .btn) {
+  --tw-bg-opacity: 1;
+  background-color: var(--fallback-n,oklch(var(--n)/var(--tw-bg-opacity)));
+  --tw-text-opacity: 1;
+  color: var(--fallback-nc,oklch(var(--nc)/var(--tw-text-opacity)));
+}
+
+.table .disabled\:active:disabledtr,
+  .table .disabled\:active:disabledtr:nth-child(even) {
+  --tw-bg-opacity: 1;
+  background-color: var(--fallback-b2,oklch(var(--b2)/var(--tw-bg-opacity)));
+}
+
+.table-zebra .disabled\:active:disabledtr,
+    .table-zebra .disabled\:active:disabledtr:nth-child(even) {
+  --tw-bg-opacity: 1;
+  background-color: var(--fallback-b3,oklch(var(--b3)/var(--tw-bg-opacity)));
+}
+
+.btm-nav-xs > *:where(.disabled\:active:disabled) {
+  border-top-width: 1px;
+}
+
+.btm-nav-sm > *:where(.disabled\:active:disabled) {
+  border-top-width: 2px;
+}
+
+.btm-nav-md > *:where(.disabled\:active:disabled) {
+  border-top-width: 2px;
+}
+
+.btm-nav-lg > *:where(.disabled\:active:disabled) {
+  border-top-width: 4px;
 }
 
 .odd\:bg-purple-50:nth-child(odd) {
@@ -6835,9 +6926,9 @@ caption {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
-.hover\:scale-95:hover {
-  --tw-scale-x: .95;
-  --tw-scale-y: .95;
+.hover\:scale-\[\.98\]:hover {
+  --tw-scale-x: .98;
+  --tw-scale-y: .98;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
@@ -6872,6 +6963,38 @@ caption {
 .active\:scale-95:active {
   --tw-scale-x: .95;
   --tw-scale-y: .95;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.active\:scale-\[\]:active {
+  --tw-scale-x: ;
+  --tw-scale-y: ;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.active\:scale-\[\.98\]:active {
+  --tw-scale-x: .98;
+  --tw-scale-y: .98;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.active\:scale-0:active {
+  --tw-scale-x: 0;
+  --tw-scale-y: 0;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.disabled\:pointer-events-auto:disabled {
+  pointer-events: auto;
+}
+
+.disabled\:cursor-not-allowed:disabled {
+  cursor: not-allowed;
+}
+
+.disabled\:active\:scale-0:active:disabled {
+  --tw-scale-x: 0;
+  --tw-scale-y: 0;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
@@ -6966,8 +7089,16 @@ caption {
     height: 4rem;
   }
 
+  .md\:h-14 {
+    height: 3.5rem;
+  }
+
   .md\:h-20 {
     height: 5rem;
+  }
+
+  .md\:w-12 {
+    width: 3rem;
   }
 
   .md\:w-3\/4 {
@@ -6990,16 +7121,13 @@ caption {
     padding: 1.5rem;
   }
 
-  .md\:p-12 {
-    padding: 3rem;
-  }
-
-  .md\:p-16 {
-    padding: 4rem;
-  }
-
   .md\:pt-\[88px\] {
     padding-top: 88px;
+  }
+
+  .md\:text-xl {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
   }
 }
 

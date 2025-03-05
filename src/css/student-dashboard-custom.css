@@ -126,6 +126,14 @@ backdrop-filter: blur(3px);
 
 }
 
+.shadow-lg-custom {
+    box-shadow: 
+        0 10px 15px -3px rgba(0, 0, 0, 0.1), /* Bottom shadow */
+        0 -10px 15px -3px rgba(0, 0, 0, 0.1); /* Top shadow */
+       
+}
+
+
 @media (max-width: 319px), (max-height: 480px) {
     header, nav, main, footer {
         display: none !important;

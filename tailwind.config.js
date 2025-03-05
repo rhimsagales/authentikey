@@ -15,7 +15,9 @@ module.exports = {
         inter : ['Inter', 'serif'],
         poppins: ['Poppins', 'serif'],
         oi : [ "Oi", "serif"],
-        chickle : ["Chicle", "serif"]
+        chickle : ["Chicle", "serif"],
+        monomakh : ["Monomakh", 'system-ui'],
+        anton : ["Anton", 'sans-serif']
       },
       keyframes : {
         "fade-in": {

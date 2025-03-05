@@ -420,11 +420,21 @@ function login(req, res) {
                 });
             }
             // req.session.user = user.toObject();
-            req.session.studentID = user.toObject().studentID;
-            res.status(200).json({
-                successLogin: true,
-                message: "Login successful."
+            req.session.regenerate((err) => {
+                if (err) {
+                    console.error("Session regeneration failed:", err);
+                    return res.status(500).send("Server error");
+                }
+                
+                req.session.user = { id: user.id, role: user.role };
+                req.session.studentID = user.toObject().studentID; // Reassign session data
+                res.status(200).json({
+                    successLogin: true,
+                    message: "Login successful."
+                });
+                
             });
+            
 
         } catch (error) {
             console.log(`LoginERR: ${error}`);

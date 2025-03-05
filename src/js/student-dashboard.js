@@ -38,6 +38,9 @@ const profileContainer = document.querySelector('.profile');
 const viewQrCodeContainer = document.querySelector('.view-qr-code');
 const viewPendingContainer = document.querySelector('.view-pending');
 
+
+
+
 profQrSignOutAnchor.forEach(anchorArr => {
     anchorArr.forEach(anchor => {
         anchor.addEventListener('click', (event) => {
@@ -220,7 +223,7 @@ myAccountTwo.addEventListener('click', (event) => {
 
 
 document.addEventListener('click', (event) => {
-    if (!sidebar.contains(event.target) && !burgerBtn.contains(event.target)) {
+    if (!sidebar.contains(event.target) && !burgerBtn.contains(event.target) && sidebar.classList.contains('expand') && burgerBtn.classList.contains('show-sidebar')) {
         sidebar.classList.toggle('expand');
         burgerBtn.classList.toggle('show-sidebar');
     }
@@ -719,4 +722,51 @@ pendingRequest.addEventListener('click', (event) => {
 
 
 
-})
+});
+
+function isInputsFilled(array) {
+    for (const input of array) {
+        if (input.value === "") {
+            return false;
+        }
+
+    }
+    return true;
+}
+
+const reportInputs = document.querySelectorAll('.report-inputs');
+
+
+reportInputs.forEach(input => {
+    input.addEventListener('input', () => {
+       
+            if(isInputsFilled(reportInputs)) {
+                rbButton.disabled = false;
+                console.log(isInputsFilled(reportInputs))
+            }
+            else {
+                rbButton.disabled = true;
+                
+
+            } 
+    });
+}); 
+
+
+
+const correctionInputs = document.querySelectorAll('.correction-inputs');
+
+
+correctionInputs.forEach(input => {
+    input.addEventListener('input', () => {
+        if(isInputsFilled(correctionInputs)) {
+            crSubmitBtn.disabled = false;
+            
+        }
+        else {
+            crSubmitBtn.disabled = true;
+            
+
+        } 
+    });
+});

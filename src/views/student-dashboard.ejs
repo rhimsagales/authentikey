@@ -25,6 +25,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chicle&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Monomakh&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
 
     <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon_io/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon_io/favicon-32x32.png">
@@ -37,10 +43,12 @@
     <header
         class="bg-white flex shadow-md w-full h-16 md:h-20 rounded-t-none rounded-b-xl fixed top-0 right-0 left-0 px-4 lg:px-36 z-10">
         <div class="w-1/2 lg:w-1/4 h-full flex items-center justify-start">
-            <a href="./student-dashboard.html">
+            <a href="/users/student-dashboard" class="flex items-center justify-center gap-2">
                 <img src="../assets/logo-auth-png.png" alt="Authentikey"
-                    class="w-12 h-14 md:size-16 hover:scale-90 active:scale-90 ease-linear duration-200">
+                    class="w-10 h-12 md:w-12 md:h-14 hover:scale-90 active:scale-90 ease-linear duration-200">
+                <span class="font-monomakh font-semibold text-lg md:text-xl text-gray-600">Authentikey</span>
             </a>
+
 
         </div>
         <div class="w-1/2 lg:w-3/4 flex items-center justify-end">
@@ -81,7 +89,10 @@
                     </li>
                 </ul>
                 <ul
-                    class="my-account-menu hidden menu menu-sm bg-white shadow-lg rounded-box w-56 absolute right-0 bottom-[-100px]">
+                    class="my-account-menu hidden menu menu-sm bg-white shadow-lg-custom rounded-box w-56 absolute right-0 bottom-[-170px] py-4">
+                    <span class="text-xs font-semibold px-3">My Profile</span>
+                    <div class="divider h-2 my-1"></div>
+                    
                     <li>
                         <a class="view-profile">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -103,6 +114,7 @@
                             My QR Code
                         </a>
                     </li>
+                    <div class="divider h-2 my-1"></div>
                     <li><a class="sign-out"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -142,38 +154,33 @@
                 <ul class="flex flex-col gap-2 w-full h-full">
                     <li class="">
                         <button
-                            class="btn btn-ghost mob-nav-btn text-gray-500 ease-in-out duration-300 btn-sm w-full h-10 flex items-center justify-start p-0 rounded-lg px-2 text-[12px] font-medium selected">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                class="size-5">
-                                <path
-                                    d="M15.5 2A1.5 1.5 0 0 0 14 3.5v13a1.5 1.5 0 0 0 1.5 1.5h1a1.5 1.5 0 0 0 1.5-1.5v-13A1.5 1.5 0 0 0 16.5 2h-1ZM9.5 6A1.5 1.5 0 0 0 8 7.5v9A1.5 1.5 0 0 0 9.5 18h1a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 10.5 6h-1ZM3.5 10A1.5 1.5 0 0 0 2 11.5v5A1.5 1.5 0 0 0 3.5 18h1A1.5 1.5 0 0 0 6 16.5v-5A1.5 1.5 0 0 0 4.5 10h-1Z" />
-                            </svg>
+                            class="btn btn-ghost mob-nav-btn text-gray-500 ease-in-out duration-300 btn-sm w-full h-10 flex items-center justify-start p-0 rounded-md px-2 text-[12px] font-semibold selected">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
+                              </svg>
+                              
+                              
                             Dashboard
                         </button>
 
                     </li>
                     <li class="">
                         <button
-                            class="btn btn-ghost mob-nav-btn btn-sm w-full  flex items-center justify-start p-0 rounded-lg px-2 text-[12px] font-medium text-gray-500 h-10 ">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                class="size-5">
-                                <path
-                                    d="m5.433 13.917 1.262-3.155A4 4 0 0 1 7.58 9.42l6.92-6.918a2.121 2.121 0 0 1 3 3l-6.92 6.918c-.383.383-.84.685-1.343.886l-3.154 1.262a.5.5 0 0 1-.65-.65Z" />
-                                <path
-                                    d="M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0 0 10 3H4.75A2.75 2.75 0 0 0 2 5.75v9.5A2.75 2.75 0 0 0 4.75 18h9.5A2.75 2.75 0 0 0 17 15.25V10a.75.75 0 0 0-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5Z" />
+                            class="btn btn-ghost mob-nav-btn btn-sm w-full  flex items-center justify-start p-0 rounded-md px-2 text-[12px] font-semibold text-gray-500 h-10 ">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                             </svg>
+                    
                             Correction Request
                         </button>
                     </li>
                     <li class="">
                         <button
-                            class="btn btn-ghost mob-nav-btn btn-sm w-full flex items-center justify-start p-0 rounded-lg px-2 text-[12px] font-medium text-gray-500 h-10 ">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                class="size-5">
-                                <path fill-rule="evenodd"
-                                    d="M10 2c-2.236 0-4.43.18-6.57.524C1.993 2.755 1 4.014 1 5.426v5.148c0 1.413.993 2.67 2.43 2.902.848.137 1.705.248 2.57.331v3.443a.75.75 0 0 0 1.28.53l3.58-3.579a.78.78 0 0 1 .527-.224 41.202 41.202 0 0 0 5.183-.5c1.437-.232 2.43-1.49 2.43-2.903V5.426c0-1.413-.993-2.67-2.43-2.902A41.289 41.289 0 0 0 10 2Zm0 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2ZM8 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0Zm5 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
-                                    clip-rule="evenodd" />
+                            class="btn btn-ghost mob-nav-btn btn-sm w-full flex items-center justify-start p-0 rounded-md px-2 text-[12px] font-semibold text-gray-500 h-10 ">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.076-4.076a1.526 1.526 0 0 1 1.037-.443 48.282 48.282 0 0 0 5.68-.494c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
                             </svg>
+                              
                             Contact Dev
                         </button>
                     </li>
@@ -181,7 +188,7 @@
             </div>
 
             <div class="w-full h-auto relative bottom-0">
-                <ul class="my-account-menu-two hidden gap-2 menu menu-sm bg-white  w-full rounded-none ">
+                <ul class="my-account-menu-two flex gap-2 menu menu-sm bg-white  w-full rounded-none ">
                     <li class="">
                         <a class="view-profile text-[12px]">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -217,7 +224,7 @@
                 <ul class="w-full flex items-center justify-end">
                     <li class=" gap-2 w-full">
                         <button
-                            class="btn-sm flex items-center gap-2 bg-gray-200  rounded-md w-full h-10 border-0 p-0 min-h-0  duration-300 px-2 text-gray-600 "
+                            class="btn-sm flex items-center gap-2 bg-gray-300 open-modal  rounded-md w-full h-10 border-0 p-0 min-h-0  duration-300 px-2 text-gray-600 "
                             id="my-account-two">
                             <div class="flex items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -320,7 +327,7 @@
                         </strong>
                         <p class="text-xl font-semibold text-gray-900 ">
                             PC-<%= lastPcUsed %>
-                                <span class="text-xs text-gray-500 ">
+                                <span class="text-[11px] text-gray-500 ">
                                     <span class="hidden sm:inline-flex">Last Used: </span><%= lastUsedDate%>
                                 </span>
                         </p>
@@ -331,7 +338,7 @@
         </article>
 
         <div
-            class="cursor-pointer duration-300 ease-in-out active:scale-95 px-0 pendingRequest w-full h-full min-h-full hover:border-0 hover:scale-95">
+            class="cursor-pointer duration-300 ease-in-out active:scale-95 px-0 pendingRequest w-full h-full min-h-full hover:border-0 hover:scale-[.98]">
             <article
                 class="flex flex-col justify-between rounded-lg border border-gray-100 bg-white px-2 py-4 sm:p-4   h-full w-full shadow-md">
                 <div
@@ -360,10 +367,10 @@
 
         </div>
         <div class="searchBar w-full h-full min-h-full flex justify-between">
-            <label class="input input-bordered flex items-center gap-2 h-full w-3/5 rounded hover:outline-primary">
-                <input type="text" class="grow search" placeholder="Search" />
+            <label class="input input-bordered focus-within:input-primary flex items-center gap-2 h-full w-3/5 rounded hover:outline-primary">
+                <input type="text" class="w-full search" placeholder="Search" />
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
-                    class="h-4 w-4 opacity-70">
+                    class="h-4 w-4 min-w-4 opacity-70">
                     <path fill-rule="evenodd"
                         d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
                         clip-rule="evenodd" />
@@ -389,7 +396,7 @@
                         <tr class="h-12">
                             <th class="px-6 py-3 text-left font-medium text-gray-900 text-base text-nowrap">No.</th>
                             <th class="px-6 py-3 text-left font-medium text-gray-900 text-base text-nowrap">Name</th>
-                            <th class="px-6 py-3 text-left font-medium text-gray-900 text-base text-nowrap">Date</th>
+                            <th class="px-6 py-3 text-left font-medium text-gray-900 text-base text-nowrap" data-format="@">Date</th>
                             <th class="px-6 py-3 text-left font-medium text-gray-900 text-base text-nowrap">Time In</th>
                             <th class="px-6 py-3 text-left font-medium text-gray-900 text-base text-nowrap">Time Out
                             </th>
@@ -410,7 +417,14 @@
 
                             // Format the date string to "Month Day Year" (e.g., "Feb 24 2025")
                             const parts = adjustedDate.toUTCString().split(" ");
-                            return `${parts[2]} ${parts[1]}, ${parts[3]}`;;
+                            return `\u200B${parts[2]} ${parts[1]}, ${parts[3]}`;
+
+
+
+
+
+
+
                         } 
                         
                         %>
@@ -431,7 +445,7 @@
                                         if (key !== 'fullDate') { %>  
 
                                             <% if (key === 'date') { %>
-                                                <td class="px-6 py-3 text-gray-700 text-nowrap max-h-[48px]">
+                                                <td class="px-6 py-3 text-gray-700 text-nowrap max-h-[48px]" data-format="@">
                                                     <%= formatDate(value) %>
                                                 </td>
                                             <% } else { %>
@@ -450,7 +464,7 @@
         </div>
         <div
             class="graph w-full h-full min-h-full shadow-lg p-1 box-border md:p-4 bg-white rounded-lg  flex items-center justify-center">
-            <canvas id="myChart" class="p-2 rounded-md" style="height: 100%; width: 100%; object-fit: fill;">
+            <canvas id="myChart" class="p-2 rounded-md" style="height: 100%; width: 100%;  ">
 
             </canvas>
 
@@ -490,27 +504,27 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700">Subject</label>
                 <input type="text" name="subject" required
-                    class="mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary"
+                    class="mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary correction-inputs"
                     id="cr-subject">
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700">Date of Record</label>
                 <input type="date" name="date" required
-                    class="bg-white mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary"
+                    class="bg-white mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary correction-inputs"
                     id="cr-date-record">
             </div>
 
             <div>
                 <label class="block text-sm font-medium text-gray-700">Correction Details</label>
                 <textarea name="details" required rows="4"
-                    class="mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary"
+                    class="mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary correction-inputs"
                     id="cr-correction-details"></textarea>
             </div>
 
 
             <button type="submit"
-                class="btn text-sm w-full bg-primary text-white py-2 rounded-lg font-medium hover:bg-indigo-700 transition"
-                id="cr-submit">
+                class="btn text-sm w-full bg-primary text-white py-2 rounded-lg font-medium hover:bg-indigo-700 transition disabled:pointer-events-auto disabled:cursor-not-allowed"
+                id="cr-submit" disabled>
                 Submit Request
             </button>
         </form>
@@ -549,20 +563,20 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700">Subject</label>
                 <input type="text" name="subject" required
-                    class="mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary"
+                    class="mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary report-inputs"
                     id="rb-subject">
             </div>
 
             <div>
                 <label class="block text-sm font-medium text-gray-700">Message</label>
                 <textarea name="message" required rows="4"
-                    class="mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary"
+                    class="mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary report-inputs"
                     id="rb-message"></textarea>
             </div>
 
             <button type="submit"
-                class="btn text-sm w-full bg-primary text-white py-2 rounded-lg font-medium hover:bg-indigo-700 transition "
-                id="rb-button">
+                class="btn text-sm w-full bg-primary text-white py-2 rounded-lg font-medium hover:bg-indigo-700 transition disabled:pointer-events-auto disabled:cursor-not-allowed"
+                id="rb-button" disabled>
                 Report Bug
             </button>
         </form>
@@ -589,7 +603,12 @@
                 </svg>
             </button>
             <div class="w-full h-auto flex items-center justify-between">
-                <h1 class="font-semibold text-lg">Personal Details</h1>
+                <h1 class="font-semibold text-lg flex gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 stroke-2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M7.864 4.243A7.5 7.5 0 0 1 19.5 10.5c0 2.92-.556 5.709-1.568 8.268M5.742 6.364A7.465 7.465 0 0 0 4.5 10.5a7.464 7.464 0 0 1-1.15 3.993m1.989 3.559A11.209 11.209 0 0 0 8.25 10.5a3.75 3.75 0 1 1 7.5 0c0 .527-.021 1.049-.064 1.565M12 10.5a14.94 14.94 0 0 1-3.6 9.75m6.633-4.596a18.666 18.666 0 0 1-2.485 5.33" />
+                    </svg>
+
+                    Personal Details</h1>
                 <button class="btn btn-ghost btn-xs rounded-full px-1" id="change-personal-edit-btn">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-4">
@@ -641,7 +660,13 @@
             </div>
 
             <div class="w-full h-auto  flex items-center justify-between">
-                <h1 class="font-semibold text-lg">Change Password</h1>
+                <h1 class="font-semibold text-lg flex gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 stroke-2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+                    </svg>
+
+                    Change Password
+                </h1>
                 <button class="btn btn-ghost btn-xs rounded-full px-1" id="change-pass-edit-btn">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-4">
@@ -689,7 +714,13 @@
                 </svg>
             </button>
             <div class="w-56 h-auto flex items-center justify-center">
-                <h1 class="text-xl font-semibold">Your QR Code</h1>
+                <h1 class="text-xl font-semibold flex gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 stroke-2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0 1 3.75 9.375v-4.5ZM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 0 1-1.125-1.125v-4.5ZM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0 1 13.5 9.375v-4.5Z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 6.75h.75v.75h-.75v-.75ZM6.75 16.5h.75v.75h-.75v-.75ZM16.5 6.75h.75v.75h-.75v-.75ZM13.5 13.5h.75v.75h-.75v-.75ZM13.5 19.5h.75v.75h-.75v-.75ZM19.5 13.5h.75v.75h-.75v-.75ZM19.5 19.5h.75v.75h-.75v-.75ZM16.5 16.5h.75v.75h-.75v-.75Z" />
+                    </svg>
+                    Your QR Code
+                </h1>
             </div>
             <div class="w-56 aspect-square border-[2px] border-double border-gray-400 qr-code p-2 rounded-md">
 
@@ -719,7 +750,14 @@
                 <table class="table w-full">
                     <!-- head -->
                     <caption>
-                        <h1 class="text-2xl font-semibold text-left px-4 pb-4">Correction Request</h1>
+                        <h1 class="text-2xl font-semibold text-left px-4 flex items-center justify-start gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-10">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 0 1 0 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 0 1 0-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375Z" />
+                            </svg>
+
+                            Correction Request
+                        </h1>
+                        <h6 class="text-left px-4 pb-4">Keep an eye on your correction request here.</h6>
                     </caption>
                     <thead>
                         <tr class="h-[40px]">
@@ -826,7 +864,7 @@
             data: {
                 labels: getMonths(),
                 datasets: [{
-                    label: "Usage of computer per month",
+                    label: "Total Computer Usage per Month",
                     data: JSON.parse('<%= JSON.stringify(lastThreeMonthsLogins) %>'),
                     backgroundColor: ["#1dcdbc", "#f000b8", "#570df8"]
                 }]
