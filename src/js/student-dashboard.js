@@ -277,7 +277,7 @@ downloadQrBtn.addEventListener('click', async (event) => {
         //     console.error("Error generating PDF:", error);
         // });
         // generatePDF()
-    const response = await fetch('http://localhost:3000/generate-pdf', {
+    const response = await fetch('/generate-pdf', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ html: bondPaper }),
