@@ -1,8 +1,12 @@
-#!/bin/sh
-set -e  # Stop the script if any command fails
+#!/bin/bash
+set -e  # Stop script if any command fails
+set -x  # Print each command before running
 
-echo "Installing system dependencies for Playwright..."
-apt-get update && apt-get install -y libnss3 libatk1.0-0 libx11-xcb1
+# Install Playwright dependencies manually (without sudo)
+npx playwright install-deps
 
-echo "Installing Playwright..."
-npx playwright install --with-deps
+# Install Playwright browsers
+npx playwright install
+
+# Continue with your build process
+yarn build  # (Replace with your actual build command)
