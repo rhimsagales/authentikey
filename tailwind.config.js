@@ -77,6 +77,10 @@ module.exports = {
               },
           },
       },
+      writingMode: {
+        'vertical-lr': 'vertical-lr',
+        'vertical-rl': 'vertical-rl',
+      },
       
 
     },

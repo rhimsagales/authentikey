@@ -1,5 +1,6 @@
 
-import * as alert from './alert.js'
+import * as alert from './alert.js';
+
 
 class CustomError extends Error {
     constructor(message, statusCode) {
@@ -7,6 +8,289 @@ class CustomError extends Error {
         this.statusCode = statusCode;
     }
 }
+
+
+const downloadQrBtn = document.querySelector('.download-qr');
+
+downloadQrBtn.addEventListener('click', async (event) => {
+    event.stopPropagation();
+    event.preventDefault();
+
+    // const qrCanvas = qrContainer.querySelector(".qr-code > canvas");
+
+
+
+    // if (qrCanvas) {
+    //     const link = document.createElement("a");
+    //     link.href = qrCanvas.toDataURL("image/png");
+    //     link.download = "qrcode.png";
+    //     link.click();
+    // }
+    // else {
+    //     alert("QR Code not generated yet.");
+    // }
+    let qrImgUrl = document.querySelector('.qr-code > img').src;
+    let bondPaper = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Monomakh&display=swap" rel="stylesheet">
+        <title>Authentikey ID</title>
+        <style>
+            * { padding: 0; box-sizing: border-box; }
+            body { display: flex; align-items: center; justify-content: center; height: 100vh; background: rgb(250, 250, 250); margin: 0;}
+            .bond-paper {
+                width: 8.5in;
+                height: 11in;
+                background: white;
+                box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .id-card {
+                width: 2.5in;
+                height: 3.5in;
+                border-radius: 6px;
+                display: flex;
+                background: white;
+                overflow: hidden;
+                outline: 2px dashed rgb(236, 167, 43);
+            }
+            .left-panel {
+                width: 30%;
+                height: 100%;
+                background: rgb(27, 32, 58);
+                display: flex;
+                flex-direction: column-reverse;
+                align-items: center;
+                justify-content: space-between;
+                color: rgb(236, 167, 43);
+            }
+            .left-panel span {
+                writing-mode: vertical-rl;
+                transform: rotate(180deg);
+                font-weight: 500;
+                font-family: 'Arial', sans-serif;
+                margin-bottom: 16px;
+                font-family: 'Monomakh'; 
+                
+            }
+            .left-panel div {
+                width: 1px;
+                height: 155px;
+                background: rgb(236, 167, 43);
+            }
+            .right-panel {
+                width: 70%;
+                height: 100%;
+                padding: 12px 8px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                align-content: center;
+                gap: 4px;
+            }
+            .header {
+                display: flex;
+                gap: 8px;
+                align-items: center;
+            }
+            .header-text {
+            height: 42px;
+            width: full;
+            height: 36.75px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            
+            gap: 2px;
+            }
+            .header img {
+                width: 42px;
+                
+                aspect-ratio: 16/14;
+                border-radius: 4px;
+                object-fit: cover;
+            }
+            .header-text h1 {
+                font-size: 8px;
+                font-weight: 600;
+                color: rgb(27, 32, 58);
+                margin: 0;
+            }
+            .header-text h6 {
+                font-size: 6px;
+                font-weight: 400;
+                color: #3a3b39;
+                margin: 0;
+            }
+            .qr-code {
+                width: 152px;
+                height: 152px;
+                border: 2px solid rgb(236, 167, 43);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 4px;
+                box-sizing: border-box;
+            }
+            .details {
+                text-align: center;
+                display: flex;
+                flex-direction: column;: ;
+                align-items: center;
+                justify-content: space-between;
+                width: 100%;
+                height: 120px;
+                
+            }
+            .details div > h1 {
+                font-size: 10px;
+                font-weight: 600;
+                font-family: 'Arial', sans-serif;
+                margin-top: 8px;
+                margin-bottom: 0;
+                font-family: 'Monomakh';
+                color: rgb(27, 32, 58);
+            }
+            .details div > span {
+                font-size: 6px;
+                font-weight: 400;
+                font-weight: 400;
+                color: #3a3b39;
+                text-align: center;
+                
+            }
+            .c-divider {
+                width: 100%;
+                height: 1px;
+                background: rgb(236, 167, 43);
+                margin: 4px 0;
+            }
+            .dots {
+                display: flex;
+                justify-content: center;
+                gap: 2px;
+            }
+            .dot {
+                width: 8px;
+                height: 8px;
+                background: rgb(27, 32, 58);
+            }
+            .dot:last-child {
+                background: rgb(236, 167, 43);
+            }
+            .footer {
+                margin-top: 12px;
+                font-size: 10px;
+                font-weight: 500;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 4px;
+            }
+        </style>
+    </head>
+    <body>
+        <article class="bond-paper">
+            <article class="id-card">
+                <div class="left-panel">
+                    <span>Authentikey ID Card</span>
+                    <div></div>
+                </div>
+                <div class="right-panel">
+                    <div class="header">
+                        <img src="https://i.imgur.com/PFeoGdy.png" alt="ICCT Logo">
+                        <div class="header-text">
+                            <h1>ICCT College - Antipolo</h1>
+                            <h6>J. Sumulong Street, Antipolo, <br>1870, Rizal</h6>
+                        </div>
+                    </div>
+                    <div class="qr-code">
+                        <img src="${qrImgUrl}" style="width: 100%; height: 100%;">
+                    </div>
+                    <div class="details">
+                        <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%;">
+                        <h1>${window.name}</h1>
+                        <div class="c-divider"></div>
+                        <span >Bachelor of Science in Information Technology</span>
+                        </div>
+                        <div class="dots">
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                        </div>
+                        <span style="font-size: 10px; font-weight: 600; margin-top: 16px; display: block; color: rgb(27, 32, 58);">Student ID: ${window.studentID}</span>
+                        <div class="footer">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="12" style="color: rgb(27, 32, 58);">
+                                <path d="M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67Z" />
+                                <path d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z" />
+                            </svg>
+                            <span style="color: rgb(27, 32, 58); font-size: 8px;">${window.email}</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </article>
+    </body>
+    </html>`;
+    
+    // fetch('/generate-pdf', {
+    //     method: 'POST',
+    //     headers: { 'Content-Type': 'application/json' },
+    //     body: JSON.stringify({ html: bondPaper }),
+    //     responseType: 'blob' // <-- Add this
+    // })
+    // .then(response => response.blob())
+    // .then(blob => {
+    //     console.log('Blob:', blob);
+    //     const fileURL = URL.createObjectURL(blob);
+    //     window.open(fileURL, '_blank');
+    // })
+    // .catch(error => console.error('Error:', error));
+    
+    
+    
+    
+    
+    
+    
+    
+        
+        // html2pdf()
+        // .set({
+        //     margin: 0,
+        //     filename: "id_card.pdf",
+        //     image: { type: "jpeg", quality: 1 },  // Maximum quality
+        //     html2canvas: { scale: 3, useCORS: false }, // Higher scale = better resolution
+        //     jsPDF: { format: "letter", orientation: "portrait" }
+        // })
+        // .from(element)
+        // .save()
+        // .catch(error => {
+        //     console.error("Error generating PDF:", error);
+        // });
+        // generatePDF()
+    const response = await fetch('http://localhost:3000/generate-pdf', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ html: bondPaper }),
+    });
+
+    const blob = await response.blob();
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'document.pdf';
+    link.click();    
+        
+    
+})
 
 
 const burgerBtn = document.getElementById('burger-btn');

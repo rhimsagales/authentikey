@@ -667,8 +667,17 @@ async function deleteStudent  (req, res) {
         if (!deletedStudent) {
             return res.status(404).json({ message: "Student not found." });
         }
+        req.session.destroy((err) => {
+            if (err) {
+                console.error("Error destroying session:", err);
+                return res.status(500).end();
+            }
+    
+            res.clearCookie("connect.sid");
+            return res.status(200).json({ message: "Student deleted successfully." });
+        });
 
-        return res.status(200).json({ message: "Student deleted successfully." });
+        
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "Internal Server Error." });
@@ -682,14 +691,14 @@ async function findAndPushData(req, res) {
 
         // console.log("Raw request body:", req.body);
 
-        if (!studentID || !timeIn || !date || !pcNumber) {
+        if (!studentID || !timeIn || !timeOut || !date || !pcNumber) {
             return res.status(400).json({ error: "Missing required fields",
                 body : req.body
              });
         }
 
         // Find the document by studentId
-        const document = await flexibleModel.findOne({ studentID });
+        const document = await retryWithExponentialDelay(() => flexibleModel.findOne({ studentID }));
         
 
         if (!document) {
@@ -713,11 +722,34 @@ async function findAndPushData(req, res) {
 }
 
 
+async function findStudentID(req, res) {
+    const { studentID } = req.body;
+
+    if (!studentID) {
+        return res.status(400).json({
+            studentIDExist: null,
+            message: "No student ID was provided."
+        });
+    }
+
+    try {
+        const student = await retryWithExponentialDelay(() => flexibleModel.findOne({ studentID }));
+
+        return res.status(200).json({
+            studentIDExist: !!student,
+            message: student ? "Student ID exists in the database." : "Student ID not found in the database."
+        });
+    } catch (error) {
+        return res.status(500).json({
+            studentIDExist: null,
+            message: "An error occurred while checking the student ID.",
+            error: error.message
+        });
+    }
+}
 
 
 
 
 
-
-
-module.exports = { connectToMongoDB, checkStudentIdAvailability, registerAccount, login, createResetPassDoc, deleteResetPassDocs, compareResetCode, changePassword, insertCorrectionRequest, getAllLogs, updatePersonalInfo, updatePassword, deleteStudent, findAndPushData};
+module.exports = { connectToMongoDB, checkStudentIdAvailability, registerAccount, login, createResetPassDoc, deleteResetPassDocs, compareResetCode, changePassword, insertCorrectionRequest, getAllLogs, updatePersonalInfo, updatePassword, deleteStudent, findAndPushData, findStudentID};

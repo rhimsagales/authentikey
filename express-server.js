@@ -6,6 +6,8 @@ const path = require('path');
 const app = express();
 const session = require("express-session");
 const MongoStore = require('connect-mongo');
+const puppeteer = require('puppeteer');
+const { chromium } = require('playwright');
 
 function getLastThreeMonthsLogins(data) {
     const now = new Date();
@@ -357,6 +359,7 @@ app.get('/pages/:name', (req, res) => {
             
             return res.redirect("/users/student-dashboard");
         }
+        
     }
     
     res.sendFile(path.join(__dirname, `src/pages/${pageName}.html`));
@@ -484,7 +487,50 @@ app.post('/mongodb/push-log', (req, res) => {
         })
     }
     mongoFunctions.findAndPushData(req, res);
-})
+});
+
+
+app.post('/generate-pdf', async (req, res) => {
+    const { html } = req.body;
+    if (!html) {
+        return res.status(400).json({ error: 'HTML content is required' });
+    }
+
+    const browser = await chromium.launch();
+    const page = await browser.newPage();
+
+    // Ensure images and styles fully load
+    await page.setContent(html, { waitUntil: 'networkidle0' });
+    await page.waitForSelector('img', { timeout: 5000 });
+
+    const pdfBuffer = await page.pdf({ 
+        format: 'Letter', 
+        printBackground: true // Ensures background images and styles render
+    });
+
+    await browser.close();
+
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'attachment; filename="document.pdf"');
+    res.send(pdfBuffer);
+});
+
+
+
+
+
+
+
+
+
+app.post('/mongodb/find-student-id', (req, res) => {
+    if(req.body.password != process.env.MongoPushPass) {
+        return res.status(400).json({
+            message : "Wrong Password"
+        })
+    };
+    mongoFunctions.findStudentID(req, res);
+});
 
 app.listen(3000, () => {
     console.log('Server running at http://localhost:3000');
