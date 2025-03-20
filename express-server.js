@@ -491,48 +491,39 @@ app.post('/mongodb/push-log', (req, res) => {
 
 
 app.post('/generate-pdf', async (req, res) => {
-    console.log("Received request at /generate-pdf"); // Log request arrival
-
     const { html } = req.body;
     if (!html) {
-        console.error("Error: HTML content is missing in request body");
         return res.status(400).json({ error: 'HTML content is required' });
     }
 
     let browser;
     try {
-        console.log("Launching browser...");
         browser = await chromium.launch();
         const page = await browser.newPage();
 
-        console.log("Setting page content...");
         await page.setContent(html, { waitUntil: 'networkidle0' });
 
-        console.log("Waiting for images to load...");
-        await page.waitForSelector('img', { timeout: 5000 });
+        await page.waitForSelector('img'); 
+        await page.waitForSelector('.qr-code > img'); 
 
-        console.log("Generating PDF...");
         const pdfBuffer = await page.pdf({ 
             format: 'Letter', 
             printBackground: true 
         });
 
-        console.log("Closing browser...");
-        await browser.close();
-
-        console.log("Sending PDF response...");
         res.setHeader('Content-Type', 'application/pdf');
         res.setHeader('Content-Disposition', 'attachment; filename="document.pdf"');
         res.send(pdfBuffer);
-
     } catch (error) {
-        console.error("Error in /generate-pdf:", error);
+        console.error("PDF generation failed:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    } finally {
         if (browser) {
             await browser.close();
         }
-        res.status(500).json({ error: "Internal Server Error" });
     }
 });
+
 
 
 
