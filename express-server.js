@@ -498,23 +498,19 @@ app.post('/generate-pdf', async (req, res) => {
 
     let browser;
     try {
-        browser = await chromium.launch({ headless: 'new' }); // Ensure latest headless mode
+        browser = await chromium.launch();
         const page = await browser.newPage();
 
         await page.setContent(html, { waitUntil: 'domcontentloaded' });
+        await page.waitForSelector('.qr-code > img', { state: 'visible' });
 
-        // Wait for images to load (including QR code)
-        await page.waitForSelector('img');
-        
-        // Ensure QR code is fully loaded (waits for src attribute)
-        await page.waitForFunction(() => {
-            const qrImg = document.querySelector('.qr-code > img');
-            return qrImg && qrImg.src && qrImg.naturalWidth > 0;
-        });
 
-        const pdfBuffer = await page.pdf({
-            format: 'Letter',
-            printBackground: true
+        await page.waitForSelector('img'); 
+        await page.waitForSelector('.qr-code > img'); 
+
+        const pdfBuffer = await page.pdf({ 
+            format: 'Letter', 
+            printBackground: true 
         });
 
         res.setHeader('Content-Type', 'application/pdf');
@@ -529,8 +525,6 @@ app.post('/generate-pdf', async (req, res) => {
         }
     }
 });
-
-
 
 
 

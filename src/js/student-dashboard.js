@@ -277,7 +277,7 @@ downloadQrBtn.addEventListener('click', async (event) => {
         //     console.error("Error generating PDF:", error);
         // });
         // generatePDF()
-    const response = await fetch('https://authentikey-w93k.onrender.com/generate-pdf', {
+    const response = await fetch('/generate-pdf', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ html: bondPaper }),
