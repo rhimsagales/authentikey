@@ -14,13 +14,10 @@ RUN npm install --omit=dev
 ENV PLAYWRIGHT_BROWSERS_PATH=/root/.cache/ms-playwright
 
 # Install Playwright browsers with dependencies
-RUN npx playwright install --with-deps
-
-# Ensure Playwright dependencies are set at runtime
-RUN mkdir -p $PLAYWRIGHT_BROWSERS_PATH && chmod -R 777 $PLAYWRIGHT_BROWSERS_PATH
+RUN npx playwright install --with-deps --force
 
 # Debugging: Check if Playwright browsers exist
-RUN ls -la $PLAYWRIGHT_BROWSERS_PATH || (echo "Playwright browsers not found! Reinstalling..." && npx playwright install --force)
+RUN ls -la $PLAYWRIGHT_BROWSERS_PATH || (echo "Playwright browsers not found!" && exit 1)
 
 # Copy the rest of the project files
 COPY . .
