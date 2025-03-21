@@ -17,4 +17,4 @@ COPY . .
 EXPOSE $PORT
 
 # Set the command to start the application
-CMD ["node", "express.js"]
+CMD ["node", "express-server.js"]
