@@ -6,7 +6,7 @@ const path = require('path');
 const app = express();
 const session = require("express-session");
 const MongoStore = require('connect-mongo');
-const puppeteer = require('puppeteer');
+
 const { chromium } = require('playwright');
 const qr = require("qr-image");
 
@@ -540,8 +540,8 @@ app.post('/generate-qr', (req, res) => {
         return res.status(400).json({ error: 'Text is required' });
     }
 
-    const qrSVG = qr.imageSync(text, { type: 'svg' }); // Generate SVG string
-    res.json({ svg: qrSVG }); // Send as JSON
+    const qrSVG = qr.imageSync(text, { type: 'svg' }); 
+    res.json({ svg: qrSVG }); 
 });
 
 
