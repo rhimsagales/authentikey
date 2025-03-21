@@ -10,26 +10,24 @@ class CustomError extends Error {
 }
 
 
+
+
+function replaceSpaces(name) {
+    return name.replace(/\s+/g, '_');
+}
+
+
+
+
+
+
 const downloadQrBtn = document.querySelector('.download-qr');
 
 downloadQrBtn.addEventListener('click', async (event) => {
     event.stopPropagation();
     event.preventDefault();
 
-    // const qrCanvas = qrContainer.querySelector(".qr-code > canvas");
-
-
-
-    // if (qrCanvas) {
-    //     const link = document.createElement("a");
-    //     link.href = qrCanvas.toDataURL("image/png");
-    //     link.download = "qrcode.png";
-    //     link.click();
-    // }
-    // else {
-    //     alert("QR Code not generated yet.");
-    // }
-    let qrImgUrl = document.querySelector('.qr-code > img').src;
+    
     let bondPaper = `
     <!DOCTYPE html>
     <html lang="en">
@@ -212,7 +210,7 @@ downloadQrBtn.addEventListener('click', async (event) => {
                         </div>
                     </div>
                     <div class="qr-code">
-                        <img src="${qrImgUrl}" style="width: 100%; height: 100%;">
+                        ${window.svg}
                     </div>
                     <div class="details">
                         <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%;">
@@ -241,52 +239,17 @@ downloadQrBtn.addEventListener('click', async (event) => {
     </body>
     </html>`;
     
-    // fetch('/generate-pdf', {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify({ html: bondPaper }),
-    //     responseType: 'blob' // <-- Add this
-    // })
-    // .then(response => response.blob())
-    // .then(blob => {
-    //     console.log('Blob:', blob);
-    //     const fileURL = URL.createObjectURL(blob);
-    //     window.open(fileURL, '_blank');
-    // })
-    // .catch(error => console.error('Error:', error));
     
-    
-    
-    
-    
-    
-    
-    
-        
-        // html2pdf()
-        // .set({
-        //     margin: 0,
-        //     filename: "id_card.pdf",
-        //     image: { type: "jpeg", quality: 1 },  // Maximum quality
-        //     html2canvas: { scale: 3, useCORS: false }, // Higher scale = better resolution
-        //     jsPDF: { format: "letter", orientation: "portrait" }
-        // })
-        // .from(element)
-        // .save()
-        // .catch(error => {
-        //     console.error("Error generating PDF:", error);
-        // });
-        // generatePDF()
     const response = await fetch('/generate-pdf', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ html: bondPaper }),
+        body: JSON.stringify({ html: bondPaper}),
     });
 
     const blob = await response.blob();
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
-    link.download = 'document.pdf';
+    link.download = `${replaceSpaces(window.name)}-QR-ID.pdf`;
     link.click();    
         
     

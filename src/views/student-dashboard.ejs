@@ -40,6 +40,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    
+
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script> -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script> -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script> -->
@@ -742,7 +744,9 @@
 
                     Export Your QR ID
                 </button>
+                
             </div>
+            <span class="text-wrap text-center w-[80%] flex items-center justify-center italic text-error text-xs font-semibold">Note: If any images are missing in your PDF, please reload the page and try downloading your QR ID again.</span>
         </main>
         <main
             class="view-pending w-[95%] max-w-[500px] h-fit bg-white rounded-md px-4 py-14 relative hidden flex-col items-center justify-center gap-3">
@@ -854,11 +858,35 @@
 
     
 
+    
+
     <script>
+        window.svg;
+        window.studentID = "<%= studentID %>";
+        
+
         window.name = "<%= name%>";
         window.email = "<%= email%>";
-        window.studentID = "<%= studentID%>";
+        async function fetchSvgQRCode(data){
+            await fetch('/generate-qr', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text: data })
+            })
+            .then(res => res.json())
+            .then(data => {
+                window.svg = data.svg;
+                const qrContainer = document.querySelector(".qr-code").innerHTML = data.svg;
+            });
+        }
+        fetchSvgQRCode(window.studentID)
     </script>
+
+
+
+
+
+
     <script type="module">
         
         function getMonths() {
@@ -894,12 +922,7 @@
 
 
         document.addEventListener('DOMContentLoaded', () => {
-            const qrContainer = document.querySelector(".qr-code");
-            const qr = new QRCode(qrContainer, {
-                text: '<%= studentID%>',
-                width: 208,
-                height: 208
-            });
+            
 
             
             

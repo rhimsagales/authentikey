@@ -8,6 +8,7 @@ const session = require("express-session");
 const MongoStore = require('connect-mongo');
 const puppeteer = require('puppeteer');
 const { chromium } = require('playwright');
+const qr = require("qr-image");
 
 function getLastThreeMonthsLogins(data) {
     const now = new Date();
@@ -495,18 +496,23 @@ app.post('/generate-pdf', async (req, res) => {
     if (!html) {
         return res.status(400).json({ error: 'HTML content is required' });
     }
-
+    
     let browser;
+   
     try {
         browser = await chromium.launch();
         const page = await browser.newPage();
 
         await page.setContent(html, { waitUntil: 'domcontentloaded' });
-        await page.waitForSelector('.qr-code > img', { state: 'visible' });
+        await page.waitForSelector('.qr-code > svg', { visible: true });
 
-
-        await page.waitForSelector('img'); 
-        await page.waitForSelector('.qr-code > img'); 
+        // Ensure all images are fully loaded
+        await page.evaluate(async () => {
+            const images = Array.from(document.images);
+            await Promise.all(images.map(img => 
+                img.complete ? Promise.resolve() : new Promise(resolve => img.onload = resolve)
+            ));
+        });
 
         const pdfBuffer = await page.pdf({ 
             format: 'Letter', 
@@ -526,6 +532,17 @@ app.post('/generate-pdf', async (req, res) => {
     }
 });
 
+
+app.post('/generate-qr', (req, res) => {
+    const { text } = req.body;
+    
+    if (!text) {
+        return res.status(400).json({ error: 'Text is required' });
+    }
+
+    const qrSVG = qr.imageSync(text, { type: 'svg' }); // Generate SVG string
+    res.json({ svg: qrSVG }); // Send as JSON
+});
 
 
 
