@@ -13,6 +13,9 @@ RUN npm install --omit=dev
 # Install Playwright browsers **without requiring root permissions**
 RUN npx playwright install --with-deps
 
+# Verify that Playwright browsers were installed
+RUN npx playwright browsers-path && ls -la $(npx playwright browsers-path)
+
 # Set Playwright's cache path **before copying project files**
 ENV PLAYWRIGHT_BROWSERS_PATH=/app/node_modules/.cache/ms-playwright
 
@@ -21,6 +24,9 @@ RUN mkdir -p $PLAYWRIGHT_BROWSERS_PATH && chmod -R 777 $PLAYWRIGHT_BROWSERS_PATH
 
 # Copy the rest of the project files
 COPY . .
+
+# Debugging: Print installed browsers at build time
+RUN ls -la $PLAYWRIGHT_BROWSERS_PATH
 
 # Let Render assign the PORT dynamically
 ENV PORT $PORT
