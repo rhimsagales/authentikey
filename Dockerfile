@@ -7,14 +7,17 @@ WORKDIR /app
 # Copy package.json and package-lock.json first (for caching dependencies)
 COPY package*.json ./
 
-# Install dependencies
+# Install dependencies (including Playwright)
 RUN npm install --omit=dev
 
-# Install Playwright browsers
+# Install Playwright browsers **without requiring root permissions**
 RUN npx playwright install --with-deps
 
 # Copy the rest of the project files
 COPY . .
+
+# Ensure Playwright dependencies are installed at runtime
+ENV PLAYWRIGHT_BROWSERS_PATH=/app/node_modules/.cache/ms-playwright
 
 # Expose the port dynamically (Render sets the PORT environment variable)
 EXPOSE $PORT
