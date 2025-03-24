@@ -6,6 +6,8 @@ const suPassword = document.getElementById('password');
 const suRePassword = document.getElementById('repassword');
 const suName = document.getElementById('name');
 const suSection = document.getElementById('section');
+const suCourse = document.getElementById('course');
+const suYearLevel = document.getElementById('yearLevel');
 const suEmail = document.getElementById('email');
 const suAgreeCheckBox = document.getElementById('agreement-checkbox');
 
@@ -180,7 +182,7 @@ suRegisterBtn.addEventListener('click', async (event) => {
         agreeCheckBox: suAgreeCheckBox.checked
     });
     
-    if (!suStudentId.value || !suPassword.value || !suRePassword.value || !suName.value || !suSection.value || !suEmail.value || !suAgreeCheckBox.checked) {
+    if (!suStudentId.value || !suPassword.value || !suRePassword.value || !suName.value || !suSection.value || !suEmail.value || !suCourse.value || !suYearLevel.value || !suAgreeCheckBox.checked) {
         alertContainer.innerHTML = `<div role="alert" class="alert alert-warning animate-fadeoutThree">
             <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -220,6 +222,8 @@ suRegisterBtn.addEventListener('click', async (event) => {
                 name : suName.value,
                 section : suSection.value,
                 email : suEmail.value,
+                course : suCourse.value,
+                yearLevel : suYearLevel.value,
                 agreePolicy : suAgreeCheckBox.checked
 
             })

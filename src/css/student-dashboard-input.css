@@ -2,12 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+
+@layer utilities {
+    .animate-fill-forwards {
+      animation-fill-mode: forwards;
+    }
+    .animate-fill-backwards {
+      animation-fill-mode: backwards;
+    }
+    .animate-fill-both {
+      animation-fill-mode: both;
+    }
+    .animate-fill-none {
+      animation-fill-mode: none;
+    }
+}
 body {
     @apply w-full h-auto min-h-lvh;
 }
 
 #my-account.open-modal > div > div, #my-account-two.open-modal {
-    @apply bg-primary;
+    @apply bg-accent;
 }
 
 #my-account.open-modal > div > div > svg, #my-account:hover > div > div > svg,  #my-account-two.open-modal > div > svg  {

@@ -45,7 +45,7 @@ body {
 }
 
 .signInForm {
-    @apply w-[95%] min-w-[310px] max-w-[400px] h-auto  p-0 flex-col justify-center items-center gap-4 font-poppins bg-white px-4 py-10 shadow-xl rounded-lg  [animation-fill-mode:forwards];
+    @apply w-[95%] min-w-[310px] max-w-[400px] h-auto  p-0 flex-col justify-center items-center gap-4 font-poppins bg-base-100 px-4 py-10 shadow-xl rounded-lg  [animation-fill-mode:forwards] text-base-content;
     transform: translate3d(0, 100%, 0);
     visibility: hidden;
     
@@ -60,7 +60,7 @@ body {
 }
 
 .instruction {
-    @apply text-[14px]  font-medium text-gray-600 text-left;
+    @apply text-[14px]  font-medium text-base-content text-left;
 }
 
 .inputs-wrapper {
@@ -71,14 +71,14 @@ body {
 }
 
 .input-wrapper > div >label {
-    @apply text-sm font-semibold text-gray-500 font-inter;
+    @apply text-sm font-semibold  font-inter;
 }
 
-.input-wrapper > div > input {
-    @apply w-full bg-gray-200 rounded text-[14px];
+.input-wrapper > div > input, .input-wrapper > div > select {
+    @apply w-full bg-base-200 rounded text-[14px];
 }
 
-.input-wrapper > div  > input:hover, .input-wrapper > div >input:focus {
+.input-wrapper > div  > input:hover, .input-wrapper > div >input:focus, .input-wrapper > div > select:hover, .input-wrapper > div > select:focus {
     @apply outline-primary ease-in-out duration-100;
 }
 
@@ -194,7 +194,7 @@ body > .gradient-filter {
 
 
 .si-body {
-    @apply flex items-center justify-center w-full h-svh bg-base-200;
+    @apply flex items-center justify-center w-full h-svh bg-base-300;
 }
 
 
@@ -215,21 +215,21 @@ body > .gradient-filter {
 }
 
 .si-login-input-container {
-    @apply w-full sm:w-1/2 h-full;
+    @apply w-full sm:w-1/2 h-full bg-base-100 text-base-content;
 }
 .si-header-wrapper{
     @apply w-full h-[10%] font-inter ;
 }
 
 .label {
-    @apply text-sm font-inter p-0 font-medium text-gray-600;
+    @apply text-sm font-inter p-0 font-medium text-base-content;
 }
 .si-input-label-wrapper {
     @apply flex flex-col p-0 gap-1;
 }
 
 .si-input {
-    @apply w-full bg-gray-200 rounded text-[14px] font-inter;
+    @apply w-full bg-transparent rounded text-[14px] font-inter border border-base-content;
 }
 .si-input:hover,  .si-input:focus{
     @apply outline-primary ease-in-out duration-150;

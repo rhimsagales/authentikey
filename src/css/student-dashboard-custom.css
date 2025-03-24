@@ -3,6 +3,15 @@
     padding: 0;
 }
 
+header > div > a > span{
+    background: #0404cb;
+    background: -webkit-linear-gradient(270deg, #0404cb 0%, #f4af1b 100%);
+    background: linear-gradient(270deg, #0404cb 0%, #f4af1b 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+    color: transparent; /* Hides the default text color */
+}   
+
 :root {
     overscroll-behavior: none;
     scroll-behavior: smooth;
@@ -13,15 +22,16 @@ body {
 
 
 #sidebar {
-    
+    opacity: 0;
     transform: translateX(-224px);
-    transition: height 1s ease-in-out, transform .3s ease-in-out ;
+    transition: height 1s ease-in-out, transform .5s ease-in-out, opacity .3s ease-in-out;
 }
 
 
 #sidebar.expand {
+    opacity: 1;
     transform: translateX(0);
-    transition: height 1s ease-in-out, transform .3s ease-in-out ;
+    transition: height 1s ease-in-out, transform .5s ease-in-out, opacity .3s ease-in-out ;
 }
 
 #burger-btn > :nth-child(1) {
@@ -142,4 +152,38 @@ backdrop-filter: blur(3px);
     .error {
         display: grid;
     }
+}
+
+body > main > article, body > .main-request-correction > form, .main-contact-dev > form, .profile, .view-qr-code, .view-pending {
+    opacity: 0;
+    
+}
+/* , body > .main-request-correction > form, .main-contact-dev > form, .profile, .view-qr-code, .view-pending */
+/* .main-contact-dev > form{
+    opacity: 0;
+    
+} */
+
+
+
+
+body > main > article:nth-child(2) {
+    animation-delay: .3s;
+    
+}
+body > main > article:nth-child(3) {
+    animation-delay: .6s;
+    
+}
+body > main > article:nth-child(4) {
+    animation-delay: .9s;
+    
+}
+body > main > article:nth-child(5) {
+    animation-delay: .9s;
+    
+}
+body > main > article:nth-child(6) {
+    animation-delay: .9s;
+    
 }

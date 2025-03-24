@@ -17,7 +17,43 @@ function replaceSpaces(name) {
 }
 
 
-
+function getCourseAbbreviation(courseName) {
+    // Mapping of course names to their abbreviations
+    const courseAbbreviations = {
+        "Bachelor of Arts in Communication": "ABCom",
+        "Bachelor of Arts in English": "ABEng",
+        "Bachelor of Science in Mathematics": "BSM",
+        "Bachelor of Science in Psychology": "BSP",
+        "Associate in Business Administration": "ABA",
+        "Bachelor of Science in Accounting Information System": "BSAIS",
+        "Bachelor of Science in Accountancy": "BSA",
+        "Bachelor of Science in Management Accounting": "BSMA",
+        "Bachelor of Science in Real Estate Management": "BSREM",
+        "Bachelor of Science in Internal Auditing": "BSIA",
+        "Bachelor of Science in Business Administration": "BSBA",
+        "Associate in Computer Technology": "ACT",
+        "Bachelor of Science in Computer Science": "BSCS",
+        "Bachelor of Science in Information Technology": "BSIT",
+        "Bachelor of Science in Information System": "BSIS",
+        "Bachelor in Early Childhood Education": "BECEd",
+        "Bachelor in Elementary Education": "BEEd",
+        "Bachelor in Secondary Education": "BSEd",
+        "Bachelor in Technical Vocational Teacher Education": "BTVTEd",
+        "Bachelor of Science in Marine Transportation": "BSMT",
+        "Bachelor of Science in Criminology": "BSC",
+        "Bachelor of Science in Industrial Security Management": "BSISM",
+        "Bachelor of Science in Public Administration": "BSPA",
+        "Bachelor of Science in Computer Engineering": "BSCE",
+        "Bachelor of Science in Electronics Engineering": "BSELE",
+        "Bachelor of Science in Medical Technology": "BSMedTech",
+        "Bachelor of Science in Hospitality Management": "BSHM",
+        "Bachelor of Science in Tourism Management": "BSTM"
+    };
+  
+    // Retrieve and return the abbreviation, or a default message if not found
+    return courseAbbreviations[courseName] || "Abbreviation not found";
+}
+  
 
 
 
@@ -216,13 +252,10 @@ downloadQrBtn.addEventListener('click', async (event) => {
                         <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%;">
                         <h1>${window.name}</h1>
                         <div class="c-divider"></div>
-                        <span >Bachelor of Science in Information Technology</span>
+                        <span >${getCourseAbbreviation(window.course)}</span>
                         </div>
                         <div class="dots">
-                            <div class="dot"></div>
-                            <div class="dot"></div>
-                            <div class="dot"></div>
-                            <div class="dot"></div>
+                            ${window.levelDots}
                         </div>
                         <span style="font-size: 10px; font-weight: 600; margin-top: 16px; display: block; color: rgb(27, 32, 58);">Student ID: ${window.studentID}</span>
                         <div class="footer">
@@ -286,7 +319,7 @@ const viewQrCodeContainer = document.querySelector('.view-qr-code');
 const viewPendingContainer = document.querySelector('.view-pending');
 
 
-
+const disableScroll = (event) => event.preventDefault();
 
 profQrSignOutAnchor.forEach(anchorArr => {
     anchorArr.forEach(anchor => {
@@ -299,8 +332,10 @@ profQrSignOutAnchor.forEach(anchorArr => {
                     left: 0,
                     behavior: 'smooth' 
                 });
+                
                 customModal.classList.replace('hidden', 'flex');
                 profileContainer.classList.replace('hidden', 'flex');
+                
             }
             else if(event.currentTarget.innerText == "My QR Code") {
                 window.scrollTo({
@@ -352,6 +387,7 @@ navLinksButton.forEach(button => {
 
         // Reset all nav buttons to 'btn-ghost'
         navLinksButton.forEach(btn => btn.classList.replace('btn-primary', 'btn-ghost'));
+        // navLinksButton.forEach(btn => btn.classList.replace('btn-primary-content', 'btn-ghost-content'));
 
         // Set the clicked button to 'btn-primary'
         clickedButton.classList.replace('btn-ghost', 'btn-primary');
@@ -536,11 +572,13 @@ const newName = document.getElementById('new-name');
 const newStudentId = document.getElementById('new-studId');
 const newSection = document.getElementById('new-section');
 const newEmail = document.getElementById('new-email');
+const newCourse = document.getElementById('new-course');
+const newYearLevel = document.getElementById('new-yearLevel');
 
 
-const personalNewFieldArray = [newName, newStudentId, newSection, newEmail];
+const personalNewFieldArray = [newName, newStudentId, newSection, newEmail, newCourse, newYearLevel];
 
-const originalContentsArray = [newName.innerText.trim(), newStudentId.innerText.trim(), newSection.innerText.trim(), newEmail.innerText.trim()]
+const originalContentsArray = [newName.innerText.trim(), newStudentId.innerText.trim(), newSection.innerText.trim(), newEmail.innerText.trim(), newCourse.innerText.trim(), newYearLevel.innerText.trim()]
 
 
 personalEditBtn.addEventListener('click', (event) => {
@@ -595,8 +633,32 @@ const closeModalBtnArray = document.querySelectorAll('.close-modal');
 
 closeModalBtnArray.forEach(closeModalBtn => {
     closeModalBtn.addEventListener('click', (event) => {
-        event.stopPropagation();
+        event.stopImmediatePropagation();
         event.preventDefault();
+
+        
+
+
+
+
+
+
+        // setTimeout(() => {
+        //     customModal.classList.replace('flex', 'hidden');
+        //     document.querySelector('body').classList.replace('overflow-y-hidden', 'overflow-y-auto');
+
+        //     profileContainer.classList.remove('flex');
+        //     profileContainer.classList.remove('hidden');
+        //     profileContainer.classList.add('hidden');
+
+        //     viewQrCodeContainer.classList.remove('flex');
+        //     viewQrCodeContainer.classList.remove('hidden');
+        //     viewQrCodeContainer.classList.add('hidden');
+
+        //     viewPendingContainer.classList.remove('flex');
+        //     viewPendingContainer.classList.remove('hidden');
+        //     viewPendingContainer.classList.add('hidden');
+        // }, 800);
 
         customModal.classList.replace('flex', 'hidden');
         document.querySelector('body').classList.replace('overflow-y-hidden', 'overflow-y-auto');
@@ -612,6 +674,8 @@ closeModalBtnArray.forEach(closeModalBtn => {
         viewPendingContainer.classList.remove('flex');
         viewPendingContainer.classList.remove('hidden');
         viewPendingContainer.classList.add('hidden');
+
+        
 
     })
 })
@@ -813,11 +877,13 @@ saveNewPersonalInfoBtn.addEventListener("click", async (event) => {
         });
 
     const name = document.getElementById("new-name").innerText.trim();
-    const studentID = document.getElementById("new-studId").innerText.trim();
+    const newStudentID = document.getElementById("new-studId").innerText.trim();
     const email = document.getElementById("new-email").innerText.trim();
     const section = document.getElementById("new-section").innerText.trim();
+    const course = document.getElementById("new-course").innerText.trim();
+    const yearLevel = document.getElementById("new-yearLevel").innerText.trim();
 
-    if (!name || !studentID || !email || !section) {
+    if (!name || !studentID || !email || !section || !course || !yearLevel) {
         alert.createWarningAlert("All fields are required.");
         return;
     }
@@ -826,7 +892,7 @@ saveNewPersonalInfoBtn.addEventListener("click", async (event) => {
         const response = await fetch("/user/update-personal-info", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name, studentID, email, section })
+            body: JSON.stringify({ studentID: window.studentID ,name, newStudentID, email, section, course, yearLevel })
         });
 
         const data = await response.json();
@@ -837,6 +903,10 @@ saveNewPersonalInfoBtn.addEventListener("click", async (event) => {
             personalNewFieldArray.forEach(field => {
                 field.contentEditable = false;
             });
+            setTimeout(() => {
+                window.location.href = "/user/logout"
+            
+            }, 3000);
         } else {
             alert.createWarningAlert(data.message);
             personalSaveCancelContainer.classList.replace('flex', 'hidden');
@@ -1017,3 +1087,104 @@ correctionInputs.forEach(input => {
         } 
     });
 });
+
+
+const themeControllers = document.querySelectorAll('.theme-change');
+
+
+themeControllers.forEach(controller => {
+    controller.addEventListener('change', () => {
+        window.ctx.clearRect(0, 0, window.canvas.width, window.canvas.height);
+
+        // #6d0076
+        // #0075c2
+        // #ff8600
+
+        // #ff8600
+        // #6d0076
+        // #0075c2
+
+        
+        if(controller.checked) {
+            window.chartInstance.destroy();
+            window.chartInstance = new Chart(window.ctx, {
+                type: "bar",
+                data: {
+                    labels: getMonths(),
+                    datasets: [{
+                        label: "Total Computer Usage per Month",
+                        data: JSON.parse(window.valueLastThreeMonths),
+                        backgroundColor: [window.themePallete.light.accent, window.themePallete.light.secondary, window.themePallete.light.primary]
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            labels: {
+                                boxWidth: 0,
+                                color : themePallete.light.primary
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: { color: window.themePallete.light.baseContent },    
+                            title: { display: true, color: window.themePallete.light.accent, text: "Months" } 
+                        },
+                        y: {
+                            ticks: { color: window.themePallete.light.baseContent }, 
+                            title: { display: true, color: window.themePallete.light.accent, text: "No. of Usage" } 
+                        }
+                    },
+                    maintainAspectRatio: false,
+                    responsive : true
+                }
+            });
+            
+        }
+        else {
+            window.chartInstance.destroy();
+            window.chartInstance = new Chart(window.ctx, {
+                type: "bar",
+                data: {
+                    labels: getMonths(),
+                    datasets: [{
+                        label: "Total Computer Usage per Month",
+                        data: JSON.parse(window.valueLastThreeMonths),
+                        backgroundColor: [window.themePallete.dark.accent, window.themePallete.dark.secondary, window.themePallete.dark.primary]
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            labels: {
+                                boxWidth: 0,
+                                color : themePallete.dark.primary
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: { color: window.themePallete.dark.baseContent },    
+                            title: { display: true, color: window.themePallete.dark.accent, text: "Months" } 
+                        },
+                        y: {
+                            ticks: { color: window.themePallete.dark.baseContent }, 
+                            title: { display: true, color: window.themePallete.dark.accent, text: "No. of Usage" } 
+                        }
+                    },
+                    maintainAspectRatio: false,
+                    responsive : true
+                }
+            });
+        }
+
+    })
+})
+
+
+const contactDevForm = document.querySelector('body > .main-contact-dev > form')
+
+// contactDevForm.addEventListener('animationend', () => {
+//     contactDevForm.style.opacity = "1";
+// })

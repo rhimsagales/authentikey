@@ -21,13 +21,33 @@ const repasswordinput = document.getElementById('repassword');
 const nameinput = document.getElementById('name');
 const sectioninput = document.getElementById('section');
 const emailinput = document.getElementById('email');
+const courseinput = document.getElementById('course');
+const yearLevelinput = document.getElementById('yearLevel');
 const agreeChckBox = document.getElementById('agreement-checkbox');
+const selectPlacehoder = document.querySelector('.select-placeholder');
+
+yearLevelinput.addEventListener('change', () => {
+    
+    console.log(yearLevelinput.value)
+    console.log(selectPlacehoder.value)
+    if(yearLevelinput.value == selectPlacehoder.value) {
+       
+        if(yearLevelinput.classList.contains('text-black')) {
+            yearLevelinput.classList.replace('text-black', 'text-gray-400');
+        }
+        return
+    }
+    else {
+        
+        yearLevelinput.classList.replace('text-gray-400', 'text-black');
+    }
+})
 
 // const errorText = document.getElementById('error-text');
 
-const registerInputs = [studentIDinput, passwordinput,repasswordinput,  nameinput, sectioninput];
+const registerInputs = [studentIDinput, passwordinput,repasswordinput,  nameinput, sectioninput, courseinput, yearLevelinput];
 const loginInputs = [studentIDinput, passwordinput,repasswordinput];
-const personalInputs = [nameinput, sectioninput, emailinput];
+const personalInputs = [nameinput, sectioninput, courseinput, emailinput];
 
 const bgImg = document.getElementById('bg-image');
 const skeleton = document.getElementById('bg-skeleton');
@@ -63,6 +83,31 @@ mainSignInContainer.addEventListener('animationend', () => {
 // body.style.minHeight = `${viewportHeight}px`;
 
 
+function capitalizeWordsExcept(str) {
+    // Words to exclude from capitalization
+    const exclude = ['of', 'in'];
+
+    // Split the string into words
+    return str.split(' ').map(word => {
+        // Check if the word is in the exclude list
+        if (exclude.includes(word.toLowerCase())) {
+            return word.toLowerCase();
+        }
+        // Capitalize the first letter and add the rest of the word
+        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    }).join(' ');
+}
+
+courseinput.addEventListener('input', function() {
+    // Get the current value of the input
+    const currentValue = courseinput.value;
+
+    // Capitalize words as needed
+    const capitalizedValue = capitalizeWordsExcept(currentValue);
+
+    // Update the input's value with the capitalized version
+    courseinput.value = capitalizedValue;
+});
 
 function validateEmail(email) {
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -201,7 +246,7 @@ backBtn.addEventListener('click', (event) => {
 
 registerInputs.forEach(input => {
     input.addEventListener('focusout', () => {
-        
+        console.log('focusout event ')
         const parentElement = input.parentElement;
         const errorTextElem = parentElement.querySelector('.err-txt');
 
@@ -231,11 +276,12 @@ registerInputs.forEach(input => {
 
 registerInputs.forEach(input => {
     input.addEventListener('input', () => {
-        
+        console.log('it reached the event')
         const parentElement = input.parentElement;
         const errorTextElem = parentElement.querySelector('.err-txt');
 
         if (input.value === "") {
+            console.log('if here')
             if (!errorTextElem) {
                 const errorText = document.createElement('span');
                 errorText.className = 'absolute top-[-26px] right-0 text-red-500 err-txt italic text-sm font-inter';
@@ -252,13 +298,43 @@ registerInputs.forEach(input => {
             }
         } 
         else {
-            // console.log('here')
+            console.log('else here')
             if (errorTextElem) {
                 errorTextElem.remove();
             }
         }
     });
 });
+
+yearLevelinput.addEventListener('focusout', () => {
+    console.log('focusout event ')
+    const parentElement = input.parentElement;
+    const errorTextElem = parentElement.querySelector('.err-txt');
+
+    if (input.value === "") {
+        if (!errorTextElem) {
+            const errorText = document.createElement('span');
+            errorText.className = 'absolute top-[-26px] right-0 text-red-500 err-txt italic text-sm font-inter';
+            errorText.textContent = 'This field is required'; 
+            parentElement.appendChild(errorText);
+        }
+        else {
+            errorTextElem.remove();
+            const errorText = document.createElement('span');
+            errorText.className = 'absolute top-[-26px] right-0 text-red-500 err-txt italic text-sm font-inter';
+            errorText.textContent = 'This field is required.'; 
+            parentElement.appendChild(errorText);
+            
+        }
+    } 
+    else {
+        if (errorTextElem) {
+            errorTextElem.remove();
+        }
+    }
+});
+
+
 // && !validateEmail(input.value)
 
 export function isInputsFilled(array) {
@@ -318,12 +394,26 @@ agreeChckBox.addEventListener('change', () => {
     
 });
 
+
+yearLevelinput.addEventListener('change', () => {
+    
+
+    if (agreeChckBox.checked && isInputsFilled(personalInputs) && isInputsFilled(registerInputs) && emailinput.value && !validateEmail(emailinput.value)) {
+        registerBtn.disabled = false;
+    }
+    else {
+        registerBtn.disabled = true;
+    }
+
+    
+});
+
 personalInputs.forEach(input => {
     input.addEventListener('input', () => {
-        console.log(agreeChckBox.checked);
-        console.log(isInputsFilled(personalInputs));
-        console.log(isInputsFilled(registerInputs));
-        console.log(emailinput.value);
+        // console.log(agreeChckBox.checked);
+        // console.log(isInputsFilled(personalInputs));
+        // console.log(isInputsFilled(registerInputs));
+        // console.log(emailinput.value);
         
         if (agreeChckBox.checked && isInputsFilled(personalInputs) && isInputsFilled(registerInputs) && emailinput.value && !validateEmail(emailinput.value)) {
             registerBtn.disabled = false;

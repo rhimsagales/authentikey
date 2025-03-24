@@ -387,6 +387,8 @@ app.get('/users/student-dashboard', async (req, res) => {
             studentID: req.session.user.studentID,
             section: req.session.user.section,
             email: req.session.user.email,
+            course: req.session.user.course,
+            yearLevel : req.session.user.yearLevel,
             loginLastWeek: getLoginsLastWeek(req.session.user.logs),
             loginThisWeek: getLoginsThisWeek(req.session.user.logs),
             percentageChange: calculatePercentageChange(req.session.user.logs),

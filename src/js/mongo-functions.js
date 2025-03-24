@@ -13,6 +13,8 @@ const flexibleSchema = new mongoose.Schema({
     name: { type: String, required: false },
     section: { type: String, required: false },
     email: { type: String, required: false },
+    course: { type: String, required: false },
+    yearLevel: { type: String, required: false },
     agreePolicy: { type: Boolean, required: false },
     logs : { type: Array,  required: false},
     correctionRequest: { type: Array,  required: false}
@@ -326,9 +328,9 @@ async function checkStudentIdAvailability(req, res) {
 
 function registerAccount(req, res) {
     let register = async () => {
-        const { studentID, password, confirmPassword, name, section, email, agreePolicy } = req.body;
+        const { studentID, password, confirmPassword, name, section, email, course, yearLevel, agreePolicy } = req.body;
     
-        if (!studentID || !password || !confirmPassword || !name || !section || !email || !agreePolicy) {
+        if (!studentID || !password || !confirmPassword || !name || !section || !email || !course || !yearLevel || !agreePolicy) {
             return res.status(400).json({
                 successRegistration: false,
                 message: "All fields are required.",
@@ -369,6 +371,8 @@ function registerAccount(req, res) {
                 name: name,
                 section: section,
                 email: email,
+                course: course,
+                yearLevel: yearLevel,
                 agreePolicy: agreePolicy
             }));
 
@@ -587,10 +591,10 @@ async function insertCorrectionRequest(req, res) {
 async function updatePersonalInfo (req, res) {
     try {
         // Destructure req.body
-        const { name, studentID, email, section } = req.body;
-
+        const { studentID, name, newStudentID, email, section, course, yearLevel } = req.body;
+        
         // Validate required fields
-        if (!name || !studentID || !email || !section) {
+        if (!name || !newStudentID || !email || !section || !course || !yearLevel) {
             return res.status(400).json({ message: "All fields are required." });
         }
 
@@ -599,16 +603,29 @@ async function updatePersonalInfo (req, res) {
         if (!student) {
             return res.status(404).json({ message: "Student not found." });
         }
+        let existNewStudentID;
+        if(studentID != newStudentID) {
+            existNewStudentID = await retryWithExponentialDelay(() => flexibleModel.findOne({ studentID : newStudentID }));
 
+            if(!!existNewStudentID){
+                return res.status(409).json({
+                    message : "The new Student ID is already in use."
+                })
+            }
+        }
+        
         // Update fields
         student.name = name;
         student.email = email;
         student.section = section;
-
+        student.course = course;
+        student.yearLevel = yearLevel;
+        student.studentID = newStudentID;
+        
         // Save the updated document
         await student.save();
 
-        return res.status(200).json({ message: "Student updated successfully.", student });
+        return res.status(200).json({ message: "Student updated successfully. Please log in again.", student });
     } catch (error) {
         console.error(error);
         return res.status(400).json({ message: "Internal Server Error." });
