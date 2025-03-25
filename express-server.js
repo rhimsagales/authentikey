@@ -128,36 +128,6 @@ function getLoginsLastWeek(logs) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function calculatePercentageChange(logs) {
     if (logs.length === 0) return "No Records Found.";
 
@@ -199,10 +169,6 @@ function calculatePercentageChange(logs) {
 
     return percentageChange.toFixed(2);
 }
-
-
-
-
 
 
 function getLastPCUsed(logs) {
@@ -261,7 +227,6 @@ function getLastPCUsed(logs) {
 }
 
 
-
 function sortLogsByDate(logs) {
     return logs.sort((a, b) => {
         return new Date(b.date) - new Date(a.date); // Sort by date, newest first
@@ -269,35 +234,19 @@ function sortLogsByDate(logs) {
 }
 
 
+function isAuthenticated(req, res, next) {
+    if (req.session.user) return next();
+    res.status(401).json({ error: "Unauthorized" });
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+function isValidKey(req, res, next) {
+    if(req.body.password != process.env.MongoPushPass) {
+        return res.status(400).json({
+            message : "Wrong Password"
+        })
+    }
+    return next();
+}
 
 
 app.set("view engine", "ejs");
@@ -309,6 +258,7 @@ app.use(
         resave: false,
         saveUninitialized: false,
         cookie: { 
+            maxAge: 1000 * 60 * 60 * 24,
             secure: false,
             httpOnly: true
 
@@ -317,12 +267,16 @@ app.use(
     })
 );
 
+
+
 app.use((req, res, next) => {
     if (req.path.endsWith('.html') || req.path.endsWith('.ejs')) {
         return res.status(403).send('Access Denied');
     }
     next(); 
 });
+
+
 app.use(express.static(path.join(__dirname, 'src')));
 app.set("views", path.join(__dirname, "src", "views"));
 
@@ -448,7 +402,7 @@ app.get('/pages/sign-in/change-pass/send/secret', (req, res) => {
     res.json(secrets);
 })
 
-app.post('/send-correction-request', (req, res) => {
+app.post('/send-correction-request', isAuthenticated,(req, res) => {
     
     mongoFunctions.insertCorrectionRequest(req, res);
 })
@@ -462,16 +416,16 @@ app.get('/check-session', (req, res) => {
 });
 
 
-app.post('/user/update-personal-info', (req, res) => {
+app.post('/user/update-personal-info', isAuthenticated, (req, res) => {
     mongoFunctions.updatePersonalInfo(req, res);
 })
 
 
-app.post('/user/change-password', (req, res) => {
+app.post('/user/change-password', isAuthenticated, (req, res) => {
     mongoFunctions.updatePassword(req, res);
 })
 
-app.post('/user/delete-student', (req, res) => {
+app.post('/user/delete-student', isAuthenticated, (req, res) => {
     mongoFunctions.deleteStudent(req, res);
 })
 
@@ -483,17 +437,13 @@ app.post('/secret/connection-string', (req, res) => {
 });
 
 
-app.post('/mongodb/push-log', (req, res) => {
-    if(req.body.password != process.env.MongoPushPass) {
-        return res.status(400).json({
-            message : "Wrong Password"
-        })
-    }
+app.post('/mongodb/$2a$15$45pC/9MjYtIupyQJj0unE.xObJwv1uOtKCQBX71JdSH6g25mDjiAW', isValidKey, (req, res) => {
+    
     mongoFunctions.findAndPushData(req, res);
 });
 
 
-app.post('/generate-pdf', async (req, res) => {
+app.post('/generate-pdf', isAuthenticated, async (req, res) => {
     const { html } = req.body;
     if (!html) {
         return res.status(400).json({ error: 'HTML content is required' });
@@ -535,7 +485,7 @@ app.post('/generate-pdf', async (req, res) => {
 });
 
 
-app.post('/generate-qr', (req, res) => {
+app.post('/generate-qr', isAuthenticated, (req, res) => {
     const { text } = req.body;
     
     if (!text) {
@@ -547,21 +497,11 @@ app.post('/generate-qr', (req, res) => {
 });
 
 
-
-
-
-
-
-
-
-app.post('/mongodb/find-student-id', (req, res) => {
-    if(req.body.password != process.env.MongoPushPass) {
-        return res.status(400).json({
-            message : "Wrong Password"
-        })
-    };
+app.post('/mongodb/find-student-id', isAuthenticated, (req, res) => {
+    
     mongoFunctions.findStudentID(req, res);
 });
+
 
 app.listen(process.env.PORT || 3000, () => {
     console.log('Server running at http://localhost:3000');
