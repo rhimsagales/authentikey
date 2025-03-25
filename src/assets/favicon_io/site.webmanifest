@@ -1,1 +1,22 @@
-{"name":"","short_name":"","icons":[{"src":"/android-chrome-192x192.png","sizes":"192x192","type":"image/png"},{"src":"/android-chrome-512x512.png","sizes":"512x512","type":"image/png"}],"theme_color":"#ffffff","background_color":"#ffffff","display":"standalone"}
+{
+  "name": "",
+  "short_name": "",
+  "start_url": "/pages/sign-in",
+  "description": "ICCT Computer Lab Monitor is a user-friendly web app designed to efficiently track and manage computer usage in ICCT Colleges Antipolo. Students can easily view their usage logs, while teachers get access to detailed reports and activity insights. Admins have an advanced dashboard with powerful tools to monitor, analyze, and manage lab activity. With real-time data, interactive charts, and an intuitive interface, the app ensures accuracy and efficiency, making lab management effortless for everyone.",
+
+  "icons": [
+    {
+      "src": "./logo-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./logo-512.pngg",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#121C22",
+  "background_color": "#121C22",
+  "display": "standalone"
+}
