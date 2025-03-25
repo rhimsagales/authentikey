@@ -437,7 +437,7 @@ app.post('/secret/connection-string', (req, res) => {
 });
 
 
-app.post('/mongodb/$2a$15$45pC/9MjYtIupyQJj0unE.xObJwv1uOtKCQBX71JdSH6g25mDjiAW', isValidKey, (req, res) => {
+app.post('/mongodb/push-log', isValidKey, (req, res) => {
     
     mongoFunctions.findAndPushData(req, res);
 });
