@@ -3,14 +3,24 @@
     padding: 0;
 }
 
-header > div > a > span{
-    background: #0404cb;
-    background: -webkit-linear-gradient(270deg, #0404cb 0%, #f4af1b 100%);
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 100% 50%;
+    }
+}
+
+header > div > a > span {
     background: linear-gradient(270deg, #0404cb 0%, #f4af1b 100%);
-        -webkit-background-clip: text;
-        background-clip: text;
-    color: transparent; /* Hides the default text color */
-}   
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: gradientAnimation 3s infinite alternate ease-in-out;
+}
+
 
 :root {
     overscroll-behavior: none;
@@ -22,6 +32,7 @@ body {
 
 
 #sidebar {
+    display: none;
     opacity: 0;
     transform: translateX(-224px);
     transition: height 1s ease-in-out, transform .5s ease-in-out, opacity .3s ease-in-out;
@@ -29,6 +40,7 @@ body {
 
 
 #sidebar.expand {
+    display: flex;
     opacity: 1;
     transform: translateX(0);
     transition: height 1s ease-in-out, transform .5s ease-in-out, opacity .3s ease-in-out ;
@@ -144,15 +156,19 @@ backdrop-filter: blur(3px);
 }
 
 
-@media (max-width: 319px), (max-height: 480px) {
+/* @media (max-width: 319px), (max-height: 480px) {
     header, nav, main, footer {
         display: none !important;
     }
-
+    
     .error {
         display: grid;
     }
-}
+} */
+
+
+
+
 
 body > main > article, body > .main-request-correction > form, .main-contact-dev > form, .profile, .view-qr-code, .view-pending {
     opacity: 0;

@@ -2969,6 +2969,11 @@ html {
     border-color: var(--fallback-p,oklch(var(--p)/var(--tw-border-opacity)));
   }
 
+  .checkbox-accent:hover {
+    --tw-border-opacity: 1;
+    border-color: var(--fallback-a,oklch(var(--a)/var(--tw-border-opacity)));
+  }
+
   .label a:hover {
     --tw-text-opacity: 1;
     color: var(--fallback-bc,oklch(var(--bc)/var(--tw-text-opacity)));
@@ -4796,6 +4801,27 @@ input.tab:checked + .tab-content,
   background-color: var(--fallback-p,oklch(var(--p)/var(--tw-bg-opacity)));
   --tw-text-opacity: 1;
   color: var(--fallback-pc,oklch(var(--pc)/var(--tw-text-opacity)));
+}
+
+.checkbox-accent {
+  --chkbg: var(--fallback-a,oklch(var(--a)/1));
+  --chkfg: var(--fallback-ac,oklch(var(--ac)/1));
+  --tw-border-opacity: 1;
+  border-color: var(--fallback-a,oklch(var(--a)/var(--tw-border-opacity)));
+}
+
+.checkbox-accent:focus-visible {
+  outline-color: var(--fallback-a,oklch(var(--a)/1));
+}
+
+.checkbox-accent:checked,
+    .checkbox-accent[aria-checked="true"] {
+  --tw-border-opacity: 1;
+  border-color: var(--fallback-a,oklch(var(--a)/var(--tw-border-opacity)));
+  --tw-bg-opacity: 1;
+  background-color: var(--fallback-a,oklch(var(--a)/var(--tw-bg-opacity)));
+  --tw-text-opacity: 1;
+  color: var(--fallback-ac,oklch(var(--ac)/var(--tw-text-opacity)));
 }
 
 @keyframes checkmark {
@@ -7146,6 +7172,10 @@ details.collapse summary::-webkit-details-marker {
   height: 40px;
 }
 
+.h-\[42px\] {
+  height: 42px;
+}
+
 .h-\[50\%\] {
   height: 50%;
 }
@@ -7227,6 +7257,11 @@ details.collapse summary::-webkit-details-marker {
   max-height: 600px;
 }
 
+.max-h-fit {
+  max-height: -moz-fit-content;
+  max-height: fit-content;
+}
+
 .max-h-full {
   max-height: 100%;
 }
@@ -7271,12 +7306,20 @@ details.collapse summary::-webkit-details-marker {
   min-height: 82px;
 }
 
+.min-h-dvh {
+  min-height: 100dvh;
+}
+
 .min-h-full {
   min-height: 100%;
 }
 
 .min-h-lvh {
   min-height: 100lvh;
+}
+
+.min-h-screen {
+  min-height: 100vh;
 }
 
 .min-h-svh {
@@ -8706,6 +8749,10 @@ details.collapse summary::-webkit-details-marker {
   line-height: 1;
 }
 
+.text-\[10px\] {
+  font-size: 10px;
+}
+
 .text-\[11px\] {
   font-size: 11px;
 }
@@ -8970,6 +9017,10 @@ details.collapse summary::-webkit-details-marker {
   text-decoration-line: underline;
 }
 
+.accent-accent {
+  accent-color: var(--fallback-a,oklch(var(--a)/1));
+}
+
 .opacity-0 {
   opacity: 0;
 }
@@ -9182,7 +9233,7 @@ details.collapse summary::-webkit-details-marker {
 
 body {
   height: auto;
-  min-height: 100lvh;
+  min-height: 100svh;
   width: 100%;
 }
 
@@ -9228,6 +9279,31 @@ caption {
   --tw-scale-x: .95 !important;
   --tw-scale-y: .95 !important;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)) !important;
+}
+
+input {
+  height: 42px;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  input {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+}
+
+textarea {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  textarea {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
 }
 
 @media (hover:hover) {
@@ -9360,6 +9436,10 @@ caption {
   cursor: not-allowed;
 }
 
+.disabled\:border-none:disabled {
+  border-style: none;
+}
+
 @media (min-width: 450px) {
   .xs\:w-\[60\%\] {
     width: 60%;
@@ -9429,6 +9509,11 @@ caption {
     padding-right: 1.5rem;
   }
 
+  .sm\:py-\[6px\] {
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+
   .sm\:text-2xl {
     font-size: 1.5rem;
     line-height: 2rem;
@@ -9442,6 +9527,11 @@ caption {
   .sm\:text-base {
     font-size: 1rem;
     line-height: 1.5rem;
+  }
+
+  .sm\:text-xs {
+    font-size: 0.75rem;
+    line-height: 1rem;
   }
 }
 

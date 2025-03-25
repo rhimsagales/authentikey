@@ -18,7 +18,7 @@
     }
 }
 body {
-    @apply w-full h-auto min-h-lvh;
+    @apply w-full h-auto min-h-svh;
 }
 
 #my-account.open-modal > div > div, #my-account-two.open-modal {
@@ -45,4 +45,13 @@ caption {
 
 .export-excel-btn {
     @apply h-full w-[38%] max-w-[220px] flex items-center justify-center gap-2 rounded active:scale-95 duration-200 ease-in-out !important;
+}
+
+
+input{
+  @apply text-sm sm:text-base h-[42px];
+}
+
+textarea {
+  @apply text-sm sm:text-base;
 }
