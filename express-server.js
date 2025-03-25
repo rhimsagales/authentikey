@@ -172,18 +172,14 @@ function calculatePercentageChange(logs) {
 
 
 function getLastPCUsed(logs) {
-    if (!logs.length) return ["N/A", "N/A"]; // Return default if no logs exist
+    if (!logs.length) return ["N/A", "N/A"];
 
-    // Convert log dates to UTC+8 for accurate comparisons (Philippines Time)
-    const convertToUTC8 = (date) => {
-        const adjustedDate = new Date(date);
-        adjustedDate.setHours(adjustedDate.getHours() + 8); // Adjust for UTC+8 (Philippines Time)
-        return adjustedDate;
-    };
+    // Convert string to Date without modifying time
+    const convertToUTC8 = (date) => new Date(date); 
 
-    // Sort logs by date (newest to oldest), using UTC+8 time
+    // Sort logs by date (newest to oldest)
     const sortedLogs = [...logs].sort((a, b) => {
-        return convertToUTC8(b.date) - convertToUTC8(a.date);
+        return new Date(b.date) - new Date(a.date);
     });
 
     // Group logs by date (ignoring time)
@@ -192,32 +188,26 @@ function getLastPCUsed(logs) {
 
     for (let i = 0; i < sortedLogs.length; i++) {
         const log = sortedLogs[i];
-        const logDate = convertToUTC8(log.date).toDateString(); // Get just the date part (ignoring time)
+        const logDate = convertToUTC8(log.date).toDateString();
 
         if (currentDateGroup.length === 0 || convertToUTC8(currentDateGroup[0].date).toDateString() === logDate) {
-            currentDateGroup.push(log); // Add to the current group
+            currentDateGroup.push(log);
         } else {
-            groupedLogs.push(currentDateGroup); // Push the previous group
-            currentDateGroup = [log]; // Start a new group with the current log
+            groupedLogs.push(currentDateGroup);
+            currentDateGroup = [log];
         }
     }
 
-    if (currentDateGroup.length) groupedLogs.push(currentDateGroup); // Push the last group
+    if (currentDateGroup.length) groupedLogs.push(currentDateGroup);
 
-    // Now, for each group, find the most recent log
+    // Find the most recent log in the latest group
     const latestLog = groupedLogs[0].reduce((max, log) => {
-        const currentLogTime = convertToUTC8(log.date).getTime(); // Get the timestamp of the current log
-        const maxLogTime = convertToUTC8(max.date).getTime(); // Get the timestamp of the max log
-
-        return currentLogTime > maxLogTime ? log : max; // Return the log with the latest timestamp
+        return new Date(log.date) > new Date(max.date) ? log : max;
     });
 
-    // Adjust formattedDate for UTC+8 and get correct formatted date string
-    const formattedDate = convertToUTC8(latestLog.date);
-
-    // Explicitly use the Philippines time zone (UTC+8) and format the adjusted date
-    const adjustedFormattedDate = formattedDate.toLocaleDateString("en-US", {
-        timeZone: "Asia/Manila", // Use Philippines time zone (UTC+8)
+    // Format the date using "Asia/Manila" timezone
+    const adjustedFormattedDate = new Date(latestLog.date).toLocaleDateString("en-US", {
+        timeZone: "Asia/Manila",
         month: "short",
         day: "numeric",
         year: "numeric"
@@ -225,6 +215,7 @@ function getLastPCUsed(logs) {
 
     return [latestLog.pcNumber, adjustedFormattedDate];
 }
+
 
 
 function sortLogsByDate(logs) {
