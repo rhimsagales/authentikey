@@ -17,7 +17,7 @@ function replaceSpaces(name) {
 }
 
 
-function getCourseAbbreviation(courseName) {
+export function getCourseAbbreviation(courseName) {
     // Mapping of course names to their abbreviations
     const courseAbbreviations = {
         "Bachelor of Arts in Communication": "ABCom",

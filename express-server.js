@@ -14,153 +14,129 @@ function getLastThreeMonthsLogins(data) {
     const now = new Date();
     now.setUTCHours(0, 0, 0, 0); // Normalize to start of the day in UTC
 
-    // Convert to UTC+8 by adding 8 hours
-    const nowUTC8 = new Date(now.getTime() + 8 * 60 * 60 * 1000);
-
-    // Get last two months + current month in UTC+8
+    // Get last two months + current month in UTC
     const lastThreeMonths = [2, 1, 0].map(offset => {
-        const date = new Date(nowUTC8);
-        date.setUTCMonth(nowUTC8.getUTCMonth() - offset);
+        const date = new Date(now);
+        date.setUTCMonth(now.getUTCMonth() - offset);
         return date.getUTCMonth(); // Extract adjusted month index
     });
 
     return lastThreeMonths.map(monthIndex => 
         data.filter(entry => {
-            const entryDateUTC8 = new Date(new Date(entry.date).getTime() + 8 * 60 * 60 * 1000);
-            return entryDateUTC8.getUTCMonth() === monthIndex;
+            const entryDateUTC = new Date(entry.date);
+            return entryDateUTC.getUTCMonth() === monthIndex;
         }).length
     );
 }
 
 
+
 function getLoginsThisWeek(logs) {
     if (logs.length === 0) return 0;
 
-    // Get current date and time in UTC+8 (PH Time)
+    // Get current date and time in UTC
     const now = new Date();
-    const nowUTC8 = new Date(now.getTime() + 8 * 60 * 60 * 1000);
-    // console.log("Current Date (PH Time):", nowUTC8.toISOString());
+    now.setUTCHours(0, 0, 0, 0); // Normalize to start of the day in UTC
 
-    // Calculate start of the current week (Monday, 12:00 AM PH Time)
-    const dayOfWeek = nowUTC8.getUTCDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+    // Calculate start of the current week (Monday, 12:00 AM UTC)
+    const dayOfWeek = now.getUTCDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
     const daysSinceMonday = (dayOfWeek === 0 ? 6 : dayOfWeek - 1); // Adjust to get Monday as start
 
-    // Start of the current week (Monday, 12:00 AM PH Time)
-    const startOfWeekUTC8 = new Date(nowUTC8);
-    startOfWeekUTC8.setDate(nowUTC8.getDate() - daysSinceMonday); // Adjust to start of Monday
-    startOfWeekUTC8.setHours(0, 0, 0, 0); // Set to start of day
+    // Start of the current week (Monday, 12:00 AM UTC)
+    const startOfWeekUTC = new Date(now);
+    startOfWeekUTC.setUTCDate(now.getUTCDate() - daysSinceMonday);
+    startOfWeekUTC.setUTCHours(0, 0, 0, 0);
 
-    // End of the current week (Sunday, 11:59:59 PM PH Time)
-    const endOfWeekUTC8 = new Date(startOfWeekUTC8);
-    endOfWeekUTC8.setDate(startOfWeekUTC8.getDate() + 6); // Adjust to Sunday
-    endOfWeekUTC8.setHours(23, 59, 59, 999); // Set to end of day
-
-    // console.log("Start of This Week (PH Time):", startOfWeekUTC8.toISOString());
-    // console.log("End of This Week (PH Time):", endOfWeekUTC8.toISOString());
+    // End of the current week (Sunday, 11:59:59 PM UTC)
+    const endOfWeekUTC = new Date(startOfWeekUTC);
+    endOfWeekUTC.setUTCDate(startOfWeekUTC.getUTCDate() + 6);
+    endOfWeekUTC.setUTCHours(23, 59, 59, 999);
 
     let count = 0;
 
     logs.forEach(log => {
         const logDateUTC = new Date(log.date);
-        const logDateUTC8 = new Date(logDateUTC.getTime() + 8 * 60 * 60 * 1000); // Convert to PH Time
-
-        const isInRange = logDateUTC8 >= startOfWeekUTC8 && logDateUTC8 <= endOfWeekUTC8;
-
-        // console.log(`Log Date (Original UTC): ${logDateUTC.toISOString()}`);
-        // console.log(`Log Date (Converted to PH Time): ${logDateUTC8.toISOString()}`);
-        // console.log(`Is in range? ${isInRange}`);
-
-        if (isInRange) count++;
+        if (logDateUTC >= startOfWeekUTC && logDateUTC <= endOfWeekUTC) {
+            count++;
+        }
     });
 
-    // console.log(`Total logins this week: ${count}`);
     return count;
 }
+
 
 
 function getLoginsLastWeek(logs) {
     if (logs.length === 0) return 0;
 
-    // ✅ Step 1: Get the current time in UTC+8 (PH Time)
+    // ✅ Step 1: Get the current time in UTC
     const now = new Date();
-    const nowUTC8 = new Date(now.getTime() + 8 * 60 * 60 * 1000);
-    // console.log("Current Date (UTC+8):", nowUTC8.toISOString());
+    now.setUTCHours(0, 0, 0, 0); // Normalize to start of the day in UTC
 
-    // ✅ Step 2: Find the start of this week (Monday 00:00:00 UTC+8)
-    const dayOfWeek = nowUTC8.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+    // ✅ Step 2: Find the start of this week (Monday 00:00:00 UTC)
+    const dayOfWeek = now.getUTCDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
     const daysSinceMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
 
-    const startOfThisWeekUTC8 = new Date(nowUTC8);
-    startOfThisWeekUTC8.setDate(nowUTC8.getDate() - daysSinceMonday);
-    startOfThisWeekUTC8.setHours(0, 0, 0, 0);
+    const startOfThisWeekUTC = new Date(now);
+    startOfThisWeekUTC.setUTCDate(now.getUTCDate() - daysSinceMonday);
+    startOfThisWeekUTC.setUTCHours(0, 0, 0, 0);
 
     // ✅ Step 3: Get start of the previous week (7 days before the start of this week)
-    const startOfLastWeekUTC8 = new Date(startOfThisWeekUTC8);
-    startOfLastWeekUTC8.setDate(startOfLastWeekUTC8.getDate() - 7);
+    const startOfLastWeekUTC = new Date(startOfThisWeekUTC);
+    startOfLastWeekUTC.setUTCDate(startOfLastWeekUTC.getUTCDate() - 7);
 
-    const endOfLastWeekUTC8 = new Date(startOfLastWeekUTC8);
-    endOfLastWeekUTC8.setDate(startOfLastWeekUTC8.getDate() + 6);
-    endOfLastWeekUTC8.setHours(23, 59, 59, 999);
-
-    // console.log("Start of Last Week (UTC+8):", startOfLastWeekUTC8.toISOString());
-    // console.log("End of Last Week (UTC+8):", endOfLastWeekUTC8.toISOString());
+    const endOfLastWeekUTC = new Date(startOfLastWeekUTC);
+    endOfLastWeekUTC.setUTCDate(startOfLastWeekUTC.getUTCDate() + 6);
+    endOfLastWeekUTC.setUTCHours(23, 59, 59, 999);
 
     // ✅ Step 4: Count logs within last week's range
     let count = 0;
 
     logs.forEach(log => {
         const logDateUTC = new Date(log.date); // Assuming log.date is in UTC
-        const logDateUTC8 = new Date(logDateUTC.getTime() + 8 * 60 * 60 * 1000);
 
-        // console.log(`Log Date (UTC): ${logDateUTC.toISOString()} | Log Date (UTC+8): ${logDateUTC8.toISOString()}`);
-
-        // Check if logDateUTC+8 is in range (startOfLastWeekUTC8 and endOfLastWeekUTC8 are now in UTC+8)
-        const isInRange = logDateUTC8 >= startOfLastWeekUTC8 && logDateUTC8 <= endOfLastWeekUTC8;
-
-        // console.log(`Log Date (UTC+8) in range? ${isInRange}`);
-
-        if (isInRange) count++;
+        // Check if logDateUTC is in range (startOfLastWeekUTC and endOfLastWeekUTC are now in UTC)
+        if (logDateUTC >= startOfLastWeekUTC && logDateUTC <= endOfLastWeekUTC) {
+            count++;
+        }
     });
 
-    // console.log(`Total Logs Found in Range: ${count}`);
     return count;
 }
+
 
 
 
 function calculatePercentageChange(logs) {
     if (logs.length === 0) return "No Records Found.";
 
-    // Get current date and adjust for UTC-8
+    // Get current date and normalize to UTC
     const now = new Date();
-    const offset = 8 * 60; // UTC-8 offset in minutes
-    const nowUTC8 = new Date(now.getTime() - offset * 60000);
+    now.setUTCHours(0, 0, 0, 0);
 
-    // Get start of the current week (Sunday) in UTC-8
-    const startOfThisWeek = new Date(nowUTC8);
-    startOfThisWeek.setDate(nowUTC8.getDate() - nowUTC8.getDay());
-    startOfThisWeek.setHours(0, 0, 0, 0);
+    // Get start of the current week (Sunday) in UTC
+    const startOfThisWeek = new Date(now);
+    startOfThisWeek.setUTCDate(now.getUTCDate() - now.getUTCDay());
+    startOfThisWeek.setUTCHours(0, 0, 0, 0);
 
-    // Get start of the previous week (one week before) in UTC-8
+    // Get start of the previous week (one week before) in UTC
     const startOfLastWeek = new Date(startOfThisWeek);
-    startOfLastWeek.setDate(startOfLastWeek.getDate() - 7);
+    startOfLastWeek.setUTCDate(startOfLastWeek.getUTCDate() - 7);
 
-    // Get end of the previous week (before this week's start) in UTC-8
+    // Get end of the previous week (before this week's start) in UTC
     const endOfLastWeek = new Date(startOfThisWeek);
     endOfLastWeek.setMilliseconds(-1);
 
     // Count logins for this week
     const loginsThisWeek = logs.filter(log => {
         const logDate = new Date(log.date);
-        const logDateUTC8 = new Date(logDate.getTime() - offset * 60000);
-        return logDateUTC8 >= startOfThisWeek;
+        return logDate >= startOfThisWeek;
     }).length;
 
     // Count logins for last week
     const loginsLastWeek = logs.filter(log => {
         const logDate = new Date(log.date);
-        const logDateUTC8 = new Date(logDate.getTime() - offset * 60000);
-        return logDateUTC8 >= startOfLastWeek && logDateUTC8 < startOfThisWeek;
+        return logDate >= startOfLastWeek && logDate < startOfThisWeek;
     }).length;
 
     // Calculate percentage change
@@ -171,11 +147,9 @@ function calculatePercentageChange(logs) {
 }
 
 
+
 function getLastPCUsed(logs) {
     if (!logs.length) return ["N/A", "N/A"];
-
-    // Convert string to Date without modifying time
-    const convertToUTC8 = (date) => new Date(date); 
 
     // Sort logs by date (newest to oldest)
     const sortedLogs = [...logs].sort((a, b) => {
@@ -188,9 +162,9 @@ function getLastPCUsed(logs) {
 
     for (let i = 0; i < sortedLogs.length; i++) {
         const log = sortedLogs[i];
-        const logDate = convertToUTC8(log.date).toDateString();
+        const logDate = new Date(log.date).toDateString();
 
-        if (currentDateGroup.length === 0 || convertToUTC8(currentDateGroup[0].date).toDateString() === logDate) {
+        if (currentDateGroup.length === 0 || new Date(currentDateGroup[0].date).toDateString() === logDate) {
             currentDateGroup.push(log);
         } else {
             groupedLogs.push(currentDateGroup);
@@ -205,16 +179,16 @@ function getLastPCUsed(logs) {
         return new Date(log.date) > new Date(max.date) ? log : max;
     });
 
-    // Format the date using "Asia/Manila" timezone
-    const adjustedFormattedDate = new Date(latestLog.date).toLocaleDateString("en-US", {
-        timeZone: "Asia/Manila",
+    // Format the date in UTC
+    const formattedDate = new Date(latestLog.date).toLocaleDateString("en-US", {
         month: "short",
         day: "numeric",
         year: "numeric"
     });
 
-    return [latestLog.pcNumber, adjustedFormattedDate];
+    return [latestLog.pcNumber, formattedDate];
 }
+
 
 
 
@@ -348,7 +322,7 @@ app.get('/users/student-dashboard', async (req, res) => {
 
         // console.log(req.session.user.logs)
         
-        res.render('student-dashboard', userData);
+        res.render('student-dashboard-copy', userData);
     } catch (err) {
         return res.redirect("/pages/sign-in");
     }
