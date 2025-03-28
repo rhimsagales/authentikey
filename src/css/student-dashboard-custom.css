@@ -203,3 +203,10 @@ body > main > article:nth-child(6) {
     animation-delay: .9s;
     
 }
+
+
+.logs-table tbody tr {
+    height: 48px !important;
+    max-height: 48px !important;
+    min-height: 48px !important;
+}

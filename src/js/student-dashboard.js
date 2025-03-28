@@ -1094,92 +1094,18 @@ const themeControllers = document.querySelectorAll('.theme-change');
 
 themeControllers.forEach(controller => {
     controller.addEventListener('change', () => {
-        window.ctx.clearRect(0, 0, window.canvas.width, window.canvas.height);
-
-        // #6d0076
-        // #0075c2
-        // #ff8600
-
-        // #ff8600
-        // #6d0076
-        // #0075c2
-
-        
-        if(controller.checked) {
-            window.chartInstance.destroy();
-            window.chartInstance = new Chart(window.ctx, {
-                type: "bar",
-                data: {
-                    labels: getMonths(),
-                    datasets: [{
-                        label: "Total Computer Usage per Month",
-                        data: JSON.parse(window.valueLastThreeMonths),
-                        backgroundColor: [window.themePallete.light.accent, window.themePallete.light.secondary, window.themePallete.light.primary]
-                    }]
-                },
-                options: {
-                    plugins: {
-                        legend: {
-                            labels: {
-                                boxWidth: 0,
-                                color : themePallete.light.primary
-                            }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            ticks: { color: window.themePallete.light.baseContent },    
-                            title: { display: true, color: window.themePallete.light.accent, text: "Months" } 
-                        },
-                        y: {
-                            ticks: { color: window.themePallete.light.baseContent }, 
-                            title: { display: true, color: window.themePallete.light.accent, text: "No. of Usage" } 
-                        }
-                    },
-                    maintainAspectRatio: false,
-                    responsive : true
-                }
-            });
-            
+        if(document.documentElement.getAttribute('data-theme') ==  'fantasy') {
+            document.documentElement.setAttribute("data-theme", "sunset")
         }
         else {
-            window.chartInstance.destroy();
-            window.chartInstance = new Chart(window.ctx, {
-                type: "bar",
-                data: {
-                    labels: getMonths(),
-                    datasets: [{
-                        label: "Total Computer Usage per Month",
-                        data: JSON.parse(window.valueLastThreeMonths),
-                        backgroundColor: [window.themePallete.dark.accent, window.themePallete.dark.secondary, window.themePallete.dark.primary]
-                    }]
-                },
-                options: {
-                    plugins: {
-                        legend: {
-                            labels: {
-                                boxWidth: 0,
-                                color : themePallete.dark.primary
-                            }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            ticks: { color: window.themePallete.dark.baseContent },    
-                            title: { display: true, color: window.themePallete.dark.accent, text: "Months" } 
-                        },
-                        y: {
-                            ticks: { color: window.themePallete.dark.baseContent }, 
-                            title: { display: true, color: window.themePallete.dark.accent, text: "No. of Usage" } 
-                        }
-                    },
-                    maintainAspectRatio: false,
-                    responsive : true
-                }
-            });
+            document.documentElement.setAttribute("data-theme", "fantasy")
         }
-
+        window.createChart(window.lastThreeMonthsLogins);
     })
+        
+
+        
+        
 })
 
 

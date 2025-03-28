@@ -1,14 +1,57 @@
-const mongoFunctions = require('./src/js/mongo-functions')
+const mongoFunctions = require('./src/js/mongo-firebase-functions')
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const app = express();
+const http = require("http");
+const socketIo = require("socket.io");
+const admin = require("firebase-admin");
 const session = require("express-session");
 const MongoStore = require('connect-mongo');
+const fs = require("fs");
 
 const { chromium } = require('playwright');
 const qr = require("qr-image");
+const server = http.createServer(app);
+const io = socketIo(server, {
+    cors: {
+      origin: "*", // Allow all origins (change this in production)
+    },
+});
+
+const serviceAccount = require("./serviceAccountKey.json");
+
+
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: "https://authentikey-default-rtdb.asia-southeast1.firebasedatabase.app/",
+});
+
+const db = admin.database();
+
+
+const studentLogsRef = db.ref("studentsRecord/correctionRequest/");
+
+// 🔹 Load JSON file
+const jsonData = JSON.parse(fs.readFileSync("./sample.json", "utf8"));
+
+async function pushData() {
+    for (const entry of jsonData) {
+        const { studentID, ...logData } = entry; // Extract studentID separately
+
+        // 🔹 Push to Firebase under the student's ID
+        await studentLogsRef.child(studentID).push(logData);
+        // console.log(`✅ Added log for ${studentID} at ${logData.timeIn}`);
+    }
+
+    console.log("🎉 Data successfully pushed to Firebase!");
+}
+
+// Run the function
+// pushData().catch(console.error);
+
+
 
 function getLastThreeMonthsLogins(data) {
     const now = new Date();
@@ -34,54 +77,39 @@ function getLastThreeMonthsLogins(data) {
 function getLoginsThisWeek(logs) {
     if (logs.length === 0) return 0;
 
-    // Get current date and time in UTC
     const now = new Date();
-    now.setUTCHours(0, 0, 0, 0); // Normalize to start of the day in UTC
+    now.setUTCHours(0, 0, 0, 0);
 
-    // Calculate start of the current week (Monday, 12:00 AM UTC)
-    const dayOfWeek = now.getUTCDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
-    const daysSinceMonday = (dayOfWeek === 0 ? 6 : dayOfWeek - 1); // Adjust to get Monday as start
+    const dayOfWeek = now.getUTCDay();
+    const daysSinceMonday = (dayOfWeek === 0 ? 6 : dayOfWeek - 1);
 
-    // Start of the current week (Monday, 12:00 AM UTC)
     const startOfWeekUTC = new Date(now);
     startOfWeekUTC.setUTCDate(now.getUTCDate() - daysSinceMonday);
     startOfWeekUTC.setUTCHours(0, 0, 0, 0);
 
-    // End of the current week (Sunday, 11:59:59 PM UTC)
     const endOfWeekUTC = new Date(startOfWeekUTC);
     endOfWeekUTC.setUTCDate(startOfWeekUTC.getUTCDate() + 6);
     endOfWeekUTC.setUTCHours(23, 59, 59, 999);
 
-    let count = 0;
-
-    logs.forEach(log => {
+    return logs.filter(log => {
         const logDateUTC = new Date(log.date);
-        if (logDateUTC >= startOfWeekUTC && logDateUTC <= endOfWeekUTC) {
-            count++;
-        }
-    });
-
-    return count;
+        return logDateUTC >= startOfWeekUTC && logDateUTC <= endOfWeekUTC;
+    }).length;
 }
-
-
 
 function getLoginsLastWeek(logs) {
     if (logs.length === 0) return 0;
 
-    // ✅ Step 1: Get the current time in UTC
     const now = new Date();
-    now.setUTCHours(0, 0, 0, 0); // Normalize to start of the day in UTC
+    now.setUTCHours(0, 0, 0, 0);
 
-    // ✅ Step 2: Find the start of this week (Monday 00:00:00 UTC)
-    const dayOfWeek = now.getUTCDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+    const dayOfWeek = now.getUTCDay();
     const daysSinceMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
 
     const startOfThisWeekUTC = new Date(now);
     startOfThisWeekUTC.setUTCDate(now.getUTCDate() - daysSinceMonday);
     startOfThisWeekUTC.setUTCHours(0, 0, 0, 0);
 
-    // ✅ Step 3: Get start of the previous week (7 days before the start of this week)
     const startOfLastWeekUTC = new Date(startOfThisWeekUTC);
     startOfLastWeekUTC.setUTCDate(startOfLastWeekUTC.getUTCDate() - 7);
 
@@ -89,20 +117,13 @@ function getLoginsLastWeek(logs) {
     endOfLastWeekUTC.setUTCDate(startOfLastWeekUTC.getUTCDate() + 6);
     endOfLastWeekUTC.setUTCHours(23, 59, 59, 999);
 
-    // ✅ Step 4: Count logs within last week's range
-    let count = 0;
-
-    logs.forEach(log => {
-        const logDateUTC = new Date(log.date); // Assuming log.date is in UTC
-
-        // Check if logDateUTC is in range (startOfLastWeekUTC and endOfLastWeekUTC are now in UTC)
-        if (logDateUTC >= startOfLastWeekUTC && logDateUTC <= endOfLastWeekUTC) {
-            count++;
-        }
-    });
-
-    return count;
+    return logs.filter(log => {
+        const logDateUTC = new Date(log.date);
+        return logDateUTC >= startOfLastWeekUTC && logDateUTC <= endOfLastWeekUTC;
+    }).length;
 }
+
+
 
 
 
@@ -151,10 +172,14 @@ function calculatePercentageChange(logs) {
 function getLastPCUsed(logs) {
     if (!logs.length) return ["N/A", "N/A"];
 
+    
+
     // Sort logs by date (newest to oldest)
     const sortedLogs = [...logs].sort((a, b) => {
         return new Date(b.date) - new Date(a.date);
     });
+
+    
 
     // Group logs by date (ignoring time)
     const groupedLogs = [];
@@ -174,20 +199,29 @@ function getLastPCUsed(logs) {
 
     if (currentDateGroup.length) groupedLogs.push(currentDateGroup);
 
+    
+
     // Find the most recent log in the latest group
     const latestLog = groupedLogs[0].reduce((max, log) => {
+        
         return new Date(log.date) > new Date(max.date) ? log : max;
     });
 
-    // Format the date in UTC
+    
+
+    // Format the date in UTC to prevent timezone shifts
     const formattedDate = new Date(latestLog.date).toLocaleDateString("en-US", {
+        timeZone: "UTC", // Ensures exact date is used
         month: "short",
         day: "numeric",
         year: "numeric"
     });
 
+    
     return [latestLog.pcNumber, formattedDate];
 }
+
+
 
 
 
@@ -213,6 +247,24 @@ function isValidKey(req, res, next) {
     return next();
 }
 
+function convertObjectToArray(obj) {
+    let result = [];
+    
+    for (let key in obj) {
+        if (obj.hasOwnProperty(key) && typeof obj[key] === 'object') {
+            result.push(obj[key]);
+        }
+    }
+    
+    return result;
+}
+
+function convertDatesInArray(array) {
+    return array.map(obj => ({
+        ...obj,
+        date: new Date(obj.date) // Convert date string to Date object
+    }));
+}
 
 app.set("view engine", "ejs");
 app.use(cors());
@@ -248,6 +300,67 @@ app.set("views", path.join(__dirname, "src", "views"));
 
 
 mongoFunctions.connectToMongoDB();
+
+io.on("connection", (socket) => {
+    const studentID = socket.handshake.query.studentID;
+
+    if (!studentID) {
+        console.log("User ID missing!");
+        return socket.disconnect();
+    }
+
+    const studentComputerLogsRef = db.ref(`studentsRecord/logs/${studentID}`);
+    const studentCorrectionRequestRef = db.ref(`studentsRecord/correctionRequest/${studentID}`)
+
+    // 🔹 Remove any previous listener before adding a new one
+    studentComputerLogsRef.off("child_added");
+    studentComputerLogsRef.on("value", (snapshot) => {
+        
+
+        const data = snapshot.val();
+        const dataArray = data ? Object.values(data) : [];
+        
+        const convertedDataArray = convertDatesInArray(dataArray);
+        
+        
+        const lastUsedPcDate = getLastPCUsed(convertedDataArray);
+        socket.emit("newLog", {
+            loginLastWeek: getLoginsLastWeek(convertedDataArray),
+            loginThisWeek: getLoginsThisWeek(convertedDataArray),
+            lastPcUsed: lastUsedPcDate[0],
+            lastUsedDate: lastUsedPcDate[1],
+            lastThreeMonthsLogins: getLastThreeMonthsLogins(convertedDataArray),
+            allLogs: sortLogsByDate(convertedDataArray),
+            
+        });
+        
+        
+        
+    
+    });
+
+
+    studentCorrectionRequestRef.on("value", (snapshot) => {
+        const data = snapshot.val();
+        const dataArray = data ? Object.values(data) : [];
+
+        socket.emit('newRequest', {
+            numberOfRequest : dataArray.length,
+            requests : dataArray
+        })
+    })
+    // Disconnect event
+    socket.on("disconnect", () => {
+        studentComputerLogsRef.off(); 
+        studentCorrectionRequestRef.off();
+        
+    });
+});
+
+
+
+
+
 
 
 
@@ -468,6 +581,8 @@ app.post('/mongodb/find-student-id', isAuthenticated, (req, res) => {
 });
 
 
-app.listen(process.env.PORT || 3000, () => {
+
+
+server.listen(process.env.PORT || 3000, () => {
     console.log('Server running at http://localhost:3000');
 });
