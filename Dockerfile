@@ -19,6 +19,12 @@ RUN npx playwright install --with-deps --force
 # Debugging: Check if Playwright browsers exist
 RUN ls -la $PLAYWRIGHT_BROWSERS_PATH || (echo "Playwright browsers not found!" && exit 1)
 
+# Set the container's time zone to match the host's time zone
+# Sync the time with the host system
+RUN apt-get update && apt-get install -y tzdata && \
+    ln -snf /usr/share/zoneinfo/Etc/UTC /etc/localtime && \
+    dpkg-reconfigure --frontend noninteractive tzdata
+
 # Copy the rest of the project files
 COPY . .
 
