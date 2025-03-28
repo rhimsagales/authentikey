@@ -18,7 +18,7 @@
     }
 }
 body {
-    @apply w-full h-auto min-h-svh;
+    @apply w-full min-h-svh;
 }
 
 #my-account.open-modal > div > div, #my-account-two.open-modal {

@@ -49,7 +49,15 @@
   <title>Dashboard | Authentikey</title>
 </head>
 
-<body class="relative bg-base-300 box-border font-inter overflow-y-auto overflow-x-hidden max-w-[100vw]">
+<body class="relative bg-base-300 box-border font-inter overflow-y-hidden overflow-x-hidden max-w-[100vw] h-svh">
+  <main class="w-full h-full absolute inset-0 z-[100] bg-base-100 flex items-center justify-center gap-2 flex-col main-loading-screen">
+    <img src="../assets/favicon_io/logo-192.png" alt="Authentikey-Logo" class="object-contain size-28">
+    <div class="flex ">
+      <span class="loading loading-ball loading-sm"></span>
+      <span class="loading loading-ball loading-md"></span>
+      <span class="loading loading-ball loading-sm"></span>
+    </div>
+  </main>
   <header
     class="bg-base-100  text-base-content flex shadow-md w-full h-16 md:h-20 rounded-t-none rounded-b-xl fixed top-0 left-0 px-4 lg:px-24 2xl:px-36  z-10  max-w-[100vw]">
     <div class="w-1/2 lg:w-1/4 h-full flex items-center justify-start">
@@ -375,6 +383,11 @@
     </article>
     <article
       class="graph w-full h-full min-h-full shadow-lg p-1 box-border md:p-4 bg-base-100 rounded-lg  flex items-center justify-center animate-fadeinup animate-fill-forwards">
+      <div class="w-full h-full flex gap-1  items-center justify-center graph-loading-screen">
+        <span class="loading loading-ring loading-sm"></span>
+        <span class="loading loading-ring loading-lg"></span>
+        <span class="loading loading-ring loading-sm"></span>
+      </div>
       <canvas id="myChart" class="p-2 rounded-md" style="height: 100% !important; width: 100% !important;">
 
       </canvas>
@@ -788,12 +801,15 @@
     </div>
   </div>
 
-
+  
 
 
 
   <script>
-    
+    document.addEventListener('DOMContentLoaded', function() {
+      document.body.classList.replace('h-svh', 'h-auto');
+      document.querySelector('.main-loading-screen').classList.replace('flex', 'hidden');
+    })
     window.userData = {
       name: "<%= name ? name : 'N/A' %>",
       studentID: "<%= studentID ? studentID : 'N/A' %>",

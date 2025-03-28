@@ -220,6 +220,11 @@ function updateCorrectionRequesTable(requests) {
 
 window.createChart = function(lastThreeMonthsLogins) {
     let valueLastThreeMonths = lastThreeMonthsLogins;
+
+    let graphLoadingScreen = document.querySelector('.graph > .graph-loading-screen');
+    if(graphLoadingScreen) {
+        graphLoadingScreen.remove();
+    }
     
     window.getMonths = function () {
         const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -299,9 +304,7 @@ socket.on("newLog", (logData) => {
     window.createChart(logData.lastThreeMonthsLogins);
     window.lastThreeMonthsLogins = logData.lastThreeMonthsLogins;
 
-    // dataArray.push(logData);
-    // console.table(dataArray)
-    console.log(logData.allLogs)
+    
     
 });
 

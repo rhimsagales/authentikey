@@ -19,8 +19,9 @@ const io = socketIo(server, {
       origin: "*", // Allow all origins (change this in production)
     },
 });
-
+// console.log(JSON.parse(process.env.ServiceAccKey) ? process.env.ServiceAccKey : "yes");
 const serviceAccount = require("./serviceAccountKey.json");
+
 
 
 admin.initializeApp({
