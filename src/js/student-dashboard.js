@@ -703,14 +703,7 @@ crSubmitBtn.addEventListener('click', async (event) => {
     crSubmitBtn.disabled = true;
     try {
         if(!crName.value || !crEmail.value || !crSubject.value || !crDateRecord.value || !crCorrDetails.value ) {
-            console.log({
-                fullName : crName.value,
-                email : crEmail.value,
-                subject : crSubject.value,
-                dateRecord : crDateRecord.value,
-                correctionDetails : crCorrDetails.value
-
-            })
+            
             throw new Error('All fields are required.');
         }
         console.log('reached here')
@@ -718,6 +711,7 @@ crSubmitBtn.addEventListener('click', async (event) => {
             method : 'POST',
             headers : { 'Content-Type' : 'application/json', },
             body : JSON.stringify({
+                studentID : window.userData.studentID,
                 fullName : crName.value,
                 email : crEmail.value,
                 subject : crSubject.value,

@@ -7056,9 +7056,24 @@ details.collapse summary::-webkit-details-marker {
   height: 5rem;
 }
 
+.size-24 {
+  width: 6rem;
+  height: 6rem;
+}
+
+.size-28 {
+  width: 7rem;
+  height: 7rem;
+}
+
 .size-3 {
   width: 0.75rem;
   height: 0.75rem;
+}
+
+.size-32 {
+  width: 8rem;
+  height: 8rem;
 }
 
 .size-4 {
@@ -7094,21 +7109,6 @@ details.collapse summary::-webkit-details-marker {
 .size-full {
   width: 100%;
   height: 100%;
-}
-
-.size-32 {
-  width: 8rem;
-  height: 8rem;
-}
-
-.size-24 {
-  width: 6rem;
-  height: 6rem;
-}
-
-.size-28 {
-  width: 7rem;
-  height: 7rem;
 }
 
 .h-1 {
@@ -8952,6 +8952,11 @@ details.collapse summary::-webkit-details-marker {
 .text-error {
   --tw-text-opacity: 1;
   color: var(--fallback-er,oklch(var(--er)/var(--tw-text-opacity, 1)));
+}
+
+.text-error-content {
+  --tw-text-opacity: 1;
+  color: var(--fallback-erc,oklch(var(--erc)/var(--tw-text-opacity, 1)));
 }
 
 .text-gray-200 {

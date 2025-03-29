@@ -2,7 +2,12 @@ require('dotenv').config();
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const mongoURI = process.env.MongoURI;
+const { getCorrectionRequestRef, getComputerUsageLogsRef } = require("../../firebase-config");
 
+
+
+let correctionRequestRef = getCorrectionRequestRef();
+let computerUsageLogsRef = getComputerUsageLogsRef();
 
 
 
@@ -535,30 +540,35 @@ async function createResetPassDoc(req, res) {
 }
 
 async function insertCorrectionRequest(req, res) {
-    const { fullName, email, subject, dateRecord, correctionDetails } = req.body;
+    const { studentID, fullName, email, subject, dateRecord, correctionDetails } = req.body;
 
     try {
-        if (!fullName || !email || !subject || !dateRecord || !correctionDetails) {
+        
+        if (!studentID || !fullName || !email || !subject || !dateRecord || !correctionDetails) {
             console.log({
                 fullName,
                 email,
                 subject,
                 dateRecord,
                 correctionDetails
-            })
-            return res.status(400).json({ success: false, message: 'All fields are required.' }); // More specific return
+            });
+            return res.status(400).json({ success: false, message: 'All fields are required.' });
         }
 
-        const user = await retryWithExponentialDelay(() => flexibleModel.findOne({ email })); // Use studentID consistently
+        // Reference to correction requests for a specific student
+        const studentCorrectionRequestRef = correctionRequestRef.child(studentID);
 
-        if (!user) {
-            return res.status(404).json({ success: false, message: 'User not found.' }); // 404 for not found
+        // Get current request count
+        let requestNumber;
+        try {
+            const snapshot = await studentCorrectionRequestRef.get();
+            requestNumber = snapshot.exists() ? snapshot.numChildren() + 1 : 1;
+        } catch (err) {
+            console.error("Error fetching request count:", err);
+            return res.status(500).json({ success: false, message: 'Error processing request.' });
         }
 
-        const requestNumber = user.correctionRequest ? user.correctionRequest.length + 1 : 1; // Handle initial request
-
-        const status = "";
-
+        // Construct the new request object
         const correctionRequestObj = {
             requestNumber,
             fullName,
@@ -566,27 +576,25 @@ async function insertCorrectionRequest(req, res) {
             subject,
             dateRecord,
             correctionDetails,
-            status
-            
+            status: "Pending", // Set a meaningful default status
+            timestamp: Date.now() // Optional: add a timestamp
         };
 
-        const updatedDocument = await retryWithExponentialDelay(() => flexibleModel.findOneAndUpdate(
-            { email : email },
-            { $push: { correctionRequest: correctionRequestObj } },
-            { new: true, useFindAndModify: false }
-        ));
-
-        if (!updatedDocument) {
-            throw new Error('Failed to submit correction request.');
+        // Push the new request into the database
+        try {
+            await studentCorrectionRequestRef.push(correctionRequestObj);
+            return res.status(200).json({ success: true, message: 'Correction request submitted successfully.' });
+        } catch (err) {
+            console.error("Error saving request:", err);
+            return res.status(500).json({ success: false, message: 'Failed to submit request.' });
         }
 
-        return res.status(200).json({ success: true, message: 'Correction request submitted successfully.' });
-
     } catch (error) {
-        console.error("Error submitting correction request:", error); // Log the error for debugging
-        return res.status(500).json({ success: false, message: 'An error occurred. Please try again later.' }); // Generic error message for security
+        console.error("Error in insertCorrectionRequest:", error);
+        return res.status(500).json({ success: false, message: 'An error occurred. Please try again later.' });
     }
 }
+
 
 async function updatePersonalInfo (req, res) {
     try {
@@ -706,37 +714,39 @@ async function findAndPushData(req, res) {
     try {
         const { studentID, timeIn, timeOut, date, pcNumber } = req.body;
 
-        // console.log("Raw request body:", req.body);
-
         if (!studentID || !timeIn || !timeOut || !date || !pcNumber) {
-            return res.status(400).json({ error: "Missing required fields",
-                body : req.body
-             });
+            return res.status(400).json({ 
+                success: false, 
+                message: "Missing required fields",
+                body: req.body 
+            });
         }
 
-        // Find the document by studentId
-        const document = await retryWithExponentialDelay(() => flexibleModel.findOne({ studentID }));
-        
+        // Reference for the student's computer usage logs
+        const studentComputerUsageRef = computerUsageLogsRef.child(studentID);
 
-        if (!document) {
-            return res.status(404).json({ error: "Document not found" });
-        }
+        const newComputerLog = {
+            studentID,
+            timeIn,
+            timeOut,
+            date,
+            pcNumber
+        };
 
-        // Create log entry
-        const newLog = { date : new Date(date), timeIn, timeOut, pcNumber };
+        await studentComputerUsageRef.push(newComputerLog); // `.set()` is unnecessary
 
-        // Push new log entry to logs array
-        document.logs.push(newLog);
+        return res.status(200).json({ success: true, message: "Log added successfully" });
 
-        // Save the updated document
-        await document.save();
-
-        res.status(200).json({ message: "Log added successfully", updatedDocument: document });
     } catch (error) {
-        console.error("Error updating document:", error);
-        res.status(500).json({ error: "Internal Server Error" });
+        console.error("Error adding log:", error);
+        return res.status(500).json({ 
+            success: false, 
+            message: "Internal Server Error",
+            error: error.message 
+        });
     }
 }
+
 
 
 async function findStudentID(req, res) {

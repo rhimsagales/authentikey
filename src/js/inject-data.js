@@ -201,7 +201,7 @@ function updateCorrectionRequesTable(requests) {
     for(let request of requests) {
         rows += `<tr class="hover">
             <td class="font-semibold text-base-content">
-                ${counter}
+                ${request.requestNumber}
             </td>
             <td class="w-auto max-w-[200px] min-w-[150px] break-all">
                 ${request.subject}

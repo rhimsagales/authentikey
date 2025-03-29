@@ -6,10 +6,9 @@ const path = require('path');
 const app = express();
 const http = require("http");
 const socketIo = require("socket.io");
-const admin = require("firebase-admin");
 const session = require("express-session");
 const MongoStore = require('connect-mongo');
-const fs = require("fs");
+
 
 const { chromium } = require('playwright');
 const qr = require("qr-image");
@@ -19,38 +18,10 @@ const io = socketIo(server, {
       origin: "*", // Allow all origins (change this in production)
     },
 });
-// console.log(JSON.parse(process.env.ServiceAccKey) ? process.env.ServiceAccKey : "yes");
-const serviceAccount = require("./serviceAccountKey.json");
+const { getDatabase } = require("./firebase-config");
 
+const db = getDatabase()
 
-
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://authentikey-default-rtdb.asia-southeast1.firebasedatabase.app/",
-});
-
-const db = admin.database();
-
-
-const studentLogsRef = db.ref("studentsRecord/correctionRequest/");
-
-// 🔹 Load JSON file
-const jsonData = JSON.parse(fs.readFileSync("./sample.json", "utf8"));
-
-async function pushData() {
-    for (const entry of jsonData) {
-        const { studentID, ...logData } = entry; // Extract studentID separately
-
-        // 🔹 Push to Firebase under the student's ID
-        await studentLogsRef.child(studentID).push(logData);
-        // console.log(`✅ Added log for ${studentID} at ${logData.timeIn}`);
-    }
-
-    console.log("🎉 Data successfully pushed to Firebase!");
-}
-
-// Run the function
-// pushData().catch(console.error);
 
 
 
@@ -516,7 +487,7 @@ app.post('/secret/connection-string', (req, res) => {
 });
 
 
-app.post('/mongodb/push-log', isValidKey, (req, res) => {
+app.post('/firebase/push-log', isValidKey, (req, res) => {
     
     mongoFunctions.findAndPushData(req, res);
 });
