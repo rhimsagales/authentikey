@@ -29,19 +29,40 @@ function getLastThreeMonthsLogins(data) {
     const now = new Date();
     now.setUTCHours(0, 0, 0, 0); // Normalize to start of the day in UTC
 
-    // Get last two months + current month in UTC
-    const lastThreeMonths = [2, 1, 0].map(offset => {
-        const date = new Date(now);
-        date.setUTCMonth(now.getUTCMonth() - offset);
-        return date.getUTCMonth(); // Extract adjusted month index
-    });
+    
 
-    return lastThreeMonths.map(monthIndex => 
-        data.filter(entry => {
+    const lastThreeMonths = [];
+    for (let i = 2; i >= 0; i--) {
+        let year = now.getUTCFullYear();
+        let month = now.getUTCMonth() - i;
+
+        if (month < 0) {
+            year--;
+            month += 12; // Adjust for year rollover
+        }
+
+        lastThreeMonths.push({ year, month });
+    }
+
+    
+
+    return lastThreeMonths.map(({ year, month }, i) => {
+        const filteredEntries = data.filter(entry => {
             const entryDateUTC = new Date(entry.date);
-            return entryDateUTC.getUTCMonth() === monthIndex;
-        }).length
-    );
+            entryDateUTC.setUTCHours(0, 0, 0, 0);
+
+            const entryMonth = entryDateUTC.getUTCMonth();
+            const entryYear = entryDateUTC.getUTCFullYear();
+
+            
+
+            return entryMonth === month && entryYear === year;
+        });
+
+        
+
+        return filteredEntries.length;
+    });
 }
 
 
