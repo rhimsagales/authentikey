@@ -219,6 +219,8 @@ function updateCorrectionRequesTable(requests) {
 }
 
 window.createChart = function(lastThreeMonthsLogins) {
+    let canvas = document.getElementById("myChart");
+    canvas.classList.replace('hidden', 'block')
     let valueLastThreeMonths = lastThreeMonthsLogins;
 
     let graphLoadingScreen = document.querySelector('.graph > .graph-loading-screen');
@@ -232,7 +234,7 @@ window.createChart = function(lastThreeMonthsLogins) {
         return [months[(currentMonthIndex + 10) % 12], months[(currentMonthIndex + 11) % 12], months[currentMonthIndex]];
     }
 
-    let canvas = document.getElementById("myChart");
+    
 
     // Ensure Chart.js instance doesn't already exist
     if (window.chartInstance) {

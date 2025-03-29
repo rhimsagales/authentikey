@@ -1,5 +1,4 @@
 {
-  "display": "standalone",
   "name": "AuthentiKey",
   "short_name": "AuthentiKey",
   "start_url": "/pages/sign-in",
@@ -9,16 +8,16 @@
     {
       "src": "./logo-512.png",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     },
     {
       "src": "./logo-192.png",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     }
   ],
   "theme_color": "#121C22",
-  "background_color": "#121C22"
+  "background_color": "#121C22",
+  "display": "standalone"
 }
+

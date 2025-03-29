@@ -25,7 +25,15 @@
     <link rel="manifest" href="../assets/favicon_io/site.webmanifest">
     <title>Sign-In | Authentikey</title>
 </head>
-<body class="si-body min-h-[550px] overflow-y-hidden">
+<body class="si-body min-h-[550px] overflow-y-hidden h-svh">
+    <main class="w-full h-full absolute inset-0 z-[100] bg-base-100 flex items-center justify-center gap-2 flex-col main-loading-screen">
+        <img src="../assets/favicon_io/logo-192.png" alt="Authentikey-Logo" class="object-contain size-28">
+        <div class="flex ">
+          <span class="loading loading-ball loading-sm"></span>
+          <span class="loading loading-ball loading-md"></span>
+          <span class="loading loading-ball loading-sm"></span>
+        </div>
+    </main>
     <div class="w-full h-auto max-h-[114px] min-h-[62px] absolute top-4 left-0 z-[100] overflow-hidden px-6 alert-container">
         
     
@@ -173,6 +181,12 @@
     </path>
     </svg>
 
+
+    <script>
+        window.addEventListener('load', function() {
+            document.querySelector('.main-loading-screen').classList.replace('flex', 'hidden');
+        })
+    </script>
     <script type="text/javascript"
         src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
     </script>

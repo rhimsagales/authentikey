@@ -33,7 +33,7 @@
     scroll-behavior: smooth;
 }
 body {
-    @apply w-full h-auto bg-base-200 flex items-center justify-center font-inter text-gray-900 relative min-h-svh ;
+    @apply w-full bg-base-200 flex items-center justify-center font-inter text-gray-900 relative min-h-svh ;
     /* color: #4800ff71; */
 
 }
@@ -194,7 +194,7 @@ body > .gradient-filter {
 
 
 .si-body {
-    @apply flex items-center justify-center w-full h-svh bg-base-300;
+    @apply flex items-center justify-center w-full  bg-base-300;
 }
 
 
