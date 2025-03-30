@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driver.js Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/driver.js@latest/dist/driver.js.iife.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@latest/dist/driver.css"/>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            padding: 20px;
+        }
+        .highlight {
+            padding: 15px;
+            background-color: lightgray;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 id="title">Welcome to My Website</h1>
+        <button id="start-tour">Start Tour</button>
+        <p class="highlight" id="feature1">Feature 1: Amazing UI</p>
+        <p class="highlight" id="feature2">Feature 2: Smooth Navigation</p>
+        <p class="highlight" id="feature3">Feature 3: Lightning Fast</p>
+    </div>
+
+    <script>
+        const driver = window.driver.js.driver;
+        // Initialize Driver.js
+        const driverObj = driver({
+            animate : true,
+            showProgress : true,
+            showButtons : ["next", "previous", "close"],
+            steps : [
+                {
+                    element: '#title',
+                    popover: {
+                        title: 'Welcome!',
+                        description: 'This is the main heading of our webpage.',
+                        position: 'bottom'
+                    }
+                },
+                {
+                    element: '#feature1',
+                    popover: {
+                        title: 'Feature 1',
+                        description: 'Our UI is clean and user-friendly!',
+                        position: 'right'
+                    }
+                },
+                {
+                    element: '#feature2',
+                    popover: {
+                        title: 'Feature 2',
+                        description: 'Navigation is smooth and intuitive!',
+                        position: 'right'
+                    }
+                },
+                {
+                    element: '#feature3',
+                    popover: {
+                        title: 'Feature 3',
+                        description: 'Performance is optimized for speed!',
+                        position: 'right'
+                    }
+                }
+            ]
+        });
+
+        // Define the tour steps
+        // driverObj.defineSteps([
+        //     {
+        //         element: '#title',
+        //         popover: {
+        //             title: 'Welcome!',
+        //             description: 'This is the main heading of our webpage.',
+        //             position: 'bottom'
+        //         }
+        //     },
+        //     {
+        //         element: '#feature1',
+        //         popover: {
+        //             title: 'Feature 1',
+        //             description: 'Our UI is clean and user-friendly!',
+        //             position: 'right'
+        //         }
+        //     },
+        //     {
+        //         element: '#feature2',
+        //         popover: {
+        //             title: 'Feature 2',
+        //             description: 'Navigation is smooth and intuitive!',
+        //             position: 'right'
+        //         }
+        //     },
+        //     {
+        //         element: '#feature3',
+        //         popover: {
+        //             title: 'Feature 3',
+        //             description: 'Performance is optimized for speed!',
+        //             position: 'right'
+        //         }
+        //     }
+        // ]);
+
+        // Start tour when button is clicked
+        document.getElementById('start-tour').addEventListener('click', () => {
+            driverObj.drive();
+        });
+    </script>
+
+</body>
+</html>
