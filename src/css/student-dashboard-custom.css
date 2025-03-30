@@ -221,7 +221,7 @@ body > main > article:nth-child(6) {
 
 
 
-.tour-show-me-around-anchor {
+.tour-show-me-around-anchor, .tour-show-me-around-anchor-mobile {
     background: rgb(255,2,106);
     background: -moz-linear-gradient(167deg, rgba(255,2,106,1) 0%, rgba(171,24,162,1) 50%, rgba(61,37,237,1) 100%);
     background: -webkit-linear-gradient(167deg, rgba(255,2,106,1) 0%, rgba(171,24,162,1) 50%, rgba(61,37,237,1) 100%);
@@ -232,6 +232,6 @@ body > main > article:nth-child(6) {
     color: transparent;
     font-weight: 600;
 }
-.tour-show-me-around-anchor > a > svg {
+.tour-show-me-around-anchor > a > svg, .tour-show-me-around-anchor-mobile > a > svg {
     color: rgb(255,2,106);
 }

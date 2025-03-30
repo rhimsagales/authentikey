@@ -304,7 +304,6 @@ socket.on("newLog", (logData) => {
     updateRecentUsedPCInfoCard(logData.lastPcUsed, logData.lastUsedDate);
     updateTable(logData.allLogs)
     window.createChart(logData.lastThreeMonthsLogins);
-    console.log(logData.lastThreeMonthsLogins)
     window.lastThreeMonthsLogins = logData.lastThreeMonthsLogins;
 
     
