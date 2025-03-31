@@ -46,6 +46,12 @@ body {
     transition: height 1s ease-in-out, transform .5s ease-in-out, opacity .3s ease-in-out ;
 }
 
+@media (min-width: 1024px) {
+    #sidebar.expand {
+        display: none;
+    }
+}
+
 #burger-btn > :nth-child(1) {
     display: flex;
 }
@@ -235,3 +241,24 @@ body > main > article:nth-child(6) {
 .tour-show-me-around-anchor > a > svg, .tour-show-me-around-anchor-mobile > a > svg {
     color: rgb(255,2,106);
 }
+
+
+/* Hide scrollbar for Chrome, Safari, and Edge */
+::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for Firefox */
+  * {
+    scrollbar-width: none;
+  }
+  
+  /* Hide scrollbar for IE/Edge */
+  body {
+    -ms-overflow-style: none;
+  }
+  
+  
+  
+
+

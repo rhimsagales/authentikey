@@ -41,7 +41,7 @@
 
 
   <script src="https://cdn.jsdelivr.net/npm/driver.js@latest/dist/driver.js.iife.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@latest/dist/driver.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@latest/dist/driver.css" />
   <link rel="stylesheet" href="../css/driver.css">
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -55,8 +55,9 @@
 </head>
 
 <body class="relative bg-base-300 box-border font-inter overflow-y-auto overflow-x-hidden max-w-[100vw] h-svh">
-  
-  <main class="w-full h-full absolute inset-0 z-[100] bg-base-100 flex items-center justify-center gap-2 flex-col main-loading-screen">
+
+  <main
+    class="w-full h-full absolute inset-0 z-[100] bg-base-100 flex items-center justify-center gap-2 flex-col main-loading-screen">
     <img src="../assets/favicon_io/logo-192.png" alt="Authentikey-Logo" class="object-contain size-28">
     <div class="flex ">
       <span class="loading loading-ball loading-sm"></span>
@@ -64,7 +65,8 @@
       <span class="loading loading-ball loading-sm"></span>
     </div>
   </main>
-  <header class="bg-base-100  text-base-content flex shadow-md w-full h-16 md:h-20 rounded-t-none rounded-b-xl fixed top-0 left-0 px-4 lg:px-24 2xl:px-36  z-10  max-w-[100vw]">
+  <header
+    class="bg-base-100  text-base-content flex shadow-md w-full h-16 md:h-20 rounded-t-none rounded-b-xl fixed top-0 left-0 px-4 lg:px-24 2xl:px-36  z-10  max-w-[100vw]">
     <div class="w-1/2 lg:w-1/4 h-full flex items-center justify-start">
       <a href="/users/student-dashboard" class="flex items-center justify-center gap-2 tour-logo">
         <img src="../assets/logo-auth-png.png" alt="Authentikey"
@@ -75,19 +77,21 @@
 
     </div>
     <div class="w-1/2 lg:w-3/4 flex items-center justify-end">
-      <div class="hidden lg:flex w-full h-full relative  tour-nav">
-        
+      <div class="hidden lg:flex w-full min-w-full h-14 relative  tour-nav">
+
         <ul class="w-3/4 flex items-center justify-around" id="desktop-nav-links-container">
           <li>
             <button
-              class="text-[12px] font-semibold btn btn-sm btn-primary  rounded-full desk-nav-btn tour-dashboard">Dashboard</button>
+              class="text-[12px] font-semibold btn btn-sm  btn-primary  rounded-full desk-nav-btn tour-dashboard">Dashboard</button>
           </li>
           <li>
-            <button class="text-[12px] font-semibold btn btn-sm btn-ghost  rounded-full desk-nav-btn tour-correction">Correction
+            <button
+              class="text-[12px] font-semibold btn btn-sm btn-ghost  rounded-full desk-nav-btn tour-correction">Correction
               Request</button>
           </li>
           <li>
-            <button class="text-[12px] font-semibold btn btn-sm btn-ghost  rounded-full desk-nav-btn tour-contact">Contact
+            <button
+              class="text-[12px] font-semibold btn btn-sm btn-ghost  rounded-full desk-nav-btn tour-contact">Contact
               Dev</button>
           </li>
         </ul>
@@ -108,7 +112,8 @@
 
           </li>
         </ul>
-        <ul class=" my-account-menu hidden menu menu-sm bg-base-100 text-base-content shadow-lg-custom rounded-box w-56 absolute right-0 bottom-[-260px] py-4">
+        <ul
+          class=" my-account-menu hidden menu menu-sm bg-base-100 text-base-content shadow-lg-custom rounded-box w-56 absolute right-0 bottom-[-280px] py-4">
           <div class="tour-my-acc-menu">
             <span class="text-xs font-semibold px-3">My Account</span>
             <div class="divider h-2 my-1"></div>
@@ -146,30 +151,33 @@
                 My QR Code
               </a>
             </li>
-            
+
             <div class="divider h-2 my-1"></div>
             <li class="w-full tour-show-me-around-anchor">
               <a class="start-tour" href="#">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.59 14.37a6 6 0 0 1-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 0 0 6.16-12.12A14.98 14.98 0 0 0 9.631 8.41m5.96 5.96a14.926 14.926 0 0 1-5.841 2.58m-.119-8.54a6 6 0 0 0-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 0 0-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 0 1-2.448-2.448 14.9 14.9 0 0 1 .06-.312m-2.24 2.39a4.493 4.493 0 0 0-1.757 4.306 4.493 4.493 0 0 0 4.306-1.758M16.5 9a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                  stroke="currentColor" class="size-6">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M15.59 14.37a6 6 0 0 1-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 0 0 6.16-12.12A14.98 14.98 0 0 0 9.631 8.41m5.96 5.96a14.926 14.926 0 0 1-5.841 2.58m-.119-8.54a6 6 0 0 0-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 0 0-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 0 1-2.448-2.448 14.9 14.9 0 0 1 .06-.312m-2.24 2.39a4.493 4.493 0 0 0-1.757 4.306 4.493 4.493 0 0 0 4.306-1.758M16.5 9a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
                 </svg>
                 Show Me Around
               </a>
             </li>
             <div class="divider h-2 my-1"></div>
             <li class="tour-sign-out-anchor">
-              <a class="sign-out text-error font-semibold"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                  stroke-width="1.5" stroke="currentColor" class="size-6">
+              <a class="sign-out text-error font-semibold"><svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                  viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                   <path stroke-linecap="round" stroke-linejoin="round"
                     d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />
                 </svg>
                 Sign out</a>
             </li>
           </div>
-          
+
         </ul>
       </div>
-      <button class="tour-burger grid lg:hidden btn btn-ghost btn-sm rounded-full size-10 place-content-center" id="burger-btn">
+      <button class="tour-burger grid lg:hidden btn btn-ghost btn-sm rounded-full size-10 place-content-center"
+        id="burger-btn">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
           class="size-6">
           <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M12 17.25h8.25" />
@@ -239,16 +247,18 @@
       </div>
 
       <div class="w-full h-auto relative bottom-0 tour-my-acc-menu-mobile">
-        
+
         <ul class="my-account-menu-two flex gap-2 menu menu-sm bg-base-100 text-base-content  w-full rounded-none ">
           <div class="divider h-fit m-0"></div>
           <li class="w-full tour-show-me-around-anchor-mobile">
-              <a class="start-tour-mobile" href="#">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.59 14.37a6 6 0 0 1-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 0 0 6.16-12.12A14.98 14.98 0 0 0 9.631 8.41m5.96 5.96a14.926 14.926 0 0 1-5.841 2.58m-.119-8.54a6 6 0 0 0-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 0 0-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 0 1-2.448-2.448 14.9 14.9 0 0 1 .06-.312m-2.24 2.39a4.493 4.493 0 0 0-1.757 4.306 4.493 4.493 0 0 0 4.306-1.758M16.5 9a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
-                </svg>
-                Show Me Around
-              </a>
+            <a class="start-tour-mobile text-xs" href="#">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M15.59 14.37a6 6 0 0 1-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 0 0 6.16-12.12A14.98 14.98 0 0 0 9.631 8.41m5.96 5.96a14.926 14.926 0 0 1-5.841 2.58m-.119-8.54a6 6 0 0 0-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 0 0-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 0 1-2.448-2.448 14.9 14.9 0 0 1 .06-.312m-2.24 2.39a4.493 4.493 0 0 0-1.757 4.306 4.493 4.493 0 0 0 4.306-1.758M16.5 9a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
+              </svg>
+              Show Me Around
+            </a>
           </li>
           <div class="divider h-fit m-0"></div>
           <li class="">
@@ -299,7 +309,9 @@
         </ul>
         <ul class="w-full flex items-center justify-end">
           <li class=" gap-2 w-full">
-            <button class="btn-sm flex items-center gap-2 bg-gray-300 open-modal  rounded-md w-full h-10 border-0 p-0 min-h-0  duration-300 px-2 text-gray-600 " id="my-account-two">
+            <button
+              class="btn-sm flex items-center gap-2 bg-gray-300 open-modal  rounded-md w-full h-10 border-0 p-0 min-h-0  duration-300 px-2 text-gray-600 "
+              id="my-account-two">
               <div class="flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                   stroke="currentColor" class="size-6 ease-in-out stroke-gray-600 duration-300 ">
@@ -319,9 +331,9 @@
 
   <main class=" grid main-student-dashboard pt-[72px] md:pt-[88px] px-2 lg:px-24 2xl:px-36 mb-4">
 
-    <article class="tour-total-logins totalLogin w-full h-full animate-fadeinup animate-fill-forwards ">
+    <article class="totalLogin w-full h-full animate-fadeinup animate-fill-forwards ">
       <article
-        class="totalLogin flex flex-col justify-between rounded-lg bg-base-100 px-2 py-4 text-base-content sm:p-4  w-full h-full shadow-md totalLoginWrapper relative">
+        class="tour-total-logins totalLogin flex flex-col justify-between rounded-lg bg-base-100 px-2 py-4 text-base-content sm:p-4  w-full h-full shadow-md totalLoginWrapper relative">
         <div class="w-full h-full flex gap-1  items-center justify-center data-loading-screen">
           <span class="loading loading-ring loading-sm"></span>
           <span class="loading loading-ring loading-lg"></span>
@@ -329,8 +341,9 @@
         </div>
       </article>
     </article>
-    <article class="tour-recent-used recentUsed w-full h-full min-h-full animate-fadeinup animate-fill-forwards">
-      <article class="flex flex-col justify-between rounded-lg  bg-base-100 text-base-content px-2 py-4  sm:p-4  h-full w-full shadow-md recentUsedWrapper">
+    <article class="recentUsed w-full h-full min-h-full animate-fadeinup animate-fill-forwards">
+      <article
+        class="tour-recent-used flex flex-col justify-between rounded-lg  bg-base-100 text-base-content px-2 py-4  sm:p-4  h-full w-full shadow-md recentUsedWrapper">
         <div class="w-full h-full flex gap-1  items-center justify-center data-loading-screen">
           <span class="loading loading-ring loading-sm"></span>
           <span class="loading loading-ring loading-lg"></span>
@@ -339,9 +352,10 @@
       </article>
     </article>
 
-    <article class="tour-pending-request cursor-pointer duration-300 ease-in-out active:scale-95 px-0 pendingRequest w-full h-full min-h-full hover:border-0 hover:scale-[.98] animate-fadeinup animate-fill-forwards">
+    <article
+      class="cursor-pointer duration-300 ease-in-out active:scale-95 px-0 pendingRequest w-full h-full min-h-full hover:border-0 hover:scale-[.98] animate-fadeinup animate-fill-forwards">
       <article
-        class="flex flex-col justify-between rounded-lg text-base-content bg-base-100 px-2 py-4 sm:p-4   h-full w-full shadow-md">
+        class="tour-pending-request flex flex-col justify-between rounded-lg text-base-content bg-base-100 px-2 py-4 sm:p-4   h-full w-full shadow-md">
         <div class="w-full h-full flex gap-1  items-center justify-center data-loading-screen">
           <span class="loading loading-ring loading-sm"></span>
           <span class="loading loading-ring loading-lg"></span>
@@ -361,7 +375,8 @@
             clip-rule="evenodd" />
         </svg>
       </label>
-      <button class="export-excel-btn  btn-active btn-secondary text-secondary-content text-xs font-semibold tour-download-excel">
+      <button
+        class="export-excel-btn  btn-active btn-secondary text-secondary-content text-xs font-semibold tour-download-excel">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
           <path
             d="M10.75 2.75a.75.75 0 0 0-1.5 0v8.614L6.295 8.235a.75.75 0 1 0-1.09 1.03l4.25 4.5a.75.75 0 0 0 1.09 0l4.25-4.5a.75.75 0 0 0-1.09-1.03l-2.955 3.129V2.75Z" />
@@ -372,7 +387,8 @@
       </button>
     </article>
 
-    <article class="tour-table table-user w-full h-full  min-h-full oveflow-y-scroll animate-fadeinup animate-fill-forwards">
+    <article
+      class="tour-table table-user w-full h-full oveflow-y-scroll min-h-full  animate-fadeinup animate-fill-forwards">
       <div class="overflow-x-auto rounded-lg border border-gray-200 shadow-md w-full h-full bg-base-100">
         <div id="table-loading-screen" class="absolute inset-0 flex items-center justify-center bg-base-100 z-10">
           <div class="flex gap-1">
@@ -388,7 +404,7 @@
               Computer Access Record</caption>
           </thead>
           <thead class="h-12 ">
-            
+
             <tr class="h-12 ">
               <th class="px-6 py-3 text-left font-medium text-base-content text-base text-nowrap">No.</th>
               <th class="px-6 py-3 text-left font-medium text-base-content text-base text-nowrap">Name</th>
@@ -401,27 +417,30 @@
             </tr>
           </thead>
           <tbody class="h-auto align-top">
-            
+
 
           </tbody>
         </table>
       </div>
     </article>
-    <article class="tour-graph graph w-full h-full min-h-full shadow-lg p-1 box-border md:p-4 bg-base-100 rounded-lg  flex items-center justify-center animate-fadeinup animate-fill-forwards">
+    <article
+      class="tour-graph graph w-full h-full min-h-full shadow-lg p-1 box-border md:p-4 bg-base-100 rounded-lg  flex items-center justify-center animate-fadeinup animate-fill-forwards">
       <div class="w-full h-full flex gap-1  items-center justify-center graph-loading-screen">
         <span class="loading loading-ring loading-sm"></span>
         <span class="loading loading-ring loading-lg"></span>
         <span class="loading loading-ring loading-sm"></span>
       </div>
-      <canvas id="myChart" class=" hidden p-2 rounded-md" style="height: 100% !important; width: 100% !important;">
+      <canvas id="myChart" class="hidden p-2 rounded-md" style="height: 100% !important; width: 100% !important;">
 
       </canvas>
 
     </article>
   </main>
 
-  <main class="main-request-correction w-full h-auto min-h-screen pt-[72px] md:pt-[88px] px-2 lg:px-36  hidden items-start justify-center mb-4 overflow-hidden ">
-    <form class="tour-request-correction bg-base-100 text-base-content w-[700px] h-auto shadow-lg rounded-lg p-4 md:p-6 space-y-4 animate-fadeinup animate-fill-forwards">
+  <main
+    class="main-request-correction w-full h-auto min-h-screen pt-[72px] md:pt-[88px] px-2 lg:px-36  hidden items-start justify-center mb-4 overflow-hidden ">
+    <form
+      class="tour-request-correction bg-base-100 text-base-content w-[700px] h-auto shadow-lg rounded-lg p-4 md:p-6 space-y-4 animate-fadeinup animate-fill-forwards">
       <h2 class="text-2xl font-bold text-base-content text-center mt-6 flex gap-2 items-center justify-center">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
           class="size-8">
@@ -481,8 +500,10 @@
     </form>
   </main>
 
-  <main class="main-contact-dev w-full h-auto min-h-screen pt-[72px] md:pt-[88px] px-2 lg:px-36  hidden items-start justify-center mb-4 overflow-hidden ">
-    <form class="tour-contact-dev bg-base-100 text-base-content w-[700px] h-auto shadow-lg rounded-lg p-4 md:p-6 space-y-4 animate-fadeinup animate-fill-forwards">
+  <main
+    class="main-contact-dev w-full h-auto min-h-screen pt-[72px] md:pt-[88px] px-2 lg:px-36  hidden items-start justify-center mb-4 overflow-hidden ">
+    <form
+      class="tour-contact-dev bg-base-100 text-base-content w-[700px] h-auto shadow-lg rounded-lg p-4 md:p-6 space-y-4 animate-fadeinup animate-fill-forwards">
       <h2 class="text-2xl font-bold text-base-content text-center mt-6 flex gap-2 items-center justify-center w-full">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
           class="size-8">
@@ -537,7 +558,8 @@
 
   </main>
 
-  <main class="load black-low-opacity w-full h-auto min-h-screen pt-[72px] md:pt-[88px] px-2 lg:px-36  hidden items-center justify-center z-30 ">
+  <main
+    class="load black-low-opacity w-full h-auto min-h-screen pt-[72px] md:pt-[88px] px-2 lg:px-36  hidden items-center justify-center z-30 ">
     <div class="w-40 aspect-video bg-base-100 flex flex-col items-center justify-center gap-1 rounded-md">
       <span class="loading loading-spinner text-accent"></span>
       <span class="text-accent text-sm">Just a moment...</span>
@@ -615,7 +637,7 @@
       <hr class="h-[2px]" />
       <div class="w-full h-auto flex items-center justify-between text-xs">
         <span class="w-20 max-w-full overflow-x-auto sm:w-28 flex items-center justify-between font-semibold"><span>
-          Level</span><span>:</span></span>
+            Level</span><span>:</span></span>
         <span class="w-full flex items-center justify-end" id="new-yearLevel">
           <%= yearLevel%>
         </span>
@@ -664,9 +686,10 @@
         <button class="btn btn-success btn-sm text-xs rounded-full text-white w-[66.31px]"
           id="save-new-password">Save</button>
       </div>
+      <!-- id="delete-student-btn" -->
       <hr class="h-[2px]" />
       <div class="w-full h-auto flex items-center justify-start ">
-        <button class="btn btn-sm btn-error text-xs text-primary-content" id="delete-student-btn">
+        <button class="btn btn-sm btn-error bg-red-700 hover:bg-red-900 border-none text-xs text-white" popovertarget="delete-student">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
             stroke="currentColor" class="size-4">
             <path stroke-linecap="round" stroke-linejoin="round"
@@ -674,8 +697,36 @@
           </svg>
           Delete Account
         </button>
+        <dialog id="delete-student" class="absolute w-svw h-svh black-low-opacity z-[99]" popover>
+          <div class="w-full h-full flex items-center justify-center">
+            <div class="flex flex-col gap-1 w-72 j-auto bg-base-100 text-base-content shadow-md rounded-md p-4">
+              <div class="w-full flex items-center justify-start gap-1 text-base-content">
+            
+                <h2 class=" text-md font-medium border-none">
+                  Delete Account?
+                </h2>
+              </div>
+              <div class=" h-12  flex items-center justify-start  ">
+                
+                
+                <span class="text-sm font-light">This action can't be undone.</span>
+              </div>
+              <div class="w-full flex items-center justify-end gap-2">
+                <button class="btn btn-sm btn-ghost font-light" popovertarget="delete-student">
+                  Cancel
+                </button>
+                <button class="btn btn-sm btn-error bg-red-700 hover:bg-red-900 font-light text-white border-none" id="delete-student-btn" popovertarget="delete-student">
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </dialog>
       </div>
     </main>
+
+
+
     <main
       class="view-qr-code w-[95%] max-w-[500px]  aspect-square  bg-base-100 text-base-content rounded-md px-4 py-14 relative hidden flex-col items-center justify-center gap-3 animate-dropin animate-fill-forwards">
       <button class="btn btn-ghost btn-sm rounded-full px-2 absolute right-2 top-2 close-modal">
@@ -821,12 +872,12 @@
     </div>
   </div>
 
-  
+
 
 
 
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       document.body.classList.replace('h-svh', 'h-auto');
       document.querySelector('.main-loading-screen').classList.replace('flex', 'hidden');
     })
@@ -837,9 +888,9 @@
       email: "<%= email ? email : 'N/A' %>",
       course: "<%= course ? course : 'N/A' %>",
       yearLevel: "<%= yearLevel ? yearLevel : 'N/A' %>",
-      
+
     };
-    
+
 
     if (!navigator.userAgent.includes("Edg")) {
       const style = document.createElement("style");
@@ -934,12 +985,12 @@
       }
     }
     window.lastThreeMonthsLogins;
-  
 
 
 
 
-    
+
+
 
 
 

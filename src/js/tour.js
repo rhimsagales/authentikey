@@ -36,15 +36,16 @@ const closeSvg = "✖";   // Close (X) icon
 //     }
 // },
 
-// const driverObj = driver(tourDetails);
-// const driverObjMobile = driver(tourDetailsMobile);
 
+window.overlayColor = "#2C3E50CC";
 tourAnchor.addEventListener('click', (event) => {
     event.stopPropagation();
     event.preventDefault();
 
     enableScrollLock();
-    const tourDetails = {
+    
+    window.tourDetails = {
+        overlayColor : window.overlayColor,
         popoverClass: 'driverjs-theme',
         animate: true,
         showProgress: true,
@@ -61,8 +62,12 @@ tourAnchor.addEventListener('click', (event) => {
                     side: "bottom",
                     align: "center",
                     onNextClick: () => {
-                        document.querySelector("#my-account").click();
+                        if(document.querySelector("#my-account").classList.contains('open-modal')){
+                            document.querySelector("#my-account").click();
+                        
+                        }
                         driverObj.moveNext();
+                        
                     }
                 }
             },
@@ -172,6 +177,11 @@ tourAnchor.addEventListener('click', (event) => {
                         document.querySelector(".tour-dashboard").click();
                         driverObj.movePrevious();
                     },
+                    onNextClick: () => {
+                        forceScrollTop();
+                        driverObj.moveNext();
+                        
+                    }
                 }
             },
             {
@@ -213,7 +223,10 @@ tourAnchor.addEventListener('click', (event) => {
                     side: "top",
                     align: "center",
                     onPrevClick: () => {
-                        document.querySelector("#my-account").click();
+                        if(document.querySelector("#my-account").classList.contains("open-modal")){
+                            document.querySelector("#my-account").click();
+                        }
+                        
                         driverObj.movePrevious();
                     },
                     onNextClick: () => {
@@ -228,7 +241,14 @@ tourAnchor.addEventListener('click', (event) => {
                     title: "👤 My Account",
                     description: "Tap this to access your account settings and options.",
                     side: "bottom",
-                    align: "end"
+                    align: "end",
+                    onPrevClick: () => {
+                        if(document.querySelector("#my-account").classList.contains("open-modal")){
+                            document.querySelector("#my-account").click();
+                        }
+                        
+                        driverObj.movePrevious();
+                    },
                 }
             },
             {
@@ -286,6 +306,16 @@ tourAnchor.addEventListener('click', (event) => {
                 },
                 
             },
+            {
+                element: ".done",
+                popover: {
+                    title: "🎉 Woohoo, You Did It! 🎉",
+                    description: "You've completed your tour! 🚀 Hope you had fun—now go rock it! 💪",
+                    side: "left",
+                    align: "center"
+                }
+            }
+            
             
         ],
         onDestroyStarted: () => {
@@ -305,7 +335,9 @@ tourAnchorMobile.addEventListener('click', (event) => {
     event.stopPropagation();
     event.preventDefault();
 
+
     const tourDetailsMobile = {
+        overlayColor : window.overlayColor,
         popoverClass: 'driverjs-theme',
         animate: true,
         showProgress: true,
@@ -466,11 +498,12 @@ tourAnchorMobile.addEventListener('click', (event) => {
                         document.querySelector(".tour-burger").click();
                         document.querySelector(".tour-dashboard-mobile").click();
                         forceScrollTop();
+                        disableScrollLock()
                         driverObjMobile.movePrevious();
                     },
                     onNextClick : () => {
                         document.querySelector(".tour-burger").click();
-                        forceScrollTop();
+                        enableScrollLock();
                         driverObjMobile.moveNext();
                     }
                 }
@@ -608,12 +641,22 @@ tourAnchorMobile.addEventListener('click', (event) => {
                     align: "center"
                 }
             },
+            {
+                element: ".done",
+                popover: {
+                    title: "🎉 Woohoo, You Did It! 🎉",
+                    description: "You've completed your tour! 🚀 Hope you had fun—now go rock it! 💪",
+                    side: "left",
+                    align: "center"
+                }
+            }
+            
             
         ],
         onDestroyStarted: () => {
             if (!driverObjMobile.hasNextStep() || confirm("Are you sure?")) {
                 console.log('Close Button Clicked-2');
-                // disableScrollLock();
+                disableScrollLock();
                 driverObjMobile.destroy();
             }
         },

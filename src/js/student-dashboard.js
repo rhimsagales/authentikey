@@ -423,7 +423,14 @@ navLinksButton.forEach(button => {
     });
 });
 
-
+function normalizeText(text) {
+    if (typeof text !== 'string') {
+        return ''; // Or handle non-string inputs appropriately
+    }
+    return text
+        .replace(/\s+/g, ' ') // Replace multiple whitespace characters with a single space
+        .trim(); // Remove leading/trailing whitespace
+}
 
 mobNavButton.forEach(button => {
     button.addEventListener('click', (event) => {
@@ -442,8 +449,13 @@ mobNavButton.forEach(button => {
 
         // Sync with desktop navigation buttons
         navLinksButton.forEach(btn => {
-            if (clickedButton.innerText.trim() === btn.innerText.trim()) {
+            
+            if (normalizeText(clickedButton.innerText.trim()) === normalizeText(btn.innerText.trim())) {
+                console.log("sync btn")
                 btn.classList.replace('btn-ghost', 'btn-primary');
+            }
+            else {
+                console.log(`Desktop Nav Name is : ${btn.innerText.trim()} while Mobile Nav Name is : ${clickedButton.innerText.trim()}`)
             }
         });
 
@@ -1089,10 +1101,13 @@ const themeControllers = document.querySelectorAll('.theme-change');
 themeControllers.forEach(controller => {
     controller.addEventListener('change', () => {
         if(document.documentElement.getAttribute('data-theme') ==  'fantasy') {
-            document.documentElement.setAttribute("data-theme", "sunset")
+            document.documentElement.setAttribute("data-theme", "sunset");
+            window.overlayColor = "#2C3E50CC";
+            
         }
         else {
-            document.documentElement.setAttribute("data-theme", "fantasy")
+            document.documentElement.setAttribute("data-theme", "fantasy");
+            window.overlayColor = "#121212";
         }
         window.createChart(window.lastThreeMonthsLogins);
     })

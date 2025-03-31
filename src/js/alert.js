@@ -1,7 +1,7 @@
 export function createWarningAlert(message) {
     const alertDiv = document.createElement("div");
     alertDiv.setAttribute("role", "alert");
-    alertDiv.className = "alert alert-warning  flex fixed  top-[72px] md:top-[88px] right-2 break-all z-40 w-auto min-w-1/4 text-sm animate-fadeoutThree text-left";
+    alertDiv.className = "alert alert-warning  flex fixed  top-[72px] md:top-[88px] right-2 break-all z-[100] w-auto min-w-1/4 text-sm animate-fadeoutThree text-left";
     
     
     alertDiv.innerHTML =`
@@ -35,7 +35,7 @@ export function createWarningAlert(message) {
 export function createSuccessAlert(message) {
     const alertDiv = document.createElement("div");
     alertDiv.setAttribute("role", "alert");
-    alertDiv.className = "alert alert-success  flex fixed  top-[72px] md:top-[88px] right-2 break-all z-40 w-auto min-w-1/4 text-sm animate-fadeoutThree text-left";
+    alertDiv.className = "alert alert-success  flex fixed  top-[72px] md:top-[88px] right-2 break-all z-[100] w-auto min-w-1/4 text-sm animate-fadeoutThree text-left";
     
     alertDiv.innerHTML = `
         <svg
@@ -65,7 +65,7 @@ export function createSuccessAlert(message) {
 export function createErrorAlert(message) {
     const alertDiv = document.createElement("div");
     alertDiv.setAttribute("role", "alert");
-    alertDiv.className = "alert alert-error  flex fixed  top-[72px] md:top-[88px] right-2 break-all z-40 w-auto min-w-1/4 text-sm animate-fadeoutThree text-left";
+    alertDiv.className = "alert alert-error  flex fixed  top-[72px] md:top-[88px] right-2 break-all z-[100] w-auto min-w-1/4 text-sm animate-fadeoutThree text-left";
     
     alertDiv.innerHTML = `
         <svg
