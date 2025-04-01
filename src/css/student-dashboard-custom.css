@@ -243,22 +243,98 @@ body > main > article:nth-child(6) {
 }
 
 
-/* Hide scrollbar for Chrome, Safari, and Edge */
-::-webkit-scrollbar {
-    display: none;
-  }
-  
-  /* Hide scrollbar for Firefox */
-  * {
-    scrollbar-width: none;
-  }
-  
-  /* Hide scrollbar for IE/Edge */
-  body {
-    -ms-overflow-style: none;
-  }
+
   
   
   
 
 
+.correction-request-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr .5fr repeat(7, .8fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 8px;
+    grid-template-areas: 
+    'heading'
+    'caption'
+    'name'
+    'email'
+    'subject'
+    'date'
+    'details'
+    'image'
+    'submit';
+    
+}
+
+.correction-request-grid > div:nth-child(1) {
+    grid-area: 'heading';
+}
+.correction-request-grid > .cr-caption {
+    grid-area: 'caption';
+}
+.correction-request-grid > div:nth-child(3) {
+    grid-area: 'name';
+}
+.correction-request-grid > div:nth-child(4) {
+    grid-area: 'email';
+}
+.correction-request-grid > div:nth-child(5) {
+    grid-area: 'subject';
+}
+.correction-request-grid > div:nth-child(6) {
+    grid-area: 'date';
+}
+.correction-request-grid > div:nth-child(7) {
+    grid-area: 'details';
+}
+.correction-request-grid > div:nth-child(8) {
+    grid-area: 'image';
+}
+.correction-request-grid > div:nth-child(9) {
+    grid-area: 'submit';
+}
+
+@media (min-width: 768px) {
+    .correction-request-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: 1fr .5fr repeat(3, 1fr);
+        grid-column-gap: 8px;
+        grid-row-gap: 8px;
+        grid-template-areas: 
+        'heading heading'
+        'caption date'
+        'subject details'
+        'name image'
+        'email submit'
+        ;
+    }
+    .correction-request-grid > div:nth-child(1) {
+        grid-area: 'heading';
+    }
+    .correction-request-grid > .cr-caption {
+        grid-area: 'caption';
+    }
+    .correction-request-grid > div:nth-child(3) {
+        grid-area: 'name';
+    }
+    .correction-request-grid > div:nth-child(4) {
+        grid-area: 'email';
+    }
+    .correction-request-grid > div:nth-child(5) {
+        grid-area: 'subject';
+    }
+    .correction-request-grid > div:nth-child(6) {
+        grid-area: 'date';
+    }
+    .correction-request-grid > div:nth-child(7) {
+        grid-area: 'details';
+    }
+    .correction-request-grid > div:nth-child(8) {
+        grid-area: 'image';
+    }
+    .correction-request-grid > div:nth-child(9) {
+        grid-area: 'submit';
+    }
+}

@@ -165,11 +165,11 @@
             </li>
             <div class="divider h-2 my-1"></div>
             <li class="tour-sign-out-anchor">
-              <a class="sign-out text-error font-semibold"><svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                  viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                  <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />
+              <a class="sign-out text-red-700 font-semibold text-base">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-6">
+                  <path fill-rule="evenodd" d="M14 4.75A2.75 2.75 0 0 0 11.25 2h-3A2.75 2.75 0 0 0 5.5 4.75v.5a.75.75 0 0 0 1.5 0v-.5c0-.69.56-1.25 1.25-1.25h3c.69 0 1.25.56 1.25 1.25v6.5c0 .69-.56 1.25-1.25 1.25h-3c-.69 0-1.25-.56-1.25-1.25v-.5a.75.75 0 0 0-1.5 0v.5A2.75 2.75 0 0 0 8.25 14h3A2.75 2.75 0 0 0 14 11.25v-6.5Zm-9.47.47a.75.75 0 0 0-1.06 0L1.22 7.47a.75.75 0 0 0 0 1.06l2.25 2.25a.75.75 0 1 0 1.06-1.06l-.97-.97h7.19a.75.75 0 0 0 0-1.5H3.56l.97-.97a.75.75 0 0 0 0-1.06Z" clip-rule="evenodd" />
                 </svg>
+                
                 Sign out</a>
             </li>
           </div>
@@ -282,12 +282,11 @@
             </a>
           </li>
           <li>
-            <a class="tour-sign-out-anchor-mobile sign-out text-[12px] text-error font-semibold">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor" class="size-6">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />
+            <a class="tour-sign-out-anchor-mobile sign-out text-[12px] text-red-700 font-semibold">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-6">
+                <path fill-rule="evenodd" d="M14 4.75A2.75 2.75 0 0 0 11.25 2h-3A2.75 2.75 0 0 0 5.5 4.75v.5a.75.75 0 0 0 1.5 0v-.5c0-.69.56-1.25 1.25-1.25h3c.69 0 1.25.56 1.25 1.25v6.5c0 .69-.56 1.25-1.25 1.25h-3c-.69 0-1.25-.56-1.25-1.25v-.5a.75.75 0 0 0-1.5 0v.5A2.75 2.75 0 0 0 8.25 14h3A2.75 2.75 0 0 0 14 11.25v-6.5Zm-9.47.47a.75.75 0 0 0-1.06 0L1.22 7.47a.75.75 0 0 0 0 1.06l2.25 2.25a.75.75 0 1 0 1.06-1.06l-.97-.97h7.19a.75.75 0 0 0 0-1.5H3.56l.97-.97a.75.75 0 0 0 0-1.06Z" clip-rule="evenodd" />
               </svg>
+              
               Sign out
             </a>
           </li>
@@ -328,8 +327,8 @@
     </div>
   </nav>
 
-
-  <main class=" grid main-student-dashboard pt-[72px] md:pt-[88px] px-2 lg:px-24 2xl:px-36 mb-4">
+  <!-- grid -->
+  <main class="grid main-student-dashboard pt-[72px] md:pt-[88px] px-2 lg:px-24 2xl:px-36 mb-4">
 
     <article class="totalLogin w-full h-full animate-fadeinup animate-fill-forwards ">
       <article
@@ -352,8 +351,7 @@
       </article>
     </article>
 
-    <article
-      class="cursor-pointer duration-300 ease-in-out active:scale-95 px-0 pendingRequest w-full h-full min-h-full hover:border-0 hover:scale-[.98] animate-fadeinup animate-fill-forwards">
+    <article class="cursor-pointer duration-300 ease-in-out active:scale-95 px-0 pendingRequest w-full h-full min-h-full hover:border-0 hover:scale-[.98] animate-fadeinup animate-fill-forwards">
       <article
         class="tour-pending-request flex flex-col justify-between rounded-lg text-base-content bg-base-100 px-2 py-4 sm:p-4   h-full w-full shadow-md">
         <div class="w-full h-full flex gap-1  items-center justify-center data-loading-screen">
@@ -387,8 +385,7 @@
       </button>
     </article>
 
-    <article
-      class="tour-table table-user w-full h-full oveflow-y-scroll min-h-full  animate-fadeinup animate-fill-forwards">
+    <article class="tour-table table-user w-full h-full oveflow-y-scroll min-h-full  animate-fadeinup animate-fill-forwards">
       <div class="overflow-x-auto rounded-lg border border-gray-200 shadow-md w-full h-full bg-base-100">
         <div id="table-loading-screen" class="absolute inset-0 flex items-center justify-center bg-base-100 z-10">
           <div class="flex gap-1">
@@ -423,8 +420,7 @@
         </table>
       </div>
     </article>
-    <article
-      class="tour-graph graph w-full h-full min-h-full shadow-lg p-1 box-border md:p-4 bg-base-100 rounded-lg  flex items-center justify-center animate-fadeinup animate-fill-forwards">
+    <article class="tour-graph graph w-full h-full min-h-full shadow-lg p-1 box-border md:p-4 bg-base-100 rounded-lg  flex items-center justify-center animate-fadeinup animate-fill-forwards">
       <div class="w-full h-full flex gap-1  items-center justify-center graph-loading-screen">
         <span class="loading loading-ring loading-sm"></span>
         <span class="loading loading-ring loading-lg"></span>
@@ -436,130 +432,149 @@
 
     </article>
   </main>
-
-  <main
-    class="main-request-correction w-full h-auto min-h-screen pt-[72px] md:pt-[88px] px-2 lg:px-36  hidden items-start justify-center mb-4 overflow-hidden ">
-    <form
-      class="tour-request-correction bg-base-100 text-base-content w-[700px] h-auto shadow-lg rounded-lg p-4 md:p-6 space-y-4 animate-fadeinup animate-fill-forwards">
-      <h2 class="text-2xl font-bold text-base-content text-center mt-6 flex gap-2 items-center justify-center">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-          class="size-8">
-          <path stroke-linecap="round" stroke-linejoin="round"
-            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-        </svg>
-
-
-        Correction Request
-      </h2>
-      <div class=" w-full h-auto grid place-items-center mt-0">
-        <span class="text-sm text-center mb-6 flex w-full sm:w-3/4">Submit a correction request if you notice any
-          inaccuracies in your data.</span>
+  
+  <main class="hidden main-request-correction w-full h-auto min-h-screen pt-[72px] md:pt-[88px] px-2 lg:px-36  items-start md:items-center justify-center mb-2 overflow-hidden ">
+  
+    <form class="tour-request-correction w-full max-w-[500px] md:w-[800px] md:max-w-none gap-4 md:gap-6  h-auto  bg-base-100 py-8 md:py-12 px-4 md:px-8 rounded-md flex flex-col items-center justify-between animate-fadeinup animate-fill-forwards">
+      <div class="w-full flex flex-col gap-2">
+        <div class="w-full text-2xl font-semibold text-base-content text-center h-fit  flex gap-1 items-end justify-center md:justify-start">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+            class="size-10">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+          </svg>
+  
+  
+          <h2>Correction Request</h2>
+        </div>
+        <span class="text-sm text-center md:text-left">
+          Submit a correction request if you notice any
+          inaccuracies in your data.
+        </span>
+      
       </div>
-
-      <div>
-        <label class="block text-sm font-medium text-base-content">Full Name</label>
-        <input type="text" name="name" required
-          class="bg-transparent mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary"
-          id="cr-full-name" value="<%= name%>" disabled>
+      
+      <div class="w-full h-auto flex flex-col md:flex-row md:gap-8 justify-between">
+        <div class="flex flex-col gap-4 w-full">
+        
+          <div class="w-full flex flex-col gap-1">
+            <label class="block text-sm font-medium text-base-content">Full Name</label>
+            <input type="text" name="name" required
+              class="bg-transparent mt-1 block w-full rounded border border-gray-300 p-2 focus:outline-primary"
+              id="cr-full-name" value="<%= name%>" disabled>
+          </div>
+          <div class="w-full flex flex-col gap-1">
+            <label class="block text-sm font-medium text-base-content">Email</label>
+            <input type="email" name="email" required
+              class="bg-transparent mt-1 block w-full rounded border border-gray-300 p-2 focus:outline-primary"
+              id="cr-email" value="<%= email%>" disabled>
+          </div>
+          <div class="w-full flex flex-col gap-1">
+            <label class="block text-sm font-medium text-base-content">Subject</label>
+            <input type="text" name="subject" required
+              class="bg-transparent mt-1 block w-full rounded border border-gray-300 p-2 focus:outline-primary correction-inputs"
+              id="cr-subject" placeholder="Subject">
+          </div>
+        
+        </div>
+        <div class="flex flex-col gap-4 w-full">
+        
+          <div class="w-full flex flex-col gap-1">
+            <label class="block text-sm font-medium text-base-content">Date of Record</label>
+            <input type="date" name="date" required
+              class="bg-transparent mt-1 block w-full rounded border border-gray-300 p-2 focus:outline-primary correction-inputs"
+              id="cr-date-record">
+          </div>
+          <div class="w-full flex flex-col gap-1">
+            <label class="block text-sm font-medium text-base-content">Correction Details</label>
+            <textarea name="details" required 
+              class="bg-transparent mt-1 block w-full rounded border border-gray-300 p-2 focus:outline-primary correction-inputs h-[128px]"
+              id="cr-correction-details" placeholder="Provide details of the correction"></textarea>
+          </div>
+          
+        </div>
+        
       </div>
-
-
-      <div>
-        <label class="block text-sm font-medium text-base-content">Email</label>
-        <input type="email" name="email" required
-          class="bg-transparent mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary"
-          id="cr-email" value="<%= email%>" disabled>
-      </div>
-
-      <div>
-        <label class="block text-sm font-medium text-base-content">Subject</label>
-        <input type="text" name="subject" required
-          class="bg-transparent mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary correction-inputs"
-          id="cr-subject" placeholder="Subject">
-      </div>
-      <div>
-        <label class="block text-sm font-medium text-base-content">Date of Record</label>
-        <input type="date" name="date" required
-          class="bg-transparent mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary correction-inputs"
-          id="cr-date-record">
-      </div>
-
-      <div>
-        <label class="block text-sm font-medium text-base-content">Correction Details</label>
-        <textarea name="details" required rows="4"
-          class="bg-transparent mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary correction-inputs"
-          id="cr-correction-details" placeholder="Provide details of the correction"></textarea>
-      </div>
-
-
       <button type="submit"
-        class="btn text-sm w-full bg-primary text-white py-2 rounded-lg font-medium hover:bg-indigo-700 transition disabled:pointer-events-auto disabled:cursor-not-allowed"
+        class="btn text-sm w-full bg-primary text-white py-2 rounded font-medium hover:bg-indigo-700 transition disabled:pointer-events-auto disabled:cursor-not-allowed"
         id="cr-submit" disabled>
         Submit Request
       </button>
+
     </form>
   </main>
 
-  <main
-    class="main-contact-dev w-full h-auto min-h-screen pt-[72px] md:pt-[88px] px-2 lg:px-36  hidden items-start justify-center mb-4 overflow-hidden ">
-    <form
-      class="tour-contact-dev bg-base-100 text-base-content w-[700px] h-auto shadow-lg rounded-lg p-4 md:p-6 space-y-4 animate-fadeinup animate-fill-forwards">
-      <h2 class="text-2xl font-bold text-base-content text-center mt-6 flex gap-2 items-center justify-center w-full">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+
+  <!-- hidden -->
+  <main class="main-contact-dev w-full h-auto min-h-screen pt-[72px] md:pt-[88px] px-2 lg:px-36  hidden items-center justify-center mb-4 overflow-hidden ">
+    
+    
+    
+    <form class="tour-contact-dev w-full max-w-[500px] md:w-[800px] md:max-w-none gap-4 md:gap-6  h-auto  bg-base-100 py-8 md:py-12 px-4 md:px-8 rounded-md flex flex-col items-center justify-between animate-fadeinup animate-fill-forwards">
+      <div class="w-full flex flex-col gap-2">
+        <div class="w-full text-2xl font-semibold text-base-content text-center h-fit  flex gap-1 items-end justify-center md:justify-start">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
           class="size-8">
-          <path stroke-linecap="round" stroke-linejoin="round"
-            d="M12 12.75c1.148 0 2.278.08 3.383.237 1.037.146 1.866.966 1.866 2.013 0 3.728-2.35 6.75-5.25 6.75S6.75 18.728 6.75 15c0-1.046.83-1.867 1.866-2.013A24.204 24.204 0 0 1 12 12.75Zm0 0c2.883 0 5.647.508 8.207 1.44a23.91 23.91 0 0 1-1.152 6.06M12 12.75c-2.883 0-5.647.508-8.208 1.44.125 2.104.52 4.136 1.153 6.06M12 12.75a2.25 2.25 0 0 0 2.248-2.354M12 12.75a2.25 2.25 0 0 1-2.248-2.354M12 8.25c.995 0 1.971-.08 2.922-.236.403-.066.74-.358.795-.762a3.778 3.778 0 0 0-.399-2.25M12 8.25c-.995 0-1.97-.08-2.922-.236-.402-.066-.74-.358-.795-.762a3.734 3.734 0 0 1 .4-2.253M12 8.25a2.25 2.25 0 0 0-2.248 2.146M12 8.25a2.25 2.25 0 0 1 2.248 2.146M8.683 5a6.032 6.032 0 0 1-1.155-1.002c.07-.63.27-1.222.574-1.747m.581 2.749A3.75 3.75 0 0 1 15.318 5m0 0c.427-.283.815-.62 1.155-.999a4.471 4.471 0 0 0-.575-1.752M4.921 6a24.048 24.048 0 0 0-.392 3.314c1.668.546 3.416.914 5.223 1.082M19.08 6c.205 1.08.337 2.187.392 3.314a23.882 23.882 0 0 1-5.223 1.082" />
-        </svg>
-
-
-        Report Bugs
-      </h2>
-      <div class=" w-full h-auto grid place-items-center mt-0">
-        <span class="text-sm text-center mb-12 flex w-full sm:w-3/4">You can report any bugs or issues directly
-          to the development team for assistance.</span>
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M12 12.75c1.148 0 2.278.08 3.383.237 1.037.146 1.866.966 1.866 2.013 0 3.728-2.35 6.75-5.25 6.75S6.75 18.728 6.75 15c0-1.046.83-1.867 1.866-2.013A24.204 24.204 0 0 1 12 12.75Zm0 0c2.883 0 5.647.508 8.207 1.44a23.91 23.91 0 0 1-1.152 6.06M12 12.75c-2.883 0-5.647.508-8.208 1.44.125 2.104.52 4.136 1.153 6.06M12 12.75a2.25 2.25 0 0 0 2.248-2.354M12 12.75a2.25 2.25 0 0 1-2.248-2.354M12 8.25c.995 0 1.971-.08 2.922-.236.403-.066.74-.358.795-.762a3.778 3.778 0 0 0-.399-2.25M12 8.25c-.995 0-1.97-.08-2.922-.236-.402-.066-.74-.358-.795-.762a3.734 3.734 0 0 1 .4-2.253M12 8.25a2.25 2.25 0 0 0-2.248 2.146M12 8.25a2.25 2.25 0 0 1 2.248 2.146M8.683 5a6.032 6.032 0 0 1-1.155-1.002c.07-.63.27-1.222.574-1.747m.581 2.749A3.75 3.75 0 0 1 15.318 5m0 0c.427-.283.815-.62 1.155-.999a4.471 4.471 0 0 0-.575-1.752M4.921 6a24.048 24.048 0 0 0-.392 3.314c1.668.546 3.416.914 5.223 1.082M19.08 6c.205 1.08.337 2.187.392 3.314a23.882 23.882 0 0 1-5.223 1.082" />
+          </svg>
+          
+          <h2>Report Bugs</h2>
+        </div>
+        <span class="text-sm text-center md:text-left">
+          Submit a correction request if you notice any
+          inaccuracies in your data.
+        </span>
+      
       </div>
+      
+      <div class="w-full h-auto flex flex-col md:flex-row md:gap-8 justify-between">
+        <div class="flex flex-col gap-4 w-full">
+          
+          <div class="w-full flex flex-col gap-1">
+            <label class="block text-sm font-medium text-base-content">Full Name</label>
+            <input type="text" name="name" required
+              class="bg-transparent mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary"
+              value="<%= name%>" disabled id="rb-name">
+          </div>
+    
+          <div class="w-full flex flex-col gap-1">
+            <label class="block text-sm font-medium text-base-content">Email</label>
+            <input type="email" name="email" required
+              class="bg-transparent mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary"
+              value="<%= email%>" disabled id="rb-email">
+          </div>
+          <div class="w-full flex flex-col gap-1">
+            <label class="block text-sm font-medium text-base-content">Subject</label>
+            <input type="text" name="subject" required
+              class="bg-transparent mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary report-inputs"
+              id="rb-subject" placeholder="Subject">
+          </div>
+        </div>
+        <div class="flex flex-col gap-4 w-full">
+          <div>
+            <label class="block text-sm font-medium text-base-content">Message</label>
+            <textarea name="message"
+              class="bg-transparent mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary report-inputs h-[218px]"
+              id="rb-message" placeholder="Record bug details"></textarea>
+          </div>
+        </div>
+        
 
-      <div>
-        <label class="block text-sm font-medium text-base-content">Full Name</label>
-        <input type="text" name="name" required
-          class="bg-transparent mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary"
-          value="<%= name%>" disabled id="rb-name">
+      
       </div>
-
-      <div>
-        <label class="block text-sm font-medium text-base-content">Email</label>
-        <input type="email" name="email" required
-          class="bg-transparent mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary"
-          value="<%= email%>" disabled id="rb-email">
-      </div>
-
-      <div>
-        <label class="block text-sm font-medium text-base-content">Subject</label>
-        <input type="text" name="subject" required
-          class="bg-transparent mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary report-inputs"
-          id="rb-subject" placeholder="Subject">
-      </div>
-
-      <div>
-        <label class="block text-sm font-medium text-base-content">Message</label>
-        <textarea name="message" required rows="4"
-          class="bg-transparent mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary report-inputs"
-          id="rb-message" placeholder="Record bug details"></textarea>
-      </div>
-
       <button type="submit"
         class="btn text-sm w-full bg-primary text-white py-2 rounded-lg font-medium hover:bg-indigo-700 transition disabled:pointer-events-auto disabled:cursor-not-allowed"
         id="rb-button" disabled>
         Report Bug
       </button>
-    </form>
 
+    </form>
 
 
   </main>
 
-  <main
-    class="load black-low-opacity w-full h-auto min-h-screen pt-[72px] md:pt-[88px] px-2 lg:px-36  hidden items-center justify-center z-30 ">
+  <main class="load black-low-opacity w-full h-auto min-h-screen pt-[72px] md:pt-[88px] px-2 lg:px-36  hidden items-center justify-center z-30 ">
     <div class="w-40 aspect-video bg-base-100 flex flex-col items-center justify-center gap-1 rounded-md">
       <span class="loading loading-spinner text-accent"></span>
       <span class="text-accent text-sm">Just a moment...</span>
@@ -689,7 +704,7 @@
       <!-- id="delete-student-btn" -->
       <hr class="h-[2px]" />
       <div class="w-full h-auto flex items-center justify-start ">
-        <button class="btn btn-sm btn-error bg-red-700 hover:bg-red-900 border-none text-xs text-white" popovertarget="delete-student">
+        <button class="btn btn-sm btn-error bg-red-700 hover:bg-red-900 border-none text-xs text-white rounded-md px-4" popovertarget="delete-student">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
             stroke="currentColor" class="size-4">
             <path stroke-linecap="round" stroke-linejoin="round"
@@ -699,7 +714,7 @@
         </button>
         <dialog id="delete-student" class="absolute w-svw h-svh black-low-opacity z-[99]" popover>
           <div class="w-full h-full flex items-center justify-center">
-            <div class="flex flex-col gap-1 w-72 j-auto bg-base-100 text-base-content shadow-md rounded-md p-4">
+            <div class="flex flex-col gap-1 w-72 j-auto bg-base-200 text-base-content shadow-md rounded-md p-4">
               <div class="w-full flex items-center justify-start gap-1 text-base-content">
             
                 <h2 class=" text-md font-medium border-none">
@@ -709,13 +724,13 @@
               <div class=" h-12  flex items-center justify-start  ">
                 
                 
-                <span class="text-sm font-light">This action can't be undone.</span>
+                <span class="text-sm font-normal">This action can't be undone.</span>
               </div>
               <div class="w-full flex items-center justify-end gap-2">
-                <button class="btn btn-sm btn-ghost font-light" popovertarget="delete-student">
+                <button class="px-6 rounded-md btn btn-sm btn-ghost font-light" popovertarget="delete-student">
                   Cancel
                 </button>
-                <button class="btn btn-sm btn-error bg-red-700 hover:bg-red-900 font-light text-white border-none" id="delete-student-btn" popovertarget="delete-student">
+                <button class="px-6 rounded-md btn btn-sm btn-error bg-red-700 hover:bg-red-900 font-light text-white border-none" id="delete-student-btn" popovertarget="delete-student">
                   Delete
                 </button>
               </div>
@@ -768,7 +783,7 @@
         If any images are missing in your PDF, please reload the page and try downloading your QR ID again.</span>
     </main>
     <main
-      class="view-pending w-[95%] max-w-[500px] h-fit bg-base-100 text-base-content rounded-md px-4 py-14 relative hidden flex-col items-center justify-center gap-3 animate-dropin animate-fill-forwards">
+      class="view-pending w-[95%] max-w-[500px] h-[400px] max-h-[400px] overflow-hidden bg-base-100 text-base-content rounded-md px-4 py-14 relative hidden flex-col items-center justify-center gap-3 animate-dropin animate-fill-forwards">
       <button class="btn btn-ghost btn-sm rounded-full px-2 absolute right-2 top-2 close-modal">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
           class="size-4">
@@ -776,9 +791,8 @@
         </svg>
       </button>
 
-      <div class="overflow-auto w-full">
+      <div class="w-full h-full flex flex-col">
         <table class="table w-full correction-request-table">
-
           <caption>
             <h1 class="text-2xl font-semibold text-left px-4 flex items-center justify-start gap-2">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -786,7 +800,6 @@
                 <path stroke-linecap="round" stroke-linejoin="round"
                   d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 0 1 0 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 0 1 0-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375Z" />
               </svg>
-
               Correction Request
             </h1>
             <h6 class="text-left px-4 pb-4">Keep an eye on your correction request here.</h6>
@@ -798,22 +811,27 @@
               <th>Status</th>
             </tr>
           </thead>
-          <tbody>
-            <% allCorrectionRequest.forEach(request=> { %>
-              <tr class="hover">
-                <td class="font-semibold text-base-content">
-                  <%= request.requestNumber %>
-                </td>
-                <td class="w-auto max-w-[200px] min-w-[150px] break-all">
-                  <%= request.subject %>
-                </td>
-                <td>
-                  <%= request.status ? request.status : "Pending" %>
-                </td>
-              </tr>
-              <% }); %>
-          </tbody>
         </table>
+        
+        <div class="overflow-y-auto max-h-[250px]">
+          <table class="table w-full correction-request-table">
+            <tbody>
+              <% allCorrectionRequest.forEach(request=> { %>
+                <tr class="hover">
+                  <td class="font-semibold text-base-content">
+                    <%= request.requestNumber %>
+                  </td>
+                  <td class="w-auto max-w-[200px] min-w-[150px] break-all">
+                    <%= request.subject %>
+                  </td>
+                  <td>
+                    <%= request.status ? request.status : "Pending" %>
+                  </td>
+                </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
       </div>
     </main>
 
