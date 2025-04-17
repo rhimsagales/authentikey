@@ -121,27 +121,16 @@ function updatePendingRequestInfoCard(correctionRequestCount) {
 
 
 function formatDate(dateString) { 
-    const date = new Date(dateString); 
-    if (isNaN(date)) {
-        return "Invalid Date"; 
-    }
-
-    // // Adjust for UTC-8 (convert from UTC to UTC-8) and then to Philippines Time (UTC+8)
-    // const adjustedDate = new Date(date);
-    // adjustedDate.setHours(adjustedDate.getHours() + 8); // Convert to UTC+8 (Philippines timezone)
-
-    // Format the date string to "Month Day Year" (e.g., "Feb 24 2025")
-    const parts = date.toUTCString().split(" ");
-    return `\u200B${parts[2]} ${parts[1]}, ${parts[3]}`;
-
-
-
-
-
-
-
-} 
-
+    // Extract date parts from the string (format: YYYY-MM-DDTHH:mm:ss.000)
+    const [datePart] = dateString.split('T');
+    const [year, month, day] = datePart.split('-');
+    
+    // Convert month number to short month name
+    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const monthName = monthNames[parseInt(month) - 1];
+    
+    return `${monthName} ${parseInt(day)}, ${year}`;
+}
 
 function updateTable(allLogs){
     let tableBody = document.querySelector('.table-user > div > table > tbody');
@@ -200,13 +189,13 @@ function updateCorrectionRequesTable(requests) {
     let correctionRequestTableBody = document.querySelector('.correction-request-table > tbody');
     for(let request of requests) {
         rows += `<tr class="hover">
-            <td class="font-semibold text-base-content">
+            <td class="w-[20.3] font-semibold text-base-content">
                 ${request.requestNumber}
             </td>
-            <td class="w-auto max-w-[200px] min-w-[150px] break-all">
+            <td class="w-[38.3%] break-all">
                 ${request.subject}
             </td>
-            <td>
+            <td class="w-[38.3%]">
                 ${request.status ? request.status : "Pending"}
             </td>
         </tr>`;

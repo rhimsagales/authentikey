@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const mongoURI = process.env.MongoURI;
 const { getCorrectionRequestRef, getComputerUsageLogsRef } = require("../../firebase-config");
+const admin = require('firebase-admin');
 
 
 
@@ -722,18 +723,30 @@ async function findAndPushData(req, res) {
             });
         }
 
+        // Get student details from MongoDB
+        const student = await retryWithExponentialDelay(() => flexibleModel.findOne({ studentID }));
+        
+        if (!student) {
+            return res.status(404).json({
+                success: false,
+                message: "Student not found in the database"
+            });
+        }
+
         // Reference for the student's computer usage logs
         const studentComputerUsageRef = computerUsageLogsRef.child(studentID);
 
         const newComputerLog = {
             studentID,
+            name: student.name,
+            section: student.section,
             timeIn,
             timeOut,
             date,
             pcNumber
         };
 
-        await studentComputerUsageRef.push(newComputerLog); // `.set()` is unnecessary
+        await studentComputerUsageRef.push(newComputerLog);
 
         return res.status(200).json({ success: true, message: "Log added successfully" });
 
@@ -775,8 +788,91 @@ async function findStudentID(req, res) {
     }
 }
 
+async function getFilteredLogs(req, res) {
+    try {
+        const { studentID, section, startDate, endDate, filter } = req.body;
 
+        // Get all logs using the computerUsageLogsRef
+        const logsSnapshot = await computerUsageLogsRef.once('value');
+        const logsData = logsSnapshot.val();
+        
+        if (!logsData) {
+            return res.json({ success: true, logs: [] });
+        }
 
+        // Convert logs to array and filter
+        let logs = [];
+        Object.entries(logsData).forEach(([studentId, studentLogs]) => {
+            if (studentLogs) {
+                Object.entries(studentLogs).forEach(([logId, log]) => {
+                    logs.push({
+                        ...log,
+                        id: logId,
+                        studentID: studentId
+                    });
+                });
+            }
+        });
 
+        // Filter by studentID if provided
+        if (studentID) {
+            logs = logs.filter(log => log.studentID === studentID);
+        }
 
-module.exports = { connectToMongoDB, checkStudentIdAvailability, registerAccount, login, createResetPassDoc, deleteResetPassDocs, compareResetCode, changePassword, insertCorrectionRequest, getAllLogs, updatePersonalInfo, updatePassword, deleteStudent, findAndPushData, findStudentID};
+        // Filter by section if provided
+        if (section) {
+            logs = logs.filter(log => log.section === section);
+        }
+
+        // Filter by date range if provided
+        if (startDate || endDate) {
+            logs = logs.filter(log => {
+                // Parse the date string directly without timezone conversion
+                const [year, month, day] = log.date.split('T')[0].split('-');
+                const logDate = new Date(year, month - 1, day);
+                
+                if (startDate && endDate) {
+                    const [startYear, startMonth, startDay] = startDate.split('-');
+                    const [endYear, endMonth, endDay] = endDate.split('-');
+                    const start = new Date(startYear, startMonth - 1, startDay);
+                    const end = new Date(endYear, endMonth - 1, endDay);
+                    // Set time to start and end of day for proper comparison
+                    start.setHours(0, 0, 0, 0);
+                    end.setHours(23, 59, 59, 999);
+                    return logDate >= start && logDate <= end;
+                } else if (startDate) {
+                    const [startYear, startMonth, startDay] = startDate.split('-');
+                    const start = new Date(startYear, startMonth - 1, startDay);
+                    // Set time to start and end of day to get exact date match
+                    start.setHours(0, 0, 0, 0);
+                    const end = new Date(startYear, startMonth - 1, startDay);
+                    end.setHours(23, 59, 59, 999);
+                    return logDate >= start && logDate <= end;
+                } else if (endDate) {
+                    const [endYear, endMonth, endDay] = endDate.split('-');
+                    const end = new Date(endYear, endMonth - 1, endDay);
+                    end.setHours(23, 59, 59, 999);
+                    return logDate <= end;
+                }
+                return true;
+            });
+        }
+
+        // Sort logs based on filter option
+        if (filter === 'latest') {
+            logs.sort((a, b) => new Date(b.date) - new Date(a.date));
+        } else if (filter === 'oldest') {
+            logs.sort((a, b) => new Date(a.date) - new Date(b.date));
+        }
+
+        return res.json({ success: true, logs });
+    } catch (error) {
+        console.error('Error in getFilteredLogs:', error);
+        return res.status(500).json({ 
+            success: false, 
+            message: 'An error occurred while fetching logs' 
+        });
+    }
+}
+
+module.exports = { connectToMongoDB, checkStudentIdAvailability, registerAccount, login, createResetPassDoc, deleteResetPassDocs, compareResetCode, changePassword, insertCorrectionRequest, getAllLogs, updatePersonalInfo, updatePassword, deleteStudent, findAndPushData, findStudentID, getFilteredLogs};

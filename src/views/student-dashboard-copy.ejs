@@ -48,7 +48,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
-
+  
 
 
   <title>Dashboard | Authentikey</title>
@@ -58,7 +58,7 @@
 
   <main
     class="w-full h-full absolute inset-0 z-[100] bg-base-100 flex items-center justify-center gap-2 flex-col main-loading-screen">
-    <img src="../assets/favicon_io/logo-192.png" alt="Authentikey-Logo" class="object-contain size-28">
+    <img src="../assets/favicon_io/logo-192.png" alt="Authentikey-Logo" class="object-contain size-40">
     <div class="flex ">
       <span class="loading loading-ball loading-sm"></span>
       <span class="loading loading-ball loading-md"></span>
@@ -439,7 +439,7 @@
       <div class="w-full flex flex-col gap-2">
         <div class="w-full text-2xl font-semibold text-base-content text-center h-fit  flex gap-1 items-end justify-center md:justify-start">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-            class="size-10">
+            class="size-8">
             <path stroke-linecap="round" stroke-linejoin="round"
               d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
           </svg>
@@ -447,7 +447,7 @@
   
           <h2>Correction Request</h2>
         </div>
-        <span class="text-sm text-center md:text-left">
+        <span class="text-xs sm:text-sm text-center md:text-left">
           Submit a correction request if you notice any
           inaccuracies in your data.
         </span>
@@ -521,9 +521,8 @@
           
           <h2>Report Bugs</h2>
         </div>
-        <span class="text-sm text-center md:text-left">
-          Submit a correction request if you notice any
-          inaccuracies in your data.
+        <span class="text-xs sm:text-sm text-center md:text-left">
+          Submit a bug report if you encounter any errors or unexpected behavior in the system.
         </span>
       
       </div>
@@ -534,28 +533,28 @@
           <div class="w-full flex flex-col gap-1">
             <label class="block text-sm font-medium text-base-content">Full Name</label>
             <input type="text" name="name" required
-              class="bg-transparent mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary"
+              class="bg-transparent mt-1 block w-full rounded border border-gray-300 p-2 focus:outline-primary"
               value="<%= name%>" disabled id="rb-name">
           </div>
     
           <div class="w-full flex flex-col gap-1">
             <label class="block text-sm font-medium text-base-content">Email</label>
             <input type="email" name="email" required
-              class="bg-transparent mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary"
+              class="bg-transparent mt-1 block w-full rounded border border-gray-300 p-2 focus:outline-primary"
               value="<%= email%>" disabled id="rb-email">
           </div>
           <div class="w-full flex flex-col gap-1">
             <label class="block text-sm font-medium text-base-content">Subject</label>
             <input type="text" name="subject" required
-              class="bg-transparent mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary report-inputs"
+              class="bg-transparent mt-1 block w-full rounded border border-gray-300 p-2 focus:outline-primary report-inputs"
               id="rb-subject" placeholder="Subject">
           </div>
         </div>
-        <div class="flex flex-col gap-4 w-full">
-          <div>
+        <div class="flex flex-col gap-4 w-full mt-4 md:mt-0">
+          <div class="flex flex-col gap-1 w-full">
             <label class="block text-sm font-medium text-base-content">Message</label>
             <textarea name="message"
-              class="bg-transparent mt-1 block w-full rounded-lg border border-gray-300 p-2 focus:outline-primary report-inputs h-[218px]"
+              class="bg-transparent mt-1 block w-full rounded border border-gray-300 p-2 focus:outline-primary report-inputs h-[218px]"
               id="rb-message" placeholder="Record bug details"></textarea>
           </div>
         </div>
@@ -727,7 +726,7 @@
                 <span class="text-sm font-normal">This action can't be undone.</span>
               </div>
               <div class="w-full flex items-center justify-end gap-2">
-                <button class="px-6 rounded-md btn btn-sm btn-ghost font-light" popovertarget="delete-student">
+                <button class="px-6 rounded-md btn btn-sm btn-ghost font-light" popovertarget="delete-student" popovertargetaction="hide">
                   Cancel
                 </button>
                 <button class="px-6 rounded-md btn btn-sm btn-error bg-red-700 hover:bg-red-900 font-light text-white border-none" id="delete-student-btn" popovertarget="delete-student">
@@ -794,7 +793,7 @@
       <div class="w-full h-full flex flex-col">
         <table class="table w-full correction-request-table">
           <caption>
-            <h1 class="text-2xl font-semibold text-left px-4 flex items-center justify-start gap-2">
+            <h1 class="text-xl sm:text-2xl font-semibold text-left px-4 flex items-center justify-start gap-2">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="size-10">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -802,13 +801,13 @@
               </svg>
               Correction Request
             </h1>
-            <h6 class="text-left px-4 pb-4">Keep an eye on your correction request here.</h6>
+            <h6 class="text-left px-4 pb-4 text-xs sm:text-sm">Keep an eye on your correction request here.</h6>
           </caption>
           <thead>
             <tr class="h-[40px]">
-              <th>Request Number</th>
-              <th>Subject</th>
-              <th>Status</th>
+              <th class="w-[20.3%]">No.</th>
+              <th class="w-[38.3%]">Subject</th>
+              <th class="w-[38.3%]">Status</th>
             </tr>
           </thead>
         </table>
@@ -893,6 +892,32 @@
 
 
 
+  <script>
+    const myAccountElement = document.querySelector('#my-account-two');
+
+    // Function to handle the modal toggle logic
+    const toggleModalIfNeeded = () => {
+      if (window.innerHeight <= 590 && myAccountElement.classList.contains("open-modal")) {
+        console.log("Viewport height is 590px or less, hiding modal.");
+        myAccountElement.click();
+      } else if (window.innerHeight > 590 && !myAccountElement.classList.contains("open-modal")) {
+        console.log("Viewport height is greater than 590px, showing modal.");
+        myAccountElement.click();
+      }
+    };
+    const mediaQuery = window.matchMedia("(max-height: 590px)");
+
+    mediaQuery.addEventListener("change", (e) => {
+      toggleModalIfNeeded();
+    });
+
+    // Initial check on DOM load
+    document.addEventListener("DOMContentLoaded", () => {
+      toggleModalIfNeeded();
+    });
+
+
+  </script>
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {

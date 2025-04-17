@@ -27,12 +27,12 @@ const db = getDatabase()
 
 function getLastThreeMonthsLogins(data) {
     const now = new Date();
-    now.setUTCHours(0, 0, 0, 0);
+    now.setHours(0, 0, 0, 0);
 
     const lastThreeMonths = [];
     for (let i = 2; i >= 0; i--) {
-        let year = now.getUTCFullYear();
-        let month = now.getUTCMonth() - i;
+        let year = now.getFullYear();
+        let month = now.getMonth() - i;
 
         if (month < 0) {
             year--;
@@ -44,22 +44,9 @@ function getLastThreeMonthsLogins(data) {
 
     return lastThreeMonths.map(({ year, month }, i) => {
         const filteredEntries = data.filter(entry => {
-            let entryDateUTC;
-            if (typeof entry.date === 'string' && entry.date.endsWith('Z')) {
-                entryDateUTC = new Date(entry.date);
-            } else if (typeof entry.date === 'string') {
-                entryDateUTC = new Date(Date.UTC(
-                    new Date(entry.date).getUTCFullYear(),
-                    new Date(entry.date).getUTCMonth(),
-                    new Date(entry.date).getUTCDate(),
-                    0, 0, 0, 0
-                ));
-            } else {
-                entryDateUTC = new Date(entry.date);
-            }
-
-            const entryMonth = entryDateUTC.getUTCMonth();
-            const entryYear = entryDateUTC.getUTCFullYear();
+            const entryDate = new Date(entry.date);
+            const entryMonth = entryDate.getMonth();
+            const entryYear = entryDate.getFullYear();
 
             return entryMonth === month && entryYear === year;
         });
@@ -73,81 +60,89 @@ function getLastThreeMonthsLogins(data) {
 function getLoginsThisWeek(logs) {
     if (logs.length === 0) return 0;
 
+    // Create date object in local timezone (system default)
     const now = new Date();
-    now.setUTCHours(0, 0, 0, 0);
+    // Set time to midnight (00:00:00.000)
+    now.setHours(0, 0, 0, 0);
 
-    const dayOfWeek = now.getUTCDay();
+    // Get current day (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
+    const dayOfWeek = now.getDay();
+    // Calculate days since Monday (if Sunday, return 6, else return day - 1)
     const daysSinceMonday = (dayOfWeek === 0 ? 6 : dayOfWeek - 1);
 
-    const startOfWeekUTC = new Date(now);
-    startOfWeekUTC.setUTCDate(now.getUTCDate() - daysSinceMonday);
-    startOfWeekUTC.setUTCHours(0, 0, 0, 0);
+    // Create start of week date (Monday)
+    const startOfWeek = new Date(now);
+    // Move date back to Monday
+    startOfWeek.setDate(now.getDate() - daysSinceMonday);
+    // Set to start of day
+    startOfWeek.setHours(0, 0, 0, 0);
 
-    const endOfWeekUTC = new Date(startOfWeekUTC);
-    endOfWeekUTC.setUTCDate(startOfWeekUTC.getUTCDate() + 6);
-    endOfWeekUTC.setUTCHours(23, 59, 59, 999);
+    // Create end of week date (Sunday)
+    const endOfWeek = new Date(startOfWeek);
+    // Add 6 days to get to Sunday
+    endOfWeek.setDate(startOfWeek.getDate() + 6);
+    // Set to end of day
+    endOfWeek.setHours(23, 59, 59, 999);
 
     return logs.filter(log => {
-        let logDateUTC;
+        let logDate;
+        // Parse the log date string to Date object
         if (typeof log.date === 'string' && log.date.endsWith('Z')) {
-            logDateUTC = new Date(log.date);
+            logDate = new Date(log.date);
         } else if (typeof log.date === 'string') {
-            logDateUTC = new Date(Date.UTC(
-                new Date(log.date).getUTCFullYear(),
-                new Date(log.date).getUTCMonth(),
-                new Date(log.date).getUTCDate(),
-                new Date(log.date).getUTCHours(),
-                new Date(log.date).getUTCMinutes(),
-                new Date(log.date).getUTCSeconds(),
-                new Date(log.date).getUTCMilliseconds()
-            ));
+            logDate = new Date(log.date);
         } else {
-            logDateUTC = new Date(log.date);
+            logDate = new Date(log.date);
         }
-
-        return logDateUTC >= startOfWeekUTC && logDateUTC <= endOfWeekUTC;
+        // Apply timezone offset (this step is redundant since dates are already in local time)
+        logDate = new Date(logDate.getTime() + (logDate.getTimezoneOffset() * 60000));
+        return logDate >= startOfWeek && logDate <= endOfWeek;
     }).length;
 }
 
 function getLoginsLastWeek(logs) {
     if (logs.length === 0) return 0;
 
+    // Create date object in local timezone (system default)
     const now = new Date();
-    now.setUTCHours(0, 0, 0, 0);
+    // Set time to midnight (00:00:00.000)
+    now.setHours(0, 0, 0, 0);
 
-    const dayOfWeek = now.getUTCDay();
-    const daysSinceMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+    // Get current day (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
+    const dayOfWeek = now.getDay();
+    // Calculate days since Monday (if Sunday, return 6, else return day - 1)
+    const daysSinceMonday = (dayOfWeek === 0 ? 6 : dayOfWeek - 1);
 
-    const startOfThisWeekUTC = new Date(now);
-    startOfThisWeekUTC.setUTCDate(now.getUTCDate() - daysSinceMonday);
-    startOfThisWeekUTC.setUTCHours(0, 0, 0, 0);
+    // Create start of this week date (Monday)
+    const startOfThisWeek = new Date(now);
+    // Move date back to Monday
+    startOfThisWeek.setDate(now.getDate() - daysSinceMonday);
+    // Set to start of day
+    startOfThisWeek.setHours(0, 0, 0, 0);
 
-    const startOfLastWeekUTC = new Date(startOfThisWeekUTC);
-    startOfLastWeekUTC.setUTCDate(startOfLastWeekUTC.getUTCDate() - 7);
+    // Create start of last week date
+    const startOfLastWeek = new Date(startOfThisWeek);
+    // Move back 7 days to previous Monday
+    startOfLastWeek.setDate(startOfLastWeek.getDate() - 7);
 
-    const endOfLastWeekUTC = new Date(startOfThisWeekUTC);
-    endOfLastWeekUTC.setUTCDate(startOfThisWeekUTC.getUTCDate() + 6);
-    endOfLastWeekUTC.setUTCHours(23, 59, 59, 999);
+    // Create end of last week date (Sunday 23:59:59.999)
+    const endOfLastWeek = new Date(startOfThisWeek);
+    // Set to 1 millisecond before current week starts
+    endOfLastWeek.setMilliseconds(-1);
 
     return logs.filter(log => {
-        let logDateUTC;
+        let logDate;
+        // Parse the log date string to Date object
         if (typeof log.date === 'string' && log.date.endsWith('Z')) {
-            logDateUTC = new Date(log.date);
+            logDate = new Date(log.date);
         } else if (typeof log.date === 'string') {
-            logDateUTC = new Date(Date.UTC(
-                new Date(log.date).getUTCFullYear(),
-                new Date(log.date).getUTCMonth(),
-                new Date(log.date).getUTCDate(),
-                new Date(log.date).getUTCHours(),
-                new Date(log.date).getUTCMinutes(),
-                new Date(log.date).getUTCSeconds(),
-                new Date(log.date).getUTCMilliseconds()
-            ));
+            logDate = new Date(log.date);
         } else {
-            logDateUTC = new Date(log.date);
+            logDate = new Date(log.date);
         }
-
-        return logDateUTC >= startOfLastWeekUTC && logDateUTC <= endOfLastWeekUTC;
+        // Apply timezone offset (this step is redundant since dates are already in local time)
+        logDate = new Date(logDate.getTime() + (logDate.getTimezoneOffset() * 60000));
+        return logDate >= startOfLastWeek && logDate < startOfThisWeek;
     }).length;
 }
 
@@ -160,49 +155,27 @@ function calculatePercentageChange(logs) {
     if (logs.length === 0) return "No Records Found.";
 
     const now = new Date();
-    now.setUTCHours(0, 0, 0, 0);
+    now.setHours(0, 0, 0, 0);
 
     const startOfThisWeek = new Date(now);
-    startOfThisWeek.setUTCDate(now.getUTCDate() - now.getUTCDay());
-    startOfThisWeek.setUTCHours(0, 0, 0, 0);
+    const dayOfWeek = now.getDay();
+    const daysSinceMonday = (dayOfWeek === 0 ? 6 : dayOfWeek - 1);
+    startOfThisWeek.setDate(now.getDate() - daysSinceMonday);
+    startOfThisWeek.setHours(0, 0, 0, 0);
 
     const startOfLastWeek = new Date(startOfThisWeek);
-    startOfLastWeek.setUTCDate(startOfLastWeek.getUTCDate() - 7);
+    startOfLastWeek.setDate(startOfLastWeek.getDate() - 7);
 
     const endOfLastWeek = new Date(startOfThisWeek);
     endOfLastWeek.setMilliseconds(-1);
 
     const loginsThisWeek = logs.filter(log => {
-        let logDate;
-        if (typeof log.date === 'string' && log.date.endsWith('Z')) {
-            logDate = new Date(log.date);
-        } else if (typeof log.date === 'string') {
-            logDate = new Date(Date.UTC(
-                new Date(log.date).getUTCFullYear(),
-                new Date(log.date).getUTCMonth(),
-                new Date(log.date).getUTCDate(),
-                0, 0, 0, 0
-            ));
-        } else {
-            logDate = new Date(log.date);
-        }
+        const logDate = new Date(log.date);
         return logDate >= startOfThisWeek;
     }).length;
 
     const loginsLastWeek = logs.filter(log => {
-        let logDate;
-        if (typeof log.date === 'string' && log.date.endsWith('Z')) {
-            logDate = new Date(log.date);
-        } else if (typeof log.date === 'string') {
-            logDate = new Date(Date.UTC(
-                new Date(log.date).getUTCFullYear(),
-                new Date(log.date).getUTCMonth(),
-                new Date(log.date).getUTCDate(),
-                0, 0, 0, 0
-            ));
-        } else {
-            logDate = new Date(log.date);
-        }
+        const logDate = new Date(log.date);
         return logDate >= startOfLastWeek && logDate < startOfThisWeek;
     }).length;
 
@@ -217,63 +190,20 @@ function calculatePercentageChange(logs) {
 function getLastPCUsed(logs) {
     if (!logs.length) return ["N/A", "N/A"];
 
-    // Sort logs by date (newest to oldest) in UTC
+    // Sort logs by date (newest to oldest)
     const sortedLogs = [...logs].sort((a, b) => {
-        let dateA;
-        let dateB;
-        if (typeof a.date === 'string' && a.date.endsWith('Z')) {
-            dateA = new Date(a.date);
-        } else if (typeof a.date === 'string') {
-            dateA = new Date(Date.UTC(
-                new Date(a.date).getUTCFullYear(),
-                new Date(a.date).getUTCMonth(),
-                new Date(a.date).getUTCDate(),
-                new Date(a.date).getUTCHours(),
-                new Date(a.date).getUTCMinutes(),
-                new Date(a.date).getUTCSeconds(),
-                new Date(a.date).getUTCMilliseconds()
-            ));
-        } else {
-            dateA = new Date(a.date); // attempt to create date from other types.
-        }
-
-        if (typeof b.date === 'string' && b.date.endsWith('Z')) {
-            dateB = new Date(b.date);
-        } else if (typeof b.date === 'string') {
-            dateB = new Date(Date.UTC(
-                new Date(b.date).getUTCFullYear(),
-                new Date(b.date).getUTCMonth(),
-                new Date(b.date).getUTCDate(),
-                new Date(b.date).getUTCHours(),
-                new Date(b.date).getUTCMinutes(),
-                new Date(b.date).getUTCSeconds(),
-                new Date(b.date).getUTCMilliseconds()
-            ));
-        } else {
-            dateB = new Date(b.date); // attempt to create date from other types.
-        }
-
+        const dateA = new Date(a.date);
+        const dateB = new Date(b.date);
         return dateB - dateA;
     });
 
-    // Group logs by date (ignoring time) in UTC
+    // Group logs by same date while preserving their time information for later comparison
     const groupedLogs = [];
     let currentDateGroup = [];
 
     for (let i = 0; i < sortedLogs.length; i++) {
         const log = sortedLogs[i];
-        let logDate;
-        if (typeof log.date === 'string' && log.date.endsWith('Z')) {
-            logDate = new Date(log.date).toDateString();
-        } else if (typeof log.date === 'string') {
-            logDate = new Date(Date.UTC(
-                new Date(log.date).getUTCFullYear(),
-                new Date(log.date).getUTCMonth(),
-                new Date(log.date).getUTCDate(),
-            )).toDateString();
-        } else {
-            logDate = new Date(log.date).toDateString();
-        }
+        const logDate = new Date(log.date).toDateString();
 
         if (currentDateGroup.length === 0 || new Date(currentDateGroup[0].date).toDateString() === logDate) {
             currentDateGroup.push(log);
@@ -285,51 +215,18 @@ function getLastPCUsed(logs) {
 
     if (currentDateGroup.length) groupedLogs.push(currentDateGroup);
 
-    // Find the most recent log in the latest group
+    // Find the most recent log (using full date and time) from the latest day's group
     const latestLog = groupedLogs[0].reduce((max, log) => {
-        let dateLog;
-        let dateMax;
-        if (typeof log.date === 'string' && log.date.endsWith('Z')) {
-            dateLog = new Date(log.date);
-        } else if (typeof log.date === 'string') {
-            dateLog = new Date(Date.UTC(
-                new Date(log.date).getUTCFullYear(),
-                new Date(log.date).getUTCMonth(),
-                new Date(log.date).getUTCDate(),
-                new Date(log.date).getUTCHours(),
-                new Date(log.date).getUTCMinutes(),
-                new Date(log.date).getUTCSeconds(),
-                new Date(log.date).getUTCMilliseconds()
-            ));
-        } else {
-            dateLog = new Date(log.date);
-        }
-
-        if (typeof max.date === 'string' && max.date.endsWith('Z')) {
-            dateMax = new Date(max.date);
-        } else if (typeof max.date === 'string') {
-            dateMax = new Date(Date.UTC(
-                new Date(max.date).getUTCFullYear(),
-                new Date(max.date).getUTCMonth(),
-                new Date(max.date).getUTCDate(),
-                new Date(max.date).getUTCHours(),
-                new Date(max.date).getUTCMinutes(),
-                new Date(max.date).getUTCSeconds(),
-                new Date(max.date).getUTCMilliseconds()
-            ));
-        } else {
-            dateMax = new Date(max.date);
-        }
+        const dateLog = new Date(log.date);
+        const dateMax = new Date(max.date);
         return dateLog > dateMax ? log : max;
     });
 
-    // Format the date in UTC to prevent timezone shifts
-    const formattedDate = new Date(latestLog.date).toLocaleDateString("en-US", {
-        timeZone: "UTC", // Ensures exact date is used
-        month: "short",
-        day: "numeric",
-        year: "numeric"
-    });
+    // Get the date parts directly and adjust for timezone
+    const date = new Date(latestLog.date);
+    date.setTime(date.getTime() + (date.getTimezoneOffset() * 60000));
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const formattedDate = `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
 
     return [latestLog.pcNumber, formattedDate];
 }
@@ -633,6 +530,9 @@ app.post('/firebase/push-log', isValidKey, (req, res) => {
     mongoFunctions.findAndPushData(req, res);
 });
 
+app.post('/firebase/get-filtered-logs', isAuthenticated, (req, res) => {
+    mongoFunctions.getFilteredLogs(req, res);
+});
 
 app.post('/generate-pdf', isAuthenticated, async (req, res) => {
     const { html } = req.body;
