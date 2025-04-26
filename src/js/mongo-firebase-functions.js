@@ -7,6 +7,8 @@ const admin = require('firebase-admin');
 
 
 
+
+
 let correctionRequestRef = getCorrectionRequestRef();
 let computerUsageLogsRef = getComputerUsageLogsRef();
 
@@ -39,6 +41,44 @@ const resetRecordSchema = new mongoose.Schema({
 });
 
 const resetRecordModel = mongoose.model('passwordresets', resetRecordSchema);
+
+
+function getCourseAbbreviation(courseName) {
+    // Mapping of course names to their abbreviations
+    const courseAbbreviations = {
+        "Bachelor of Arts in Communication": "ABCom",
+        "Bachelor of Arts in English": "ABEng",
+        "Bachelor of Science in Mathematics": "BSM",
+        "Bachelor of Science in Psychology": "BSP",
+        "Associate in Business Administration": "ABA",
+        "Bachelor of Science in Accounting Information System": "BSAIS",
+        "Bachelor of Science in Accountancy": "BSA",
+        "Bachelor of Science in Management Accounting": "BSMA",
+        "Bachelor of Science in Real Estate Management": "BSREM",
+        "Bachelor of Science in Internal Auditing": "BSIA",
+        "Bachelor of Science in Business Administration": "BSBA",
+        "Associate in Computer Technology": "ACT",
+        "Bachelor of Science in Computer Science": "BSCS",
+        "Bachelor of Science in Information Technology": "BSIT",
+        "Bachelor of Science in Information System": "BSIS",
+        "Bachelor in Early Childhood Education": "BECEd",
+        "Bachelor in Elementary Education": "BEEd",
+        "Bachelor in Secondary Education": "BSEd",
+        "Bachelor in Technical Vocational Teacher Education": "BTVTEd",
+        "Bachelor of Science in Marine Transportation": "BSMT",
+        "Bachelor of Science in Criminology": "BSC",
+        "Bachelor of Science in Industrial Security Management": "BSISM",
+        "Bachelor of Science in Public Administration": "BSPA",
+        "Bachelor of Science in Computer Engineering": "BSCE",
+        "Bachelor of Science in Electronics Engineering": "BSELE",
+        "Bachelor of Science in Medical Technology": "BSMedTech",
+        "Bachelor of Science in Hospitality Management": "BSHM",
+        "Bachelor of Science in Tourism Management": "BSTM"
+    };
+  
+    // Retrieve and return the abbreviation, or a default message if not found
+    return courseAbbreviations[courseName] || "Abbreviation not found";
+}
 
 function isTransientError(error) {
     if (
@@ -741,7 +781,7 @@ async function findAndPushData(req, res) {
             studentID,
             name: student.name,
             section: student.section,
-            course : student.course,
+            course : getCourseAbbreviation(student.course),
             campus : student.campus,
             yearLevel : student.yearLevel,
             timeIn,
