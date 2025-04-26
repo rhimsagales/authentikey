@@ -13,11 +13,14 @@ const MongoStore = require('connect-mongo');
 const { chromium } = require('playwright');
 const qr = require("qr-image");
 const server = http.createServer(app);
-const io = socketIo(server, {
+const MainIo = socketIo(server, {
     cors: {
       origin: "*", // Allow all origins (change this in production)
     },
 });
+const studentIo = MainIo.of("/websocket/student")
+const adminIo = MainIo.of("/websocket/admin");
+
 const { getDatabase } = require("./firebase-config");
 
 const db = getDatabase()
@@ -276,6 +279,242 @@ function convertDatesInArray(array) {
     }));
 }
 
+function convertDateForAllLogs(data, timeZoneOffset = 0) {
+    // Ensure data is an object (it should be a dictionary with student IDs as keys)
+    if (typeof data !== 'object') {
+        console.error("Input is not an object.");
+        return;
+    }
+
+    // Iterate through each student in the data
+    Object.keys(data).forEach(studentID => {
+        const studentLogs = data[studentID];
+        
+        // Iterate through each log for the student
+        Object.keys(studentLogs).forEach(logID => {
+            const log = studentLogs[logID];
+            
+            // If there's a 'date' field, convert it to a Date object
+            if (log.date) {
+                const logDate = new Date(log.date);
+                
+                if (isNaN(logDate.getTime())) {
+                    console.error(`Failed to parse date for logID ${logID}: ${log.date}`);
+                } else {
+                    // Adjust the date to the local timezone (or specify your desired timezone offset)
+                    logDate.setMinutes(logDate.getMinutes() + logDate.getTimezoneOffset() + timeZoneOffset * 60);
+                    log.date = logDate;  // Assign the Date object back to the 'date' field
+                }
+            }
+        });
+    });
+
+    return data;  // Return the modified data object
+}
+
+function convertDateForAllLogsForCorrReq(data, timeZoneOffset = 8) { // Default is UTC+8
+    // Ensure data is an object (it should be a dictionary with student IDs as keys)
+    if (typeof data !== 'object') {
+        return;
+    }
+
+    // Iterate through each student in the data
+    Object.keys(data).forEach(studentID => {
+        const studentLogs = data[studentID];
+
+        // Iterate through each log for the student
+        Object.keys(studentLogs).forEach(logID => {
+            const log = studentLogs[logID];
+
+            // If there's a 'timestamp' field, convert it to a Date object
+            if (log.timestamp) {
+                const logTimestamp = new Date(log.timestamp);
+
+                if (!isNaN(logTimestamp.getTime())) {
+                    // Adjust the timestamp to the specified time zone offset (in minutes)
+                    logTimestamp.setMinutes(logTimestamp.getMinutes() + logTimestamp.getTimezoneOffset() + (timeZoneOffset * 60));
+                    log.timestamp = logTimestamp; // Assign the Date object back to the 'timestamp' field
+                }
+            }
+        });
+    });
+
+    return data; // Return the modified data object
+}
+
+
+
+
+
+function getTotalLogsForThisWeek(data) {
+    if (typeof data !== 'object') {
+        console.error("Input is not an object.");
+        return;
+    }
+
+    // Get the current date and time (in UTC+8)
+    const currentDate = new Date();
+    const currentDay = currentDate.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+
+    // Get the current week's Monday date (UTC+8) and Sunday date (UTC+8)
+    const monday = new Date(currentDate);
+    monday.setDate(currentDate.getDate() - currentDay + 1); // Set to the previous Monday
+    monday.setHours(0, 0, 0, 0); // Reset time to midnight
+
+    const sunday = new Date(monday);
+    sunday.setDate(monday.getDate() + 6); // Set to the upcoming Sunday
+    sunday.setHours(23, 59, 59, 999); // Set time to the end of the day
+
+    // Initialize an array to hold the total logs per day of the week
+    const weeklyLogs = [0, 0, 0, 0, 0, 0, 0]; // Array for Monday to Sunday
+
+    // Iterate through each student
+    Object.keys(data).forEach(studentID => {
+        const studentLogs = data[studentID];
+
+        // Iterate through each log for the student
+        Object.keys(studentLogs).forEach(logID => {
+            const log = studentLogs[logID];
+
+            if (!log.date) return;
+
+            const logDate = new Date(log.date); // log.date is already a Date object
+
+            if (logDate >= monday && logDate <= sunday) {
+                const dayOfWeek = logDate.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+                weeklyLogs[dayOfWeek] += 1;
+            }
+        });
+    });
+
+    return weeklyLogs;
+}
+
+
+
+
+function getTotalLogsPerMonthThisYear(dataObject) {
+    if (typeof dataObject !== 'object' || !dataObject) {
+        console.log("Input is not an object. Returning default zero-filled array.");
+        return Array(12).fill(0);
+    }
+
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const monthlyTotals = Array(12).fill(0);
+
+    // Iterate over each student (dataObject is keyed by studentID)
+    Object.values(dataObject).forEach((studentLogs) => {
+        Object.values(studentLogs).forEach((log) => {
+            if (!log.date) {
+                return;
+            }
+
+            // Assuming log.date is already a Date object
+            const logDate = log.date instanceof Date ? log.date : new Date(log.date);
+
+            if (isNaN(logDate.getTime())) {
+                return;
+            }
+
+            const year = logDate.getFullYear();
+            const month = logDate.getMonth();
+
+            if (year === currentYear) {
+                monthlyTotals[month]++;
+            }
+        });
+    });
+
+    return monthlyTotals;
+}
+
+
+function getTopSectionsByLogins(dataObject) {
+    if (typeof dataObject !== 'object' || !dataObject) {
+        console.log("Input is not an object. Returning default values.");
+        return { sections: [], logins: [] };
+    }
+
+    const sectionLogins = {};
+
+    // Iterate over each student (dataObject is keyed by studentID)
+    Object.values(dataObject).forEach((studentLogs) => {
+        Object.values(studentLogs).forEach((log) => {
+            if (!log.section || !log.date) {
+                return;
+            }
+
+            // Increment login count for the section
+            if (!sectionLogins[log.section]) {
+                sectionLogins[log.section] = 0;
+            }
+            sectionLogins[log.section]++;
+        });
+    });
+
+    // Convert the sectionLogins object to an array and sort by logins
+    const sortedSections = Object.entries(sectionLogins)
+        .sort((a, b) => b[1] - a[1]) // Sort by total logins in descending order
+        .slice(0, 3); // Get top 3
+
+    // Extract section names and total logins
+    const topSections = sortedSections.map(item => item[0]);
+    const topLogins = sortedSections.map(item => item[1]);
+
+    return {
+        sections: topSections,
+        logins: topLogins
+    };
+}
+
+
+function getTotalCorrectionRequestsPerMonthThisYear(dataObject) {
+    if (typeof dataObject !== 'object' || !dataObject) {
+        return Array(12).fill(0);
+    }
+
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const monthlyTotals = Array(12).fill(0); // Initialize array for each month
+
+    // Iterate over each student (dataObject is keyed by studentID)
+    Object.values(dataObject).forEach((studentLogs) => {
+        Object.values(studentLogs).forEach((log) => {
+            if (!log.timestamp) {
+                return; // Skip if there's no timestamp
+            }
+
+            // Use timestamp field and convert it to a Date object
+            const timestamp = log.timestamp;
+            const correctionRequestDate = new Date(timestamp);
+            if (isNaN(correctionRequestDate.getTime())) {
+                return; // Skip if the timestamp is invalid
+            }
+
+            const year = correctionRequestDate.getFullYear();
+            const month = correctionRequestDate.getMonth();
+
+            if (year === currentYear) {
+                monthlyTotals[month]++; // Increment the count for the correct month
+            }
+        });
+    });
+
+    return monthlyTotals;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 app.set("view engine", "ejs");
 app.use(cors());
 app.use(express.json());
@@ -311,7 +550,7 @@ app.set("views", path.join(__dirname, "src", "views"));
 
 mongoFunctions.connectToMongoDB();
 
-io.on("connection", (socket) => {
+studentIo.on("connection", (socket) => {
     const studentID = socket.handshake.query.studentID;
 
     if (!studentID) {
@@ -320,10 +559,9 @@ io.on("connection", (socket) => {
     }
 
     const studentComputerLogsRef = db.ref(`studentsRecord/logs/${studentID}`);
-    const studentCorrectionRequestRef = db.ref(`studentsRecord/correctionRequest/${studentID}`)
+    const studentCorrectionRequestRef = db.ref(`studentsRecord/correctionRequest/${studentID}`);
 
-    // 🔹 Remove any previous listener before adding a new one
-    studentComputerLogsRef.off("child_added");
+    
     studentComputerLogsRef.on("value", (snapshot) => {
         
 
@@ -367,7 +605,43 @@ io.on("connection", (socket) => {
     });
 });
 
+adminIo.on("connection", (socket) => {
+    const computerLogsRef = db.ref(`studentsRecord/logs/`);
+    const correctionRequestRef = db.ref(`studentsRecord/correctionRequest/`);
 
+
+    computerLogsRef.on('value', (snapshot)=> {
+        const data = snapshot.val();
+        const convertedData = convertDateForAllLogs(data);
+
+        const dailyUsageVal = getTotalLogsForThisWeek(convertedData);
+        const perMonthUsageVal = getTotalLogsPerMonthThisYear(convertedData);
+        const usagePerSection = getTopSectionsByLogins(convertedData)
+        
+        
+        
+
+        socket.emit("newLogAdded", {dailyUsageVal, perMonthUsageVal, usagePerSection})
+    });
+
+    correctionRequestRef.on("value", (snapshot) => {
+        const data = snapshot.val();
+        const convertedData = convertDateForAllLogsForCorrReq(data);
+        
+
+        const totalCorrReqPerMonth = getTotalCorrectionRequestsPerMonthThisYear(convertedData);
+        
+
+        socket.emit("newRequest", {totalCorrReqPerMonth})
+    })
+
+    // Disconnect event
+    socket.on("disconnect", () => {
+        computerLogsRef.off(); 
+        correctionRequestRef.off();
+        
+    });
+})
 
 
 
@@ -409,48 +683,46 @@ app.get('/pages/:name', (req, res) => {
 });
 
 app.get('/users/student-dashboard', async (req, res) => {
-    // console.log(getLoginsThisWeek(req.session.user.logs))
+    
 
     try {
-        
-        if (!req.session || !req.session.studentID) {
-            
-            
+        if (!req.session) {
             return res.redirect("/pages/sign-in");
         }
-        
-        await mongoFunctions.getAllLogs(req, res, req.session.studentID);
+
         
 
-        const lastUsedPcDate = getLastPCUsed(req.session.user.logs);
+        if (!req.session.studentID) {
+            return res.redirect("/pages/sign-in");
+        }
+
+        if (!req.session.user) {
+            return res.redirect("/pages/sign-in");
+        }
+
         
+        await mongoFunctions.getAllLogs(req, res, req.session.studentID);
         const userData = {
             name: req.session.user.name,
             studentID: req.session.user.studentID,
             section: req.session.user.section,
             email: req.session.user.email,
             course: req.session.user.course,
-            yearLevel : req.session.user.yearLevel,
-            loginLastWeek: getLoginsLastWeek(req.session.user.logs),
-            loginThisWeek: getLoginsThisWeek(req.session.user.logs),
-            percentageChange: calculatePercentageChange(req.session.user.logs),
-            lastPcUsed: lastUsedPcDate[0],
-            lastUsedDate: lastUsedPcDate[1],
-            correctionRequestCount: req.session.user.correctionRequest.length,
-            lastThreeMonthsLogins: getLastThreeMonthsLogins(req.session.user.logs),
-            allLogs: sortLogsByDate(req.session.user.logs),
-            allCorrectionRequest : req.session.user.correctionRequest
+            yearLevel: req.session.user.yearLevel,
+            campus: req.session.user.campus,
             
         };
 
-        // console.log(req.session.user.logs)
         
+
         res.render('student-dashboard-copy', userData);
+
     } catch (err) {
+        console.error('[student-dashboard] Caught error:', err);
         return res.redirect("/pages/sign-in");
     }
-    
-})
+});
+
 
 app.post('/pages/sign-up/check-studentid-availability', async (req, res) => {
     mongoFunctions.checkStudentIdAvailability(req, res);
@@ -530,7 +802,7 @@ app.post('/firebase/push-log', isValidKey, (req, res) => {
     mongoFunctions.findAndPushData(req, res);
 });
 
-app.post('/firebase/get-filtered-logs', isAuthenticated, (req, res) => {
+app.post('/firebase/get-filtered-logs', (req, res) => {
     mongoFunctions.getFilteredLogs(req, res);
 });
 

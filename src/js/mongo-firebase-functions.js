@@ -22,8 +22,7 @@ const flexibleSchema = new mongoose.Schema({
     course: { type: String, required: false },
     yearLevel: { type: String, required: false },
     agreePolicy: { type: Boolean, required: false },
-    logs : { type: Array,  required: false},
-    correctionRequest: { type: Array,  required: false}
+    campus : { type: String, required: false }
 });
 
 const flexibleModel = mongoose.model('accounts', flexibleSchema);
@@ -334,9 +333,9 @@ async function checkStudentIdAvailability(req, res) {
 
 function registerAccount(req, res) {
     let register = async () => {
-        const { studentID, password, confirmPassword, name, section, email, course, yearLevel, agreePolicy } = req.body;
+        const { studentID, password, confirmPassword, name, section, email, course, yearLevel, campus, agreePolicy } = req.body;
     
-        if (!studentID || !password || !confirmPassword || !name || !section || !email || !course || !yearLevel || !agreePolicy) {
+        if (!studentID || !password || !confirmPassword || !name || !section || !email || !course || !yearLevel || !campus || !agreePolicy) {
             return res.status(400).json({
                 successRegistration: false,
                 message: "All fields are required.",
@@ -379,6 +378,7 @@ function registerAccount(req, res) {
                 email: email,
                 course: course,
                 yearLevel: yearLevel,
+                campus : campus,
                 agreePolicy: agreePolicy
             }));
 
@@ -600,10 +600,10 @@ async function insertCorrectionRequest(req, res) {
 async function updatePersonalInfo (req, res) {
     try {
         // Destructure req.body
-        const { studentID, name, newStudentID, email, section, course, yearLevel } = req.body;
+        const { studentID, name, newStudentID, email, section, course, yearLevel, campus } = req.body;
         
         // Validate required fields
-        if (!name || !newStudentID || !email || !section || !course || !yearLevel) {
+        if (!name || !newStudentID || !email || !section || !course || !yearLevel || !campus) {
             return res.status(400).json({ message: "All fields are required." });
         }
 
@@ -630,6 +630,7 @@ async function updatePersonalInfo (req, res) {
         student.course = course;
         student.yearLevel = yearLevel;
         student.studentID = newStudentID;
+        student.campus = campus;
         
         // Save the updated document
         await student.save();
@@ -713,9 +714,9 @@ async function deleteStudent  (req, res) {
 
 async function findAndPushData(req, res) {
     try {
-        const { studentID, timeIn, timeOut, date, pcNumber } = req.body;
+        const { studentID, timeIn, timeOut, date, pcNumber, pcLab } = req.body;
 
-        if (!studentID || !timeIn || !timeOut || !date || !pcNumber) {
+        if (!studentID || !timeIn || !timeOut || !date || !pcNumber || !pcLab) {
             return res.status(400).json({ 
                 success: false, 
                 message: "Missing required fields",
@@ -740,10 +741,15 @@ async function findAndPushData(req, res) {
             studentID,
             name: student.name,
             section: student.section,
+            course : student.course,
+            campus : student.campus,
+            yearLevel : student.yearLevel,
             timeIn,
             timeOut,
             date,
-            pcNumber
+            pcNumber,
+            pcLab
+
         };
 
         await studentComputerUsageRef.push(newComputerLog);

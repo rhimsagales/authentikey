@@ -37,7 +37,8 @@
   <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon_io/favicon-16x16.png">
   <link rel="manifest" href="../assets/favicon_io/site.webmanifest">
 
-  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
+
 
 
   <script src="https://cdn.jsdelivr.net/npm/driver.js@latest/dist/driver.js.iife.js"></script>
@@ -657,6 +658,14 @@
         </span>
       </div>
       <hr class="h-[2px]" />
+      <div class="w-full h-auto flex items-center justify-between text-xs">
+        <span class="w-20 max-w-full overflow-x-auto sm:w-28 flex items-center justify-between font-semibold"><span>
+            Campus</span><span>:</span></span>
+        <span class="w-full flex items-center justify-end" id="new-campus">
+          <%= campus%>
+        </span>
+      </div>
+      <hr class="h-[2px]" />
       <div class="w-full h-auto hidden items-center justify-end gap-2 text-xs personal-save-cancel-container">
         <button class="btn btn-error btn-sm text-xs btn-outline rounded-full"
           id="cancel-change-personal-info">Cancel</button>
@@ -791,7 +800,7 @@
       </button>
 
       <div class="w-full h-full flex flex-col">
-        <table class="table w-full correction-request-table">
+        <table class="table w-full">
           <caption>
             <h1 class="text-xl sm:text-2xl font-semibold text-left px-4 flex items-center justify-start gap-2">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -815,19 +824,7 @@
         <div class="overflow-y-auto max-h-[250px]">
           <table class="table w-full correction-request-table">
             <tbody>
-              <% allCorrectionRequest.forEach(request=> { %>
-                <tr class="hover">
-                  <td class="font-semibold text-base-content">
-                    <%= request.requestNumber %>
-                  </td>
-                  <td class="w-auto max-w-[200px] min-w-[150px] break-all">
-                    <%= request.subject %>
-                  </td>
-                  <td>
-                    <%= request.status ? request.status : "Pending" %>
-                  </td>
-                </tr>
-              <% }); %>
+              
             </tbody>
           </table>
         </div>

@@ -20,15 +20,16 @@ async function connectToMongoDB() {
     }
 }
 
+// Updated schema: only studentID, campus, pcLab
 const flexibleSchema = new mongoose.Schema({
     studentID: { type: String, required: false },
-    name: { type: String, required: false },
-    section: { type: String, required: false }
+    campus: { type: String, required: false },
+    pcLab: { type: String, required: false }
 });
 
 const flexibleModel = mongoose.model('accounts', flexibleSchema);
 
-async function updateLogs(studentID, name, section) {
+async function updateLogs(studentID, campus, pcLab) {
     try {
         // Step 1: Get student's logs from Firebase
         const studentLogsRef = computerUsageLogsRef.child(studentID);
@@ -47,13 +48,13 @@ async function updateLogs(studentID, name, section) {
             return;
         }
 
-        // Step 3: Update each log with name and section
+        // Step 3: Update each log with campus and pcLab
         const updatedLogs = {};
         Object.entries(logsData).forEach(([logId, log]) => {
             updatedLogs[logId] = {
                 ...log,
-                name,
-                section
+                campus,
+                pcLab
             };
         });
 
@@ -68,12 +69,8 @@ async function updateLogs(studentID, name, section) {
 }
 
 // Example usage:
-// First connect to MongoDB
 connectToMongoDB().then(() => {
-    // Then you can call updateLogs
-    // updateLogs('your_student_id', 'student_name', 'student_section');
-    // Remember to uncomment and replace with actual values when ready to use
-    updateLogs('UA202200740', 'Rhim Sagales', 'LFA322E004');
+    updateLogs('UA202200740', 'Antipolo', '3');
 });
 
-module.exports = { updateLogs }; 
+module.exports = { updateLogs };

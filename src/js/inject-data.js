@@ -282,7 +282,7 @@ updateCourseFieldInPersonalInfo()
 const studentID = window.userData.studentID; 
 
 
-const socket = io({ 
+const socket = io("/websocket/student",{ 
     query: { studentID } 
 });
 

@@ -24,17 +24,24 @@ document.addEventListener('DOMContentLoaded', function() {
     const closeIcon = mobileMenuBtn.querySelector('.close-icon');
 
     mobileMenuBtn.addEventListener('click', () => {
-        mobileNav.classList.toggle('-translate-x-full');
+        if(mobileNav.classList.contains('hide')) {
+            mobileNav.classList.replace('hide', 'show');
+            
+        }
+        else {
+            mobileNav.classList.replace('show', 'hide');
+        }
         menuIcon.classList.toggle('hidden');
         closeIcon.classList.toggle('hidden');
     });
 
     // Close mobile menu when clicking outside
     document.addEventListener('click', (e) => {
-        if (!mobileNav.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-            mobileNav.classList.add('-translate-x-full');
-            menuIcon.classList.remove('hidden');
-            closeIcon.classList.add('hidden');
+        if (!mobileNav.contains(e.target) && !mobileMenuBtn.contains(e.target) && mobileNav.classList.contains('show')) {
+            // mobileNav.classList.add('-translate-x-full');
+            // menuIcon.classList.remove('hidden');
+            // closeIcon.classList.add('hidden');
+            mobileMenuBtn.click();
         }
     });
 
@@ -104,26 +111,34 @@ document.addEventListener('DOMContentLoaded', function() {
                         <table id="logTable" class="min-w-full divide-y-2 divide-gray-200 dark:divide-gray-700">
                             <thead class="ltr:text-left rtl:text-right">
                                 <tr class="*:font-medium *:text-gray-900 dark:*:text-white">
-                                    <th class="px-4 py-4 whitespace-nowrap text-left text-sm font-semibold">Student ID</th>
-                                    <th class="px-4 py-4 whitespace-nowrap text-left text-sm font-semibold">Name</th>
-                                    <th class="px-4 py-4 whitespace-nowrap text-left text-sm font-semibold">Section</th>
-                                    <th class="px-4 py-4 whitespace-nowrap text-left text-sm font-semibold">Date</th>
-                                    <th class="px-4 py-4 whitespace-nowrap text-left text-sm font-semibold">Time In</th>
-                                    <th class="px-4 py-4 whitespace-nowrap text-left text-sm font-semibold">Time Out</th>
-                                    <th class="px-4 py-4 whitespace-nowrap text-left text-sm font-semibold">PC Number</th>
+                                    <th class="px-4 py-4 whitespace-nowrap text-center w-[160px] text-sm font-semibold">Student ID</th>
+                                    <th class="px-4 py-4 whitespace-nowrap text-center w-[160px] text-sm font-semibold">Name</th>
+                                    <th class="px-4 py-4 whitespace-nowrap text-center w-[160px] text-sm font-semibold">Section</th>
+                                    <th class="px-4 py-4 whitespace-nowrap text-center w-[160px] text-sm font-semibold">Course</th>
+                                    <th class="px-4 py-4 whitespace-nowrap text-center w-[160px] text-sm font-semibold">Year Level</th>
+                                    <th class="px-4 py-4 whitespace-nowrap text-center w-[160px] text-sm font-semibold">Campus</th>
+                                    <th class="px-4 py-4 whitespace-nowrap text-center w-[160px] text-sm font-semibold">Date</th>
+                                    <th class="px-4 py-4 whitespace-nowrap text-center w-[160px] text-sm font-semibold">Time In</th>
+                                    <th class="px-4 py-4 whitespace-nowrap text-center w-[160px] text-sm font-semibold">Time Out</th>
+                                    <th class="px-4 py-4 whitespace-nowrap text-center w-[160px] text-sm font-semibold">PC Number</th>
+                                    <th class="px-4 py-4 whitespace-nowrap text-center w-[160px] text-sm font-semibold">PC Lab no.</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                                 ${data.logs.map(log => 
                                     `
                                     <tr class="*:text-gray-900 *:first:font-medium dark:*:text-white">
-                                        <td class="px-4 py-4 whitespace-nowrap text-left text-xs text-base-content">${log.studentID}</td>
-                                        <td class="px-4 py-4 whitespace-nowrap text-left text-xs text-base-content">${log.name}</td>
-                                        <td class="px-4 py-4 whitespace-nowrap text-left text-xs text-base-content">${log.section}</td>
-                                        <td class="px-4 py-4 whitespace-nowrap text-left text-xs text-base-content">${formatDate(log.date)}</td>
-                                        <td class="px-4 py-4 whitespace-nowrap text-left text-xs text-base-content">\u200B${log.timeIn}</td>
-                                        <td class="px-4 py-4 whitespace-nowrap text-left text-xs text-base-content">\u200B${log.timeOut}</td>
-                                        <td class="px-4 py-4 whitespace-nowrap text-left text-xs text-base-content">${log.pcNumber}</td>
+                                        <td class="px-4 py-4 whitespace-nowrap text-xs text-base-content w-[160px] text-center">${log.studentID}</td>
+                                        <td class="px-4 py-4 whitespace-nowrap text-xs text-base-content w-[160px] text-center">${log.name}</td>
+                                        <td class="px-4 py-4 whitespace-nowrap text-xs text-base-content w-[160px] text-center">${log.section}</td>
+                                        <td class="px-4 py-4 whitespace-nowrap text-xs text-base-content w-[160px] text-center">${log.course}</td>
+                                        <td class="px-4 py-4 whitespace-nowrap text-xs text-base-content w-[160px] text-center">${log.yearLevel}</td>
+                                        <td class="px-4 py-4 whitespace-nowrap text-xs text-base-content w-[160px] text-center">${log.campus}</td>
+                                        <td class="px-4 py-4 whitespace-nowrap text-xs text-base-content w-[160px] text-center">${formatDate(log.date)}</td>
+                                        <td class="px-4 py-4 whitespace-nowrap text-xs text-base-content w-[160px] text-center">\u200B${log.timeIn}</td>
+                                        <td class="px-4 py-4 whitespace-nowrap text-xs text-base-content w-[160px] text-center">\u200B${log.timeOut}</td>
+                                        <td class="px-4 py-4 whitespace-nowrap text-xs text-base-content w-[160px] text-center">${log.pcNumber}</td>
+                                        <td class="px-4 py-4 whitespace-nowrap text-xs text-base-content w-[160px] text-center">${log.pcLab}</td>
                                     </tr>
                                 `).join('')}
                             </tbody>

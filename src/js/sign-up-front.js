@@ -23,6 +23,7 @@ const sectioninput = document.getElementById('section');
 const emailinput = document.getElementById('email');
 const courseinput = document.getElementById('course');
 const yearLevelinput = document.getElementById('yearLevel');
+const campusinput = document.getElementById('campus');
 const agreeChckBox = document.getElementById('agreement-checkbox');
 const selectPlacehoder = document.querySelector('.select-placeholder');
 
@@ -45,9 +46,9 @@ yearLevelinput.addEventListener('change', () => {
 
 // const errorText = document.getElementById('error-text');
 
-const registerInputs = [studentIDinput, passwordinput,repasswordinput,  nameinput, sectioninput, courseinput, yearLevelinput];
+const registerInputs = [studentIDinput, passwordinput,repasswordinput,  nameinput, sectioninput, courseinput, yearLevelinput, campusinput];
 const loginInputs = [studentIDinput, passwordinput,repasswordinput];
-const personalInputs = [nameinput, sectioninput, courseinput, emailinput];
+const personalInputs = [nameinput, sectioninput, courseinput, emailinput, campusinput, yearLevelinput];
 
 const bgImg = document.getElementById('bg-image');
 const skeleton = document.getElementById('bg-skeleton');
@@ -415,7 +416,7 @@ personalInputs.forEach(input => {
         // console.log(isInputsFilled(registerInputs));
         // console.log(emailinput.value);
         
-        if (agreeChckBox.checked && isInputsFilled(personalInputs) && isInputsFilled(registerInputs) && emailinput.value && !validateEmail(emailinput.value)) {
+        if (agreeChckBox.checked && isInputsFilled(personalInputs) && isInputsFilled(registerInputs) && !validateEmail(emailinput.value)) {
             registerBtn.disabled = false;
         }
         else {

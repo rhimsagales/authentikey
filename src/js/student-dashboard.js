@@ -585,12 +585,13 @@ const newStudentId = document.getElementById('new-studId');
 const newSection = document.getElementById('new-section');
 const newEmail = document.getElementById('new-email');
 const newCourse = document.getElementById('new-course');
+const newCampus = document.getElementById('new-campus');
 const newYearLevel = document.getElementById('new-yearLevel');
 
 
-const personalNewFieldArray = [newName, newStudentId, newSection, newEmail, newCourse, newYearLevel];
+const personalNewFieldArray = [newName, newStudentId, newSection, newEmail, newCourse, newYearLevel, newCampus];
 
-const originalContentsArray = [newName.innerText.trim(), newStudentId.innerText.trim(), newSection.innerText.trim(), newEmail.innerText.trim(), newCourse.innerText.trim(), newYearLevel.innerText.trim()]
+const originalContentsArray = [newName.innerText.trim(), newStudentId.innerText.trim(), newSection.innerText.trim(), newEmail.innerText.trim(), newCourse.innerText.trim(), newYearLevel.innerText.trim(), newCampus.innerText.trim()]
 
 
 personalEditBtn.addEventListener('click', (event) => {
@@ -888,8 +889,9 @@ saveNewPersonalInfoBtn.addEventListener("click", async (event) => {
     const section = document.getElementById("new-section").innerText.trim();
     const course = document.getElementById("new-course").innerText.trim();
     const yearLevel = document.getElementById("new-yearLevel").innerText.trim();
+    const campus = document.getElementById("new-campus").innerText.trim();
 
-    if (!name || !studentID || !email || !section || !course || !yearLevel) {
+    if (!name || !studentID || !email || !section || !course || !yearLevel || !campus) {
         alert.createWarningAlert("All fields are required.");
         return;
     }
@@ -898,7 +900,7 @@ saveNewPersonalInfoBtn.addEventListener("click", async (event) => {
         const response = await fetch("/user/update-personal-info", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ studentID: window.studentID ,name, newStudentID, email, section, course, yearLevel })
+            body: JSON.stringify({ studentID: window.studentID ,name, newStudentID, email, section, course, yearLevel, campus })
         });
 
         const data = await response.json();
