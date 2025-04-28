@@ -371,75 +371,104 @@ async function checkStudentIdAvailability(req, res) {
     }
 }
 
-function registerAccount(req, res) {
-    let register = async () => {
-        const { studentID, password, confirmPassword, name, section, email, course, yearLevel, campus, agreePolicy } = req.body;
-    
-        if (!studentID || !password || !confirmPassword || !name || !section || !email || !course || !yearLevel || !campus || !agreePolicy) {
-            return res.status(400).json({
-                successRegistration: false,
-                message: "All fields are required.",
-            });
-        }
+async function registerAccount(req, res) {
+    try {
+      const { studentID, password, confirmPassword, name, section, email, course, yearLevel, campus, agreePolicy } = req.body;
+  
+      // Input validation
+      if (!studentID || !password || !confirmPassword || !name || !section || !email || !course || !yearLevel || !campus || !agreePolicy) {
+        return res.status(400).json({
+          successRegistration: false,
+          message: "All fields are required.",
+        });
+      }
+  
+      // Password match validation
+      if (password !== confirmPassword) {
+        return res.status(400).json({
+          successRegistration: false,
+          message: "Passwords do not match.",
+        });
+      }
+  
+      // Check for existing email and student ID
+      const existingEmail = await retryWithExponentialDelay(() => flexibleModel.findOne({ email }));
+      if (existingEmail) {
+        return res.status(400).json({
+          successRegistration: false,
+          message: "Email already exists. Please try another email.",
+        });
+      }
+  
+      const existingStudent = await retryWithExponentialDelay(() => flexibleModel.findOne({ studentID }));
+      if (existingStudent) {
+        return res.status(400).json({
+          successRegistration: false,
+          message: "Student ID already exists.",
+        });
+      }
+  
+      // Hash the password
+      const hashedPassword = await retryWithExponentialDelay(() => bcrypt.hash(password, 10));
+  
+      // Create the account
+      const account = await retryWithExponentialDelay(() => flexibleModel.create({
+        studentID: studentID,
+        password: hashedPassword,
+        confirmPassword: hashedPassword,
+        name: name,
+        section: section,
+        email: email,
+        course: course,
+        yearLevel: yearLevel,
+        campus: campus,
+        agreePolicy: agreePolicy
+      }));
+  
+      //Check if account creation was successful
+      if (!account)
+      {
+         return res.status(500).json({
+          successRegistration: false,
+          message: "Account creation failed.",
+        });
+      }
+      // Get the student logs ref
+      const studentRef = computerUsageLogsRef.child(studentID);
+      
+  
+      // Set the student logs.  AWAIT this operation and handle success/failure.
+      try {
+        await studentRef.set({ message : "success"});
         
-        if (password !== confirmPassword) {
-            return res.status(400).json({
-                successRegistration: false,
-                message: "Passwords do not match.",
-            });
-        }
-
-        try {
-            const existingEmail = await retryWithExponentialDelay(() => flexibleModel.findOne({ email }));
-
-            if (existingEmail) {
-                return res.status(400).json({
-                    successRegistration: false,
-                    message: "Email already exists. Please try another email.",
-                });
-            }
-
-            const existingStudent = await retryWithExponentialDelay(() => flexibleModel.findOne({ studentID }));
-            if (existingStudent) {
-                return res.status(400).json({
-                    successRegistration: false,
-                    message: "Student ID already exists.",
-                });
-            }
-
-            const hashedPassword = await retryWithExponentialDelay(() => bcrypt.hash(password, 10)); 
-
-            const account = await retryWithExponentialDelay(() => flexibleModel.create({
-                studentID: studentID,
-                password: hashedPassword,
-                confirmPassword: hashedPassword,  
-                name: name,
-                section: section,
-                email: email,
-                course: course,
-                yearLevel: yearLevel,
-                campus : campus,
-                agreePolicy: agreePolicy
-            }));
-
-            if (account) {
-                res.status(201).json({
-                    successRegistration: true,
-                    message: "Registration completed successfully."
-                });
-            }
-        } 
-        catch (error) {
-            console.error('RegisterERR:', error);
-            res.status(500).json({
-                successRegistration: false,
-                message: "Registration failed. Please try again.",
-            });
-        }
+      } catch (error) {
+        console.error(`Failed to set computer usage logs for student: ${studentID}`, error);
+        //  IMPORTANT:  Consider what to do here.  
+        //  The registration might have succeeded, but logging failed.
+        //  Should you:
+        //  1.  Rollback the registration?
+        //  2.  Retry the log?
+        //  3.  Just log the error and continue?
+        //  For this example, I'm continuing, but you MUST decide.
+      }
+  
+      // Respond to the client *after* the Firebase operation is complete
+      res.status(201).json({
+        successRegistration: true,
+        message: "Registration completed successfully."
+      });
+  
+  
+    } catch (error) {
+      console.error('RegisterERR:', error);
+      res.status(500).json({
+        successRegistration: false,
+        message: "Registration failed. Please try again.",
+      });
     }
-
-    register();
-}
+  }
+  
+  
 
 function login(req, res) {
     let login = async () => {
@@ -768,6 +797,7 @@ async function findAndPushData(req, res) {
         const student = await retryWithExponentialDelay(() => flexibleModel.findOne({ studentID }));
         
         if (!student) {
+            
             return res.status(404).json({
                 success: false,
                 message: "Student not found in the database"
@@ -793,6 +823,13 @@ async function findAndPushData(req, res) {
         };
 
         await studentComputerUsageRef.push(newComputerLog);
+        const messageRef = computerUsageLogsRef.child(studentID).child('message');
+        const messageSnapshot = await messageRef.get();
+
+        if(messageSnapshot.exists()) {
+            await messageRef.remove()
+        }
+
 
         return res.status(200).json({ success: true, message: "Log added successfully" });
 

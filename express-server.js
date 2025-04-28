@@ -353,43 +353,72 @@ function getTotalLogsForThisWeek(data) {
         return;
     }
 
-    // Get the current date and time (in UTC+8)
-    const currentDate = new Date();
-    const currentDay = currentDate.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+    const now = new Date();
+    const offset = 8 * 60 * 60 * 1000; // UTC+8 offset in milliseconds
+    const nowUTC8 = new Date(now.getTime() + offset);
 
-    // Get the current week's Monday date (UTC+8) and Sunday date (UTC+8)
-    const monday = new Date(currentDate);
-    monday.setDate(currentDate.getDate() - currentDay + 1); // Set to the previous Monday
-    monday.setHours(0, 0, 0, 0); // Reset time to midnight
+    let dayUTC8 = nowUTC8.getUTCDay();
+    const startOfWeekUTC8 = new Date(nowUTC8);
 
-    const sunday = new Date(monday);
-    sunday.setDate(monday.getDate() + 6); // Set to the upcoming Sunday
-    sunday.setHours(23, 59, 59, 999); // Set time to the end of the day
+    if (dayUTC8 === 0) {
+        startOfWeekUTC8.setUTCDate(nowUTC8.getUTCDate() - 6);
+    } else {
+        startOfWeekUTC8.setUTCDate(nowUTC8.getUTCDate() - (dayUTC8 - 1));
+    }
+    startOfWeekUTC8.setUTCHours(0, 0, 0, 0);
 
-    // Initialize an array to hold the total logs per day of the week
-    const weeklyLogs = [0, 0, 0, 0, 0, 0, 0]; // Array for Monday to Sunday
+    const endOfWeekUTC8 = new Date(startOfWeekUTC8);
+    endOfWeekUTC8.setUTCDate(startOfWeekUTC8.getUTCDate() + 6);
+    endOfWeekUTC8.setUTCHours(23, 59, 59, 999);
 
-    // Iterate through each student
+    const weeklyLogs = [0, 0, 0, 0, 0, 0, 0];
+
     Object.keys(data).forEach(studentID => {
         const studentLogs = data[studentID];
 
-        // Iterate through each log for the student
         Object.keys(studentLogs).forEach(logID => {
             const log = studentLogs[logID];
 
-            if (!log.date) return;
+            if (!log.date) {
+                console.warn(`Missing date in log ${logID} for student ${studentID}`);
+                return;
+            }
 
-            const logDate = new Date(log.date); // log.date is already a Date object
+            const logDate = new Date(log.date);
 
-            if (logDate >= monday && logDate <= sunday) {
-                const dayOfWeek = logDate.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
-                weeklyLogs[dayOfWeek] += 1;
+            if (isNaN(logDate.getTime())) {
+                console.error(`Invalid date in log ${logID}:`, log.date);
+                return;
+            }
+
+            const startOfWeekUTC8Adjusted = new Date(startOfWeekUTC8.getTime() + offset);
+            const endOfWeekUTC8Adjusted = new Date(endOfWeekUTC8.getTime() + offset);
+
+            if (logDate >= startOfWeekUTC8Adjusted && logDate <= endOfWeekUTC8Adjusted) {
+                const logDateUTC = new Date(logDate.getTime() - offset);
+                let logDayUTC = logDateUTC.getUTCDay();
+                const adjustedLogDayIndex = (logDayUTC === 0) ? 6 : logDayUTC - 1;
+                weeklyLogs[adjustedLogDayIndex]++;
             }
         });
     });
 
     return weeklyLogs;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -506,15 +535,168 @@ function getTotalCorrectionRequestsPerMonthThisYear(dataObject) {
 }
 
 
+function getTotalLogsPerYearLevel(dataObject) {
+    if (typeof dataObject !== 'object' || !dataObject) {
+        return {
+            '1st Year': 0,
+            '2nd Year': 0,
+            '3rd Year': 0,
+            '4th Year': 0
+        };
+    }
+
+    const yearLevelTotals = {
+        '1st Year': 0,
+        '2nd Year': 0,
+        '3rd Year': 0,
+        '4th Year': 0
+    };
+
+    Object.values(dataObject).forEach((studentLogs) => {
+        Object.values(studentLogs).forEach((log) => {
+            const yearLevel = log.yearLevel;
+            if (yearLevelTotals.hasOwnProperty(yearLevel)) {
+                yearLevelTotals[yearLevel]++;
+            }
+        });
+    });
+
+    return yearLevelTotals;
+}
+
+
+function getTopFourCoursesByUsage(dataObject) {
+    if (typeof dataObject !== 'object' || !dataObject) {
+        return [];
+    }
+
+    const courseCounts = {};
+
+    // Iterate over each student
+    Object.values(dataObject).forEach(studentLogs => {
+        Object.values(studentLogs).forEach(log => {
+            if (log.course) {
+                const course = log.course;
+                courseCounts[course] = (courseCounts[course] || 0) + 1;
+            }
+        });
+    });
+
+    // Convert to an array and sort by count descending
+    const sortedCourses = Object.entries(courseCounts)
+        .sort((a, b) => b[1] - a[1]) // Sort by count (bigger first)
+        .slice(0, 4); // Take only top 4
+
+    // Optional: Map it nicely if you want just labels and values
+    const result = sortedCourses.map(([course, count]) => ({
+        course,
+        count
+    }));
+
+    return result;
+}
 
 
 
 
+function countNumberOfRequest(dataObject) {
+    let counter = 0;
+    for(const studentID in dataObject) {
+        counter += Object.keys(dataObject[studentID]).length;
+    }
+    return counter;
+}
 
 
+function countSections(dataObject) {
+    let uniqueSections = new Set();
+    let sections = [];
+
+    for(const studentId in dataObject){
+        for(const record in dataObject[studentId]){
+            uniqueSections.add(dataObject[studentId][record].section);
+        }
+    }
+    // console.log(sections)
+    return uniqueSections.size
+}
 
 
+function findMostUsedPC(computerUsageLogs) {
+    if (!computerUsageLogs) {
+        return null; // Handle the case where there's no data.
+    }
 
+    const pcCounts = {}; // Object to store the count of each PC.
+
+    // Iterate through each student's logs.
+    for (const studentId in computerUsageLogs) {
+        const studentLogs = computerUsageLogs[studentId];
+        if(studentLogs){
+           for (const logId in studentLogs) {
+              const log = studentLogs[logId];
+              if (log && log.pcNumber) { // Check if log and pcNumber exist
+                    const pcNumber = log.pcNumber;
+                    pcCounts[pcNumber] = (pcCounts[pcNumber] || 0) + 1;
+                }
+           }
+        }
+    }
+
+    let mostUsedPC = null;
+    let maxCount = 0;
+
+    // Find the PC with the highest count.
+    for (const pcNumber in pcCounts) {
+        if (pcCounts[pcNumber] > maxCount) {
+            maxCount = pcCounts[pcNumber];
+            mostUsedPC = pcNumber;
+        }
+    }
+
+    return mostUsedPC;
+}
+
+
+function findPeakHour(computerUsageLogs) {
+    if (!computerUsageLogs) {
+        return null; // Handle the case where there's no data.
+    }
+
+    const intervalCounts = {}; // Object to store the count of each interval.
+
+    // Iterate through each student's logs.
+    for (const studentId in computerUsageLogs) {
+        const studentLogs = computerUsageLogs[studentId];
+        if (studentLogs) {
+            for (const logId in studentLogs) {
+                const log = studentLogs[logId];
+                if (log && log.timeIn) { // Check if log and timeIn exist
+                    const timeIn = log.timeIn;
+                    intervalCounts[timeIn] = (intervalCounts[timeIn] || 0) + 1;
+                }
+            }
+        }
+    }
+
+    let peakInterval = null;
+    let maxCount = 0;
+
+    // Find the hour with the highest count.
+    for (const interval in intervalCounts) {
+        if (intervalCounts[interval] > maxCount) {
+            maxCount = intervalCounts[interval];
+            peakInterval = interval;
+        }
+    }
+
+     // Log the usage of each hour.
+    // console.log("Hourly Usage Counts:");
+    // for (const interval in intervalCounts) {
+    //     console.log(`  ${interval}: ${intervalCounts[interval]} times`);
+    // }
+    return peakInterval;
+}
 
 app.set("view engine", "ejs");
 app.use(cors());
@@ -617,12 +799,22 @@ adminIo.on("connection", (socket) => {
 
         const dailyUsageVal = getTotalLogsForThisWeek(convertedData);
         const perMonthUsageVal = getTotalLogsPerMonthThisYear(convertedData);
-        const usagePerSection = getTopSectionsByLogins(convertedData)
+        const usagePerSection = getTopSectionsByLogins(convertedData);
+        const usagePerYear = getTotalLogsPerYearLevel(convertedData);
+        const usagePerCourse = getTopFourCoursesByUsage(convertedData);
+        const noOfRegistered = snapshot.numChildren() > 0? snapshot.numChildren() : 0;
+        const noSection = countSections(convertedData) > 0 ? countSections(convertedData) :0;
+        const mostUsedPc = findMostUsedPC(convertedData) !== null ? findMostUsedPC(convertedData) : "N/A";
+        const peakHour = findPeakHour(convertedData) !== null ? findPeakHour(convertedData) : "N/A";
+        // console.log(peakHour)
+        
+        
+        
         
         
         
 
-        socket.emit("newLogAdded", {dailyUsageVal, perMonthUsageVal, usagePerSection})
+        socket.emit("newLogAdded", {dailyUsageVal, perMonthUsageVal, usagePerSection, usagePerYear, usagePerCourse, noOfRegistered, noSection, mostUsedPc, peakHour})
     });
 
     correctionRequestRef.on("value", (snapshot) => {
@@ -631,9 +823,11 @@ adminIo.on("connection", (socket) => {
         
 
         const totalCorrReqPerMonth = getTotalCorrectionRequestsPerMonthThisYear(convertedData);
+        const noOfReq = countNumberOfRequest(convertedData) > 0? countNumberOfRequest(convertedData) : 0;
+        // console.log(noOfReq)
         
 
-        socket.emit("newRequest", {totalCorrReqPerMonth})
+        socket.emit("newRequest", {totalCorrReqPerMonth, noOfReq})
     })
 
     // Disconnect event

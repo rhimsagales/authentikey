@@ -214,15 +214,45 @@ window.renderChart = function({
     backgroundColors: [], // No background color for line chart
   }); */
   
+function updateNoOfRegistered(number) {
+  let noOfRegistered = document.querySelector('.card-num-reg');
 
+  noOfRegistered.innerText = number;
+}
+
+
+function updateNoOfRequest(number){
+  let noOfRequest = document.querySelector('.card-num-req');
+
+  noOfRequest.innerText = number;
+}
+
+function updateNoOfSection(number){
+  let noOfSection= document.querySelector('.card-num-sec');
+
+  noOfSection.innerText = number;
+}
+
+function updateMostUsedPc(pcNumber){
+  let mostUsedPc= document.querySelector('.card-most-pc');
+
+  mostUsedPc.innerText = `PC-${pcNumber}`;
+}
+
+function updatePeakHour(peakHour) {
+  let peakHourElem = document.querySelector('.card-peak-hour');
+
+  peakHourElem.innerText = peakHour;
+}
 
 const socketAdmin = io("/websocket/admin");
 
 
 socketAdmin.on("newLogAdded", (logData) => {
-    console.log(logData)
-    console.log(logData.dailyUsageVal);
-    console.log(logData.perMonthUsageVal);
+    // console.log(logData)
+    // console.log(logData.dailyUsageVal);
+    // console.log(logData.perMonthUsageVal);
+    console.log(logData.convertedData)
     window.renderChart({
         elementId: 'dailyUsageChart',
         type: 'bar',
@@ -234,7 +264,7 @@ socketAdmin.on("newLogAdded", (logData) => {
         titleColor: '#fff',
         xAxisText: 'Days',
         yAxisText: 'Number of Sessions',
-        backgroundColors: highContrastPalette.sky500,
+        backgroundColors: [highContrastPalette.amber500, highContrastPalette.emerald500, highContrastPalette.orange600, highContrastPalette.red500, highContrastPalette.gray800, highContrastPalette.sky500, highContrastPalette.blue700],
         lineColor : highContrastPalette.sky500
     });
 
@@ -275,6 +305,50 @@ socketAdmin.on("newLogAdded", (logData) => {
           highContrastPalette.purple500
         ]
       });
+
+      window.renderChart({
+        elementId: 'yearLevelUsageChart',
+        type: 'doughnut',
+        labels: ['1st Year', '2nd Year', '3rd Year', '4th Year'], // Example year levels
+        data: [logData.usagePerYear['1st Year'], logData.usagePerYear['2nd Year'], logData.usagePerYear['3rd Year'], logData.usagePerYear['4th Year']], // Example data for each year level
+        chartLabel: 'Total Logs by Year Level',
+        chartTitle: 'Usage by Year Level',
+        tickColor: '#fff',
+        titleColor: '#fff',
+        xAxisText: '', // Pie charts do not need x-axis text
+        yAxisText: '', // Pie charts do not need y-axis text
+        backgroundColors: [
+          highContrastPalette.blue700,
+          highContrastPalette.sky500,
+          highContrastPalette.rose600,
+          highContrastPalette.amber500
+        ]
+      });
+
+      
+      window.renderChart({
+        elementId: 'courseUsageChart',
+        type: 'bar',
+        labels: logData.usagePerCourse.map(item => item.course),
+        data: logData.usagePerCourse.map(item => item.count),
+        chartLabel: 'Logs per Course',
+        chartTitle: 'Usage by Course',
+        tickColor: '#fff',
+        titleColor: '#fff',
+        xAxisText: 'Courses',
+        yAxisText: 'Number of Logs',
+        backgroundColors: [
+          highContrastPalette.purple500,
+          highContrastPalette.orange600,
+          highContrastPalette.emerald500
+        ]
+      });
+
+
+      updateNoOfRegistered(logData.noOfRegistered);
+      updateNoOfSection(logData.noSection);
+      updateMostUsedPc(logData.mostUsedPc);
+      updatePeakHour(logData.peakHour)
 });
 
 
@@ -295,4 +369,6 @@ socketAdmin.on("newRequest", (corrRequests) => {
         backgroundColors: highContrastPalette.purple500, // No background color for line chart
         lineColor: highContrastPalette.purple500
       });
+
+      updateNoOfRequest(corrRequests.noOfReq)
 })
