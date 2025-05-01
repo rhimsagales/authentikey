@@ -399,7 +399,7 @@
           <thead>
             <caption
               class="text-xl text-left px-4 py-4 font-inter text-nowrap bg-base-100 font-semibold text-base-content">
-              Computer Access Record</caption>
+              Computer Access Record <span class="text-info text-xs">(Current Year Only)</span> </caption>
           </thead>
           <thead class="h-12 ">
 
@@ -482,7 +482,7 @@
         
           <div class="w-full flex flex-col gap-1">
             <label class="block text-sm font-medium text-base-content">Date of Record</label>
-            <input type="date" name="date" required
+            <input type="datetime-local" name="date" required
               class="bg-transparent mt-1 block w-full rounded border border-gray-300 p-2 focus:outline-primary correction-inputs"
               id="cr-date-record">
           </div>

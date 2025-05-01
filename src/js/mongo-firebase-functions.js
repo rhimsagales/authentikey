@@ -630,26 +630,61 @@ async function insertCorrectionRequest(req, res) {
 
         // Get current request count
         let requestNumber;
+        let recordID;
         try {
-            const snapshot = await studentCorrectionRequestRef.get();
+            const snapshot = await studentCorrectionRequestRef.get()
+            .catch(() =>{
+                throw new Error("No matching record found for the provided date.");
+            });
             requestNumber = snapshot.exists() ? snapshot.numChildren() + 1 : 1;
+
+
+            const snapshotLogs = await computerUsageLogsRef.get();
+            const snapshotLogsVal = snapshotLogs.val();
+            
+            if (!snapshotLogsVal[studentID]) {
+                throw new Error("No logs found for the provided student ID.");
+            }
+            
+            for (const recordIDFor in snapshotLogsVal[studentID]) {
+                const log = snapshotLogsVal[studentID][recordIDFor]; // Access the log object
+                if(!log) {
+                    throw new Error("No matching record found for the provided date.");
+                }
+                if (log.date === dateRecord) { // Compare the `date` field of the log
+                    recordID = recordIDFor; // Assign the log ID to `recordID`
+                    break;
+                }
+            }
+        
+            if (!recordID) {
+                throw new Error("No matching record found for the provided date.");
+            }
+            
+
         } catch (err) {
-            console.error("Error fetching request count:", err);
-            return res.status(500).json({ success: false, message: 'Error processing request.' });
+            // console.error("Error fetching request count:", err);
+            return res.status(500).json({ success: false, message: err.message? err.message : 'Error processing request.' });
         }
+        
+        
+
+
 
         // Construct the new request object
         const correctionRequestObj = {
             requestNumber,
+            recordID : recordID,
+            studentID,
             fullName,
             email,
             subject,
             dateRecord,
-            correctionDetails,
+            correctionDetails : `${correctionDetails}`,
             status: "Pending", // Set a meaningful default status
             timestamp: Date.now() // Optional: add a timestamp
         };
-
+        // console.log(correctionRequestObj.correctionDetails)
         // Push the new request into the database
         try {
             await studentCorrectionRequestRef.push(correctionRequestObj);
@@ -958,4 +993,71 @@ async function getFilteredLogs(req, res) {
     }
 }
 
-module.exports = { connectToMongoDB, checkStudentIdAvailability, registerAccount, login, createResetPassDoc, deleteResetPassDocs, compareResetCode, changePassword, insertCorrectionRequest, getAllLogs, updatePersonalInfo, updatePassword, deleteStudent, findAndPushData, findStudentID, getFilteredLogs};
+async function adminApproveModifyLogs(req, res) {
+    const { requestID, recordID, studentID, dateOfConcern, newDate, newTimeIn, newTimeOut } = req.body;
+    
+    if(!requestID || !recordID || !studentID || !dateOfConcern || !newDate || !newTimeIn || !newTimeOut) {
+        return res.status(400).json({
+            message : "All fields are required."
+        })
+    }
+
+    try {
+        // Reference to the specific record
+        const recordRef = computerUsageLogsRef.child(studentID).child(recordID);
+        const correctionRecordRef = correctionRequestRef.child(studentID).child(requestID);
+
+        // Perform the update
+        await recordRef.update({
+            date: newDate,
+            timeIn: newTimeIn,
+            timeOut: newTimeOut
+        });
+        await correctionRecordRef.update({
+            status : "Approved"
+        });
+        // Respond with success
+        return res.status(200).json({
+            message: "Log updated successfully."
+        });
+    } catch (error) {
+        console.error("Error updating log:", error);
+        return res.status(500).json({
+            message: "An error occurred while updating the log.",
+            
+        });
+    }
+
+
+    
+
+}
+
+async function adminRejectModifyLogs(req, res) {
+    const { studentID, requestID } = req.body;
+
+    if(!studentID || !requestID) {
+        return res.status(400).json({
+            message : "All fields are required."
+        })
+    }
+    const correctionReqRecordRef = correctionRequestRef.child(studentID).child(requestID);
+    try {
+        await correctionReqRecordRef.update({
+            status : "Rejected"
+        });
+
+        res.status(200).json({
+            message : "The rejection was successful."
+        })
+    }
+    catch(e){
+        console.error("Error updating log:", e);
+        return res.status(500).json({
+            message: "An error occurred while updating the log.",
+            
+        });
+    }
+}
+
+module.exports = { connectToMongoDB, checkStudentIdAvailability, registerAccount, login, createResetPassDoc, deleteResetPassDocs, compareResetCode, changePassword, insertCorrectionRequest, getAllLogs, updatePersonalInfo, updatePassword, deleteStudent, findAndPushData, findStudentID, getFilteredLogs, adminApproveModifyLogs, adminRejectModifyLogs};

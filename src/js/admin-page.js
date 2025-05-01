@@ -1,5 +1,5 @@
 // Import alert functions
-import { createWarningAlert, createErrorAlert } from './alert.js';
+import { createWarningAlert, createErrorAlert, createSuccessAlert } from './alert.js';
 
 // Import XLSX from CDN
 const XLSX = window.XLSX;
@@ -177,3 +177,56 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 }); 
+
+
+// let crShowModalBtns = document.querySelectorAll('.cr-show-modal-btns');
+// let crHideModalBtns = document.querySelectorAll('.cr-hide-modal-btns');
+
+// crShowModalBtns.forEach(btn => {
+//     btn.addEventListener('click', () => {
+//         document.body.classList.replace('overflow-y-visible', 'overflow-y-hidden');
+//     })
+// });
+// crHideModalBtns.forEach(btn => {
+//     btn.addEventListener('click', () => {
+//         document.body.classList.replace('overflow-y-hidden', 'overflow-y-visible');
+//     })
+// });
+
+
+const penAppRejBtns = document.querySelectorAll('.pen-app-rej-btns');
+const crContainers = document.querySelectorAll('.cr-containers')
+
+penAppRejBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        const targetText = e.target.innerText;
+
+        penAppRejBtns.forEach(btn => {
+            btn.classList.remove('active-pen-app-rej')
+        });
+
+        e.target.classList.add('active-pen-app-rej');
+
+        crContainers.forEach(container => {
+            if(container.classList.contains('flex')) {
+                container.classList.replace('flex', 'hidden')
+            }
+        })
+
+        switch(targetText) {
+            case "Approved":
+                crContainers[2].classList.replace('hidden','flex');
+                break;
+            case "Rejected":
+                crContainers[1].classList.replace('hidden','flex');
+                break;
+            default:
+                crContainers[0].classList.replace('hidden','flex');
+                break;
+            
+            
+        }
+    })
+})

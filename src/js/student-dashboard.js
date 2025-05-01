@@ -719,7 +719,8 @@ crSubmitBtn.addEventListener('click', async (event) => {
             
             throw new Error('All fields are required.');
         }
-        console.log('reached here')
+        console.log("crCorrDetails value:", crCorrDetails.value);
+        console.log('reached here');
         const response = await fetch('/send-correction-request', {
             method : 'POST',
             headers : { 'Content-Type' : 'application/json', },

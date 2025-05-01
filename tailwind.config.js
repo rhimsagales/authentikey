@@ -111,6 +111,7 @@ module.exports = {
     },
     animation : {
       fadein: 'fade-in 1s ease-in-out 0.25s 1',
+      fadeout: 'fade-out 1s ease-in-out 0.25s 1',
       fadeoutTen: 'fade-out 1s ease-out 10s 1',
       fadeoutThree: 'fade-out 1s ease-out 3s 1',
       fadeindown: 'fade-in-down 1s ease-in 0.25s 1',

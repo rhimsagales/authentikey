@@ -4,7 +4,7 @@
 
 @layer components {
   body {
-    @apply bg-base-100 relative pt-[72px] md:pt-[88px] 3xl:pt-[104px] 4xl:pt-[120px];
+    @apply bg-base-100 relative pt-[72px] md:pt-[88px] 3xl:pt-[104px] 4xl:pt-[120px] font-inter;
   }
   .header-container {
     @apply bg-base-100 fixed top-0 left-0 right-0 h-16 md:h-20 3xl:h-24 4xl:h-28 px-4 lg:px-12 2xl:px-36 z-10 border-b border-base-200/20;
@@ -296,6 +296,99 @@
   .card-icon{
     @apply size-5 xs:size-6 sm:size-5;
   }
+  
 
+
+
+
+
+
+
+
+
+  .request-card {
+    @apply min-w-full h-auto max-h-[200px] md:max-h-[170px] bg-base-200 p-2 md:p-4 flex flex-col justify-between rounded text-xs md:text-sm gap-3;
+  }
+  
+  .request-modal {
+    @apply w-[90%] xs:w-[80%] sm:w-[70%] md:w-[65%] lg:w-[50%] h-fit max-h-[500px] md:max-h-[700px] lg:max-h-[800px] overflow-y-auto bg-base-300 text-base-content rounded md:rounded-md;
+  }
+  
+  .request-modal-content {
+    @apply w-full h-full min-h-[500px] relative pl-2 pr-2 pb-2 md:pl-3 md:pr-3 md:pb-3 pt-8 md:pt-10 flex flex-col items-center justify-between;
+  }
+  
+  .request-modal-close-button {
+    @apply  size-8 border-none rounded-full btn-sm btn-ghost grid place-items-center absolute md:top-2 md:right-2 top-1 right-1 p-0;
+  }
+  
+  .request-modal-header {
+    @apply w-full h-auto flex flex-col gap-2;
+  }
+  
+  .request-modal-header-title {
+    @apply text-xl 4xl:text-2xl self-start w-fit text-wrap break-all text-justify text-white font-semibold;
+  }
+  
+  .request-modal-header-details {
+    @apply flex justify-between gap-4 items-center text-sm 4xl:text-base;
+  }
+  
+  .request-modal-details-group {
+    @apply self-start w-fit text-left flex flex-wrap gap-1 justify-start;
+  }
+  
+  .request-modal-details-value {
+    @apply font-light;
+  }
+  
+  .request-modal-concern-details {
+    @apply w-full flex flex-col items-start gap-1;
+  }
+  
+  .request-modal-concern-label {
+    @apply text-sm 4xl:text-base;
+  }
+  
+  .request-modal-concern-text-container {
+    @apply w-full h-[200px] max-h-[200px] bg-neutral text-neutral-content rounded overflow-y-auto p-2 md:p-3;
+  }
+  
+  .request-modal-concern-text {
+    @apply w-full text-wrap text-xs md:text-sm 4xl:text-base text-left  h-full;
+  }
+  
+  .request-modal-input-group {
+    @apply min-w-full sm:min-w-[48%] lg:min-w-[30.3%] flex flex-grow flex-col items-start gap-2;
+  }
+  
+  .request-modal-input-label {
+    @apply font-semibold;
+  }
+  
+  .request-modal-input {
+    @apply input input-bordered w-full text-sm 4xl:text-base disabled:text-base-content bg-base-300 disabled:bg-base-300 disabled:border-[#d6d6d633];
+  }
+  
+  .request-modal-actions {
+    @apply w-full flex items-center justify-end gap-2 mt-4;
+  }
+  
+  .request-modal-reject-button {
+    @apply btn btn-sm text-xs rounded-full btn-ghost hover:bg-error text-white border border-base-content;
+  }
+  
+  .request-modal-approve-button {
+    @apply btn btn-sm text-xs rounded-full btn-success text-white;
+  }
+
+
+  .pen-app-rej-btns {
+    @apply btn btn-sm rounded-full border-2 border-secondary text-xs px-3 md:px-6 bg-transparent ease-in-out duration-300;
+  } 
+  
+  .active-pen-app-rej {
+    @apply bg-white text-black border-white ease-in-out duration-300 hover:bg-white hover:border-white hover:border-2;
+  }
   
 }

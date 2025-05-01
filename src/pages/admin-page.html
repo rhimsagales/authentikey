@@ -101,6 +101,13 @@
         .input::placeholder {
             color: rgba(255, 255, 255, 0.5) !important;
         }
+
+
+        .cr-modal-container {
+            background: rgba(0, 0, 0, 0.61);
+        }
+
+        
     </style>
 
     <script type="module" src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
@@ -373,7 +380,13 @@
     </main>
 
     <!-- Analytics Section -->
-    <main class="custom-container  analytics-section flex">
+    <main class="custom-container  analytics-section hidden">
+        <div class="text-center mb-4 flex flex-col items-center justify-center">
+            <h1 class="text-xl md:text-3xl font-bold text-base-content mb-2">Explore Analytics Insights</h1>
+            <p class="text-base-content/70 text-xs lg:text-sm max-w-2xl px-4">
+                Dive into detailed analytics—track usage patterns, peak hours, and more for informed decision-making.
+            </p>
+        </div>
         <div class="analytics-container">
             <div class="analytics-flex-stat-info">
                 <div class="analytics-stat-info-card">
@@ -511,6 +524,389 @@
     </main>
 
 
+    <main class="custom-container flex flex-col items-center justify-start">
+        <div class="w-full h-auto text-left mb-4 flex flex-col items-center justify-center gap-2">
+            <div class="w-full xs:w-[80%] sm:w-3/4 lg:w-3/5 xl:w-3/4">
+                <h1 class="min-h-fit text-xl md:text-3xl font-bold text-base-content ">Manage Correction Requests</h1>
+                <p class="min-h-fit text-base-content/70 text-xs lg:text-sm max-w-2xl ">
+                    Review and take action on correction requests submitted by students.
+                </p>
+            </div>
+            <div class="w-full flex flex-col gap-2 items-center justify-center mt-2">
+                <div class="w-full xs:w-[80%] sm:w-3/4 lg:w-3/5 xl:w-3/4 flex justify-between flex-wrap">
+                    <div class="flex gap-2">
+                        <button class="pen-app-rej-btns active-pen-app-rej">
+                            Pending
+                        </button>
+                        <button class="pen-app-rej-btns">
+                            Approved
+                        </button>
+                        <button class="pen-app-rej-btns">
+                            Rejected
+                        </button>
+                    </div>
+                    <div>
+
+                    </div>
+                </div>
+                <div class="w-full xs:w-[80%] sm:w-3/4 lg:w-3/5 xl:w-3/4 h-[70svh]  overflow-y-auto border border-secondary flex flex-col  gap-2 rounded-md p-1 cr-main-container-box cr-containers">
+                
+                    <!-- <div class="min-w-full h-auto max-h-[200px] md:max-h-[170px] bg-base-200 p-2 md:p-4 flex flex-col justify-between rounded text-xs md:text-sm gap-3">
+                        <span class="font-semibold">
+                            Student ID:
+                            <span class="font-normal">
+                                &nbsp;UA202200726
+                            </span>
+                        </span>
+                
+                        <div class="w-full flex flex-wrap items-center justify-between gap-3 font-semibold">
+                            <span >
+                                Subject:
+                                <span class="font-normal">
+                                    &nbsp;Wrong Date
+                                </span>
+                            </span>
+                
+                            <span class="text-gray-500">
+                                Date Submitted:
+                                <span class="font-normal">
+                                    &nbsp;2025-03-27
+                                </span>
+                            </span>
+                        </div>
+                        <div class="w-full flex flex-wrap items-center justify-between gap-3 font-semibold">
+                            <span class="">
+                                Name:
+                                <span class="font-normal">Rhim Angelo Sagales</span>
+                            </span>
+                            <span>
+                                Date of Concern:
+                                <span class="font-normal text-sky-300">2025-04-26T20:00</span>
+                            </span>
+                        </div>
+                        <div class="w-full flex items-center justify-end">
+                            <button class="cr-show-modal-btns btn btn-sm btn-primary rounded-full md:w-32 text-xs md:text-sm" popovertarget="cr-modal" popovertargetaction="show">
+                                View Request
+                            </button>
+                        </div>
+                        <div class="w-[90%] xs:w-[80%] sm:w-[70%] md:w-[65%] lg:w-[50%] h-fit max-h-[500px] md:max-h-[700px] lg:max-h-[800px] overflow-y-auto bg-base-300 text-base-content rounded md:rounded-md" popover="auto" id="cr-modal">
+                            <div class="w-full h-full min-h-[500px] relative pl-2 pr-2 pb-2 md:pl-3 md:pr-3 md:pb-3 pt-8 md:pt-10    flex flex-col items-center justify-between">
+                                <button class="cr-hide-modal-btns size-8 border-none rounded-full btn-sm btn-ghost grid place-items-center absolute md:top-2 md:right-2 top-1 right-1 p-0" popovertargetaction="hide" popovertarget="cr-modal">
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      class="size-4"
+                                      fill="none"
+                                      viewBox="0 0 24 24"
+                                      stroke="currentColor">
+                                      <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                
+                                <div class="w-full h-auto flex flex-col gap-2 ">
+                                    <h1 class="text-xl 4xl:text-2xl  self-start w-fit text-wrap break-all text-justify text-white font-semibold">Subject:<span class="font-normal text-white">&nbsp;Wrong Date
+                                    </span></h1>
+                                    <div class="flex justify-between gap-4 items-center text-sm 4xl:text-base">
+                                        <span class=" self-start w-fit text-left flex flex-wrap gap-1 justify-start"><span>Student ID:&nbsp;</span> <span class="font-light">UA202200726</span></span>
+                                        <span class=" self-start w-fit text-right flex flex-wrap gap-1 justify-end"><span class="text-right">Date of Concern:</span> <span class="font-light text-sky-300 text-right">&nbsp;2025-04-26T20:00</span></span>
+                                    </div>
+                                    <div class="w-full flex flex-col items-start gap-1 ">
+                                        <span class="text-sm 4xl:text-base">Details:</span>
+                                        <div class="w-full h-[200px] max-h-[200px] bg-neutral text-neutral-content rounded overflow-y-auto p-2 md:p-3">
+                                            <pre class="w-full text-wrap"><p class=" text-xs md:text-sm 4xl:text-base text-left w-full h-full preserve-text"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, delectus, explicabo expedita vitae rem sed architecto reprehenderit perferendis at obcaecati ipsam laboriosam maiores dolor sequi. Et totam tempore consectetur excepturi!
+                                            </p></pre>
+                                        </div>
+                                    </div>
+                                    <div class="w-full h-auto max-h-[250px] overflow-y-auto flex items-start justify-start flex-wrap gap-2">
+                                        <div class="min-w-full sm:min-w-[48%] lg:min-w-[30.3%] flex flex-grow flex-col items-start gap-2">
+                                            <label for="studentID" class="font-semibold">Student ID:</label>
+                                            <input type="text" class="input input-bordered w-full text-sm 4xl:text-base disabled:text-base-content" id="studentID" value="UA202200726" disabled>
+                                        </div>
+                
+                                        <div class="min-w-full sm:min-w-[48%] lg:min-w-[30.3%] flex flex-grow flex-col items-start gap-2">
+                                            <label for="dateOfConcern" class="font-semibold">Date of Concern:</label>
+                                            <input type="datetime-local" class="input input-bordered w-full text-sm 4xl:text-base disabled:text-base-content" id="dateOfConcern" disabled value="2025-04-26T20:00">
+                                        </div>
+                                        <div class="min-w-full sm:min-w-[48%] lg:min-w-[30.3%] flex flex-grow flex-col items-start gap-2">
+                                            <label for="date" class="font-semibold">New Date:</label>
+                                            <input type="datetime-local" class="input input-bordered w-full text-sm 4xl:text-base disabled:text-base-content" id="date">
+                                        </div>
+                                        <div class="min-w-full sm:min-w-[48%] lg:min-w-[30.3%] flex flex-grow flex-col items-start gap-2">
+                                            <label for="newTimeIn" class="font-semibold">New Time-in:</label>
+                                            <input type="text" class="input input-bordered w-full text-sm 4xl:text-base disabled:text-base-content" id="newTimeIn" placeholder="08:00 PM">
+                                        </div>
+                                        <div class="min-w-full sm:min-w-[48%] lg:min-w-[30.3%] flex flex-grow flex-col items-start gap-2">
+                                            <label for="newTimeOut" class="font-semibold" >New Time-out:</label>
+                                            <input type="text" class="input input-bordered w-full text-sm 4xl:text-base disabled:text-base-content" id="newTimeOut" placeholder="10:00 PM">
+                                        </div>
+                                    </div>
+                
+                                </div>
+                                <div class="w-full flex items-center justify-end gap-2 mt-4">
+                                    <button class="btn btn-sm text-xs rounded-full btn-ghost hover:bg-error text-white border border-base-content">
+                                        Reject
+                                    </button>
+                                    <button class="btn btn-sm text-xs rounded-full btn-success text-white">
+                                        Approve & Modify
+                                    </button>
+                                </div>
+                            </div>
+                
+                        </div>
+                
+                    </div> -->
+                    
+
+                    <!-- <div class="request-card">
+                        <span class="font-semibold">
+                            Student ID:
+                            <span class="font-normal">&nbsp;UA202200726</span>
+                        </span>
+                
+                        <div class="w-full flex flex-wrap items-center justify-between gap-3 font-semibold">
+                            <span>
+                                Subject:
+                                <span class="font-normal">&nbsp;Wrong Date</span>
+                            </span>
+                
+                            <span class="text-gray-500">
+                                Date Submitted:
+                                <span class="font-normal">&nbsp;2025-03-27</span>
+                            </span>
+                        </div>
+                        <div class="w-full flex flex-wrap items-center justify-between gap-3 font-semibold">
+                            <span class="">
+                                Name:
+                                <span class="font-normal">Rhim Angelo Sagales</span>
+                            </span>
+                            <span>
+                                Date of Concern:
+                                <span class="font-normal text-sky-300">2025-04-28T20:00</span>
+                            </span>
+                        </div>
+                        <div class="w-full flex items-center justify-end">
+                            <button class="cr-show-modal-btns btn btn-sm btn-primary rounded-full md:w-32 text-xs md:text-sm"
+                                popovertarget="cr-modal" popovertargetaction="show">
+                                View Request
+                            </button>
+                        </div>
+                        <div class="request-modal" popover="auto" id="cr-modal">
+                            <div class="request-modal-content">
+                                <button class="request-modal-close-button cr-hide-modal-btns" popovertargetaction="hide" popovertarget="cr-modal">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                
+                                <div class="request-modal-header">
+                                    <h1 class="request-modal-header-title">Subject:<span class="font-normal text-white">&nbsp;Wrong
+                                            Date</span></h1>
+                                    <div class="request-modal-header-details">
+                                        <span class="request-modal-details-group"><span>Student ID:&nbsp;</span> <span
+                                                class="request-modal-details-value">UA202200726</span></span>
+                                        <span class="request-modal-details-group"><span class="text-right">Date of Concern:</span> <span
+                                                class="request-modal-details-value text-sky-300 text-right">&nbsp;2025-04-28T20:00</span></span>
+                                    </div>
+                                    <div class="request-modal-concern-details">
+                                        <span class="request-modal-concern-label">Details:</span>
+                                        <div class="request-modal-concern-text-container">
+                                            <pre><p class="request-modal-concern-text preserve-text"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, delectus, explicabo expedita vitae rem sed architecto reprehenderit perferendis at obcaecati ipsam laboriosam maiores dolor sequi. Et totam tempore consectetur excepturi!
+                                                </p></pre>
+                                        </div>
+                                    </div>
+                                    <div class="w-full h-auto max-h-[250px] overflow-y-auto flex items-start justify-start flex-wrap gap-2 p-2">
+                                        <div class="request-modal-input-group">
+                                            <label for="requestID" class="request-modal-input-label">Request ID:</label>
+                                            <input type="text" class="request-modal-input" id="requestID" value="-OP7VKIfm9aoSOPi_wBE" disabled>
+                                        </div>
+                                        <div class="request-modal-input-group">
+                                            <label for="recordID" class="request-modal-input-label">Record ID:</label>
+                                            <input type="text" class="request-modal-input" id="recordID" value="-OOs9xrdAy8vcescHa-_" disabled>
+                                        </div>
+                                        <div class="request-modal-input-group">
+                                            <label for="studentID" class="request-modal-input-label">Student ID:</label>
+                                            <input type="text" class="request-modal-input" id="studentID" value="UA202200726" disabled>
+                                        </div>
+                
+                                        <div class="request-modal-input-group">
+                                            <label for="dateOfConcern" class="request-modal-input-label">Date of Concern:</label>
+                                            <input type="datetime-local" class="request-modal-input" id="dateOfConcern" disabled
+                                                value="2025-04-28T20:00">
+                                        </div>
+                                        <div class="request-modal-input-group">
+                                            <label for="date" class="request-modal-input-label">New Date:</label>
+                                            <input type="datetime-local" class="request-modal-input" id="date">
+                                        </div>
+                                        <div class="request-modal-input-group">
+                                            <label for="newTimeIn" class="request-modal-input-label">New Time-in:</label>
+                                            <input type="text" class="request-modal-input" id="newTimeIn" placeholder="08:00 PM">
+                                        </div>
+                                        <div class="request-modal-input-group">
+                                            <label for="newTimeOut" class="request-modal-input-label">New Time-out:</label>
+                                            <input type="text" class="request-modal-input" id="newTimeOut" placeholder="10:00 PM">
+                                        </div>
+                                    </div>
+                
+                                </div>
+                                <div class="request-modal-actions">
+                                    <button class="cr-reject-btns request-modal-reject-button">
+                                        Reject
+                                    </button>
+                                    <button class="cr-approve-modify-btns request-modal-approve-button">
+                                        Approve & Modify
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+                <div class="w-full xs:w-[80%] sm:w-3/4 lg:w-3/5 xl:w-3/4 h-[70svh]  overflow-y-auto border border-secondary hidden flex-col  gap-2 rounded-md p-1 cr-rejected-box cr-containers">
+                    <!-- <div class="request-card">
+                        <span class="font-semibold">
+                            Student ID:
+                            <span class="font-normal">&nbsp;UA202200726</span>
+                        </span>
+                
+                        <div class="w-full flex flex-wrap items-center justify-between gap-3 font-semibold">
+                            <span>
+                                Subject:
+                                <span class="font-normal">&nbsp;Wrong Date</span>
+                            </span>
+                
+                            <span class="text-gray-500">
+                                Date Submitted:
+                                <span class="font-normal">&nbsp;2025-03-27</span>
+                            </span>
+                        </div>
+                        <div class="w-full flex flex-wrap items-center justify-between gap-3 font-semibold">
+                            <span class="">
+                                Name:
+                                <span class="font-normal">Rhim Angelo Sagales</span>
+                            </span>
+                            <span>
+                                Date of Concern:
+                                <span class="font-normal text-sky-300">2025-04-28T20:00</span>
+                            </span>
+                        </div>
+                        <div class="w-full flex items-center justify-end">
+                            <button class="cr-show-modal-btns btn btn-sm btn-primary rounded-full md:w-32 text-xs md:text-sm"
+                                popovertarget="cr-modal" popovertargetaction="show">
+                                View Request
+                            </button>
+                        </div>
+                        <div class="request-modal" popover="auto" id="cr-modal">
+                            <div class="request-modal-content min-h-0">
+                                <button class="request-modal-close-button cr-hide-modal-btns" popovertargetaction="hide" popovertarget="cr-modal">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                
+                                <div class="request-modal-header">
+                                    <h1 class="request-modal-header-title">Subject:<span class="font-normal text-white">&nbsp;Wrong
+                                            Date</span></h1>
+                                    <div class="request-modal-header-details">
+                                        <span class="request-modal-details-group"><span>Student ID:&nbsp;</span> <span
+                                                class="request-modal-details-value">UA202200726</span></span>
+                                        <span class="request-modal-details-group"><span class="text-right">Date of Concern:</span> <span
+                                                class="request-modal-details-value text-sky-300 text-right">&nbsp;2025-04-28T20:00</span></span>
+                                    </div>
+                                    <div class="request-modal-concern-details">
+                                        <span class="request-modal-concern-label">Details:</span>
+                                        <div class="request-modal-concern-text-container">
+                                            <pre><p class="request-modal-concern-text preserve-text"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, delectus, explicabo expedita vitae rem sed architecto reprehenderit perferendis at obcaecati ipsam laboriosam maiores dolor sequi. Et totam tempore consectetur excepturi!
+                                                </p></pre>
+                                        </div>
+                                    </div>
+                                    
+                
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+
+                <div class="w-full xs:w-[80%] sm:w-3/4 lg:w-3/5 xl:w-3/4 h-[70svh]  overflow-y-auto border border-secondary hidden flex-col  gap-2 rounded-md p-1 cr-approved-box  cr-containers">
+                    <!-- <div class="request-card">
+                        <span class="font-semibold">
+                            Student ID:
+                            <span class="font-normal">&nbsp;UA202200726</span>
+                        </span>
+                
+                        <div class="w-full flex flex-wrap items-center justify-between gap-3 font-semibold">
+                            <span>
+                                Subject:
+                                <span class="font-normal">&nbsp;Wrong Date</span>
+                            </span>
+                
+                            <span class="text-gray-500">
+                                Date Submitted:
+                                <span class="font-normal">&nbsp;2025-03-27</span>
+                            </span>
+                        </div>
+                        <div class="w-full flex flex-wrap items-center justify-between gap-3 font-semibold">
+                            <span class="">
+                                Name:
+                                <span class="font-normal">Rhim Angelo Sagales</span>
+                            </span>
+                            <span>
+                                Date of Concern:
+                                <span class="font-normal text-sky-300">2025-04-28T20:00</span>
+                            </span>
+                        </div>
+                        <div class="w-full flex items-center justify-end">
+                            <button class="cr-show-modal-btns btn btn-sm btn-primary rounded-full md:w-32 text-xs md:text-sm"
+                                popovertarget="cr-modal" popovertargetaction="show">
+                                View Request
+                            </button>
+                        </div>
+                        <div class="request-modal" popover="auto" id="cr-modal">
+                            <div class="request-modal-content min-h-0">
+                                <button class="request-modal-close-button cr-hide-modal-btns" popovertargetaction="hide" popovertarget="cr-modal">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                
+                                <div class="request-modal-header">
+                                    <h1 class="request-modal-header-title">Subject:<span class="font-normal text-white">&nbsp;Wrong
+                                            Date</span></h1>
+                                    <div class="request-modal-header-details">
+                                        <span class="request-modal-details-group"><span>Student ID:&nbsp;</span> <span
+                                                class="request-modal-details-value">UA202200726</span></span>
+                                        <span class="request-modal-details-group"><span class="text-right">Date of Concern:</span> <span
+                                                class="request-modal-details-value text-sky-300 text-right">&nbsp;2025-04-28T20:00</span></span>
+                                    </div>
+                                    <div class="request-modal-concern-details">
+                                        <span class="request-modal-concern-label">Details:</span>
+                                        <div class="request-modal-concern-text-container">
+                                            <pre><p class="request-modal-concern-text preserve-text"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, delectus, explicabo expedita vitae rem sed architecto reprehenderit perferendis at obcaecati ipsam laboriosam maiores dolor sequi. Et totam tempore consectetur excepturi!
+                                                </p></pre>
+                                        </div>
+                                    </div>
+                                    
+                
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+                    
+                    
+        
+        
+    </main>
+
     <footer class="footer bg-neutral text-neutral-content p-10 relative bottom-0">
         <aside>
             <img src="../assets/logo-auth-png.png" class="object-contain w-14 h-16" alt="">
@@ -552,14 +948,14 @@
             </div>
         </nav>
     </footer>
-
+    
     <!-- Scripts -->
     <script>
         
     </script>
 
 
-    <script src="../js/inject-data-admin-page.js"></script>
+    <script src="../js/inject-data-admin-page.js" type="module"></script>
 </body>
 
 </html>

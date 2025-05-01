@@ -236,13 +236,28 @@ function getLastPCUsed(logs) {
 }
 
 
-
+function countPendingRequest(data) {
+    let counter = 0;
+    for(const req of data) {
+        if(req.status == "Pending") {
+            counter++
+        }
+    }
+    return counter
+}
 
 
 
 function sortLogsByDate(logs) {
-    return logs.sort((a, b) => {
-        return new Date(b.date) - new Date(a.date); // Sort by date, newest first
+    const currentYear = new Date().getFullYear();
+  
+    const filteredLogs = logs.filter(log => {
+        const logYear = new Date(log.date).getFullYear();
+        return logYear === currentYear;
+    });
+  
+    return filteredLogs.sort((a, b) => {
+      return new Date(b.date) - new Date(a.date); // Sort by date, newest first
     });
 }
 
@@ -282,7 +297,7 @@ function convertDatesInArray(array) {
 
 function convertDateForAllLogs(data, timeZoneOffset = 0) {
     // Ensure data is an object (it should be a dictionary with student IDs as keys)
-    if (typeof data !== 'object') {
+    if (typeof data !== 'object' || data === null || Object.keys(data).length === 0) {
         console.error("Input is not an object.");
         return;
     }
@@ -314,8 +329,8 @@ function convertDateForAllLogs(data, timeZoneOffset = 0) {
 }
 
 function convertDateForAllLogsForCorrReq(data, timeZoneOffset = 8) { // Default is UTC+8
-    // Ensure data is an object (it should be a dictionary with student IDs as keys)
-    if (typeof data !== 'object') {
+    // Ensure data is an object and not empty
+    if (typeof data !== 'object' || data === null || Object.keys(data).length === 0) {
         return;
     }
 
@@ -323,21 +338,26 @@ function convertDateForAllLogsForCorrReq(data, timeZoneOffset = 8) { // Default 
     Object.keys(data).forEach(studentID => {
         const studentLogs = data[studentID];
 
-        // Iterate through each log for the student
-        Object.keys(studentLogs).forEach(logID => {
-            const log = studentLogs[logID];
+        // Check if studentLogs is a valid object before proceeding
+        if (typeof studentLogs === 'object' && studentLogs !== null) {
+            // Iterate through each log for the student
+            Object.keys(studentLogs).forEach(logID => {
+                const log = studentLogs[logID];
 
-            // If there's a 'timestamp' field, convert it to a Date object
-            if (log.timestamp) {
-                const logTimestamp = new Date(log.timestamp);
+                // If there's a 'timestamp' field, convert it to a Date object
+                if (log && log.timestamp) {
+                    const logTimestamp = new Date(log.timestamp);
 
-                if (!isNaN(logTimestamp.getTime())) {
-                    // Adjust the timestamp to the specified time zone offset (in minutes)
-                    logTimestamp.setMinutes(logTimestamp.getMinutes() + logTimestamp.getTimezoneOffset() + (timeZoneOffset * 60));
-                    log.timestamp = logTimestamp; // Assign the Date object back to the 'timestamp' field
+                    if (!isNaN(logTimestamp.getTime())) {
+                        // Adjust the timestamp to the specified time zone offset (in minutes)
+                        logTimestamp.setMinutes(logTimestamp.getMinutes() + logTimestamp.getTimezoneOffset() + (timeZoneOffset * 60));
+                        log.timestamp = logTimestamp; // Assign the Date object back to the 'timestamp' field
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            console.warn(`No valid logs found for student ID: ${studentID}. Skipping.`);
+        }
     });
 
     return data; // Return the modified data object
@@ -348,7 +368,7 @@ function convertDateForAllLogsForCorrReq(data, timeZoneOffset = 8) { // Default 
 
 
 function getTotalLogsForThisWeek(data) {
-    if (typeof data !== 'object') {
+    if (typeof data !== 'object' || data === null || Object.keys(data).length === 0) {
         console.error("Input is not an object.");
         return;
     }
@@ -424,7 +444,7 @@ function getTotalLogsForThisWeek(data) {
 
 
 function getTotalLogsPerMonthThisYear(dataObject) {
-    if (typeof dataObject !== 'object' || !dataObject) {
+    if (typeof dataObject !== 'object' || !dataObject || dataObject === null || Object.keys(dataObject).length === 0) {
         console.log("Input is not an object. Returning default zero-filled array.");
         return Array(12).fill(0);
     }
@@ -461,7 +481,7 @@ function getTotalLogsPerMonthThisYear(dataObject) {
 
 
 function getTopSectionsByLogins(dataObject) {
-    if (typeof dataObject !== 'object' || !dataObject) {
+    if (typeof dataObject !== 'object' || !dataObject || dataObject === null || Object.keys(dataObject).length === 0) {
         console.log("Input is not an object. Returning default values.");
         return { sections: [], logins: [] };
     }
@@ -500,7 +520,7 @@ function getTopSectionsByLogins(dataObject) {
 
 
 function getTotalCorrectionRequestsPerMonthThisYear(dataObject) {
-    if (typeof dataObject !== 'object' || !dataObject) {
+    if (typeof dataObject !== 'object' || !dataObject || dataObject === null || Object.keys(dataObject).length === 0) {
         return Array(12).fill(0);
     }
 
@@ -534,9 +554,106 @@ function getTotalCorrectionRequestsPerMonthThisYear(dataObject) {
     return monthlyTotals;
 }
 
+function getNewestPendingUniqueRequestsAsObject(dataObject) {
+    const newestPendingRequestsObject = {};
+  
+    // Create an array of all pending requests with their unique IDs
+    const allPendingRequestsArray = [];
+    for (const studentID in dataObject) {
+        if (dataObject.hasOwnProperty(studentID)) {
+            const studentRequests = dataObject[studentID];
+            for (const requestId in studentRequests) {
+                if (studentRequests.hasOwnProperty(requestId)) {
+                    const request = studentRequests[requestId];
+                    if (request.status === 'Pending' && request.timestamp) {
+                        allPendingRequestsArray.push({ id: requestId, ...request });
+                    }
+                }
+            }
+        }
+    }
+
+    // Sort the array of pending requests from newest to oldest
+    allPendingRequestsArray.sort((a, b) => a.timestamp - b.timestamp);
+
+    // Convert the sorted array back into an object with unique request IDs as keys
+    allPendingRequestsArray.forEach(requestWithId => {
+        newestPendingRequestsObject[requestWithId.id] = { ...requestWithId };
+        delete newestPendingRequestsObject[requestWithId.id].id; // Remove the temporary 'id' property
+    });
+
+    return newestPendingRequestsObject;
+}
+
+function getApprovedUniqueRequestsAsObject(dataObject) {
+    const approvedRequestsObject = {};
+  
+    // Create an array of all approved requests with their unique IDs
+    const allApprovedRequestsArray = [];
+    for (const studentID in dataObject) {
+        if (dataObject.hasOwnProperty(studentID)) {
+            const studentRequests = dataObject[studentID];
+            for (const requestId in studentRequests) {
+            if (studentRequests.hasOwnProperty(requestId)) {
+                const request = studentRequests[requestId];
+                // Check if the request status is 'Approved'
+                if (request.status === 'Approved' && request.timestamp) {
+                allApprovedRequestsArray.push({ id: requestId, ...request });
+                }
+            }
+            }
+        }
+    }
+
+    // Sort the array of approved requests from newest to oldest
+    allApprovedRequestsArray.sort((a, b) => b.timestamp - a.timestamp);
+
+    // Convert the sorted array back into an object with unique request IDs as keys
+    allApprovedRequestsArray.forEach(requestWithId => {
+        approvedRequestsObject[requestWithId.id] = { ...requestWithId };
+        delete approvedRequestsObject[requestWithId.id].id; // Remove the temporary 'id' property
+    });
+
+    return approvedRequestsObject;
+}
+
+function getRejectedUniqueRequestsAsObject(dataObject) {
+    const rejectedRequestsObject = {};
+
+    // Create an array of all rejected requests with their unique IDs
+    const allRejectedRequestsArray = [];
+    for (const studentID in dataObject) {
+        if (dataObject.hasOwnProperty(studentID)) {
+            const studentRequests = dataObject[studentID];
+            for (const requestId in studentRequests) {
+            if (studentRequests.hasOwnProperty(requestId)) {
+                const request = studentRequests[requestId];
+                // Check if the request status is 'Rejected'
+                if (request.status === 'Rejected' && request.timestamp) {
+                allRejectedRequestsArray.push({ id: requestId, ...request });
+                }
+            }
+            }
+        }
+    }
+
+    // Sort the array of rejected requests from newest to oldest
+    allRejectedRequestsArray.sort((a, b) => b.timestamp - a.timestamp);
+
+    // Convert the sorted array back into an object with unique request IDs as keys
+    allRejectedRequestsArray.forEach(requestWithId => {
+        rejectedRequestsObject[requestWithId.id] = { ...requestWithId };
+        delete rejectedRequestsObject[requestWithId.id].id; // Remove the temporary 'id' property
+    });
+
+    return rejectedRequestsObject;
+}
+
+
+
 
 function getTotalLogsPerYearLevel(dataObject) {
-    if (typeof dataObject !== 'object' || !dataObject) {
+    if (typeof dataObject !== 'object' || !dataObject || dataObject === null || Object.keys(dataObject).length === 0) {
         return {
             '1st Year': 0,
             '2nd Year': 0,
@@ -566,7 +683,7 @@ function getTotalLogsPerYearLevel(dataObject) {
 
 
 function getTopFourCoursesByUsage(dataObject) {
-    if (typeof dataObject !== 'object' || !dataObject) {
+    if (typeof dataObject !== 'object' || !dataObject || dataObject === null || Object.keys(dataObject).length === 0) {
         return [];
     }
 
@@ -775,8 +892,13 @@ studentIo.on("connection", (socket) => {
         const data = snapshot.val();
         const dataArray = data ? Object.values(data) : [];
 
+
+        
+
+        
+        
         socket.emit('newRequest', {
-            numberOfRequest : dataArray.length,
+            numberOfRequest : countPendingRequest(dataArray),
             requests : dataArray
         })
     })
@@ -825,11 +947,19 @@ adminIo.on("connection", (socket) => {
         const totalCorrReqPerMonth = getTotalCorrectionRequestsPerMonthThisYear(convertedData);
         const noOfReq = countNumberOfRequest(convertedData) > 0? countNumberOfRequest(convertedData) : 0;
         // console.log(noOfReq)
+        const cloneConvertedData = convertedData;
+
+        const pendingRequest = getNewestPendingUniqueRequestsAsObject(cloneConvertedData);
+
+        const approvedRequest = getApprovedUniqueRequestsAsObject(cloneConvertedData);
+        const rejectedRequest = getRejectedUniqueRequestsAsObject(cloneConvertedData)
+        // console.log(pendingRequest)
         
 
-        socket.emit("newRequest", {totalCorrReqPerMonth, noOfReq})
+        socket.emit("newRequest", {totalCorrReqPerMonth, noOfReq, pendingRequest, rejectedRequest, approvedRequest})
     })
 
+    
     // Disconnect event
     socket.on("disconnect", () => {
         computerLogsRef.off(); 
@@ -1061,6 +1191,13 @@ app.post('/mongodb/find-student-id', isAuthenticated, (req, res) => {
 });
 
 
+app.post('/admin/edit-logs', (req, res) => {
+    mongoFunctions.adminApproveModifyLogs(req, res);
+})
+
+app.post('/admin/reject-request', (req, res) => {
+    mongoFunctions.adminRejectModifyLogs(req, res);
+})
 
 
 server.listen(process.env.PORT || 3000, () => {
