@@ -314,52 +314,87 @@
                 </div>
 
                 <!-- Form Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-4 w-full max-w-4xl">
+                <div class="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-5 gap-2 md:gap-4 w-full max-w-6xl ">
                     <!-- Student ID Input -->
                     <div class="form-control w-full">
                         <label class="label">
                             <span class="label-text font-medium">Student ID</span>
                         </label>
-                        <input type="text" id="studentId" class="input input-bordered w-full  text-xs md:text-sm"
-                            placeholder="UA202200746" />
+                        <input type="text" id="studentId" class="input input-bordered w-full text-xs md:text-sm" placeholder="UA202200746" />
                     </div>
-
+                
                     <!-- Section Input -->
                     <div class="form-control w-full">
                         <label class="label">
                             <span class="label-text font-medium">Section</span>
                         </label>
-                        <input type="text" id="section" class="input input-bordered w-full  text-xs md:text-sm"
-                            placeholder="LFA322E010" />
+                        <input type="text" id="section" class="input input-bordered w-full text-xs md:text-sm" placeholder="LFA322E010" />
                     </div>
-
+                
+                    <!-- Course Input -->
+                    <div class="form-control w-full">
+                        <label class="label">
+                            <span class="label-text font-medium">Course <span class="text-xs text-info">(Abbreviation only)</span></span>
+                        </label>
+                        <input type="text" id="course" class="input input-bordered w-full text-xs md:text-sm" placeholder="BSIT" />
+                    </div>
+                
+                    <!-- Year Level Select -->
+                    <div class="form-control w-full">
+                        <label class="label">
+                            <span class="label-text font-medium">Year Level</span>
+                        </label>
+                        <select id="yearLevel" class="select select-bordered w-full text-xs md:text-sm">
+                            <option value="1st Year" class="bg-base-200 text-xs md:text-sm">1st Year</option>
+                            <option value="2nd Year" class="bg-base-200 text-xs md:text-sm">2nd Year</option>
+                            <option value="3rd Year" class="bg-base-200 text-xs md:text-sm">3rd Year</option>
+                            <option value="4th Year" class="bg-base-200 text-xs md:text-sm">4th Year</option>
+                        </select>
+                    </div>
+                
+                    <!-- Campus Input -->
+                    <div class="form-control w-full">
+                        <label class="label">
+                            <span class="label-text font-medium">Campus</span>
+                        </label>
+                        <input type="text" id="campus" class="input input-bordered w-full text-xs md:text-sm" placeholder="Antipolo" />
+                    </div>
+                
+                    <!-- PC Lab Input -->
+                    <div class="form-control w-full">
+                        <label class="label">
+                            <span class="label-text font-medium">PC Lab</span>
+                        </label>
+                        <input type="number" id="pcLab" class="input input-bordered w-full text-xs md:text-sm" placeholder="1" />
+                    </div>
+                
                     <!-- Start Date Input -->
                     <div class="form-control w-full">
                         <label class="label">
                             <span class="label-text font-medium">Start Date</span>
                         </label>
-                        <input type="date" id="startDate" class="input input-bordered w-full  text-xs md:text-sm" />
+                        <input type="datetime-local" id="startDate" class="input input-bordered w-full text-xs md:text-sm" />
                     </div>
-
+                
                     <!-- End Date Input -->
                     <div class="form-control w-full">
                         <label class="label">
                             <span class="label-text font-medium">End Date</span>
                         </label>
-                        <input type="date" id="endDate" class="input input-bordered w-full  text-xs md:text-sm" />
+                        <input type="datetime-local" id="endDate" class="input input-bordered w-full text-xs md:text-sm" />
                     </div>
-
+                
                     <!-- Filter Select -->
                     <div class="form-control w-full">
                         <label class="label">
                             <span class="label-text font-medium">Filter</span>
                         </label>
-                        <select id="filter" class="select select-bordered w-full  text-xs md:text-sm">
-                            <option value="latest" class="bg-base-200  text-xs md:text-sm">Latest First</option>
-                            <option value="oldest" class="bg-base-200  text-xs md:text-sm">Oldest First</option>
+                        <select id="filter" class="select select-bordered w-full text-xs md:text-sm">
+                            <option value="latest" class="bg-base-200 text-xs md:text-sm">Latest First</option>
+                            <option value="oldest" class="bg-base-200 text-xs md:text-sm">Oldest First</option>
                         </select>
                     </div>
-
+                
                     <!-- Submit Button -->
                     <div class="w-full">
                         <label class="label opacity-0">
@@ -380,7 +415,7 @@
     </main>
 
     <!-- Analytics Section -->
-    <main class="custom-container  analytics-section hidden">
+    <main class="custom-container  analytics-section flex">
         <div class="text-center mb-4 flex flex-col items-center justify-center">
             <h1 class="text-xl md:text-3xl font-bold text-base-content mb-2">Explore Analytics Insights</h1>
             <p class="text-base-content/70 text-xs lg:text-sm max-w-2xl px-4">
@@ -398,7 +433,7 @@
                         Registed Students
                     </span>
                     <span class="card-period">
-                        Entire Period
+                        Entire Period <span class="text-warning">(Students with logs only.)</span>
                     </span>
                     <h1 class="card-value card-num-reg">
                         0
@@ -523,8 +558,8 @@
         
     </main>
 
-
-    <main class="custom-container flex flex-col items-center justify-start">
+    <!-- Correttion Request -->
+    <main class="custom-container hidden flex-col items-center justify-start">
         <div class="w-full h-auto text-left mb-4 flex flex-col items-center justify-center gap-2">
             <div class="w-full xs:w-[80%] sm:w-3/4 lg:w-3/5 xl:w-3/4">
                 <h1 class="min-h-fit text-xl md:text-3xl font-bold text-base-content ">Manage Correction Requests</h1>

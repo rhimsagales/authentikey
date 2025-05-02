@@ -433,26 +433,7 @@ async function registerAccount(req, res) {
           message: "Account creation failed.",
         });
       }
-      // Get the student logs ref
-      const studentRef = computerUsageLogsRef.child(studentID);
       
-  
-      // Set the student logs.  AWAIT this operation and handle success/failure.
-      try {
-        await studentRef.set({ message : "success"});
-        
-      } catch (error) {
-        console.error(`Failed to set computer usage logs for student: ${studentID}`, error);
-        //  IMPORTANT:  Consider what to do here.  
-        //  The registration might have succeeded, but logging failed.
-        //  Should you:
-        //  1.  Rollback the registration?
-        //  2.  Retry the log?
-        //  3.  Just log the error and continue?
-        //  For this example, I'm continuing, but you MUST decide.
-      }
-  
-      // Respond to the client *after* the Firebase operation is complete
       res.status(201).json({
         successRegistration: true,
         message: "Registration completed successfully."
@@ -851,7 +832,7 @@ async function findAndPushData(req, res) {
             yearLevel : student.yearLevel,
             timeIn,
             timeOut,
-            date,
+            date : date.substring(0, 16),
             pcNumber,
             pcLab
 
@@ -908,8 +889,10 @@ async function findStudentID(req, res) {
 
 async function getFilteredLogs(req, res) {
     try {
-        const { studentID, section, startDate, endDate, filter } = req.body;
+        const { studentID, section, course, yearLevel, campus, pcLab, startDate, endDate, filter } = req.body;
 
+
+        console.log(req.body);
         // Get all logs using the computerUsageLogsRef
         const logsSnapshot = await computerUsageLogsRef.once('value');
         const logsData = logsSnapshot.val();
@@ -931,7 +914,8 @@ async function getFilteredLogs(req, res) {
                 });
             }
         });
-
+        // console.log(logs)
+        // console.log(typeof pcLab)
         // Filter by studentID if provided
         if (studentID) {
             logs = logs.filter(log => log.studentID === studentID);
@@ -942,33 +926,78 @@ async function getFilteredLogs(req, res) {
             logs = logs.filter(log => log.section === section);
         }
 
+        // Filter by course if provided
+        if (course) {
+            logs = logs.filter(log => log.course === course);
+            // console.log(`Filtered logs by course (${course}):`, logs);
+        }
+
+        if (yearLevel) {
+            logs = logs.filter(log => {
+                const match = log.yearLevel === yearLevel;
+                console.log(`Filtering by yearLevel (${yearLevel}): Log yearLevel = ${log.yearLevel}, Match = ${match}`);
+                return match;
+            });
+        }
+        
+        // Filter by campus if provided
+        if (campus) {
+            logs = logs.filter(log => {
+                const match = log.campus === campus;
+                console.log(`Filtering by campus (${campus}): Log campus = ${log.campus}, Match = ${match}`);
+                return match;
+            });
+        }
+        
+        // Filter by pcLab if provided
+        if (pcLab) {
+            logs = logs.filter(log => {
+                const match = log.pcLab == pcLab;
+                console.log(`Filtering by pcLab (${pcLab}): Log pcLab = ${log.pcLab}, Match = ${match}`);
+                return match;
+            });
+        }
+        
+        // Filter by course if provided
+        if (course) {
+            logs = logs.filter(log => log.course === course);
+        }
+
+        if (yearLevel) {
+            logs = logs.filter(log => log.yearLevel === yearLevel);
+        }
+
+        // Filter by campus if provided
+        if (campus) {
+            logs = logs.filter(log => log.campus === campus);
+        }
+
+        // Filter by pcLab if provided
+        if (pcLab) {
+            logs = logs.filter(log => log.pcLab == pcLab);
+        }
+        
+
         // Filter by date range if provided
         if (startDate || endDate) {
             logs = logs.filter(log => {
-                // Parse the date string directly without timezone conversion
-                const [year, month, day] = log.date.split('T')[0].split('-');
-                const logDate = new Date(year, month - 1, day);
-                
+                const logDate = new Date(log.date); // Parse the log.date directly
+        
                 if (startDate && endDate) {
-                    const [startYear, startMonth, startDay] = startDate.split('-');
-                    const [endYear, endMonth, endDay] = endDate.split('-');
-                    const start = new Date(startYear, startMonth - 1, startDay);
-                    const end = new Date(endYear, endMonth - 1, endDay);
-                    // Set time to start and end of day for proper comparison
+                    // Both startDate and endDate are provided
+                    const start = new Date(startDate);
+                    const end = new Date(endDate);
                     start.setHours(0, 0, 0, 0);
                     end.setHours(23, 59, 59, 999);
                     return logDate >= start && logDate <= end;
                 } else if (startDate) {
-                    const [startYear, startMonth, startDay] = startDate.split('-');
-                    const start = new Date(startYear, startMonth - 1, startDay);
-                    // Set time to start and end of day to get exact date match
+                    // Only startDate is provided, search logs forward
+                    const start = new Date(startDate);
                     start.setHours(0, 0, 0, 0);
-                    const end = new Date(startYear, startMonth - 1, startDay);
-                    end.setHours(23, 59, 59, 999);
-                    return logDate >= start && logDate <= end;
+                    return logDate >= start;
                 } else if (endDate) {
-                    const [endYear, endMonth, endDay] = endDate.split('-');
-                    const end = new Date(endYear, endMonth - 1, endDay);
+                    // Only endDate is provided, search logs backward
+                    const end = new Date(endDate);
                     end.setHours(23, 59, 59, 999);
                     return logDate <= end;
                 }
@@ -979,10 +1008,12 @@ async function getFilteredLogs(req, res) {
         // Sort logs based on filter option
         if (filter === 'latest') {
             logs.sort((a, b) => new Date(b.date) - new Date(a.date));
-        } else if (filter === 'oldest') {
+        } 
+        else if (filter === 'oldest') {
             logs.sort((a, b) => new Date(a.date) - new Date(b.date));
         }
 
+        // console.table(logs)
         return res.json({ success: true, logs });
     } catch (error) {
         console.error('Error in getFilteredLogs:', error);

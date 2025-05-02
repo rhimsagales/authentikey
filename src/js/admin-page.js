@@ -49,6 +49,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const filterForm = document.getElementById('filterForm');
     const studentId = document.getElementById('studentId');
     const section = document.getElementById('section');
+    const course = document.getElementById('course');
+    const yearLevel = document.getElementById('yearLevel');
+    const campus = document.getElementById('campus');
+    const pcLab = document.getElementById('pcLab');
     const startDate = document.getElementById('startDate');
     const endDate = document.getElementById('endDate');
     const filter = document.getElementById('filter');
@@ -64,6 +68,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const formData = {
             studentID: studentId.value.trim(),
             section: section.value.trim(),
+            course : course.value.trim(),
+            yearLevel : yearLevel.value,
+            campus : campus.value.trim(),
+            pcLab : pcLab.value.trim().toString(),
             startDate: startDate.value,
             endDate: endDate.value,
             filter: filter.value
@@ -110,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="overflow-x-auto w-full mx-auto h-full rounded border border-gray-300 shadow-sm dark:border-gray-600">
                         <table id="logTable" class="min-w-full divide-y-2 divide-gray-200 dark:divide-gray-700">
                             <thead class="ltr:text-left rtl:text-right">
-                                <tr class="*:font-medium *:text-gray-900 dark:*:text-white">
+                                <tr class="*:font-medium">
                                     <th class="px-4 py-4 whitespace-nowrap text-center w-[160px] text-sm font-semibold">Student ID</th>
                                     <th class="px-4 py-4 whitespace-nowrap text-center w-[160px] text-sm font-semibold">Name</th>
                                     <th class="px-4 py-4 whitespace-nowrap text-center w-[160px] text-sm font-semibold">Section</th>
@@ -127,7 +135,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                                 ${data.logs.map(log => 
                                     `
-                                    <tr class="*:text-gray-900 *:first:font-medium dark:*:text-white">
+                                    <tr class=" *:first:font-medium  ">
                                         <td class="px-4 py-4 whitespace-nowrap text-xs text-base-content w-[160px] text-center">${log.studentID}</td>
                                         <td class="px-4 py-4 whitespace-nowrap text-xs text-base-content w-[160px] text-center">${log.name}</td>
                                         <td class="px-4 py-4 whitespace-nowrap text-xs text-base-content w-[160px] text-center">${log.section}</td>

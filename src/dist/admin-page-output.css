@@ -4017,6 +4017,20 @@ html {
   opacity: 1;
 }
 
+.stat {
+  display: inline-grid;
+  width: 100%;
+  grid-template-columns: repeat(1, 1fr);
+  -moz-column-gap: 1rem;
+       column-gap: 1rem;
+  border-color: var(--fallback-bc,oklch(var(--bc)/var(--tw-border-opacity)));
+  --tw-border-opacity: 0.1;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
 .steps {
   display: inline-grid;
   grid-auto-flow: column;
@@ -11568,6 +11582,10 @@ body {
   max-width: 56rem;
 }
 
+.max-w-5xl {
+  max-width: 64rem;
+}
+
 .max-w-6xl {
   max-width: 72rem;
 }
@@ -11951,6 +11969,10 @@ body {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
+.grid-cols-5 {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
 .flex-row {
   flex-direction: row;
 }
@@ -12314,6 +12336,10 @@ body {
   border-top-width: 0px;
 }
 
+.border-t-\[1px\] {
+  border-top-width: 1px;
+}
+
 .border-double {
   border-style: double;
 }
@@ -12546,6 +12572,16 @@ body {
   background-color: rgb(220 252 231 / var(--tw-bg-opacity, 1));
 }
 
+.bg-green-300 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(134 239 172 / var(--tw-bg-opacity, 1));
+}
+
+.bg-green-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(22 163 74 / var(--tw-bg-opacity, 1));
+}
+
 .bg-green-700 {
   --tw-bg-opacity: 1;
   background-color: rgb(21 128 61 / var(--tw-bg-opacity, 1));
@@ -12696,6 +12732,11 @@ body {
 .bg-yellow-300 {
   --tw-bg-opacity: 1;
   background-color: rgb(253 224 71 / var(--tw-bg-opacity, 1));
+}
+
+.bg-yellow-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(202 138 4 / var(--tw-bg-opacity, 1));
 }
 
 .bg-yellow-700 {
@@ -13836,11 +13877,6 @@ body {
   font-weight: 500;
 }
 
-.\*\:text-gray-900 > * {
-  --tw-text-opacity: 1;
-  color: rgb(17 24 39 / var(--tw-text-opacity, 1));
-}
-
 .\*\:first\:font-medium:first-child > * {
   font-weight: 500;
 }
@@ -14408,6 +14444,10 @@ body {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
+  .lg\:grid-cols-5 {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
   .lg\:px-12 {
     padding-left: 3rem;
     padding-right: 3rem;
@@ -14449,6 +14489,10 @@ body {
 }
 
 @media (min-width: 1536px) {
+  .\32xl\:grid-cols-5 {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
   .\32xl\:px-36 {
     padding-left: 9rem;
     padding-right: 9rem;
@@ -14587,10 +14631,5 @@ body {
   .dark\:text-yellow-50 {
     --tw-text-opacity: 1;
     color: rgb(254 252 232 / var(--tw-text-opacity, 1));
-  }
-
-  .dark\:\*\:text-white > * {
-    --tw-text-opacity: 1;
-    color: rgb(255 255 255 / var(--tw-text-opacity, 1));
   }
 }

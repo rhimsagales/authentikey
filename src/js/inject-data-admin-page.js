@@ -167,7 +167,21 @@ function createRequestCardWithIds(count, request, requestID) {
   requestCard.appendChild(detailsRow2);
 
   const viewButtonContainer = document.createElement('div');
-  viewButtonContainer.className = 'w-full flex items-center justify-end';
+  viewButtonContainer.className = 'w-full flex items-center justify-between border-t-[1px] border-secondary py-2';
+
+  const statusContainer = document.createElement('div');
+  statusContainer.className = 'w-auto flex items-center justify-start gap-1'
+  viewButtonContainer.appendChild(statusContainer);
+  
+  const statusElem = document.createElement('div');
+  statusElem.className = 'size-2 rounded-full bg-yellow-600';
+  statusContainer.appendChild(statusElem);
+
+  const statusText = document.createElement('span');
+  statusText.classname = 'text-xs font-semibold';
+  statusText.innerText = 'Pending';
+  statusContainer.appendChild(statusText);
+
   const viewButton = document.createElement('button');
   viewButton.className = 'cr-show-modal-btns btn btn-sm btn-primary rounded-full md:w-32 text-xs md:text-sm';
   viewButton.setAttribute('popovertarget', `cr-modal${count}`);
@@ -304,7 +318,21 @@ function createRejectedRequestCardWithIds(count, request) {
   requestCard.appendChild(detailsRow2);
 
   const viewButtonContainer = document.createElement('div');
-  viewButtonContainer.className = 'w-full flex items-center justify-end';
+  viewButtonContainer.className = 'w-full flex items-center justify-between border-t-[1px] border-secondary py-2';
+
+  const statusContainer = document.createElement('div');
+  statusContainer.className = 'w-auto flex items-center justify-start gap-1'
+  viewButtonContainer.appendChild(statusContainer);
+  
+  const statusElem = document.createElement('div');
+  statusElem.className = 'size-2 rounded-full bg-red-600';
+  statusContainer.appendChild(statusElem);
+
+  const statusText = document.createElement('span');
+  statusText.classname = 'text-xs font-semibold';
+  statusText.innerText = 'Rejected';
+  statusContainer.appendChild(statusText);
+
   const viewButton = document.createElement('button');
   viewButton.className = 'cr-show-modal-btns btn btn-sm btn-primary rounded-full md:w-32 text-xs md:text-sm';
   viewButton.setAttribute('popovertarget', `cr-modal${count}`);
@@ -398,7 +426,22 @@ function createApprovedRequestCardWithIds(count, request) {
   requestCard.appendChild(detailsRow2);
 
   const viewButtonContainer = document.createElement('div');
-  viewButtonContainer.className = 'w-full flex items-center justify-end';
+  viewButtonContainer.className = 'w-full flex items-center justify-between border-t-[1px] border-secondary py-2';
+
+  const statusContainer = document.createElement('div');
+  statusContainer.className = 'w-auto flex items-center justify-start gap-1'
+  viewButtonContainer.appendChild(statusContainer);
+  
+  const statusElem = document.createElement('div');
+  statusElem.className = 'size-2 rounded-full bg-green-600';
+  statusContainer.appendChild(statusElem);
+
+  const statusText = document.createElement('span');
+  statusText.classname = 'text-xs font-semibold';
+  statusText.innerText = 'Approved';
+  statusContainer.appendChild(statusText);
+  
+
   const viewButton = document.createElement('button');
   viewButton.className = 'cr-show-modal-btns btn btn-sm btn-primary rounded-full md:w-32 text-xs md:text-sm';
   viewButton.setAttribute('popovertarget', `cr-modal${count}`);
