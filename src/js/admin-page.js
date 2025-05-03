@@ -16,6 +16,44 @@ function formatDate(dateString) {
     return `${monthName} ${parseInt(day)}, ${year}`;
 }
 
+function getFirstColumnData(fileInput) {
+    return new Promise((resolve, reject) => {
+        const file = fileInput.files[0];
+
+        if (!file) {
+            reject(new Error('No file selected.'));
+            return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            try {
+            const data = new Uint8Array(e.target.result);
+            const workbook = XLSX.read(data, { type: 'array' });
+            const firstSheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[firstSheetName];
+
+            const firstColumn = [];
+            let rowNum = 1;
+            while (worksheet['A' + rowNum]) {
+                firstColumn.push(worksheet['A' + rowNum].v);
+                rowNum++;
+            }
+            resolve(firstColumn);
+            } catch (error) {
+            reject(error); // Reject the promise with the error
+            }
+        };
+
+        reader.onerror = function(error) {
+            reject(error); // Reject the promise with the error
+        };
+
+        reader.readAsArrayBuffer(file);
+    });
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     // Mobile menu toggle
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
@@ -184,6 +222,63 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error sending request:', error);
         }
     });
+
+
+    const xlsxFileInput = document.querySelector('.xlsx-file-input');
+    const xlsxFileInputTrigger = document.querySelector('.xlsx-file-input-trigger');
+    const xlsxSubmitBtn = document.querySelector('.xlsx-file-submit-btn');
+
+    xlsxFileInputTrigger.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        xlsxFileInput.disabled = false; 
+        xlsxFileInput.click()
+    });
+
+    xlsxFileInput.addEventListener('change', function() {
+        if (this.files && this.files.length > 0) {
+            console.log(this.files && this.files.length > 0)
+            xlsxFileInput.classList.replace('hidden', 'block');
+            xlsxSubmitBtn.disabled =  false;
+            xlsxFileInput.disabled = true;
+        }
+        else {
+            console.log(this.files && this.files.length > 0)
+            xlsxSubmitBtn.disabled =  true;
+        } 
+        
+    });
+
+    xlsxSubmitBtn.addEventListener('click', async(e) =>{
+        e.preventDefault();
+
+        try {
+            if(xlsxFileInput.files.length == 0){
+                createWarningAlert("Please provide the file in Excel format (XLSX or XLS).");
+                return
+            }
+            // console.log(xlsxFileInput.files == 0)
+            const studentIDS = await getFirstColumnData(xlsxFileInput);
+            const stringifiedStudentIDSArr = JSON.stringify({studentIDS});
+
+            const response = await fetch('/admin/upload-student-ids', {
+                method : "POST",
+                headers : {
+                    "Content-Type" : "application/json"
+                },
+                body : stringifiedStudentIDSArr
+            });
+
+            if(!response.ok) {
+                throw new Error();
+            }
+            createSuccessAlert("The IDs of eligible students have been successfully uploaded.");
+        }
+        catch {
+            createErrorAlert("We ran into a few snags while uploading the Student IDs. Try again later.");
+        }
+
+    })
 }); 
 
 

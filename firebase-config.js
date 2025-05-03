@@ -14,11 +14,13 @@ if (!admin.apps.length) {
 const getDatabase = () => admin.database();
 const getCorrectionRequestRef = () => getDatabase().ref("studentsRecord/correctionRequest/");
 const getComputerUsageLogsRef = () => getDatabase().ref("studentsRecord/logs/");
+const getEligibleStudentsRef = () => getDatabase().ref("eligibleStudents/");
 
 
 module.exports = { 
     admin, 
     getDatabase, 
     getCorrectionRequestRef, 
-    getComputerUsageLogsRef 
+    getComputerUsageLogsRef,
+    getEligibleStudentsRef 
 };

@@ -2,7 +2,7 @@ require('dotenv').config();
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const mongoURI = process.env.MongoURI;
-const { getCorrectionRequestRef, getComputerUsageLogsRef } = require("../../firebase-config");
+const { getCorrectionRequestRef, getComputerUsageLogsRef, getEligibleStudentsRef } = require("../../firebase-config");
 const admin = require('firebase-admin');
 
 
@@ -11,6 +11,7 @@ const admin = require('firebase-admin');
 
 let correctionRequestRef = getCorrectionRequestRef();
 let computerUsageLogsRef = getComputerUsageLogsRef();
+let eligibleStudentsRef = getEligibleStudentsRef();
 
 
 
@@ -337,7 +338,32 @@ async function changePassword(req, res) {
 
 
 
+async function checkIfStudentIDExists(studentIDToCheck) {
+    try {
+        const snapshot = await eligibleStudentsRef.once('value');
 
+        // Check if the reference is empty (no children)
+        if (!snapshot.exists()) {
+            return true; // Consider an empty list as "exists" based on your requirement
+        }
+
+        let exists = false;
+
+        snapshot.forEach((childSnapshot) => {
+            const currentStudentID = childSnapshot.val();
+            if (currentStudentID === studentIDToCheck) {
+                exists = true;
+                return true; // Break out of the forEach loop once found
+            }
+        });
+
+        return exists;
+
+    } catch (error) {
+        console.error("Error checking for Student ID:", error);
+        return false; // Assume it doesn't exist if there's an error
+    }
+}
 
 async function checkStudentIdAvailability(req, res) {
     const { studentID } = req.body; 
@@ -350,6 +376,13 @@ async function checkStudentIdAvailability(req, res) {
     }
 
     try {
+        const isEligible = await checkIfStudentIDExists(studentID);
+        if(!isEligible) {
+            return res.json({ 
+                available: false,
+                message: 'Ineligible Student ID for registration.'
+            });
+        }
         const existingUser = await retryWithExponentialDelay(() => flexibleModel.findOne({ studentID }));
 
         if (existingUser) {
@@ -370,6 +403,9 @@ async function checkStudentIdAvailability(req, res) {
         });
     }
 }
+
+
+  
 
 async function registerAccount(req, res) {
     try {
@@ -892,7 +928,7 @@ async function getFilteredLogs(req, res) {
         const { studentID, section, course, yearLevel, campus, pcLab, startDate, endDate, filter } = req.body;
 
 
-        console.log(req.body);
+        // console.log(req.body);
         // Get all logs using the computerUsageLogsRef
         const logsSnapshot = await computerUsageLogsRef.once('value');
         const logsData = logsSnapshot.val();
@@ -935,7 +971,6 @@ async function getFilteredLogs(req, res) {
         if (yearLevel) {
             logs = logs.filter(log => {
                 const match = log.yearLevel === yearLevel;
-                console.log(`Filtering by yearLevel (${yearLevel}): Log yearLevel = ${log.yearLevel}, Match = ${match}`);
                 return match;
             });
         }
@@ -1091,4 +1126,31 @@ async function adminRejectModifyLogs(req, res) {
     }
 }
 
-module.exports = { connectToMongoDB, checkStudentIdAvailability, registerAccount, login, createResetPassDoc, deleteResetPassDocs, compareResetCode, changePassword, insertCorrectionRequest, getAllLogs, updatePersonalInfo, updatePassword, deleteStudent, findAndPushData, findStudentID, getFilteredLogs, adminApproveModifyLogs, adminRejectModifyLogs};
+async function uploadEligibleStudentIDS(req, res) {
+    const { studentIDS } = req.body; // Use the correct key 'studentIDS'
+    console.log(req.body);
+
+    if (!studentIDS || studentIDS.length === 0) { // Add a check for undefined as well
+        return res.status(400).json({
+            message: "Please provide Student IDs."
+        });
+    }
+
+    try {
+        const updates = {};
+        for (const id of studentIDS) {
+            const newKey = eligibleStudentsRef.push().key; // Generate unique key client-side
+            updates[`/${newKey}`] = id;
+        }
+        await eligibleStudentsRef.update(updates); // Use update for batch-like operation
+
+        return res.status(200).json({ message: "Student IDs uploaded successfully." });
+
+    } catch (error) {
+        console.error("Error uploading Student IDs:", error); // Log the error for debugging
+        return res.status(500).json({
+            message: "An error occurred while uploading the Student IDs. Please try again later."
+        });
+    }
+}
+module.exports = { connectToMongoDB, checkStudentIdAvailability, registerAccount, login, createResetPassDoc, deleteResetPassDocs, compareResetCode, changePassword, insertCorrectionRequest, getAllLogs, updatePersonalInfo, updatePassword, deleteStudent, findAndPushData, findStudentID, getFilteredLogs, adminApproveModifyLogs, adminRejectModifyLogs, uploadEligibleStudentIDS};

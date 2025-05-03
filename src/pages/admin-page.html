@@ -152,9 +152,8 @@
                                     </svg>
                                 </div>
                                 <ul tabindex="0" class="dropdown-content menu bg-base-200 rounded-box z-[1] w-52 p-2 shadow">
-                                    <li><a class="text-xs font-semibold 3xl:text-sm 4xl:text-base">Usage Reports</a></li>
+                                    <li><a class="text-xs font-semibold 3xl:text-sm 4xl:text-base">Homepage</a></li>
                                     <li><a class="text-xs font-semibold 3xl:text-sm 4xl:text-base">Analytics</a></li>
-                                    <li><a class="text-xs font-semibold 3xl:text-sm 4xl:text-base">PC Status</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -167,9 +166,9 @@
                                     </svg>
                                 </div>
                                 <ul tabindex="0" class="dropdown-content menu bg-base-200 rounded-box z-[1] w-52 p-2 shadow">
-                                    <li><a class="text-xs font-semibold 3xl:text-sm 4xl:text-base">Enrolled Students</a></li>
-                                    <li><a class="text-xs font-semibold 3xl:text-sm 4xl:text-base">Edit Logs</a></li>
+                                    <li><a class="text-xs font-semibold 3xl:text-sm 4xl:text-base">Import Eligible Students</a></li>
                                     <li><a class="text-xs font-semibold 3xl:text-sm 4xl:text-base">Correction Requests</a></li>
+                                    <li><a class="text-xs font-semibold 3xl:text-sm 4xl:text-base">Retrieve Logs</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -250,9 +249,8 @@
                             <div
                               class="collapse-content text-primary-content peer-checked:bg-base-200 peer-checked:text-secondary-content w-full pt-0 pb-0 pr-0 pl-4">
                                 <ul tabindex="0" class="dropdown-content menu rounded-box z-[1] w-full p-2 shadow">
-                                    <li><a class="text-xs rounded">Usage Reports</a></li>
-                                    <li><a class="text-xs rounded">Analytics</a></li>
-                                    <li><a class="text-xs rounded">PC Status</a></li>
+                                    <li><a class="text-xs rounded px-1">Homepage</a></li>
+                                    <li><a class="text-xs rounded px-1">Analytics</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -276,9 +274,10 @@
                             <div
                               class="collapse-content text-primary-content peer-checked:bg-base-200 peer-checked:text-secondary-content w-full pt-0 pb-0 pr-0 pl-4">
                                 <ul tabindex="0" class="dropdown-content menu rounded-box z-[1] w-full p-2 shadow">
-                                    <li><a class="text-xs rounded">Enrolled Students</a></li>
-                                    <li><a class="text-xs rounded">Edit Logs</a></li>
-                                    <li><a class="text-xs rounded">Correction Requests</a></li>
+                                    <li><a class="text-xs rounded px-1">Import Eligible Students</a></li>
+                                    <li><a class="text-xs rounded px-1">Correction Requests</a></li>
+                                    <li><a class="text-xs rounded px-1">Retrieve Logs</a></li>
+
                                 </ul>
                             </div>
                         </div>
@@ -415,7 +414,7 @@
     </main>
 
     <!-- Analytics Section -->
-    <main class="custom-container  analytics-section flex">
+    <main class="custom-container  analytics-section hidden">
         <div class="text-center mb-4 flex flex-col items-center justify-center">
             <h1 class="text-xl md:text-3xl font-bold text-base-content mb-2">Explore Analytics Insights</h1>
             <p class="text-base-content/70 text-xs lg:text-sm max-w-2xl px-4">
@@ -940,6 +939,33 @@
                     
         
         
+    </main>
+
+    <!-- Import Eligible Students -->
+    <main class="custom-container flex flex-col gap-2 items-center justify-center">
+        <div class="text-center mb-4">
+            <h1 class="text-xl md:text-3xl font-bold text-base-content mb-2">Import Eligible Students</h1>
+            <p class="text-base-content/70 text-xs lg:text-sm max-w-2xl px-4">
+                Upload an <span class="h-auto py-1 px-2 bg-base-300 text-green-500">XLSX</span> file to import eligible students into the system.
+            </p>
+        </div>
+        <!-- <div class="w-[90%] max-w-2xl">
+            <h1 class="min-h-fit text-xl md:text-3xl font-bold text-base-content ">Manage Correction Requests</h1>
+            <p class="min-h-fit text-base-content/70 text-xs lg:text-sm max-w-2xl ">
+                Review and take action on correction requests submitted by students.
+            </p>
+        </div> -->
+        <div class="w-[90%] max-w-2xl h-auto flex flex-col items-start gap-2 italic">
+            
+            <div class="w-full h-[200px] outline-dashed outline-2 outline-secondary rounded-md italic text-xs font-bold sm:text-sm flex items-center justify-center box-border cursor-pointer xlsx-file-input-trigger">
+                Upload XLSX File
+            </div>
+            <input type="file" class="file-input file-input-bordered file-input-sm w-full hidden xlsx-file-input" accept=".xlsx, .xls"/>
+            <p class="text-[10px] lg:text-sm text-left ">
+                <span class="text-sky-500 font-semibold">Instruction:&nbsp;</span>Ensure that the first <strong>column contains only the student IDs</strong> of those allowed to register.
+            </p>
+            <button class="btn btn-sm btn-primary bg-white rounded px-12 hover:bg-cyan-500 text-black text-xs w-full mt-2 xlsx-file-submit-btn font-semibold" disabled>Submit</button>
+        </div>
     </main>
 
     <footer class="footer bg-neutral text-neutral-content p-10 relative bottom-0">

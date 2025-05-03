@@ -1199,6 +1199,9 @@ app.post('/admin/reject-request', (req, res) => {
     mongoFunctions.adminRejectModifyLogs(req, res);
 })
 
+app.post('/admin/upload-student-ids', (req, res) => {
+    mongoFunctions.uploadEligibleStudentIDS(req, res)
+})
 
 server.listen(process.env.PORT || 3000, () => {
     console.log('Server running at http://localhost:3000');
