@@ -2,7 +2,7 @@ const admin = require("firebase-admin");
 
 const serviceAccount = require("./serviceAccountKey.json");
 
-// ✅ Ensure Firebase is initialized only once
+
 if (!admin.apps.length) {
     admin.initializeApp({
         credential: admin.credential.cert(serviceAccount),
@@ -10,7 +10,7 @@ if (!admin.apps.length) {
     });
 }
 
-// ✅ Use a function to prevent circular dependency issues
+
 const getDatabase = () => admin.database();
 const getCorrectionRequestRef = () => getDatabase().ref("studentsRecord/correctionRequest/");
 const getComputerUsageLogsRef = () => getDatabase().ref("studentsRecord/logs/");

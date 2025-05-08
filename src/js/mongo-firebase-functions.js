@@ -45,7 +45,7 @@ const resetRecordModel = mongoose.model('passwordresets', resetRecordSchema);
 
 
 function getCourseAbbreviation(courseName) {
-    // Mapping of course names to their abbreviations
+    
     const courseAbbreviations = {
         "Bachelor of Arts in Communication": "ABCom",
         "Bachelor of Arts in English": "ABEng",
@@ -77,7 +77,7 @@ function getCourseAbbreviation(courseName) {
         "Bachelor of Science in Tourism Management": "BSTM"
     };
   
-    // Retrieve and return the abbreviation, or a default message if not found
+    
     return courseAbbreviations[courseName] || "Abbreviation not found";
 }
 
@@ -156,7 +156,7 @@ async function retryMongoConnection(uri, retries = 5, delay = 1000) {
 function handleMongoDisconnection(MONGO_URI, maxRetries = 10, delay = 5000) {
     let retryCount = 0;
 
-    mongoose.connection.removeAllListeners('disconnected'); // Prevent duplicate listeners
+    mongoose.connection.removeAllListeners('disconnected'); 
     mongoose.connection.on('disconnected', async () => {
         if (retryCount >= maxRetries) {
             console.error('Max reconnection attempts reached. Exiting...');
@@ -342,9 +342,9 @@ async function checkIfStudentIDExists(studentIDToCheck) {
     try {
         const snapshot = await eligibleStudentsRef.once('value');
 
-        // Check if the reference is empty (no children)
+        
         if (!snapshot.exists()) {
-            return true; // Consider an empty list as "exists" based on your requirement
+            return true; 
         }
 
         let exists = false;
@@ -353,7 +353,7 @@ async function checkIfStudentIDExists(studentIDToCheck) {
             const currentStudentID = childSnapshot.val();
             if (currentStudentID === studentIDToCheck) {
                 exists = true;
-                return true; // Break out of the forEach loop once found
+                return true; 
             }
         });
 
@@ -361,7 +361,7 @@ async function checkIfStudentIDExists(studentIDToCheck) {
 
     } catch (error) {
         console.error("Error checking for Student ID:", error);
-        return false; // Assume it doesn't exist if there's an error
+        return false; 
     }
 }
 
@@ -411,7 +411,7 @@ async function registerAccount(req, res) {
     try {
       const { studentID, password, confirmPassword, name, section, email, course, yearLevel, campus, agreePolicy } = req.body;
   
-      // Input validation
+      
       if (!studentID || !password || !confirmPassword || !name || !section || !email || !course || !yearLevel || !campus || !agreePolicy) {
         return res.status(400).json({
           successRegistration: false,
@@ -419,7 +419,7 @@ async function registerAccount(req, res) {
         });
       }
   
-      // Password match validation
+      
       if (password !== confirmPassword) {
         return res.status(400).json({
           successRegistration: false,
@@ -427,7 +427,7 @@ async function registerAccount(req, res) {
         });
       }
   
-      // Check for existing email and student ID
+      
       const existingEmail = await retryWithExponentialDelay(() => flexibleModel.findOne({ email }));
       if (existingEmail) {
         return res.status(400).json({
@@ -444,10 +444,8 @@ async function registerAccount(req, res) {
         });
       }
   
-      // Hash the password
       const hashedPassword = await retryWithExponentialDelay(() => bcrypt.hash(password, 10));
   
-      // Create the account
       const account = await retryWithExponentialDelay(() => flexibleModel.create({
         studentID: studentID,
         password: hashedPassword,
@@ -461,7 +459,6 @@ async function registerAccount(req, res) {
         agreePolicy: agreePolicy
       }));
   
-      //Check if account creation was successful
       if (!account)
       {
          return res.status(500).json({
@@ -515,7 +512,7 @@ function login(req, res) {
                     message: "Incorrect password. Please try again."
                 });
             }
-            // req.session.user = user.toObject();
+            
             req.session.regenerate((err) => {
                 if (err) {
                     console.error("Session regeneration failed:", err);
@@ -523,7 +520,7 @@ function login(req, res) {
                 }
                 
                 req.session.user = { id: user.id, role: user.role };
-                req.session.studentID = user.toObject().studentID; // Reassign session data
+                req.session.studentID = user.toObject().studentID; 
                 res.status(200).json({
                     successLogin: true,
                     message: "Login successful."
@@ -642,10 +639,10 @@ async function insertCorrectionRequest(req, res) {
             return res.status(400).json({ success: false, message: 'All fields are required.' });
         }
 
-        // Reference to correction requests for a specific student
+        
         const studentCorrectionRequestRef = correctionRequestRef.child(studentID);
 
-        // Get current request count
+        
         let requestNumber;
         let recordID;
         try {
@@ -664,12 +661,12 @@ async function insertCorrectionRequest(req, res) {
             }
             
             for (const recordIDFor in snapshotLogsVal[studentID]) {
-                const log = snapshotLogsVal[studentID][recordIDFor]; // Access the log object
+                const log = snapshotLogsVal[studentID][recordIDFor]; 
                 if(!log) {
                     throw new Error("No matching record found for the provided date.");
                 }
-                if (log.date === dateRecord) { // Compare the `date` field of the log
-                    recordID = recordIDFor; // Assign the log ID to `recordID`
+                if (log.date === dateRecord) { 
+                    recordID = recordIDFor; 
                     break;
                 }
             }
@@ -680,7 +677,6 @@ async function insertCorrectionRequest(req, res) {
             
 
         } catch (err) {
-            // console.error("Error fetching request count:", err);
             return res.status(500).json({ success: false, message: err.message? err.message : 'Error processing request.' });
         }
         
@@ -688,7 +684,6 @@ async function insertCorrectionRequest(req, res) {
 
 
 
-        // Construct the new request object
         const correctionRequestObj = {
             requestNumber,
             recordID : recordID,
@@ -698,11 +693,10 @@ async function insertCorrectionRequest(req, res) {
             subject,
             dateRecord,
             correctionDetails : `${correctionDetails}`,
-            status: "Pending", // Set a meaningful default status
-            timestamp: Date.now() // Optional: add a timestamp
+            status: "Pending", 
+            timestamp: Date.now() 
         };
-        // console.log(correctionRequestObj.correctionDetails)
-        // Push the new request into the database
+        
         try {
             await studentCorrectionRequestRef.push(correctionRequestObj);
             return res.status(200).json({ success: true, message: 'Correction request submitted successfully.' });
@@ -720,15 +714,12 @@ async function insertCorrectionRequest(req, res) {
 
 async function updatePersonalInfo (req, res) {
     try {
-        // Destructure req.body
         const { studentID, name, newStudentID, email, section, course, yearLevel, campus } = req.body;
         
-        // Validate required fields
         if (!name || !newStudentID || !email || !section || !course || !yearLevel || !campus) {
             return res.status(400).json({ message: "All fields are required." });
         }
 
-        // Find student by studentID
         const student = await retryWithExponentialDelay(() => flexibleModel.findOne({ studentID }));
         if (!student) {
             return res.status(404).json({ message: "Student not found." });
@@ -744,7 +735,6 @@ async function updatePersonalInfo (req, res) {
             }
         }
         
-        // Update fields
         student.name = name;
         student.email = email;
         student.section = section;
@@ -753,7 +743,6 @@ async function updatePersonalInfo (req, res) {
         student.studentID = newStudentID;
         student.campus = campus;
         
-        // Save the updated document
         await student.save();
 
         return res.status(200).json({ message: "Student updated successfully. Please log in again.", student });
@@ -766,30 +755,24 @@ async function updatePersonalInfo (req, res) {
 
 async function updatePassword (req, res) {
     try {
-        // Destructure req.body
         const { password, studentID } = req.body;
 
-        // Validate required fields
         if (!password || !studentID) {
             return res.status(400).json({ message: "All fields are required." });
         }
 
         
 
-        // Find student by studentID
         const student = await flexibleModel.findOne({ studentID });
         if (!student) {
             return res.status(404).json({ message: "Student not found." });
         }
 
-        // Hash new password
         const newHashedPass = await retryWithExponentialDelay(() => bcrypt.hash(password, 10));
 
-        // Update password fields
         student.password = newHashedPass;
         student.confirmPassword = newHashedPass;
 
-        // Save the updated document
         await student.save();
 
         return res.status(200).json({ message: "Password updated successfully." });
@@ -802,15 +785,12 @@ async function updatePassword (req, res) {
 
 async function deleteStudent  (req, res) {
     try {
-        // Destructure req.body
         const { studentID } = req.body;
 
-        // Validate required field
         if (!studentID) {
             return res.status(400).json({ message: "Student ID is required." });
         }
 
-        // Find and delete student by studentID using retryWithExponentialDelay
         const deletedStudent = await retryWithExponentialDelay(() => flexibleModel.findOneAndDelete({ studentID }));
         if (!deletedStudent) {
             return res.status(404).json({ message: "Student not found." });
@@ -845,7 +825,6 @@ async function findAndPushData(req, res) {
             });
         }
 
-        // Get student details from MongoDB
         const student = await retryWithExponentialDelay(() => flexibleModel.findOne({ studentID }));
         
         if (!student) {
@@ -856,7 +835,6 @@ async function findAndPushData(req, res) {
             });
         }
 
-        // Reference for the student's computer usage logs
         const studentComputerUsageRef = computerUsageLogsRef.child(studentID);
 
         const newComputerLog = {
@@ -928,8 +906,6 @@ async function getFilteredLogs(req, res) {
         const { studentID, section, course, yearLevel, campus, pcLab, startDate, endDate, filter } = req.body;
 
 
-        // console.log(req.body);
-        // Get all logs using the computerUsageLogsRef
         const logsSnapshot = await computerUsageLogsRef.once('value');
         const logsData = logsSnapshot.val();
         
@@ -937,7 +913,6 @@ async function getFilteredLogs(req, res) {
             return res.json({ success: true, logs: [] });
         }
 
-        // Convert logs to array and filter
         let logs = [];
         Object.entries(logsData).forEach(([studentId, studentLogs]) => {
             if (studentLogs) {
@@ -950,22 +925,16 @@ async function getFilteredLogs(req, res) {
                 });
             }
         });
-        // console.log(logs)
-        // console.log(typeof pcLab)
-        // Filter by studentID if provided
         if (studentID) {
             logs = logs.filter(log => log.studentID === studentID);
         }
 
-        // Filter by section if provided
         if (section) {
             logs = logs.filter(log => log.section === section);
         }
 
-        // Filter by course if provided
         if (course) {
             logs = logs.filter(log => log.course === course);
-            // console.log(`Filtered logs by course (${course}):`, logs);
         }
 
         if (yearLevel) {
@@ -975,7 +944,6 @@ async function getFilteredLogs(req, res) {
             });
         }
         
-        // Filter by campus if provided
         if (campus) {
             logs = logs.filter(log => {
                 const match = log.campus === campus;
@@ -984,7 +952,6 @@ async function getFilteredLogs(req, res) {
             });
         }
         
-        // Filter by pcLab if provided
         if (pcLab) {
             logs = logs.filter(log => {
                 const match = log.pcLab == pcLab;
@@ -993,7 +960,6 @@ async function getFilteredLogs(req, res) {
             });
         }
         
-        // Filter by course if provided
         if (course) {
             logs = logs.filter(log => log.course === course);
         }
@@ -1002,36 +968,30 @@ async function getFilteredLogs(req, res) {
             logs = logs.filter(log => log.yearLevel === yearLevel);
         }
 
-        // Filter by campus if provided
         if (campus) {
             logs = logs.filter(log => log.campus === campus);
         }
 
-        // Filter by pcLab if provided
         if (pcLab) {
             logs = logs.filter(log => log.pcLab == pcLab);
         }
         
 
-        // Filter by date range if provided
         if (startDate || endDate) {
             logs = logs.filter(log => {
-                const logDate = new Date(log.date); // Parse the log.date directly
+                const logDate = new Date(log.date); 
         
                 if (startDate && endDate) {
-                    // Both startDate and endDate are provided
                     const start = new Date(startDate);
                     const end = new Date(endDate);
                     start.setHours(0, 0, 0, 0);
                     end.setHours(23, 59, 59, 999);
                     return logDate >= start && logDate <= end;
                 } else if (startDate) {
-                    // Only startDate is provided, search logs forward
                     const start = new Date(startDate);
                     start.setHours(0, 0, 0, 0);
                     return logDate >= start;
                 } else if (endDate) {
-                    // Only endDate is provided, search logs backward
                     const end = new Date(endDate);
                     end.setHours(23, 59, 59, 999);
                     return logDate <= end;
@@ -1040,7 +1000,6 @@ async function getFilteredLogs(req, res) {
             });
         }
 
-        // Sort logs based on filter option
         if (filter === 'latest') {
             logs.sort((a, b) => new Date(b.date) - new Date(a.date));
         } 
@@ -1048,7 +1007,6 @@ async function getFilteredLogs(req, res) {
             logs.sort((a, b) => new Date(a.date) - new Date(b.date));
         }
 
-        // console.table(logs)
         return res.json({ success: true, logs });
     } catch (error) {
         console.error('Error in getFilteredLogs:', error);
@@ -1069,11 +1027,9 @@ async function adminApproveModifyLogs(req, res) {
     }
 
     try {
-        // Reference to the specific record
         const recordRef = computerUsageLogsRef.child(studentID).child(recordID);
         const correctionRecordRef = correctionRequestRef.child(studentID).child(requestID);
 
-        // Perform the update
         await recordRef.update({
             date: newDate,
             timeIn: newTimeIn,
@@ -1082,7 +1038,6 @@ async function adminApproveModifyLogs(req, res) {
         await correctionRecordRef.update({
             status : "Approved"
         });
-        // Respond with success
         return res.status(200).json({
             message: "Log updated successfully."
         });
@@ -1127,10 +1082,10 @@ async function adminRejectModifyLogs(req, res) {
 }
 
 async function uploadEligibleStudentIDS(req, res) {
-    const { studentIDS } = req.body; // Use the correct key 'studentIDS'
+    const { studentIDS } = req.body; 
     console.log(req.body);
 
-    if (!studentIDS || studentIDS.length === 0) { // Add a check for undefined as well
+    if (!studentIDS || studentIDS.length === 0) { 
         return res.status(400).json({
             message: "Please provide Student IDs."
         });
@@ -1139,15 +1094,15 @@ async function uploadEligibleStudentIDS(req, res) {
     try {
         const updates = {};
         for (const id of studentIDS) {
-            const newKey = eligibleStudentsRef.push().key; // Generate unique key client-side
+            const newKey = eligibleStudentsRef.push().key; 
             updates[`/${newKey}`] = id;
         }
-        await eligibleStudentsRef.update(updates); // Use update for batch-like operation
+        await eligibleStudentsRef.update(updates); 
 
         return res.status(200).json({ message: "Student IDs uploaded successfully." });
 
     } catch (error) {
-        console.error("Error uploading Student IDs:", error); // Log the error for debugging
+        console.error("Error uploading Student IDs:", error); 
         return res.status(500).json({
             message: "An error occurred while uploading the Student IDs. Please try again later."
         });
