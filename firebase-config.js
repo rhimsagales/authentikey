@@ -1,11 +1,16 @@
 const admin = require("firebase-admin");
+require('dotenv').config();
 
-const serviceAccount = require("./serviceAccountKey.json");
+const decodeBase64AccKey = Buffer.from(process.env.ServiceAccKey, 'base64').toString('utf-8');
+const parsedAccKey = JSON.parse(decodeBase64AccKey);
+
+
+
 
 
 if (!admin.apps.length) {
     admin.initializeApp({
-        credential: admin.credential.cert(serviceAccount),
+        credential: admin.credential.cert(parsedAccKey),
         databaseURL: "https://authentikey-default-rtdb.asia-southeast1.firebasedatabase.app/",
     });
 }
