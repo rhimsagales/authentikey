@@ -939,6 +939,18 @@ app.get('/user/logout', (req, res) => {
     });
 });
 
+app.get('/user/admin-logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error("Error destroying session:", err);
+            return res.status(500).end();
+        }
+
+        res.clearCookie("connect.sid");
+        res.redirect("/pages/sign-in-admin"); 
+    });
+});
+
 
 
 app.get('/', (req, res) => {
@@ -948,13 +960,32 @@ app.get('/', (req, res) => {
 app.get('/pages/:name', (req, res) => {
     const pageName = req.params.name; 
 
-    if(pageName == "sign-in" || pageName == "sign-up") {
-        if (req.session.studentID) {
-            
-            
+    if(pageName == "sign-in" || pageName == "sign-up" ) {
+        // if (req.session.studentID) {
+        //     return res.redirect("/users/student-dashboard");
+        // }
+        if(!req.session.studentID && !req.session.admin) {
+            return res.sendFile(path.join(__dirname, `src/pages/${pageName}.html`));
+        }
+        else if(req.session.studentID && !req.session.admin) {
             return res.redirect("/users/student-dashboard");
         }
+        else if(!req.session.studentID && req.session.admin) {
+            return res.redirect("/users/admin-dashboard");
+        }
         
+    }
+    else if(pageName == "sign-in-admin") {
+
+        if(!req.session.studentID && !req.session.admin) {
+            return res.sendFile(path.join(__dirname, `src/pages/sign-in-admin.html`));
+        }
+        else if(req.session.studentID && !req.session.admin) {
+            return res.redirect("/users/student-dashboard");
+        }
+        else if(!req.session.studentID && req.session.admin) {
+            return res.redirect("/users/admin-dashboard");
+        }
     }
     
     res.sendFile(path.join(__dirname, `src/pages/${pageName}.html`));
@@ -962,23 +993,28 @@ app.get('/pages/:name', (req, res) => {
 
 app.get('/users/student-dashboard', async (req, res) => {
     
-
     try {
-        if (!req.session) {
-            return res.redirect("/pages/sign-in");
-        }
+        // if (!req.session) {
+        //     return res.redirect("/pages/sign-in");
+        // }
 
         
 
-        if (!req.session.studentID) {
-            return res.redirect("/pages/sign-in");
+        // if (!req.session.studentID) {
+        //     return res.redirect("/pages/sign-in");
+        // }
+
+        // if (!req.session.user) {
+        //     return res.redirect("/pages/sign-in");
+        // }
+
+        if(!req.session.studentID && !req.session.admin) {
+            return res.redirect('/pages/sign-in');
+        }
+        else if(!req.session.studentID && req.session.admin) {
+            return res.redirect("/users/admin-dashboard");
         }
 
-        if (!req.session.user) {
-            return res.redirect("/pages/sign-in");
-        }
-
-        
         await mongoFunctions.getAllLogs(req, res, req.session.studentID);
         const userData = {
             name: req.session.user.name,
@@ -1001,6 +1037,15 @@ app.get('/users/student-dashboard', async (req, res) => {
     }
 });
 
+app.get('/users/admin-dashboard', async(req, res) => {
+    if(!req.session.studentID && !req.session.admin) {
+        return res.redirect('/pages/sign-in-admin');
+    }
+    else if(req.session.studentID && !req.session.admin) {
+        return res.redirect("/users/student-dashboard");
+    }
+    res.render('admin-page');
+})
 
 app.post('/pages/sign-up/check-studentid-availability', async (req, res) => {
     mongoFunctions.checkStudentIdAvailability(req, res);
@@ -1153,7 +1198,11 @@ app.post('/admin/reject-request', (req, res) => {
 })
 
 app.post('/admin/upload-student-ids', (req, res) => {
-    mongoFunctions.uploadEligibleStudentIDS(req, res)
+    mongoFunctions.uploadEligibleStudentIDS(req, res);
+})
+
+app.post('/authenticate-admin', (req, res) => {
+    mongoFunctions.adminLogin(req, res);
 })
 
 server.listen(process.env.PORT || 3000, () => {

@@ -20,6 +20,7 @@ const getDatabase = () => admin.database();
 const getCorrectionRequestRef = () => getDatabase().ref("studentsRecord/correctionRequest/");
 const getComputerUsageLogsRef = () => getDatabase().ref("studentsRecord/logs/");
 const getEligibleStudentsRef = () => getDatabase().ref("eligibleStudents/");
+const getAdminAccRef = () => getDatabase().ref("adminAccounts/");
 
 
 module.exports = { 
@@ -27,5 +28,6 @@ module.exports = {
     getDatabase, 
     getCorrectionRequestRef, 
     getComputerUsageLogsRef,
-    getEligibleStudentsRef 
+    getEligibleStudentsRef ,
+    getAdminAccRef
 };

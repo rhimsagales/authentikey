@@ -16,6 +16,10 @@
     <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon_io/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon_io/favicon-16x16.png">
     <link rel="manifest" href="../assets/favicon_io/site.webmanifest">
+
+    <!-- Tailwind and Daisy Cdn -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/daisyui/4.12.23/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>Admin | Sign-in</title>
 </head>
 <body class="admin-signin-body">
@@ -39,6 +43,12 @@
         }
 
     </style>
+    <div class="w-full h-svh hidden items-center justify-center absolute z-50 bg-black/70" id="loading-screen">
+        <div class="w-40 aspect-video bg-base-100 flex flex-col items-center justify-center gap-1 rounded-md">
+            <span class="loading loading-spinner text-accent"></span>
+            <span class="text-accent text-sm">Just a moment...</span>
+        </div>
+    </div>
     <form class="admin-signin-form">
         <div class="admin-signin-logo-container ">
 

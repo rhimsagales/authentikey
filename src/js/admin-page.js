@@ -333,3 +333,157 @@ penAppRejBtns.forEach(btn => {
         }
     })
 })
+
+
+const sections = document.querySelectorAll('.sections');
+const adminLinks = document.querySelectorAll('.admin-links');
+
+
+
+
+adminLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        
+
+        if (e.target.nodeName !== "A" && e.target.nodeName !== "BUTTON") {
+            e.target.closest("button").click();
+            return;
+        } else {
+            const linkText = e.target.dataset.myValue;
+
+            sections.forEach(section => {
+                if (section.classList.contains('flex')) {
+                    section.classList.replace('flex', 'hidden');
+                }
+            });
+
+            switch (linkText) {
+                case "Retrieve Logs":
+                    sections[0].classList.replace('hidden', 'flex');
+                    break;
+                case "Analytics":
+                    sections[1].classList.replace('hidden', 'flex');
+                    break;
+                case "Correction Requests":
+                    sections[2].classList.replace('hidden', 'flex');
+                    break;
+                case "Import Eligible Students":
+                    sections[3].classList.replace('hidden', 'flex');
+                    break;
+                case "Bug Report":
+                    sections[4].classList.replace('hidden', 'flex');
+                    break;
+                case "Homepage":
+                    sections[5].classList.replace('hidden', 'flex');
+                    break;
+            }
+        }
+    });
+});
+
+
+async function sendAdminReportBugs(name, email, subject, message){
+    const templateParams = {
+        email : email,
+        name : name,
+        subject : subject,
+        message : message
+        
+    };
+    try {
+        const responseFetch = await fetch('/pages/sign-in/change-pass/send/secret');
+
+        const secrets = await responseFetch.json();
+        const response = await emailjs.send(
+            secrets.serviceID,   // Service ID
+            "template_zshg8ei",  // Template ID
+            templateParams,      // Template parameters
+            secrets.publicID  // User ID
+        );
+        if(!response) {
+            throw new Error("We ran into issues while sending your email.", 500)
+        }
+
+        return { 
+            success: true, 
+            message: `The email was successfully sent to the developers.`,
+            statusCode: 200
+        };
+    } catch (error) {
+        return { 
+            success: false, 
+            message: `The email could not be sent to this address: authentikey.icct.contact@gmail.com`,
+            statusCode: 500
+        };
+    }
+}
+
+function isInputsFilled(inputs) {
+    if (!inputs) {
+        return false;
+    }
+
+    for (const inputElement of inputs) {
+        if (!inputElement.value) {
+            return false;
+        }
+    }
+    return true;
+}
+
+const rbAdminForm = document.querySelector('.rbAdminForm');
+const rbInputs = rbAdminForm.querySelectorAll('input, textarea');
+const rbSubmitBtn = rbAdminForm.querySelector('button');
+
+rbInputs.forEach(input => {
+    input.addEventListener('input', () => {
+        if(isInputsFilled(rbInputs)) {
+            rbSubmitBtn.disabled = false;
+        }
+        else {
+            rbSubmitBtn.disabled = true;
+        }
+        
+    });
+});
+
+rbSubmitBtn.addEventListener('click', async (e) => {
+    e.preventDefault();
+
+    if(!isInputsFilled(rbInputs)) {
+        createWarningAlert("All fields are required.")
+    }
+
+    const message = `Date: ${rbInputs[1].value}\n\n ${rbInputs[3].value}`
+    const response = await sendAdminReportBugs("ADMIN", rbInputs[2].value, rbInputs[0].value, message);
+
+    if(response.success) {
+        createSuccessAlert("The email to the Authentikey Team was sent successfully.")
+    }
+    else {
+        createErrorAlert("There is a problem sending an email.")
+    }
+
+
+})
+
+
+const adminLogout = document.querySelectorAll('.admin-logout');
+
+
+adminLogout.forEach(logoutLinks => {
+    logoutLinks.addEventListener('click', async (e) => {
+        e.preventDefault();
+    
+        const response  = await fetch('/user/admin-logout');
+        if(response.ok) {
+            window.location.reload();
+        } else {
+            createErrorAlert("Logout failed. Please try again.");
+        }
+        
+    })
+})

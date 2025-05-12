@@ -17,12 +17,30 @@
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Monomakh&display=swap" rel="stylesheet">
 
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="../assets/favicon_io/site.webmanifest">
+
+
+    <!-- Tailwind and Daisy Cdn -->
+    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/daisyui/4.12.23/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script> -->
+
     <style>
         body {
             font-family: 'Inter', sans-serif;
             /* height: calc(auto + 160px); */
             /* 100svh + footer height (approximately) */
             overflow-y: auto;
+        }
+
+        .homepage {
+            background: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)), url('../assets/Icct-Bldg.png');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: top right;
+
         }
 
         .font-monomakh {
@@ -106,8 +124,6 @@
         .cr-modal-container {
             background: rgba(0, 0, 0, 0.61);
         }
-
-        
     </style>
 
     <script type="module" src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
@@ -131,9 +147,11 @@
             <!-- Logo and Title -->
             <a href="/pages/admin-page" class="flex items-center gap-3 cursor-pointer">
                 <img src="../assets/logo-auth-png.png" alt="Authentikey" class="header-logo">
-                <span class="header-title font-monomakh font-bold relative tracking-tighter">
+                <span
+                    class="header-title font-monomakh font-bold relative tracking-tighter text-lg md:text-xl 3xl:text-2xl 4xl:text-3xl">
                     Authentikey
-                    <span class="text-xs 3xl:text-sm 4xl:text-base text-white font-semibold absolute -top-1 tracking-tight font-inter italic">
+                    <span
+                        class="text-xs 3xl:text-sm 4xl:text-base text-white font-semibold absolute -top-1 tracking-tight font-inter italic">
                         Admin
                     </span>
                 </span>
@@ -145,43 +163,60 @@
                     <ul class="flex items-center gap-4">
                         <li>
                             <div class="dropdown dropdown-hover">
-                                <div tabindex="0" role="button" class="btn m-1 bg-transparent border-none text-xs hover:bg-transparent 3xl:text-sm 4xl:text-base hover:scale-105 ease-in hover:text-white hover:font-semibold  duration-300">
+                                <div tabindex="0" role="button"
+                                    class="btn m-1 bg-transparent border-none text-xs hover:bg-transparent 3xl:text-sm 4xl:text-base hover:scale-105 ease-in hover:text-white hover:font-semibold  duration-300">
                                     Dashboard
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-3">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" class="size-3">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="m19.5 8.25-7.5 7.5-7.5-7.5" />
                                     </svg>
                                 </div>
-                                <ul tabindex="0" class="dropdown-content menu bg-base-200 rounded-box z-[1] w-52 p-2 shadow">
-                                    <li><a class="text-xs font-semibold 3xl:text-sm 4xl:text-base">Homepage</a></li>
-                                    <li><a class="text-xs font-semibold 3xl:text-sm 4xl:text-base">Analytics</a></li>
+                                <ul tabindex="0"
+                                    class="dropdown-content menu bg-base-200 rounded-box z-[1] w-52 p-2 shadow">
+                                    <li><a class="text-xs font-semibold 3xl:text-sm 4xl:text-base admin-links"
+                                            data-my-value="Homepage">Homepage</a></li>
+                                    <li><a class="text-xs font-semibold 3xl:text-sm 4xl:text-base admin-links"
+                                            data-my-value="Analytics">Analytics</a></li>
                                 </ul>
                             </div>
                         </li>
+
                         <li>
                             <div class="dropdown dropdown-hover">
-                                <div tabindex="0" role="button" class="btn m-1 bg-transparent border-none text-xs hover:bg-transparent 3xl:text-sm 4xl:text-base hover:scale-105 ease-in hover:text-white hover:font-semibold  duration-300">
+                                <div tabindex="0" role="button"
+                                    class="btn m-1 bg-transparent border-none text-xs hover:bg-transparent 3xl:text-sm 4xl:text-base hover:scale-105 ease-in hover:text-white hover:font-semibold  duration-300">
                                     Admin Tools
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-3">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" class="size-3">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="m19.5 8.25-7.5 7.5-7.5-7.5" />
                                     </svg>
                                 </div>
-                                <ul tabindex="0" class="dropdown-content menu bg-base-200 rounded-box z-[1] w-52 p-2 shadow">
-                                    <li><a class="text-xs font-semibold 3xl:text-sm 4xl:text-base">Import Eligible Students</a></li>
-                                    <li><a class="text-xs font-semibold 3xl:text-sm 4xl:text-base">Correction Requests</a></li>
-                                    <li><a class="text-xs font-semibold 3xl:text-sm 4xl:text-base">Retrieve Logs</a></li>
+                                <ul tabindex="0"
+                                    class="dropdown-content menu bg-base-200 rounded-box z-[1] w-52 p-2 shadow">
+                                    <li><a class="text-xs font-semibold 3xl:text-sm 4xl:text-base admin-links"
+                                            data-my-value="Import Eligible Students">Import Eligible Students</a></li>
+                                    <li><a class="text-xs font-semibold 3xl:text-sm 4xl:text-base admin-links"
+                                            data-my-value="Correction Requests">Correction Requests</a></li>
+                                    <li><a class="text-xs font-semibold 3xl:text-sm 4xl:text-base admin-links"
+                                            data-my-value="Retrieve Logs">Retrieve Logs</a></li>
                                 </ul>
                             </div>
                         </li>
                         <li class="h-14 flex items-center justify-center">
-                            <a href="#" class="text-xs font-semibold 3xl:text-sm 4xl:text-base hover:scale-105  hover:text-white ease-in px-4 duration-300">Bug Report</a>
+                            <a href="#"
+                                class="text-xs font-semibold 3xl:text-sm 4xl:text-base hover:scale-105  hover:text-white ease-in px-4 duration-300 admin-links"
+                                data-my-value="Bug Report" id="bug-report">Bug Report</a>
                         </li>
-                        
+
                     </ul>
                 </nav>
 
                 <!-- User Menu -->
                 <div class="dropdown dropdown-end ">
-                    <div tabindex="0" role="button" class="btn btn-ghost btn-circle 3xl:size-14 4xl:size-16 hover:bg-cyan-500">
+                    <div tabindex="0" role="button"
+                        class="btn btn-ghost btn-circle 3xl:size-14 4xl:size-16 hover:bg-cyan-500">
                         <div class="user-avatar ">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                 stroke="currentColor" class="size-5 3xl:size-6 4xl:size-8">
@@ -190,11 +225,35 @@
                             </svg>
                         </div>
                     </div>
-                    <ul tabindex="0" class="user-menu">
-                        <li><a class="justify-between text-xs 3xl:text-sm 4xl:text-base">Profile</a></li>
-                        <li><a class="text-xs 3xl:text-sm 4xl:text-base">Settings</a></li>
+                    <ul tabindex="0" class="user-menu rounded-md py-4">
+                        <span class="text-xs 3xl:text-sm 4xl:text-base text-white flex flex-row items-center gap-2 px-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4">
+                                <path d="M4.632 3.533A2 2 0 0 1 6.577 2h6.846a2 2 0 0 1 1.945 1.533l1.976 8.234A3.489 3.489 0 0 0 16 11.5H4c-.476 0-.93.095-1.344.267l1.976-8.234Z" />
+                                <path fill-rule="evenodd" d="M4 13a2 2 0 1 0 0 4h12a2 2 0 1 0 0-4H4Zm11.24 2a.75.75 0 0 1 .75-.75H16a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75h-.01a.75.75 0 0 1-.75-.75V15Zm-2.25-.75a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75H13a.75.75 0 0 0 .75-.75V15a.75.75 0 0 0-.75-.75h-.01Z" clip-rule="evenodd" />
+                            </svg>
+                            Admin Panel
+                        </span>
+                        <div class="divider my-1 h-2"></div>
+                        <li><a class="text-xs 3xl:text-sm 4xl:text-base flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+                                <path d="M8 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM3.156 11.763c.16-.629.44-1.21.813-1.72a2.5 2.5 0 0 0-2.725 1.377c-.136.287.102.58.418.58h1.449c.01-.077.025-.156.045-.237ZM12.847 11.763c.02.08.036.16.046.237h1.446c.316 0 .554-.293.417-.579a2.5 2.5 0 0 0-2.722-1.378c.374.51.653 1.09.813 1.72ZM14 7.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0ZM3.5 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM5 13c-.552 0-1.013-.455-.876-.99a4.002 4.002 0 0 1 7.753 0c.136.535-.324.99-.877.99H5Z" />
+                            </svg>
+                            Role Management
+                        </a></li>
+                        <li><a class="text-xs 3xl:text-sm 4xl:text-base flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+                                <path fill-rule="evenodd" d="M11.986 3H12a2 2 0 0 1 2 2v6a2 2 0 0 1-1.5 1.937V7A2.5 2.5 0 0 0 10 4.5H4.063A2 2 0 0 1 6 3h.014A2.25 2.25 0 0 1 8.25 1h1.5a2.25 2.25 0 0 1 2.236 2ZM10.5 4v-.75a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0-.75.75V4h3Z" clip-rule="evenodd" />
+                                <path fill-rule="evenodd" d="M3 6a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H3Zm1.75 2.5a.75.75 0 0 0 0 1.5h3.5a.75.75 0 0 0 0-1.5h-3.5ZM4 11.75a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 0 1.5h-3.5a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
+                            </svg>
+                            Activity Log
+                        </a></li>
                         <div class="divider"></div>
-                        <li><a class="text-error text-xs 3xl:text-sm 4xl:text-base">Logout</a></li>
+                        <li><a class="text-error text-xs 3xl:text-sm 4xl:text-base admin-logout font-semibold flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+                                <path fill-rule="evenodd" d="M14 4.75A2.75 2.75 0 0 0 11.25 2h-3A2.75 2.75 0 0 0 5.5 4.75v.5a.75.75 0 0 0 1.5 0v-.5c0-.69.56-1.25 1.25-1.25h3c.69 0 1.25.56 1.25 1.25v6.5c0 .69-.56 1.25-1.25 1.25h-3c-.69 0-1.25-.56-1.25-1.25v-.5a.75.75 0 0 0-1.5 0v.5A2.75 2.75 0 0 0 8.25 14h3A2.75 2.75 0 0 0 14 11.25v-6.5Zm-9.47.47a.75.75 0 0 0-1.06 0L1.22 7.47a.75.75 0 0 0 0 1.06l2.25 2.25a.75.75 0 1 0 1.06-1.06l-.97-.97h7.19a.75.75 0 0 0 0-1.5H3.56l.97-.97a.75.75 0 0 0 0-1.06Z" clip-rule="evenodd" />
+                            </svg>
+                            Sign Out
+                        </a></li>
                     </ul>
                 </div>
             </div>
@@ -217,40 +276,58 @@
     </header>
 
     <!-- Mobile Navigation -->
-    <nav class="mobile-nav hide lg:hidden fixed top-0 left-0  w-52 bg-transparent  z-50 pt-[72px] lg:pt-[88px]"
+    <nav class="mobile-nav hide lg:hidden fixed top-0 left-0  w-56 bg-transparent  z-50 pt-[72px] lg:pt-[88px]"
         id="mobile-nav">
         <div class="flex flex-col h-full bg-base-100 text-base-content px-2">
             <!-- Main Navigation Links -->
             <div class="flex items-end px-3 mt-6  gap-2 text-[20px] font-semibold">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
-                    <path d="M2 4.25A2.25 2.25 0 0 1 4.25 2h2.5A2.25 2.25 0 0 1 9 4.25v2.5A2.25 2.25 0 0 1 6.75 9h-2.5A2.25 2.25 0 0 1 2 6.75v-2.5ZM2 13.25A2.25 2.25 0 0 1 4.25 11h2.5A2.25 2.25 0 0 1 9 13.25v2.5A2.25 2.25 0 0 1 6.75 18h-2.5A2.25 2.25 0 0 1 2 15.75v-2.5ZM11 4.25A2.25 2.25 0 0 1 13.25 2h2.5A2.25 2.25 0 0 1 18 4.25v2.5A2.25 2.25 0 0 1 15.75 9h-2.5A2.25 2.25 0 0 1 11 6.75v-2.5ZM15.25 11.75a.75.75 0 0 0-1.5 0v2h-2a.75.75 0 0 0 0 1.5h2v2a.75.75 0 0 0 1.5 0v-2h2a.75.75 0 0 0 0-1.5h-2v-2Z" />
-                  </svg>
-                  
+                    <path
+                        d="M2 4.25A2.25 2.25 0 0 1 4.25 2h2.5A2.25 2.25 0 0 1 9 4.25v2.5A2.25 2.25 0 0 1 6.75 9h-2.5A2.25 2.25 0 0 1 2 6.75v-2.5ZM2 13.25A2.25 2.25 0 0 1 4.25 11h2.5A2.25 2.25 0 0 1 9 13.25v2.5A2.25 2.25 0 0 1 6.75 18h-2.5A2.25 2.25 0 0 1 2 15.75v-2.5ZM11 4.25A2.25 2.25 0 0 1 13.25 2h2.5A2.25 2.25 0 0 1 18 4.25v2.5A2.25 2.25 0 0 1 15.75 9h-2.5A2.25 2.25 0 0 1 11 6.75v-2.5ZM15.25 11.75a.75.75 0 0 0-1.5 0v2h-2a.75.75 0 0 0 0 1.5h2v2a.75.75 0 0 0 1.5 0v-2h2a.75.75 0 0 0 0-1.5h-2v-2Z" />
+                </svg>
+
                 <span class="h-fit mt-0 leading-none ">Navigation</span>
             </div>
             <div class="divider h-2 items-end mt-4 mb-2"></div>
-            <div class="">
+            <div class=" flex flex-col justify-between h-full">
                 <ul class="flex flex-col gap-2">
                     <li>
                         <div class="bg-base-200 collapse">
                             <input type="checkbox" class="peer min-h-10" />
                             <div
-                              class="collapse-title text-primary-content peer-checked:bg-secondary peer-checked:text-secondary-content  flex justify-between items-center px-3 py-2 text-xs font-normal box-border min-h-0 h-10">
-                              <div class="flex gap-2 items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4">
-                                    <path fill-rule="evenodd" d="M4.25 2A2.25 2.25 0 0 0 2 4.25v2.5A2.25 2.25 0 0 0 4.25 9h2.5A2.25 2.25 0 0 0 9 6.75v-2.5A2.25 2.25 0 0 0 6.75 2h-2.5Zm0 9A2.25 2.25 0 0 0 2 13.25v2.5A2.25 2.25 0 0 0 4.25 18h2.5A2.25 2.25 0 0 0 9 15.75v-2.5A2.25 2.25 0 0 0 6.75 11h-2.5Zm9-9A2.25 2.25 0 0 0 11 4.25v2.5A2.25 2.25 0 0 0 13.25 9h2.5A2.25 2.25 0 0 0 18 6.75v-2.5A2.25 2.25 0 0 0 15.75 2h-2.5Zm0 9A2.25 2.25 0 0 0 11 13.25v2.5A2.25 2.25 0 0 0 13.25 18h2.5A2.25 2.25 0 0 0 18 15.75v-2.5A2.25 2.25 0 0 0 15.75 11h-2.5Z" clip-rule="evenodd" />
-                                  </svg>
-                                  Dashboard
-                              </div>
-                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-3">
-                                  <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-                              </svg>
+                                class="collapse-title text-primary-content peer-checked:bg-secondary peer-checked:text-secondary-content  flex justify-between items-center px-3 py-2 text-xs font-normal box-border min-h-0 h-10">
+                                <div class="flex gap-2 items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                        class="size-4">
+                                        <path fill-rule="evenodd"
+                                            d="M4.25 2A2.25 2.25 0 0 0 2 4.25v2.5A2.25 2.25 0 0 0 4.25 9h2.5A2.25 2.25 0 0 0 9 6.75v-2.5A2.25 2.25 0 0 0 6.75 2h-2.5Zm0 9A2.25 2.25 0 0 0 2 13.25v2.5A2.25 2.25 0 0 0 4.25 18h2.5A2.25 2.25 0 0 0 9 15.75v-2.5A2.25 2.25 0 0 0 6.75 11h-2.5Zm9-9A2.25 2.25 0 0 0 11 4.25v2.5A2.25 2.25 0 0 0 13.25 9h2.5A2.25 2.25 0 0 0 18 6.75v-2.5A2.25 2.25 0 0 0 15.75 2h-2.5Zm0 9A2.25 2.25 0 0 0 11 13.25v2.5A2.25 2.25 0 0 0 13.25 18h2.5A2.25 2.25 0 0 0 18 15.75v-2.5A2.25 2.25 0 0 0 15.75 11h-2.5Z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    Dashboard
+                                </div>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                                    stroke="currentColor" class="size-3">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                </svg>
                             </div>
                             <div
-                              class="collapse-content text-primary-content peer-checked:bg-base-200 peer-checked:text-secondary-content w-full pt-0 pb-0 pr-0 pl-4">
+                                class="collapse-content text-primary-content peer-checked:bg-base-200 peer-checked:text-secondary-content w-full pt-0 pb-0 pr-0 pl-4">
                                 <ul tabindex="0" class="dropdown-content menu rounded-box z-[1] w-full p-2 shadow">
-                                    <li><a class="text-xs rounded px-1">Homepage</a></li>
-                                    <li><a class="text-xs rounded px-1">Analytics</a></li>
+                                    <li><a class="text-xs rounded px-1 admin-links flex items-center gap-2" data-my-value="Homepage">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+                                            <path d="M8.543 2.232a.75.75 0 0 0-1.085 0l-5.25 5.5A.75.75 0 0 0 2.75 9H4v4a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1a1 1 0 1 1 2 0v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V9h1.25a.75.75 0 0 0 .543-1.268l-5.25-5.5Z" />
+                                        </svg>
+                                        Homepage
+                                    </a></li>
+                                    <li><a class="text-xs rounded px-1 admin-links flex items-center gap-2" data-my-value="Analytics">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+                                            <path d="M13.975 6.5c.028.276-.199.5-.475.5h-4a.5.5 0 0 1-.5-.5v-4c0-.276.225-.503.5-.475A5.002 5.002 0 0 1 13.974 6.5Z" />
+                                            <path d="M6.5 4.025c.276-.028.5.199.5.475v4a.5.5 0 0 0 .5.5h4c.276 0 .503.225.475.5a5 5 0 1 1-5.474-5.475Z" />
+                                        </svg>
+                                          
+                                        Analytics
+                                    </a></li>
                                 </ul>
                             </div>
                         </div>
@@ -259,38 +336,134 @@
                         <div class="bg-base-200 collapse">
                             <input type="checkbox" class="peer min-h-10" />
                             <div
-                              class="collapse-title text-primary-content peer-checked:bg-secondary peer-checked:text-secondary-content  flex justify-between items-center px-3 py-2 text-xs font-normal box-border min-h-0 h-10">
-                              <div class="flex gap-2 items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4">
-                                    <path fill-rule="evenodd" d="M14.5 10a4.5 4.5 0 0 0 4.284-5.882c-.105-.324-.51-.391-.752-.15L15.34 6.66a.454.454 0 0 1-.493.11 3.01 3.01 0 0 1-1.618-1.616.455.455 0 0 1 .11-.494l2.694-2.692c.24-.241.174-.647-.15-.752a4.5 4.5 0 0 0-5.873 4.575c.055.873-.128 1.808-.8 2.368l-7.23 6.024a2.724 2.724 0 1 0 3.837 3.837l6.024-7.23c.56-.672 1.495-.855 2.368-.8.096.007.193.01.291.01ZM5 16a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z" clip-rule="evenodd" />
-                                    <path d="M14.5 11.5c.173 0 .345-.007.514-.022l3.754 3.754a2.5 2.5 0 0 1-3.536 3.536l-4.41-4.41 2.172-2.607c.052-.063.147-.138.342-.196.202-.06.469-.087.777-.067.128.008.257.012.387.012ZM6 4.586l2.33 2.33a.452.452 0 0 1-.08.09L6.8 8.214 4.586 6H3.309a.5.5 0 0 1-.447-.276l-1.7-3.402a.5.5 0 0 1 .093-.577l.49-.49a.5.5 0 0 1 .577-.094l3.402 1.7A.5.5 0 0 1 6 3.31v1.277Z" />
-                                  </svg>
-                                  Admin Tools
-                              </div>
-                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-3">
-                                  <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-                              </svg>
+                                class="collapse-title text-primary-content peer-checked:bg-secondary peer-checked:text-secondary-content  flex justify-between items-center px-3 py-2 text-xs font-normal box-border min-h-0 h-10">
+                                <div class="flex gap-2 items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                        class="size-4">
+                                        <path fill-rule="evenodd"
+                                            d="M14.5 10a4.5 4.5 0 0 0 4.284-5.882c-.105-.324-.51-.391-.752-.15L15.34 6.66a.454.454 0 0 1-.493.11 3.01 3.01 0 0 1-1.618-1.616.455.455 0 0 1 .11-.494l2.694-2.692c.24-.241.174-.647-.15-.752a4.5 4.5 0 0 0-5.873 4.575c.055.873-.128 1.808-.8 2.368l-7.23 6.024a2.724 2.724 0 1 0 3.837 3.837l6.024-7.23c.56-.672 1.495-.855 2.368-.8.096.007.193.01.291.01ZM5 16a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"
+                                            clip-rule="evenodd" />
+                                        <path
+                                            d="M14.5 11.5c.173 0 .345-.007.514-.022l3.754 3.754a2.5 2.5 0 0 1-3.536 3.536l-4.41-4.41 2.172-2.607c.052-.063.147-.138.342-.196.202-.06.469-.087.777-.067.128.008.257.012.387.012ZM6 4.586l2.33 2.33a.452.452 0 0 1-.08.09L6.8 8.214 4.586 6H3.309a.5.5 0 0 1-.447-.276l-1.7-3.402a.5.5 0 0 1 .093-.577l.49-.49a.5.5 0 0 1 .577-.094l3.402 1.7A.5.5 0 0 1 6 3.31v1.277Z" />
+                                    </svg>
+                                    Admin Tools
+                                </div>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                                    stroke="currentColor" class="size-3">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                </svg>
                             </div>
                             <div
-                              class="collapse-content text-primary-content peer-checked:bg-base-200 peer-checked:text-secondary-content w-full pt-0 pb-0 pr-0 pl-4">
+                                class="collapse-content text-primary-content peer-checked:bg-base-200 peer-checked:text-secondary-content w-full pt-0 pb-0 pr-0 pl-4">
                                 <ul tabindex="0" class="dropdown-content menu rounded-box z-[1] w-full p-2 shadow">
-                                    <li><a class="text-xs rounded px-1">Import Eligible Students</a></li>
-                                    <li><a class="text-xs rounded px-1">Correction Requests</a></li>
-                                    <li><a class="text-xs rounded px-1">Retrieve Logs</a></li>
-
+                                    <li>
+                                        <a class="text-xs rounded px-1 admin-links flex items-center gap-2" data-my-value="Import Eligible Students">
+                                            <!-- Import Eligible Students Icon -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+                                                <path d="M8.5 4.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0ZM10 13c.552 0 1.01-.452.9-.994a5.002 5.002 0 0 0-9.802 0c-.109.542.35.994.902.994h8ZM12.5 3.5a.75.75 0 0 1 .75.75v1h1a.75.75 0 0 1 0 1.5h-1v1a.75.75 0 0 1-1.5 0v-1h-1a.75.75 0 0 1 0-1.5h1v-1a.75.75 0 0 1 .75-.75Z" />
+                                            </svg>
+                                              
+                                            Import Eligible Students
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="text-xs rounded px-1 admin-links flex items-center gap-2" data-my-value="Correction Requests">
+                                            <!-- Correction Requests Icon -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+                                                <path fill-rule="evenodd" d="M4 2a1.5 1.5 0 0 0-1.5 1.5v9A1.5 1.5 0 0 0 4 14h8a1.5 1.5 0 0 0 1.5-1.5V6.621a1.5 1.5 0 0 0-.44-1.06L9.94 2.439A1.5 1.5 0 0 0 8.878 2H4Zm4 3.5a.75.75 0 0 1 .75.75v2.69l.72-.72a.75.75 0 1 1 1.06 1.06l-2 2a.75.75 0 0 1-1.06 0l-2-2a.75.75 0 0 1 1.06-1.06l.72.72V6.25A.75.75 0 0 1 8 5.5Z" clip-rule="evenodd" />
+                                            </svg>
+                                              
+                                              
+                                            Correction Requests
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="text-xs rounded px-1 admin-links flex items-center gap-2" data-my-value="Retrieve Logs">
+                                            <!-- Retrieve Logs Icon -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+                                                <path d="M3 3.5A1.5 1.5 0 0 1 4.5 2h1.879a1.5 1.5 0 0 1 1.06.44l1.122 1.12A1.5 1.5 0 0 0 9.62 4H11.5A1.5 1.5 0 0 1 13 5.5v1H3v-3ZM3.081 8a1.5 1.5 0 0 0-1.423 1.974l1 3A1.5 1.5 0 0 0 4.081 14h7.838a1.5 1.5 0 0 0 1.423-1.026l1-3A1.5 1.5 0 0 0 12.919 8H3.081Z" />
+                                            </svg>
+                                              
+                                            Retrieve Logs
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
                     </li>
                     <li class=" h-10 flex items-center bg-base-200 ">
-                        <a href="#" class="w-full h-full text-xs font-normal flex gap-2 items-center active:bg-secondary px-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4">
-                                <path fill-rule="evenodd" d="M6.56 1.14a.75.75 0 0 1 .177 1.045 3.989 3.989 0 0 0-.464.86c.185.17.382.329.59.473A3.993 3.993 0 0 1 10 2c1.272 0 2.405.594 3.137 1.518.208-.144.405-.302.59-.473a3.989 3.989 0 0 0-.464-.86.75.75 0 0 1 1.222-.869c.369.519.65 1.105.822 1.736a.75.75 0 0 1-.174.707 7.03 7.03 0 0 1-1.299 1.098A4 4 0 0 1 14 6c0 .52-.301.963-.723 1.187a6.961 6.961 0 0 1-1.158.486c.13.208.231.436.296.679 1.413-.174 2.779-.5 4.081-.96a19.655 19.655 0 0 0-.09-2.319.75.75 0 1 1 1.493-.146 21.239 21.239 0 0 1 .08 3.028.75.75 0 0 1-.482.667 20.873 20.873 0 0 1-5.153 1.249 2.521 2.521 0 0 1-.107.247 20.945 20.945 0 0 1 5.252 1.257.75.75 0 0 1 .482.74 20.945 20.945 0 0 1-.908 5.107.75.75 0 0 1-1.433-.444c.415-1.34.69-2.743.806-4.191-.495-.173-1-.327-1.512-.46.05.284.076.575.076.873 0 1.814-.517 3.312-1.426 4.37A4.639 4.639 0 0 1 10 19a4.639 4.639 0 0 1-3.574-1.63C5.516 16.311 5 14.813 5 13c0-.298.026-.59.076-.873-.513.133-1.017.287-1.512.46.116 1.448.39 2.85.806 4.191a.75.75 0 1 1-1.433.444 20.94 20.94 0 0 1-.908-5.107.75.75 0 0 1 .482-.74 20.838 20.838 0 0 1 5.252-1.257 2.493 2.493 0 0 1-.107-.247 20.874 20.874 0 0 1-5.153-1.249.75.75 0 0 1-.482-.667 21.342 21.342 0 0 1 .08-3.028.75.75 0 1 1 1.493.146 19.745 19.745 0 0 0-.09 2.319c1.302.46 2.668.786 4.08.96.066-.243.166-.471.297-.679a6.962 6.962 0 0 1-1.158-.486A1.348 1.348 0 0 1 6 6a4 4 0 0 1 .166-1.143 7.032 7.032 0 0 1-1.3-1.098.75.75 0 0 1-.173-.707 5.48 5.48 0 0 1 .822-1.736.75.75 0 0 1 1.046-.177Z" clip-rule="evenodd" />
+                        <a href="#"
+                            class="w-full h-full text-xs font-normal flex gap-2 items-center active:bg-secondary px-3 admin-links"
+                            data-my-value="Bug Report">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                class="size-4">
+                                <path fill-rule="evenodd"
+                                    d="M6.56 1.14a.75.75 0 0 1 .177 1.045 3.989 3.989 0 0 0-.464.86c.185.17.382.329.59.473A3.993 3.993 0 0 1 10 2c1.272 0 2.405.594 3.137 1.518.208-.144.405-.302.59-.473a3.989 3.989 0 0 0-.464-.86.75.75 0 0 1 1.222-.869c.369.519.65 1.105.822 1.736a.75.75 0 0 1-.174.707 7.03 7.03 0 0 1-1.299 1.098A4 4 0 0 1 14 6c0 .52-.301.963-.723 1.187a6.961 6.961 0 0 1-1.158.486c.13.208.231.436.296.679 1.413-.174 2.779-.5 4.081-.96a19.655 19.655 0 0 0-.09-2.319.75.75 0 1 1 1.493-.146 21.239 21.239 0 0 1 .08 3.028.75.75 0 0 1-.482.667 20.873 20.873 0 0 1-5.153 1.249 2.521 2.521 0 0 1-.107.247 20.945 20.945 0 0 1 5.252 1.257.75.75 0 0 1 .482.74 20.945 20.945 0 0 1-.908 5.107.75.75 0 0 1-1.433-.444c.415-1.34.69-2.743.806-4.191-.495-.173-1-.327-1.512-.46.05.284.076.575.076.873 0 1.814-.517 3.312-1.426 4.37A4.639 4.639 0 0 1 10 19a4.639 4.639 0 0 1-3.574-1.63C5.516 16.311 5 14.813 5 13c0-.298.026-.59.076-.873-.513.133-1.017.287-1.512.46.116 1.448.39 2.85.806 4.191a.75.75 0 1 1-1.433.444 20.94 20.94 0 0 1-.908-5.107.75.75 0 0 1 .482-.74 20.838 20.838 0 0 1 5.252-1.257 2.493 2.493 0 0 1-.107-.247 20.874 20.874 0 0 1-5.153-1.249.75.75 0 0 1-.482-.667 21.342 21.342 0 0 1 .08-3.028.75.75 0 1 1 1.493.146 19.745 19.745 0 0 0-.09 2.319c1.302.46 2.668.786 4.08.96.066-.243.166-.471.297-.679a6.962 6.962 0 0 1-1.158-.486A1.348 1.348 0 0 1 6 6a4 4 0 0 1 .166-1.143 7.032 7.032 0 0 1-1.3-1.098.75.75 0 0 1-.173-.707 5.48 5.48 0 0 1 .822-1.736.75.75 0 0 1 1.046-.177Z"
+                                    clip-rule="evenodd" />
                             </svg>
                             Bug Report
                         </a>
                     </li>
 
+                </ul>
+                <ul>
+                    <li>
+                        <div class="bg-base-200 collapse">
+                            <input type="checkbox" class="peer min-h-10" />
+                            <div
+                                class="collapse-title text-primary-content peer-checked:bg-secondary peer-checked:text-secondary-content  flex justify-between items-center px-3 py-2 text-xs font-normal box-border min-h-0 h-10">
+                                <div class="flex gap-2 items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4">
+                                        <path d="M4.632 3.533A2 2 0 0 1 6.577 2h6.846a2 2 0 0 1 1.945 1.533l1.976 8.234A3.489 3.489 0 0 0 16 11.5H4c-.476 0-.93.095-1.344.267l1.976-8.234Z" />
+                                        <path fill-rule="evenodd" d="M4 13a2 2 0 1 0 0 4h12a2 2 0 1 0 0-4H4Zm11.24 2a.75.75 0 0 1 .75-.75H16a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75h-.01a.75.75 0 0 1-.75-.75V15Zm-2.25-.75a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75H13a.75.75 0 0 0 .75-.75V15a.75.75 0 0 0-.75-.75h-.01Z" clip-rule="evenodd" />
+                                    </svg>
+                                    Admin Control Panel
+                                </div>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                                    stroke="currentColor" class="size-3">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                </svg>
+                            </div>
+                            <div
+                                class="collapse-content text-primary-content peer-checked:bg-base-200 peer-checked:text-secondary-content w-full pt-0 pb-0 pr-0 pl-4">
+                                <ul tabindex="0" class="dropdown-content menu rounded-box z-[1] w-full p-2 shadow">
+                                    <li>
+                                        <a class="text-xs rounded px-1 flex items-center gap-2">
+                                            <!-- Role Management Icon -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+                                                <path d="M8 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM3.156 11.763c.16-.629.44-1.21.813-1.72a2.5 2.5 0 0 0-2.725 1.377c-.136.287.102.58.418.58h1.449c.01-.077.025-.156.045-.237ZM12.847 11.763c.02.08.036.16.046.237h1.446c.316 0 .554-.293.417-.579a2.5 2.5 0 0 0-2.722-1.378c.374.51.653 1.09.813 1.72ZM14 7.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0ZM3.5 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM5 13c-.552 0-1.013-.455-.876-.99a4.002 4.002 0 0 1 7.753 0c.136.535-.324.99-.877.99H5Z" />
+                                            </svg>
+                                              
+                                            Role Management
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="text-xs rounded px-1 flex items-center gap-2">
+                                            <!-- Activity Log Icon -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+                                                <path fill-rule="evenodd" d="M11.986 3H12a2 2 0 0 1 2 2v6a2 2 0 0 1-1.5 1.937V7A2.5 2.5 0 0 0 10 4.5H4.063A2 2 0 0 1 6 3h.014A2.25 2.25 0 0 1 8.25 1h1.5a2.25 2.25 0 0 1 2.236 2ZM10.5 4v-.75a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0-.75.75V4h3Z" clip-rule="evenodd" />
+                                                <path fill-rule="evenodd" d="M3 6a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H3Zm1.75 2.5a.75.75 0 0 0 0 1.5h3.5a.75.75 0 0 0 0-1.5h-3.5ZM4 11.75a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 0 1.5h-3.5a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
+                                            </svg>
+                                              
+                                            Activity Log
+                                        </a>
+                                    </li>
+                                    <div class="divider h-2 items-end mt-2 mb-2"></div>
+                                    <li>
+                                        <a class="text-xs rounded px-1 text-error font-semibold admin-logout flex items-center gap-2">
+                                            <!-- Sign Out Icon -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+                                                <path fill-rule="evenodd" d="M14 4.75A2.75 2.75 0 0 0 11.25 2h-3A2.75 2.75 0 0 0 5.5 4.75v.5a.75.75 0 0 0 1.5 0v-.5c0-.69.56-1.25 1.25-1.25h3c.69 0 1.25.56 1.25 1.25v6.5c0 .69-.56 1.25-1.25 1.25h-3c-.69 0-1.25-.56-1.25-1.25v-.5a.75.75 0 0 0-1.5 0v.5A2.75 2.75 0 0 0 8.25 14h3A2.75 2.75 0 0 0 14 11.25v-6.5Zm-9.47.47a.75.75 0 0 0-1.06 0L1.22 7.47a.75.75 0 0 0 0 1.06l2.25 2.25a.75.75 0 1 0 1.06-1.06l-.97-.97h7.19a.75.75 0 0 0 0-1.5H3.56l.97-.97a.75.75 0 0 0 0-1.06Z" clip-rule="evenodd" />
+                                            </svg>
+                                            Sign Out
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
                 </ul>
             </div>
             <div class="divider h-2 items-end mt-2 mb-2"></div>
@@ -298,9 +471,9 @@
 
         </div>
     </nav>
-    
+
     <!-- Form Section -->
-    <main class="custom-container hidden items-center justify-center ">
+    <main class="custom-container hidden items-center justify-center sections">
         <!-- Form Container -->
         <div id="formContainer" class="w-full">
             <form class="space-y-2 sm:space-y-6 flex flex-col items-center justify-center w-full" id="filterForm">
@@ -316,76 +489,86 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-5 gap-2 md:gap-4 w-full max-w-6xl ">
                     <!-- Student ID Input -->
                     <div class="form-control w-full">
-                        <label class="label">
+                        <label class="label" for="studentId">
                             <span class="label-text font-medium">Student ID</span>
                         </label>
-                        <input type="text" id="studentId" class="input input-bordered w-full text-xs md:text-sm" placeholder="UA202200746" />
+                        <input type="text" id="studentId" class="input input-bordered w-full text-xs md:text-sm"
+                            placeholder="UA202200746" />
                     </div>
-                
+
                     <!-- Section Input -->
                     <div class="form-control w-full">
-                        <label class="label">
+                        <label class="label" for="section">
                             <span class="label-text font-medium">Section</span>
                         </label>
-                        <input type="text" id="section" class="input input-bordered w-full text-xs md:text-sm" placeholder="LFA322E010" />
+                        <input type="text" id="section" class="input input-bordered w-full text-xs md:text-sm"
+                            placeholder="LFA322E010" />
                     </div>
-                
+
                     <!-- Course Input -->
                     <div class="form-control w-full">
-                        <label class="label">
-                            <span class="label-text font-medium">Course <span class="text-xs text-info">(Abbreviation only)</span></span>
+                        <label class="label" for="course">
+                            <span class="label-text font-medium">Course <span class="text-xs text-info">(Abbreviation
+                                    only)</span></span>
                         </label>
-                        <input type="text" id="course" class="input input-bordered w-full text-xs md:text-sm" placeholder="BSIT" />
+                        <input type="text" id="course" class="input input-bordered w-full text-xs md:text-sm"
+                            placeholder="BSIT" />
                     </div>
-                
+
                     <!-- Year Level Select -->
                     <div class="form-control w-full">
-                        <label class="label">
+                        <label class="label" for="yearLevel">
                             <span class="label-text font-medium">Year Level</span>
                         </label>
                         <select id="yearLevel" class="select select-bordered w-full text-xs md:text-sm">
+                            <option value="" class="bg-base-200 text-xs md:text-sm" disabled selected>Choose Year Level
+                            </option>
                             <option value="1st Year" class="bg-base-200 text-xs md:text-sm">1st Year</option>
                             <option value="2nd Year" class="bg-base-200 text-xs md:text-sm">2nd Year</option>
                             <option value="3rd Year" class="bg-base-200 text-xs md:text-sm">3rd Year</option>
                             <option value="4th Year" class="bg-base-200 text-xs md:text-sm">4th Year</option>
                         </select>
                     </div>
-                
+
                     <!-- Campus Input -->
                     <div class="form-control w-full">
-                        <label class="label">
+                        <label class="label" for="campus">
                             <span class="label-text font-medium">Campus</span>
                         </label>
-                        <input type="text" id="campus" class="input input-bordered w-full text-xs md:text-sm" placeholder="Antipolo" />
+                        <input type="text" id="campus" class="input input-bordered w-full text-xs md:text-sm"
+                            placeholder="Antipolo" />
                     </div>
-                
+
                     <!-- PC Lab Input -->
                     <div class="form-control w-full">
-                        <label class="label">
+                        <label class="label" for="pcLab">
                             <span class="label-text font-medium">PC Lab</span>
                         </label>
-                        <input type="number" id="pcLab" class="input input-bordered w-full text-xs md:text-sm" placeholder="1" />
+                        <input type="number" id="pcLab" class="input input-bordered w-full text-xs md:text-sm"
+                            placeholder="1" />
                     </div>
-                
+
                     <!-- Start Date Input -->
                     <div class="form-control w-full">
-                        <label class="label">
+                        <label class="label" for="startDate">
                             <span class="label-text font-medium">Start Date</span>
                         </label>
-                        <input type="datetime-local" id="startDate" class="input input-bordered w-full text-xs md:text-sm" />
+                        <input type="datetime-local" id="startDate"
+                            class="input input-bordered w-full text-xs md:text-sm" />
                     </div>
-                
+
                     <!-- End Date Input -->
                     <div class="form-control w-full">
-                        <label class="label">
+                        <label class="label" for="endDate">
                             <span class="label-text font-medium">End Date</span>
                         </label>
-                        <input type="datetime-local" id="endDate" class="input input-bordered w-full text-xs md:text-sm" />
+                        <input type="datetime-local" id="endDate"
+                            class="input input-bordered w-full text-xs md:text-sm" />
                     </div>
-                
+
                     <!-- Filter Select -->
                     <div class="form-control w-full">
-                        <label class="label">
+                        <label class="label" for="filter">
                             <span class="label-text font-medium">Filter</span>
                         </label>
                         <select id="filter" class="select select-bordered w-full text-xs md:text-sm">
@@ -393,14 +576,15 @@
                             <option value="oldest" class="bg-base-200 text-xs md:text-sm">Oldest First</option>
                         </select>
                     </div>
-                
+
                     <!-- Submit Button -->
                     <div class="w-full">
                         <label class="label opacity-0">
                             <span class="label-text">Submit</span>
                         </label>
-                        <button type="submit" id="submitButton" class="btn btn-primary w-full bg-white text-black hover:text-white">
-                            Generate Table
+                        <button type="submit" id="submitButton"
+                            class="btn btn-primary w-full bg-white text-black hover:text-white">
+                            Retrieve Logs
                         </button>
                     </div>
                 </div>
@@ -414,7 +598,7 @@
     </main>
 
     <!-- Analytics Section -->
-    <main class="custom-container  analytics-section hidden">
+    <main class="custom-container  analytics-section hidden sections">
         <div class="text-center mb-4 flex flex-col items-center justify-center">
             <h1 class="text-xl md:text-3xl font-bold text-base-content mb-2">Explore Analytics Insights</h1>
             <p class="text-base-content/70 text-xs lg:text-sm max-w-2xl px-4">
@@ -425,10 +609,12 @@
             <div class="analytics-flex-stat-info">
                 <div class="analytics-stat-info-card">
                     <span class="card-label">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="card-icon">
-                            <path d="M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM1.49 15.326a.78.78 0 0 1-.358-.442 3 3 0 0 1 4.308-3.516 6.484 6.484 0 0 0-1.905 3.959c-.023.222-.014.442.025.654a4.97 4.97 0 0 1-2.07-.655ZM16.44 15.98a4.97 4.97 0 0 0 2.07-.654.78.78 0 0 0 .357-.442 3 3 0 0 0-4.308-3.517 6.484 6.484 0 0 1 1.907 3.96 2.32 2.32 0 0 1-.026.654ZM18 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM5.304 16.19a.844.844 0 0 1-.277-.71 5 5 0 0 1 9.947 0 .843.843 0 0 1-.277.71A6.975 6.975 0 0 1 10 18a6.974 6.974 0 0 1-4.696-1.81Z" />
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                            class="card-icon">
+                            <path
+                                d="M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM1.49 15.326a.78.78 0 0 1-.358-.442 3 3 0 0 1 4.308-3.516 6.484 6.484 0 0 0-1.905 3.959c-.023.222-.014.442.025.654a4.97 4.97 0 0 1-2.07-.655ZM16.44 15.98a4.97 4.97 0 0 0 2.07-.654.78.78 0 0 0 .357-.442 3 3 0 0 0-4.308-3.517 6.484 6.484 0 0 1 1.907 3.96 2.32 2.32 0 0 1-.026.654ZM18 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM5.304 16.19a.844.844 0 0 1-.277-.71 5 5 0 0 1 9.947 0 .843.843 0 0 1-.277.71A6.975 6.975 0 0 1 10 18a6.974 6.974 0 0 1-4.696-1.81Z" />
                         </svg>
-                          
+
                         Registed Students
                     </span>
                     <span class="card-period">
@@ -436,13 +622,16 @@
                     </span>
                     <h1 class="card-value card-num-reg">
                         0
-                    </h1>                    
+                    </h1>
                 </div>
                 <div class="analytics-stat-info-card">
                     <span class="card-label">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="card-icon">
-                            <path fill-rule="evenodd" d="M15.75 3A2.25 2.25 0 0 1 18 5.25v1.214c0 .423-.277.788-.633 1.019A2.997 2.997 0 0 0 16 10c0 1.055.544 1.982 1.367 2.517.356.231.633.596.633 1.02v1.213A2.25 2.25 0 0 1 15.75 17H4.25A2.25 2.25 0 0 1 2 14.75v-1.213c0-.424.277-.789.633-1.02A2.998 2.998 0 0 0 4 10a2.997 2.997 0 0 0-1.367-2.517C2.277 7.252 2 6.887 2 6.463V5.25A2.25 2.25 0 0 1 4.25 3h11.5ZM13.5 7.396a.75.75 0 0 0-1.5 0v1.042a.75.75 0 0 0 1.5 0V7.396Zm0 4.167a.75.75 0 0 0-1.5 0v1.041a.75.75 0 0 0 1.5 0v-1.041Z" clip-rule="evenodd" />
-                        </svg>  
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                            class="card-icon">
+                            <path fill-rule="evenodd"
+                                d="M15.75 3A2.25 2.25 0 0 1 18 5.25v1.214c0 .423-.277.788-.633 1.019A2.997 2.997 0 0 0 16 10c0 1.055.544 1.982 1.367 2.517.356.231.633.596.633 1.02v1.213A2.25 2.25 0 0 1 15.75 17H4.25A2.25 2.25 0 0 1 2 14.75v-1.213c0-.424.277-.789.633-1.02A2.998 2.998 0 0 0 4 10a2.997 2.997 0 0 0-1.367-2.517C2.277 7.252 2 6.887 2 6.463V5.25A2.25 2.25 0 0 1 4.25 3h11.5ZM13.5 7.396a.75.75 0 0 0-1.5 0v1.042a.75.75 0 0 0 1.5 0V7.396Zm0 4.167a.75.75 0 0 0-1.5 0v1.041a.75.75 0 0 0 1.5 0v-1.041Z"
+                                clip-rule="evenodd" />
+                        </svg>
                         No. Correction Request
                     </span>
                     <span class="card-period">
@@ -454,8 +643,10 @@
                 </div>
                 <div class="analytics-stat-info-card">
                     <span class="card-label">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="card-icon">
-                            <path d="M14 17h2.75A2.25 2.25 0 0 0 19 14.75v-9.5A2.25 2.25 0 0 0 16.75 3H14v14ZM12.5 3h-5v14h5V3ZM3.25 3H6v14H3.25A2.25 2.25 0 0 1 1 14.75v-9.5A2.25 2.25 0 0 1 3.25 3Z" />
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                            class="card-icon">
+                            <path
+                                d="M14 17h2.75A2.25 2.25 0 0 0 19 14.75v-9.5A2.25 2.25 0 0 0 16.75 3H14v14ZM12.5 3h-5v14h5V3ZM3.25 3H6v14H3.25A2.25 2.25 0 0 1 1 14.75v-9.5A2.25 2.25 0 0 1 3.25 3Z" />
                         </svg>
                         No. of Sections
                     </span>
@@ -468,11 +659,14 @@
                 </div>
                 <div class="analytics-stat-info-card">
                     <span class="card-label">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="card-icon">
-                            <path fill-rule="evenodd" d="M12.577 4.878a.75.75 0 0 1 .919-.53l4.78 1.281a.75.75 0 0 1 .531.919l-1.281 4.78a.75.75 0 0 1-1.449-.387l.81-3.022a19.407 19.407 0 0 0-5.594 5.203.75.75 0 0 1-1.139.093L7 10.06l-4.72 4.72a.75.75 0 0 1-1.06-1.061l5.25-5.25a.75.75 0 0 1 1.06 0l3.074 3.073a20.923 20.923 0 0 1 5.545-4.931l-3.042-.815a.75.75 0 0 1-.53-.919Z" clip-rule="evenodd" />
-                          </svg>
-                          
-                          
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                            class="card-icon">
+                            <path fill-rule="evenodd"
+                                d="M12.577 4.878a.75.75 0 0 1 .919-.53l4.78 1.281a.75.75 0 0 1 .531.919l-1.281 4.78a.75.75 0 0 1-1.449-.387l.81-3.022a19.407 19.407 0 0 0-5.594 5.203.75.75 0 0 1-1.139.093L7 10.06l-4.72 4.72a.75.75 0 0 1-1.06-1.061l5.25-5.25a.75.75 0 0 1 1.06 0l3.074 3.073a20.923 20.923 0 0 1 5.545-4.931l-3.042-.815a.75.75 0 0 1-.53-.919Z"
+                                clip-rule="evenodd" />
+                        </svg>
+
+
                         Peak Hour
                     </span>
                     <span class="card-period">
@@ -484,10 +678,13 @@
                 </div>
                 <div class="analytics-stat-info-card">
                     <span class="card-label">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="card-icon">
-                            <path fill-rule="evenodd" d="M2 4.25A2.25 2.25 0 0 1 4.25 2h11.5A2.25 2.25 0 0 1 18 4.25v8.5A2.25 2.25 0 0 1 15.75 15h-3.105a3.501 3.501 0 0 0 1.1 1.677A.75.75 0 0 1 13.26 18H6.74a.75.75 0 0 1-.484-1.323A3.501 3.501 0 0 0 7.355 15H4.25A2.25 2.25 0 0 1 2 12.75v-8.5Zm1.5 0a.75.75 0 0 1 .75-.75h11.5a.75.75 0 0 1 .75.75v7.5a.75.75 0 0 1-.75.75H4.25a.75.75 0 0 1-.75-.75v-7.5Z" clip-rule="evenodd" />
-                          </svg>
-                           
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                            class="card-icon">
+                            <path fill-rule="evenodd"
+                                d="M2 4.25A2.25 2.25 0 0 1 4.25 2h11.5A2.25 2.25 0 0 1 18 4.25v8.5A2.25 2.25 0 0 1 15.75 15h-3.105a3.501 3.501 0 0 0 1.1 1.677A.75.75 0 0 1 13.26 18H6.74a.75.75 0 0 1-.484-1.323A3.501 3.501 0 0 0 7.355 15H4.25A2.25 2.25 0 0 1 2 12.75v-8.5Zm1.5 0a.75.75 0 0 1 .75-.75h11.5a.75.75 0 0 1 .75.75v7.5a.75.75 0 0 1-.75.75H4.25a.75.75 0 0 1-.75-.75v-7.5Z"
+                                clip-rule="evenodd" />
+                        </svg>
+
                         Most Used PC
                     </span>
                     <span class="card-period">
@@ -497,11 +694,11 @@
                         0
                     </h1>
                 </div>
-                
+
             </div>
         </div>
         <div class="analytics-container">
-            
+
             <div class="analytics-flex">
                 <div class="analytics-card">
                     <canvas id="dailyUsageChart" width="100%" height="100%"></canvas>
@@ -512,7 +709,7 @@
                 <div class="analytics-card">
                     <canvas id="courseUsageChart" width="100%" height="100%"></canvas>
                 </div>
-                
+
             </div>
         </div>
 
@@ -535,7 +732,7 @@
                 <div class="analytics-card">
                     <canvas id="correctionRequestsChart" width="100%" height="100%"></canvas>
                 </div>
-                
+
             </div>
         </div>
 
@@ -554,11 +751,11 @@
                 
             </div>
         </div> -->
-        
+
     </main>
 
     <!-- Correttion Request -->
-    <main class="custom-container hidden flex-col items-center justify-start">
+    <main class="custom-container hidden flex-col items-center justify-start sections">
         <div class="w-full h-auto text-left mb-4 flex flex-col items-center justify-center gap-2">
             <div class="w-full xs:w-[80%] sm:w-3/4 lg:w-3/5 xl:w-3/4">
                 <h1 class="min-h-fit text-xl md:text-3xl font-bold text-base-content ">Manage Correction Requests</h1>
@@ -583,8 +780,9 @@
 
                     </div>
                 </div>
-                <div class="w-full xs:w-[80%] sm:w-3/4 lg:w-3/5 xl:w-3/4 h-[70svh]  overflow-y-auto border border-secondary flex flex-col  gap-2 rounded-md p-1 cr-main-container-box cr-containers">
-                
+                <div
+                    class="w-full xs:w-[80%] sm:w-3/4 lg:w-3/5 xl:w-3/4 h-[70svh]  overflow-y-auto border border-secondary flex flex-col  gap-2 rounded-md p-1 cr-main-container-box cr-containers">
+
                     <!-- <div class="min-w-full h-auto max-h-[200px] md:max-h-[170px] bg-base-200 p-2 md:p-4 flex flex-col justify-between rounded text-xs md:text-sm gap-3">
                         <span class="font-semibold">
                             Student ID:
@@ -692,7 +890,7 @@
                         </div>
                 
                     </div> -->
-                    
+
 
                     <!-- <div class="request-card">
                         <span class="font-semibold">
@@ -798,7 +996,8 @@
                         </div>
                     </div> -->
                 </div>
-                <div class="w-full xs:w-[80%] sm:w-3/4 lg:w-3/5 xl:w-3/4 h-[70svh]  overflow-y-auto border border-secondary hidden flex-col  gap-2 rounded-md p-1 cr-rejected-box cr-containers">
+                <div
+                    class="w-full xs:w-[80%] sm:w-3/4 lg:w-3/5 xl:w-3/4 h-[70svh]  overflow-y-auto border border-secondary hidden flex-col  gap-2 rounded-md p-1 cr-rejected-box cr-containers">
                     <!-- <div class="request-card">
                         <span class="font-semibold">
                             Student ID:
@@ -866,7 +1065,8 @@
                     </div> -->
                 </div>
 
-                <div class="w-full xs:w-[80%] sm:w-3/4 lg:w-3/5 xl:w-3/4 h-[70svh]  overflow-y-auto border border-secondary hidden flex-col  gap-2 rounded-md p-1 cr-approved-box  cr-containers">
+                <div
+                    class="w-full xs:w-[80%] sm:w-3/4 lg:w-3/5 xl:w-3/4 h-[70svh]  overflow-y-auto border border-secondary hidden flex-col  gap-2 rounded-md p-1 cr-approved-box  cr-containers">
                     <!-- <div class="request-card">
                         <span class="font-semibold">
                             Student ID:
@@ -935,18 +1135,19 @@
                 </div>
             </div>
         </div>
-                    
-                    
-        
-        
+
+
+
+
     </main>
 
     <!-- Import Eligible Students -->
-    <main class="custom-container flex flex-col gap-2 items-center justify-center">
+    <main class="custom-container hidden flex-col gap-2 items-center justify-center sections">
         <div class="text-center mb-4">
             <h1 class="text-xl md:text-3xl font-bold text-base-content mb-2">Import Eligible Students</h1>
             <p class="text-base-content/70 text-xs lg:text-sm max-w-2xl px-4">
-                Upload an <span class="h-auto py-1 px-2 bg-base-300 text-green-500">XLSX</span> file to import eligible students into the system.
+                Upload an <span class="h-auto py-1 px-2 bg-base-300 text-green-500">XLSX</span> file to import eligible
+                students into the system.
             </p>
         </div>
         <!-- <div class="w-[90%] max-w-2xl">
@@ -956,15 +1157,105 @@
             </p>
         </div> -->
         <div class="w-[90%] max-w-2xl h-auto flex flex-col items-start gap-2 italic">
-            
-            <div class="w-full h-[200px] outline-dashed outline-2 outline-secondary rounded-md italic text-xs font-bold sm:text-sm flex items-center justify-center box-border cursor-pointer xlsx-file-input-trigger">
+
+            <div
+                class="w-full h-[200px] outline-dashed outline-2 outline-secondary rounded-md italic text-xs font-bold sm:text-sm flex items-center justify-center box-border cursor-pointer xlsx-file-input-trigger">
                 Upload XLSX File
             </div>
-            <input type="file" class="file-input file-input-bordered file-input-sm w-full hidden xlsx-file-input" accept=".xlsx, .xls"/>
+            <input type="file" class="file-input file-input-bordered file-input-sm w-full hidden xlsx-file-input"
+                accept=".xlsx, .xls" />
             <p class="text-[10px] lg:text-sm text-left ">
-                <span class="text-sky-500 font-semibold">Instruction:&nbsp;</span>Ensure that the first <strong>column contains only the student IDs</strong> of those allowed to register.
+                <span class="text-sky-500 font-semibold">Instruction:&nbsp;</span>Ensure that the first <strong>column
+                    contains only the student IDs</strong> of those allowed to register.
             </p>
-            <button class="btn btn-sm btn-primary bg-white rounded px-12 hover:bg-cyan-500 text-black text-xs w-full mt-2 xlsx-file-submit-btn font-semibold" disabled>Submit</button>
+            <button
+                class="btn btn-sm btn-primary bg-white rounded px-12 hover:bg-cyan-500 text-black text-xs w-full mt-2 xlsx-file-submit-btn font-semibold"
+                disabled>Submit</button>
+        </div>
+    </main>
+
+
+    <main class="custom-container sections hidden flex-col items-center justify-center">
+        <h2 class="text-xl md:text-3xl font-bold text-base-conte text-center">Report Bugs</h2>
+        <p class="text-xs md:text-sm text-base-content/70 mb-4 text-center">
+            Submit a bug report if you encounter any errors or unexpected behavior in the system.
+        </p>
+        <form class="rbAdminForm w-[90%] max-w-4xl h-auto flex flex-wrap justify-between p-2 md:p-4 lg:p-8  border border-base-content/30 rounded-md md:gap-y-2">
+            <div class="form-control w-full md:w-[49%]">
+                <label class="label" for="admin-subject">
+                    <span class="label-text font-medium">Subject <span class="text-info text-[10px] md:text-xs">(Dont remove 'ADMIN: ')</span> </span>
+                </label>
+                <input type="text" id="admin-subject" class="input input-bordered w-full text-xs md:text-sm" placeholder="Wrong Data" value="ADMIN: "/>
+            </div>
+            <div class="form-control w-full md:w-[49%]">
+                <label class="label" for="admin-date">
+                    <span class="label-text font-medium">Date</span>
+                </label>
+                <input type="datetime-local" id="admin-date" class="input input-bordered w-full text-xs md:text-sm" />
+            </div>
+            <div class="form-control w-full">
+                <label class="label" for="admin-email">
+                    <span class="label-text font-medium">Email <span class="text-info text-[10px] md:text-xs">(Gmail only)</span> </span>
+                </label>
+                <input type="email" id="admin-email" class="input input-bordered w-full text-xs md:text-sm" placeholder="admin-john@gmail.com"/>
+            </div>
+            <div class="form-control w-full">
+                <label class="label" for="admin-details">
+                    <span class="label-text font-medium">Details</span>
+                </label>
+                <textarea id="admin-details" class="input input-bordered w-full text-xs md:text-sm h-[140px] py-4" placeholder="The logs I obtained were not the expected ones."  rows="10" cols="50"></textarea>
+            </div>
+            <button class="btn btn-primary btn-sm w-full rounded-full bg-white text-base-100 hover:text-white duration-500 ease-in-out mt-2 text-xs md:btn-md md:text-sm" disabled>Submit Report</button>
+        </form>
+    </main>
+    
+    <main class="custom-container sections flex flex-col items-start justify-center sm:items-center text-left sm:text-center homepage">
+        <h1 class="text-3xl sm:text-4xl font-bold">Effortless <span class="italic text-cyan-400">Lab Monitoring</span>,
+            Powered by <span class="header-title">Authentikey</span>.</h1>
+        <p class="text-xs sm:text-sm text-base-content/70">Track computer usage in real-time, streamline student logins,
+            and manage ICCT’s computer labs with precision and ease.</p>
+        <div class="flex items-center justify-between mt-6 gap-2 flex-wrap">
+            <button
+                class="btn-sm sm:btn-md btn-circle bg-neutral  text-neutral-content hover:text-base-100 duration-700 ease-in-out tooltip relative hover:scale-105 hover:bg-base-content admin-links"
+                data-tip="Go to Analytics" data-my-value="Analytics">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                    class="size-4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                    <path
+                        d="M15.5 2A1.5 1.5 0 0 0 14 3.5v13a1.5 1.5 0 0 0 1.5 1.5h1a1.5 1.5 0 0 0 1.5-1.5v-13A1.5 1.5 0 0 0 16.5 2h-1ZM9.5 6A1.5 1.5 0 0 0 8 7.5v9A1.5 1.5 0 0 0 9.5 18h1a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 10.5 6h-1ZM3.5 10A1.5 1.5 0 0 0 2 11.5v5A1.5 1.5 0 0 0 3.5 18h1A1.5 1.5 0 0 0 6 16.5v-5A1.5 1.5 0 0 0 4.5 10h-1Z" />
+                </svg>
+            </button>
+            <button
+                class="btn-sm sm:btn-md btn-circle bg-neutral  text-neutral-content hover:text-base-100 duration-700 ease-in-out tooltip relative hover:scale-105 hover:bg-base-content admin-links"
+                data-tip="Go to Import Eligible Students" data-my-value="Import Eligible Students">
+
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                    class="size-4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                    <path
+                        d="M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM1.49 15.326a.78.78 0 0 1-.358-.442 3 3 0 0 1 4.308-3.516 6.484 6.484 0 0 0-1.905 3.959c-.023.222-.014.442.025.654a4.97 4.97 0 0 1-2.07-.655ZM16.44 15.98a4.97 4.97 0 0 0 2.07-.654.78.78 0 0 0 .357-.442 3 3 0 0 0-4.308-3.517 6.484 6.484 0 0 1 1.907 3.96 2.32 2.32 0 0 1-.026.654ZM18 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM5.304 16.19a.844.844 0 0 1-.277-.71 5 5 0 0 1 9.947 0 .843.843 0 0 1-.277.71A6.975 6.975 0 0 1 10 18a6.974 6.974 0 0 1-4.696-1.81Z" />
+                </svg>
+
+            </button>
+            <button
+                class="btn-sm sm:btn-md btn-circle bg-neutral  text-neutral-content hover:text-base-100 duration-700 ease-in-out tooltip relative hover:scale-105 hover:bg-base-content admin-links"
+                data-tip="Go to Correction Requests" data-my-value="Correction Requests">
+                <!--  class="size-4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                    class="size-4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                    <path fill-rule="evenodd"
+                        d="M15.75 3A2.25 2.25 0 0 1 18 5.25v1.214c0 .423-.277.788-.633 1.019A2.997 2.997 0 0 0 16 10c0 1.055.544 1.982 1.367 2.517.356.231.633.596.633 1.02v1.213A2.25 2.25 0 0 1 15.75 17H4.25A2.25 2.25 0 0 1 2 14.75v-1.213c0-.424.277-.789.633-1.02A2.998 2.998 0 0 0 4 10a2.997 2.997 0 0 0-1.367-2.517C2.277 7.252 2 6.887 2 6.463V5.25A2.25 2.25 0 0 1 4.25 3h11.5ZM13.5 7.396a.75.75 0 0 0-1.5 0v1.042a.75.75 0 0 0 1.5 0V7.396Zm0 4.167a.75.75 0 0 0-1.5 0v1.041a.75.75 0 0 0 1.5 0v-1.041Z"
+                        clip-rule="evenodd" />
+                </svg>
+            </button>
+            <button
+                class="btn-sm sm:btn-md btn-circle bg-neutral  text-neutral-content hover:text-base-100 duration-700 ease-in-out tooltip relative hover:scale-105 hover:bg-base-content admin-links"
+                data-tip="Go to Retrieve Logs" data-my-value="Retrieve Logs">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                    class="size-4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                    <path
+                        d="M3 3.5A1.5 1.5 0 0 1 4.5 2h6.879a1.5 1.5 0 0 1 1.06.44l4.122 4.12A1.5 1.5 0 0 1 17 7.622V16.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 3 16.5v-13Z" />
+                </svg>
+            </button>
+
         </div>
     </main>
 
@@ -1009,16 +1300,27 @@
             </div>
         </nav>
     </footer>
-    
+
     <!-- Scripts -->
     <script>
-        
+
     </script>
 
+    <!-- For sending email -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+    </script>
 
+    <script type="text/javascript">
+        (async function () {
+            const responseFetch = await fetch('/pages/sign-in/change-pass/send/secret');
+
+            const secrets = await responseFetch.json();
+            emailjs.init({
+            publicKey: secrets.PublicID,
+            });
+        })();
+    </script>
     <script src="../js/inject-data-admin-page.js" type="module"></script>
 </body>
 
 </html>
-
-

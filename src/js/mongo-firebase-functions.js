@@ -2,7 +2,7 @@ require('dotenv').config();
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const mongoURI = process.env.MongoURI;
-const { getCorrectionRequestRef, getComputerUsageLogsRef, getEligibleStudentsRef } = require("../../firebase-config");
+const { getCorrectionRequestRef, getComputerUsageLogsRef, getEligibleStudentsRef, getAdminAccRef } = require("../../firebase-config");
 const admin = require('firebase-admin');
 
 
@@ -12,6 +12,7 @@ const admin = require('firebase-admin');
 let correctionRequestRef = getCorrectionRequestRef();
 let computerUsageLogsRef = getComputerUsageLogsRef();
 let eligibleStudentsRef = getEligibleStudentsRef();
+let adminAccRef = getAdminAccRef();
 
 
 
@@ -543,7 +544,17 @@ function login(req, res) {
 
 async function getAllLogs(req, res, studentID) {
     try {
-        const user = await retryWithExponentialDelay(() => flexibleModel.findOne({ studentID }));
+        const userData = await retryWithExponentialDelay(() => flexibleModel.findOne({ studentID }));
+        const userObject = userData.toObject();
+        const user = {
+            studentID : userObject.studentID,
+            name : userObject.name,
+            section : userObject.section,
+            email : userObject.email,
+            course : userObject.course,
+            yearLevel : userObject.yearLevel,
+            campus : userObject.campus
+        }
 
         if (!user) {
             
@@ -555,7 +566,7 @@ async function getAllLogs(req, res, studentID) {
 
         
         
-        req.session.user = user.toObject();
+        req.session.user = user;
         
     } catch (error) {
         console.log(`LoginERR: ${error}`);
@@ -565,6 +576,61 @@ async function getAllLogs(req, res, studentID) {
         });
     }
 } 
+
+async function adminLogin(req, res) {
+    const { username, password } = req.body; 
+
+    if(!username || !password) {
+        res.status(400).json({
+            success : false,
+            message : "All fields are required."
+        })
+    }
+
+    try {
+        const adminSnapShot = await adminAccRef.child(username).once("value");
+        if(!adminSnapShot.exists()) {
+            return res.status(400).json({
+                success: false,
+                message : "The username you entered is not recognized."
+            });
+        }
+        const adminInfo = adminSnapShot.val();
+        // console.log(adminInfo);
+        // console.log(password)
+        // console.log(adminInfo.password)
+        const isMatch = await bcrypt.compare(password, adminInfo.password);
+
+        if(isMatch) {
+            req.session.regenerate((err) => {
+                if (err) {
+                    console.error("Session regeneration failed:", err);
+                    return res.status(500).send("Server error");
+                }
+                
+                req.session.admin = adminInfo.username;
+                return res.status(200).json({
+                    successLogin: true,
+                    message: "Login successful."
+                });
+                
+            });
+        }
+        else {
+            return res.status(401).json({
+                success : false,
+                message : "The password you entered is incorrect."
+            })
+        }
+    }
+    catch(e) {
+        console.log(`AdminLoginERR: ${e}`);
+        return res.status(500).json({
+            success : false,
+            message : "We've encountered some problems while logging you in. Please try again later."
+        })
+    }
+}
 
 async function createResetPassDoc(req, res) {
     let { email } = req.body;
@@ -1108,4 +1174,4 @@ async function uploadEligibleStudentIDS(req, res) {
         });
     }
 }
-module.exports = { connectToMongoDB, checkStudentIdAvailability, registerAccount, login, createResetPassDoc, deleteResetPassDocs, compareResetCode, changePassword, insertCorrectionRequest, getAllLogs, updatePersonalInfo, updatePassword, deleteStudent, findAndPushData, findStudentID, getFilteredLogs, adminApproveModifyLogs, adminRejectModifyLogs, uploadEligibleStudentIDS};
+module.exports = { connectToMongoDB, checkStudentIdAvailability, registerAccount, login, createResetPassDoc, deleteResetPassDocs, compareResetCode, changePassword, insertCorrectionRequest, getAllLogs, updatePersonalInfo, updatePassword, deleteStudent, findAndPushData, findStudentID, getFilteredLogs, adminApproveModifyLogs, adminRejectModifyLogs, uploadEligibleStudentIDS, adminLogin};

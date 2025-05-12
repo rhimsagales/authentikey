@@ -18,12 +18,25 @@ function isInputFilled(field) {
     return true;
 }
 
+
 const adminUserNameField = document.getElementById('admin-username');
 const adminPassWordField = document.getElementById('admin-password');
 const adminLoginBtn = document.getElementById('admin-login-btn');
 const showPassWordBtn = document.getElementById('show-pass-btn');
+const form = document.querySelector('form');
 
 const adminUserPassFields = [adminUserNameField, adminPassWordField];
+
+form.addEventListener('keydown', (e)=> {
+    
+
+    if(e.key == "Enter") {
+        e.preventDefault();
+        adminLoginBtn.click();
+    }
+})
+
+
 
 adminUserNameField.addEventListener('input', () => {
     if(adminUserNameField.value == "") {
@@ -87,14 +100,45 @@ adminUserPassFields.forEach(field => {
     });
 });
 
-adminLoginBtn.addEventListener('click', (event) => {
+const loadingScreen = document.querySelector('#loading-screen');
+adminLoginBtn.addEventListener('click', async (event) => { 
     event.preventDefault();
 
+
+    loadingScreen.classList.replace('hidden', 'flex');
     if(!isInputsFilled(adminUserPassFields)) {
+        loadingScreen.classList.replace('flex', 'hidden');
         alertFunctions.createWarningAlert("All fields are required.");
         return;
     }
-    return
+
+    try {
+        const response = await fetch('/authenticate-admin', {
+            method : "POST",
+            headers : {
+                "Content-Type" : "application/json"
+            },
+            body : JSON.stringify({
+                username : adminUserNameField.value,
+                password : adminPassWordField.value
+            })
+        });
+        const responseData = await response.json();
+        loadingScreen.classList.replace('flex', 'hidden');
+        if(!response.ok){
+            alertFunctions.createWarningAlert(responseData.message);
+            return
+
+        }
+        window.location.href = "/users/admin-dashboard"; 
+    }
+    catch(e) {
+        alertFunctions.createErrorAlert("We've encountered some probles while logging you in. Please try again later.")
+    }
+    
+
+
+    
 });
 
 
@@ -109,3 +153,4 @@ showPassWordBtn.addEventListener('click', (event) => {
         adminPassWordField.type = "password";
     }
 })
+
