@@ -53,7 +53,42 @@ export function getCourseAbbreviation(courseName) {
     // Retrieve and return the abbreviation, or a default message if not found
     return courseAbbreviations[courseName] || "Abbreviation not found";
 }
-  
+
+export function getCourseName(abbreviation) {
+    const abbreviationToCourse = {
+        "ABCom": "Bachelor of Arts in Communication",
+        "ABEng": "Bachelor of Arts in English",
+        "BSM": "Bachelor of Science in Mathematics",
+        "BSP": "Bachelor of Science in Psychology",
+        "ABA": "Associate in Business Administration",
+        "BSAIS": "Bachelor of Science in Accounting Information System",
+        "BSA": "Bachelor of Science in Accountancy",
+        "BSMA": "Bachelor of Science in Management Accounting",
+        "BSREM": "Bachelor of Science in Real Estate Management",
+        "BSIA": "Bachelor of Science in Internal Auditing",
+        "BSBA": "Bachelor of Science in Business Administration",
+        "ACT": "Associate in Computer Technology",
+        "BSCS": "Bachelor of Science in Computer Science",
+        "BSIT": "Bachelor of Science in Information Technology",
+        "BSIS": "Bachelor of Science in Information System",
+        "BECEd": "Bachelor in Early Childhood Education",
+        "BEEd": "Bachelor in Elementary Education",
+        "BSEd": "Bachelor in Secondary Education",
+        "BTVTEd": "Bachelor in Technical Vocational Teacher Education",
+        "BSMT": "Bachelor of Science in Marine Transportation",
+        "BSC": "Bachelor of Science in Criminology",
+        "BSISM": "Bachelor of Science in Industrial Security Management",
+        "BSPA": "Bachelor of Science in Public Administration",
+        "BSCE": "Bachelor of Science in Computer Engineering",
+        "BSELE": "Bachelor of Science in Electronics Engineering",
+        "BSMedTech": "Bachelor of Science in Medical Technology",
+        "BSHM": "Bachelor of Science in Hospitality Management",
+        "BSTM": "Bachelor of Science in Tourism Management"
+    };
+
+    return abbreviationToCourse[abbreviation] || "Course name not found";
+}
+
 
 
 
@@ -1147,11 +1182,11 @@ saveNewPersonalInfoBtn.addEventListener("click", async (event) => {
     const newStudentID = document.getElementById("new-studId").innerText.trim();
     const email = document.getElementById("new-email").innerText.trim();
     const section = document.getElementById("new-section").innerText.trim();
-    const course = document.getElementById("new-course").innerText.trim();
+    const course = getCourseName(document.getElementById("new-course").innerText.trim());
     const yearLevel = document.getElementById("new-yearLevel").innerText.trim();
     const campus = document.getElementById("new-campus").innerText.trim();
 
-    if (!name || !studentID || !email || !section || !course || !yearLevel || !campus) {
+    if (!name || !newStudentID || !email || !section || !course || !yearLevel || !campus) {
         alert.createWarningAlert("All fields are required.");
         return;
     }

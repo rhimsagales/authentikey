@@ -49,8 +49,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
-  
-
+  <!-- tailwind daisy cdn -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/daisyui/4.12.23/full.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.tailwindcss.com"></script>
 
   <title>Dashboard | Authentikey</title>
 </head>
@@ -643,8 +644,11 @@
       </div>
       <hr class="h-[2px]" />
       <div class="w-full h-auto flex items-center justify-between text-xs">
-        <span
-          class="w-20 max-w-full overflow-x-auto sm:w-28 flex items-center justify-between font-semibold"><span>Course</span><span>:</span></span>
+        <span class="w-20 overflow-x-visible sm:w-fit flex items-center justify-between font-semibold">
+          <span>Course</span>
+          <span class="text-info text-nowrap text-[10px]">(Abbreviation only)</span>
+          <span>:</span>
+        </span>
         <span class="w-full flex items-center justify-end" id="new-course">
 
         </span>
