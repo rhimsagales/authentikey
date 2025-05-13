@@ -64,215 +64,474 @@ downloadQrBtn.addEventListener('click', async (event) => {
     event.preventDefault();
 
     
-    let bondPaper = `
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Monomakh&display=swap" rel="stylesheet">
-        <title>Authentikey ID</title>
-        <style>
-            * { padding: 0; box-sizing: border-box; }
-            body { display: flex; align-items: center; justify-content: center; height: 100vh; background: rgb(250, 250, 250); margin: 0;}
-            .bond-paper {
-                width: 8.5in;
-                height: 11in;
-                background: white;
-                box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-            .id-card {
-                width: 2.5in;
-                height: 3.5in;
-                border-radius: 6px;
-                display: flex;
-                background: white;
-                overflow: hidden;
-                outline: 2px dashed rgb(236, 167, 43);
-            }
-            .left-panel {
-                width: 30%;
-                height: 100%;
-                background: rgb(27, 32, 58);
-                display: flex;
-                flex-direction: column-reverse;
-                align-items: center;
-                justify-content: space-between;
-                color: rgb(236, 167, 43);
-            }
-            .left-panel span {
-                writing-mode: vertical-rl;
-                transform: rotate(180deg);
-                font-weight: 500;
-                font-family: 'Arial', sans-serif;
-                margin-bottom: 16px;
-                font-family: 'Monomakh'; 
+    // let bondPaper = `
+    // <!DOCTYPE html>
+    // <html lang="en">
+    // <head>
+    //     <meta charset="UTF-8">
+    //     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    //     <link rel="preconnect" href="https://fonts.googleapis.com">
+    //     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    //     <link href="https://fonts.googleapis.com/css2?family=Monomakh&display=swap" rel="stylesheet">
+    //     <title>Authentikey ID</title>
+    //     <style>
+    //         * { padding: 0; box-sizing: border-box; }
+    //         body { display: flex; align-items: center; justify-content: center; height: 100vh; background: rgb(250, 250, 250); margin: 0;}
+    //         .bond-paper {
+    //             width: 8.5in;
+    //             height: 11in;
+    //             background: white;
+    //             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    //             display: flex;
+    //             align-items: center;
+    //             justify-content: center;
+    //         }
+    //         .id-card {
+    //             width: 2.5in;
+    //             height: 3.5in;
+    //             border-radius: 6px;
+    //             display: flex;
+    //             background: white;
+    //             overflow: hidden;
+    //             outline: 2px dashed rgb(236, 167, 43);
+    //         }
+    //         .left-panel {
+    //             width: 30%;
+    //             height: 100%;
+    //             background: rgb(27, 32, 58);
+    //             display: flex;
+    //             flex-direction: column-reverse;
+    //             align-items: center;
+    //             justify-content: space-between;
+    //             color: rgb(236, 167, 43);
+    //         }
+    //         .left-panel span {
+    //             writing-mode: vertical-rl;
+    //             transform: rotate(180deg);
+    //             font-weight: 500;
+    //             font-family: 'Arial', sans-serif;
+    //             margin-bottom: 16px;
+    //             font-family: 'Monomakh'; 
                 
-            }
-            .left-panel div {
-                width: 1px;
-                height: 155px;
-                background: rgb(236, 167, 43);
-            }
-            .right-panel {
-                width: 70%;
-                height: 100%;
-                padding: 12px 8px;
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-                align-content: center;
-                gap: 4px;
-            }
-            .header {
-                display: flex;
-                gap: 8px;
-                align-items: center;
-            }
-            .header-text {
-            height: 42px;
-            width: full;
-            height: 36.75px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+    //         }
+    //         .left-panel div {
+    //             width: 1px;
+    //             height: 155px;
+    //             background: rgb(236, 167, 43);
+    //         }
+    //         .right-panel {
+    //             width: 70%;
+    //             height: 100%;
+    //             padding: 12px 8px;
+    //             display: flex;
+    //             flex-direction: column;
+    //             justify-content: space-between;
+    //             align-content: center;
+    //             gap: 4px;
+    //         }
+    //         .header {
+    //             display: flex;
+    //             gap: 8px;
+    //             align-items: center;
+    //         }
+    //         .header-text {
+    //         height: 42px;
+    //         width: full;
+    //         height: 36.75px;
+    //         display: flex;
+    //         flex-direction: column;
+    //         justify-content: center;
             
-            gap: 2px;
-            }
-            .header img {
-                width: 42px;
+    //         gap: 2px;
+    //         }
+    //         .header img {
+    //             width: 42px;
                 
-                aspect-ratio: 16/14;
-                border-radius: 4px;
-                object-fit: cover;
-            }
-            .header-text h1 {
-                font-size: 8px;
-                font-weight: 600;
-                color: rgb(27, 32, 58);
-                margin: 0;
-            }
-            .header-text h6 {
-                font-size: 6px;
-                font-weight: 400;
-                color: #3a3b39;
-                margin: 0;
-            }
-            .qr-code {
-                width: 152px;
-                height: 152px;
-                border: 2px solid rgb(236, 167, 43);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                padding: 4px;
-                box-sizing: border-box;
-            }
-            .details {
-                text-align: center;
-                display: flex;
-                flex-direction: column;: ;
-                align-items: center;
-                justify-content: space-between;
-                width: 100%;
-                height: 120px;
+    //             aspect-ratio: 16/14;
+    //             border-radius: 4px;
+    //             object-fit: cover;
+    //         }
+    //         .header-text h1 {
+    //             font-size: 8px;
+    //             font-weight: 600;
+    //             color: rgb(27, 32, 58);
+    //             margin: 0;
+    //         }
+    //         .header-text h6 {
+    //             font-size: 6px;
+    //             font-weight: 400;
+    //             color: #3a3b39;
+    //             margin: 0;
+    //         }
+    //         .qr-code {
+    //             width: 152px;
+    //             height: 152px;
+    //             border: 2px solid rgb(236, 167, 43);
+    //             display: flex;
+    //             align-items: center;
+    //             justify-content: center;
+    //             padding: 4px;
+    //             box-sizing: border-box;
+    //         }
+    //         .details {
+    //             text-align: center;
+    //             display: flex;
+    //             flex-direction: column;: ;
+    //             align-items: center;
+    //             justify-content: space-between;
+    //             width: 100%;
+    //             height: 120px;
                 
-            }
-            .details div > h1 {
-                font-size: 10px;
-                font-weight: 600;
-                font-family: 'Arial', sans-serif;
-                margin-top: 8px;
-                margin-bottom: 0;
-                font-family: 'Monomakh';
-                color: rgb(27, 32, 58);
-            }
-            .details div > span {
-                font-size: 6px;
-                font-weight: 400;
-                font-weight: 400;
-                color: #3a3b39;
-                text-align: center;
+    //         }
+    //         .details div > h1 {
+    //             font-size: 10px;
+    //             font-weight: 600;
+    //             font-family: 'Arial', sans-serif;
+    //             margin-top: 8px;
+    //             margin-bottom: 0;
+    //             font-family: 'Monomakh';
+    //             color: rgb(27, 32, 58);
+    //         }
+    //         .details div > span {
+    //             font-size: 6px;
+    //             font-weight: 400;
+    //             font-weight: 400;
+    //             color: #3a3b39;
+    //             text-align: center;
                 
-            }
-            .c-divider {
-                width: 100%;
-                height: 1px;
-                background: rgb(236, 167, 43);
-                margin: 4px 0;
-            }
-            .dots {
-                display: flex;
-                justify-content: center;
-                gap: 2px;
-            }
-            .dot {
-                width: 8px;
-                height: 8px;
-                background: rgb(27, 32, 58);
-            }
-            .dot:last-child {
-                background: rgb(236, 167, 43);
-            }
-            .footer {
-                margin-top: 12px;
-                font-size: 10px;
-                font-weight: 500;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 4px;
-            }
-        </style>
-    </head>
-    <body>
-        <article class="bond-paper">
-            <article class="id-card">
-                <div class="left-panel">
-                    <span>Authentikey ID Card</span>
-                    <div></div>
-                </div>
-                <div class="right-panel">
-                    <div class="header">
-                        <img src="https://i.imgur.com/PFeoGdy.png" alt="ICCT Logo">
-                        <div class="header-text">
-                            <h1>ICCT College - Antipolo</h1>
-                            <h6>J. Sumulong Street, Antipolo, <br>1870, Rizal</h6>
+    //         }
+    //         .c-divider {
+    //             width: 100%;
+    //             height: 1px;
+    //             background: rgb(236, 167, 43);
+    //             margin: 4px 0;
+    //         }
+    //         .dots {
+    //             display: flex;
+    //             justify-content: center;
+    //             gap: 2px;
+    //         }
+    //         .dot {
+    //             width: 8px;
+    //             height: 8px;
+    //             background: rgb(27, 32, 58);
+    //         }
+    //         .dot:last-child {
+    //             background: rgb(236, 167, 43);
+    //         }
+    //         .footer {
+    //             margin-top: 12px;
+    //             font-size: 10px;
+    //             font-weight: 500;
+    //             display: flex;
+    //             align-items: center;
+    //             justify-content: center;
+    //             gap: 4px;
+    //         }
+    //     </style>
+    // </head>
+    // <body>
+    //     <article class="bond-paper">
+    //         <article class="id-card">
+    //             <div class="left-panel">
+    //                 <span>Authentikey ID Card</span>
+    //                 <div></div>
+    //             </div>
+    //             <div class="right-panel">
+    //                 <div class="header">
+    //                     <img src="https://i.imgur.com/PFeoGdy.png" alt="ICCT Logo">
+    //                     <div class="header-text">
+    //                         <h1>ICCT College - Antipolo</h1>
+    //                         <h6>J. Sumulong Street, Antipolo, <br>1870, Rizal</h6>
+    //                     </div>
+    //                 </div>
+    //                 <div class="qr-code">
+    //                     ${window.svg}
+    //                 </div>
+    //                 <div class="details">
+    //                     <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%;">
+    //                     <h1>${window.name}</h1>
+    //                     <div class="c-divider"></div>
+    //                     <span >${getCourseAbbreviation(window.course)}</span>
+    //                     </div>
+    //                     <div class="dots">
+    //                         ${window.levelDots}
+    //                     </div>
+    //                     <span style="font-size: 10px; font-weight: 600; margin-top: 16px; display: block; color: rgb(27, 32, 58);">Student ID: ${window.studentID}</span>
+    //                     <div class="footer">
+    //                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="12" style="color: rgb(27, 32, 58);">
+    //                             <path d="M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67Z" />
+    //                             <path d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z" />
+    //                         </svg>
+    //                         <span style="color: rgb(27, 32, 58); font-size: 8px;">${window.email}</span>
+    //                     </div>
+    //                 </div>
+    //             </div>
+    //         </article>
+    //     </article>
+    // </body>
+    // </html>`;
+    
+    let bondPaper = `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+            <style>
+                :root {
+                    --primary: rgb(27, 32, 58);
+                    --secondary: rgb(236, 167, 43);
+                }
+                * {
+                    margin: 0;
+                    padding: 0;
+                }
+                body {
+                    width: 100%;
+                    height: auto;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background: rgb(212, 211, 211);
+                    box-sizing: border-box;
+                    font-family: "Inter", sans-serif;
+                }
+                .bond-paper {
+                    width: 8.5in;
+                    height: 11in;
+                    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+                    display: flex;
+                    flex-direction: column;
+                    gap: 20px;
+                    align-items: center;
+                    justify-content: center;
+                    background: white;
+                    padding: .5in;
+                    box-sizing: border-box;
+                }
+                .card {
+                    width: 2.5in;
+                    height: 3.5in;
+                    overflow: hidden;
+                    outline: 2px dashed var(--secondary);
+                    border-radius: 4px;
+                    box-sizing: border-box;
+                } 
+                #front-id-card {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: space-between;
+                    padding-top: 8px;
+                    border-top: 8px solid var(--primary);
+                }
+
+                
+
+                .info-header {
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                }
+
+                .info-header, .name-course-container, .studentid-email-container {
+                    padding-inline: 8px;
+                    box-sizing: border-box;
+                }
+                .info-header > img {
+                    width: 25%;
+                    aspect-ratio: 4/3;
+                    object-fit: fill;
+                }
+
+                .info-header > div {
+                    width: 72%;
+                    height: 40.5px;
+                    display: flex;
+                    flex-direction: column;
+                    text-wrap: wrap;
+                }
+
+                .info-header > div > h1 {
+                    font-size: 12px;
+                }
+                .info-header > div > address {
+                    font-size: 10px;
+                }
+                .qr-code {
+                    width: calc(1in + 4px); 
+                    height: calc(1in + 4px);;
+                    border: 2px solid var(--secondary);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    box-sizing: content-box;
+                    padding: 4px;
+                }
+                .qr-code > svg {
+                    width: 100%;    
+                    height: 100%;;
+                }
+                .name-course-container {
+                    text-align: center;
+            
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-direction: column;
+                    gap: 2px;
+                    color: var(--primary);
+                }
+                .divider {
+                    width: 100%;
+                    height: 2px;
+                    background: var(--secondary);
+                    border-radius: 2px;
+
+                }
+                .dots {
+                        display: flex;
+                        justify-content: center;
+                        gap: 2px;
+                    }
+                .dot {
+                    width: 16px;
+                    height: 16px;
+                    color: var(--primary);
+                }
+                .dot:last-child {
+                    color: var(--secondary);
+                }
+
+                .studentid-email-container {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 4px;
+                }
+                .studentid-email-container > span {
+                    font-size: 12px;
+                    font-weight: 600;
+                    color: var(--primary);
+                }
+                .studentid-email-container > span > span:nth-child(1) {
+                    font-weight: 800;
+                }
+                .studentid-email-container > span:nth-child(2) {
+                    font-size: 10px;
+                    display: flex;
+                    align-items: center;
+                    gap: 2px;
+                }
+
+                .size-5 {
+                    width: 16px;
+                    height: 16px;
+                }
+                footer {
+                    width: 100%;
+                    height: 35px;
+                    background: var(--primary);
+                    color: var(--secondary);
+                    display: flex;
+                    justify-content: flex-end;
+                    align-items: center;
+                    gap: 4px;
+                    font-style: italic;
+
+                }
+
+                .footer-line {
+                    width: 30%;
+                    height: 2px;
+                    background: var(--secondary);
+                    border-radius: 2px;
+                }
+
+
+                #back-id-card {
+                    background: var(--primary);
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 8px;
+                }
+
+                #back-id-card > img {
+                    width: 30%;
+                }
+                #back-id-card > p {
+                    display: inline-block;
+                    width: 70%;
+                    font-size: 8px;
+                    color: white;
+                    text-align: center;
+                }
+
+                #back-id-card > h3 {
+                    color: var(--secondary);
+                }
+            </style>
+            <title>QR Identification </title>
+        </head>
+        <body>
+            <div class="bond-paper">
+                <div class="card" id="front-id-card">
+                    <div class="info-header">
+                        <img src="https://i.imgur.com/PFeoGdy.png" alt="Icct Logo">
+                        <div>
+                            <h1>ICCT Colleges - Antipolo</h1>
+                            <address>J. Sumulong Street, Antipolo City, 1870, Rizal</address>
                         </div>
                     </div>
                     <div class="qr-code">
                         ${window.svg}
                     </div>
-                    <div class="details">
-                        <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%;">
-                        <h1>${window.name}</h1>
-                        <div class="c-divider"></div>
-                        <span >${getCourseAbbreviation(window.course)}</span>
-                        </div>
-                        <div class="dots">
-                            ${window.levelDots}
-                        </div>
-                        <span style="font-size: 10px; font-weight: 600; margin-top: 16px; display: block; color: rgb(27, 32, 58);">Student ID: ${window.studentID}</span>
-                        <div class="footer">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="12" style="color: rgb(27, 32, 58);">
-                                <path d="M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67Z" />
-                                <path d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z" />
-                            </svg>
-                            <span style="color: rgb(27, 32, 58); font-size: 8px;">${window.email}</span>
-                        </div>
+
+                    <div class="name-course-container">
+                        <h5>${window.name}</h5>
+                        <div class="divider"></div>
+                        <h6>${getCourseAbbreviation(window.course)}</h6>
                     </div>
+
+                    <div class="dots">
+                        ${window.levelDots}
+                    </div>
+                    <div class="studentid-email-container">
+                        <span><span>Student ID:&nbsp;</span>${window.studentID}</span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                                <path d="M3 4a2 2 0 0 0-2 2v1.161l8.441 4.221a1.25 1.25 0 0 0 1.118 0L19 7.162V6a2 2 0 0 0-2-2H3Z" />
+                                <path d="m19 8.839-7.77 3.885a2.75 2.75 0 0 1-2.46 0L1 8.839V14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.839Z" />
+                            </svg>
+                            ${window.email}
+                        </span>
+
+                    </div>
+                    <footer>
+                        <h5>AuthentiKey ID Card</h5>
+                        <div class="footer-line">
+
+                        </div>
+                    </footer>
+
                 </div>
-            </article>
-        </article>
-    </body>
-    </html>`;
-    
-    
+                <div class="card" id="back-id-card">
+                    <img src="https://i.imgur.com/Ri3v6vO.png" alt="Authentikey Logo">
+                    <h3>Authentikey</h3>
+                    <p>This ID is not Valid or an alternative to ICCT school ID. This is solely for the AuthentiKey Capstone Project Purposes </p>
+                </div>
+            </div>
+        </body>
+        </html>
+    `;
     const response = await fetch('/generate-pdf', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

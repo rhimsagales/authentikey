@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+            <style>
+                :root {
+                    --primary: #1b203a;
+                    --secondary: rgb(236, 167, 43);
+                }
+                * {
+                    margin: 0;
+                    padding: 0;
+                }
+                body {
+                    width: 100%;
+                    height: auto;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background: rgb(212, 211, 211);
+                    box-sizing: border-box;
+                    font-family: "Inter", sans-serif;
+                }
+                .bond-paper {
+                    width: 8.5in;
+                    height: 11in;
+                    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+                    display: flex;
+                    flex-direction: column;
+                    gap: 20px;
+                    align-items: center;
+                    justify-content: center;
+                    background: white;
+                    padding: .5in;
+                    box-sizing: border-box;
+                }
+                .card {
+                    width: 2.5in;
+                    height: 3.5in;
+                    overflow: hidden;
+                    outline: 2px dashed var(--secondary);
+                    border-radius: 4px;
+                    box-sizing: border-box;
+                } 
+                #front-id-card {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: space-between;
+                    padding-top: 8px;
+                    border-top: 8px solid var(--primary);
+                }
+
+                
+
+                .info-header {
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                }
+
+                .info-header, .name-course-container, .studentid-email-container {
+                    padding-inline: 8px;
+                    box-sizing: border-box;
+                }
+                .info-header > img {
+                    width: 25%;
+                    aspect-ratio: 4/3;
+                    object-fit: fill;
+                }
+
+                .info-header > div {
+                    width: 72%;
+                    height: 40.5px;
+                    display: flex;
+                    flex-direction: column;
+                    text-wrap: wrap;
+                }
+
+                .info-header > div > h1 {
+                    font-size: 12px;
+                }
+                .info-header > div > address {
+                    font-size: 10px;
+                }
+                .qr-code {
+                    width: 1in; 
+                    height: 1in;
+                    border: 2px solid var(--secondary);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    box-sizing: content-box;
+                }
+                .qr-code > svg {
+                    width: 100%;    
+                    height: 100%;
+                }
+                .name-course-container {
+                    text-align: center;
+            
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-direction: column;
+                    gap: 2px;
+                    color: var(--primary);
+                }
+                .divider {
+                    width: 100%;
+                    height: 2px;
+                    background: var(--secondary);
+                    border-radius: 2px;
+
+                }
+                .dots {
+                        display: flex;
+                        justify-content: center;
+                        gap: 2px;
+                    }
+                .dot {
+                    width: 8px;
+                    height: 8px;
+                    background: var(--primary);
+                }
+                .dot:last-child {
+                    background: var(--secondary);
+                }
+
+                .studentid-email-container {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 4px;
+                }
+                .studentid-email-container > span {
+                    font-size: 12px;
+                    font-weight: 600;
+                    color: var(--primary);
+                }
+                .studentid-email-container > span > span:nth-child(1) {
+                    font-weight: 800;
+                }
+                .studentid-email-container > span:nth-child(2) {
+                    font-size: 10px;
+                    display: flex;
+                    align-items: center;
+                    gap: 2px;
+                }
+
+                .size-5 {
+                    width: 16px;
+                    height: 16px;
+                }
+                footer {
+                    width: 100%;
+                    height: 30px;
+                    background: var(--primary);
+                    color: var(--secondary);
+                    display: flex;
+                    justify-content: flex-end;
+                    align-items: center;
+                    gap: 4px;
+                    font-style: italic;
+
+                }
+
+                .footer-line {
+                    width: 30%;
+                    height: 2px;
+                    background: var(--secondary);
+                    border-radius: 2px;
+                }
+
+
+                #back-id-card {
+                    background: var(--primary);
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 8px;
+                }
+
+                #back-id-card > img {
+                    width: 40%;
+                }
+                #back-id-card > p {
+                    display: inline-block;
+                    width: 70%;
+                    font-size: 8px;
+                    color: white;
+                    text-align: center;
+                }
+
+                #back-id-card > h3 {
+                    color: var(--secondary);
+                }
+            </style>
+            <title>QR Identification </title>
+        </head>
+        <body>
+            <div class="bond-paper">
+                <div class="card" id="front-id-card">
+                    <div class="info-header">
+                        <img src="https://scontent.fmnl8-3.fna.fbcdn.net/v/t39.30808-6/497776040_9973485629384552_3213147167317306929_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=105&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeHwHdbZP5pkd5pIumJxVYA3yWo1hczvXrnJajWFzO9euXh54MS12GgCni61rLWeODsmfWRvs2Mn6GmgmLTRBLcp&_nc_ohc=76IOmaxaisgQ7kNvwEUlkbA&_nc_oc=AdmzqL-w4Lbg-t8MrNudAiTo4Gm5ot9jl66GUEPY8W3thSuGl38rhkOP4EH5mpDIE8Q&_nc_zt=23&_nc_ht=scontent.fmnl8-3.fna&_nc_gid=WUjkOizZ_0r7rc_h_quBxw&oh=00_AfLYXZfQ437wlIkaLcLLM-KTvuFKsCov3UlARGivcUHUDw&oe=68292A12" alt="Icct Logo">
+                        <div>
+                            <h1>ICCT Colleges - Antipolo</h1>
+                            <address>J. Sumulong Street, Antipolo City, 1870, Rizal</address>
+                        </div>
+                    </div>
+                    <div class="qr-code">
+                         
+                          
+                    </div>
+
+                    <div class="name-course-container">
+                        <h5>Rhim Angelo Sagales</h5>
+                        <div class="divider"></div>
+                        <h6>BSIT</h6>
+                    </div>
+
+                    <div class="dots">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                    <div class="studentid-email-container">
+                        <span><span>Student ID:&nbsp;</span>UA202200726</span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                                <path d="M3 4a2 2 0 0 0-2 2v1.161l8.441 4.221a1.25 1.25 0 0 0 1.118 0L19 7.162V6a2 2 0 0 0-2-2H3Z" />
+                                <path d="m19 8.839-7.77 3.885a2.75 2.75 0 0 1-2.46 0L1 8.839V14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.839Z" />
+                            </svg>
+                            yeqiu.jinwoo@gmail.com
+                        </span>
+
+                    </div>
+                    <footer>
+                        <h5>Authentikey ID Card</h5>
+                        <div class="footer-line">
+
+                        </div>
+                    </footer>
+
+                </div>
+                <div class="card" id="back-id-card">
+                    <img src="https://i.imgur.com/Ri3v6vO.png" alt="Authentikey Logo">
+                    <h3>Authentikey</h3>
+                    <p>This ID is not Valid or an alternative to ICCT school ID. This is solely for the AuthentiKey Capstone Project Purposes </p>
+                </div>
+            </div>
+        </body>
+        </html>

@@ -1173,14 +1173,19 @@ app.post('/generate-pdf', isAuthenticated, async (req, res) => {
 
 app.post('/generate-qr', isAuthenticated, (req, res) => {
     const { text } = req.body;
-    
+
     if (!text) {
         return res.status(400).json({ error: 'Text is required' });
     }
 
-    const qrSVG = qr.imageSync(text, { type: 'svg' }); 
-    res.json({ svg: qrSVG }); 
+    const qrSVG = qr.imageSync(text, { 
+        type: 'svg',
+        margin: 0 // try to remove margin/quiet zone
+    });
+
+    res.json({ svg: qrSVG });
 });
+
 
 
 app.post('/mongodb/find-student-id', isAuthenticated, (req, res) => {
