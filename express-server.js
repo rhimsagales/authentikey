@@ -1210,6 +1210,10 @@ app.post('/authenticate-admin', (req, res) => {
     mongoFunctions.adminLogin(req, res);
 })
 
+app.post('/check-student-eligibility', (req, res) => {
+    mongoFunctions.checkEligibility(req, res);
+})
+
 server.listen(process.env.PORT || 3000, () => {
     console.log('Server running at http://localhost:3000');
 });

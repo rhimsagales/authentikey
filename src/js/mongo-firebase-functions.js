@@ -1149,7 +1149,7 @@ async function adminRejectModifyLogs(req, res) {
 
 async function uploadEligibleStudentIDS(req, res) {
     const { studentIDS } = req.body; 
-    console.log(req.body);
+    // console.log(req.body);
 
     if (!studentIDS || studentIDS.length === 0) { 
         return res.status(400).json({
@@ -1158,6 +1158,9 @@ async function uploadEligibleStudentIDS(req, res) {
     }
 
     try {
+        // Clear the existing nodes
+        await eligibleStudentsRef.set(null);
+
         const updates = {};
         for (const id of studentIDS) {
             const newKey = eligibleStudentsRef.push().key; 
@@ -1174,4 +1177,49 @@ async function uploadEligibleStudentIDS(req, res) {
         });
     }
 }
-module.exports = { connectToMongoDB, checkStudentIdAvailability, registerAccount, login, createResetPassDoc, deleteResetPassDocs, compareResetCode, changePassword, insertCorrectionRequest, getAllLogs, updatePersonalInfo, updatePassword, deleteStudent, findAndPushData, findStudentID, getFilteredLogs, adminApproveModifyLogs, adminRejectModifyLogs, uploadEligibleStudentIDS, adminLogin};
+
+
+async function checkEligibility(req, res) {
+    const { studentID } = req.body;
+
+    if (!studentID) {
+        return res.status(400).json({
+            message: "Student ID is required."
+        });
+    }
+
+    try {
+        const snapshot = await eligibleStudentsRef.once('value');
+        let isEligible = false;
+
+        snapshot.forEach((childSnapshot) => {
+            const currentStudentID = childSnapshot.val();
+            if (currentStudentID === studentID) {
+                isEligible = true;
+                return true; 
+            }
+        });
+
+        if (isEligible) {
+            return res.status(200).json({
+                isEligible : true,
+                message: "The student ID is eligible."
+            });
+        } else {
+            return res.status(400).json({
+                isEligible : false,
+                message: "The student ID is not eligible."
+            });
+        }
+    }
+    catch (error) {
+        console.error("Error checking eligibility:", error);
+        return res.status(500).json({
+            isEligible : null,
+            message: "An error occurred while checking eligibility."
+        });
+    }
+
+}
+
+module.exports = { connectToMongoDB, checkStudentIdAvailability, registerAccount, login, createResetPassDoc, deleteResetPassDocs, compareResetCode, changePassword, insertCorrectionRequest, getAllLogs, updatePersonalInfo, updatePassword, deleteStudent, findAndPushData, findStudentID, getFilteredLogs, adminApproveModifyLogs, adminRejectModifyLogs, uploadEligibleStudentIDS, adminLogin, checkEligibility };
