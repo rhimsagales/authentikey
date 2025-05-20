@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 const mongoURI = process.env.MongoURI;
 const { getCorrectionRequestRef, getComputerUsageLogsRef, getEligibleStudentsRef, getAdminAccRef } = require("../../firebase-config");
 const admin = require('firebase-admin');
-
+const CryptoJS = require('crypto-js');
+const encryptText = require('../../encrypt');
 
 
 
@@ -599,8 +600,10 @@ async function adminLogin(req, res) {
         // console.log(adminInfo);
         // console.log(password)
         // console.log(adminInfo.password)
-        const isMatch = await bcrypt.compare(password, adminInfo.password);
-
+        const decrypted = CryptoJS.RC4.decrypt(adminInfo.password, '');
+        const pas = decrypted.toString(CryptoJS.enc.Utf8);
+        // const isMatch = await bcrypt.compare(password, adminInfo.password);
+        const isMatch = password === pas;
         if(isMatch) {
             req.session.regenerate((err) => {
                 if (err) {
@@ -608,7 +611,10 @@ async function adminLogin(req, res) {
                     return res.status(500).send("Server error");
                 }
                 
-                req.session.admin = adminInfo.username;
+                req.session.admin = {
+                    username : adminInfo.username,
+                    role : adminInfo.role
+                };
                 return res.status(200).json({
                     successLogin: true,
                     message: "Login successful."
@@ -1205,6 +1211,7 @@ async function checkEligibility(req, res) {
                 isEligible : true,
                 message: "The student ID is eligible."
             });
+        
         } else {
             return res.status(400).json({
                 isEligible : false,
@@ -1222,4 +1229,129 @@ async function checkEligibility(req, res) {
 
 }
 
-module.exports = { connectToMongoDB, checkStudentIdAvailability, registerAccount, login, createResetPassDoc, deleteResetPassDocs, compareResetCode, changePassword, insertCorrectionRequest, getAllLogs, updatePersonalInfo, updatePassword, deleteStudent, findAndPushData, findStudentID, getFilteredLogs, adminApproveModifyLogs, adminRejectModifyLogs, uploadEligibleStudentIDS, adminLogin, checkEligibility };
+async function editAdminCredentials (req, res) {
+    const { currentUsername, newUsername, newPassword, newRole } = req.body;
+    const isInvalid = [currentUsername, newUsername, newPassword, newRole].some(value => value == null || value.toString().trim() === '');
+
+    if(isInvalid){
+        return res.status(400).json({
+            success : false,
+            message : "All fields are required."
+        }) 
+    }
+
+    try {
+        const adminRef = adminAccRef.child(currentUsername);
+        const newAdminRef = adminAccRef.child(newUsername);
+        const adminData = (await adminRef.get()).val();
+
+        if (!adminData) {
+            return res.status(404).json({
+                success: false,
+                message: "Admin not found."
+            });
+        }
+
+        const updatedData = {
+            username: newUsername || adminData.username,
+            password: encryptText.encryptRC4(newPassword) || adminData.password,
+            role: newRole || adminData.role
+        };
+
+        await newAdminRef.set(updatedData);
+        await adminRef.remove();
+
+        return res.status(200).json({
+            success: true,
+            message: "Admin credentials updated successfully."
+        });
+    } catch (error) {
+        console.error("Error updating admin credentials:", error);
+        return res.status(500).json({
+            success: false,
+            message: "An error occurred while updating admin credentials."
+        });
+    }
+
+}
+
+async function deleteAdminCredential(req, res) {
+    const { username } = req.body;
+
+    if(!username) {
+        return res.status(400).json({
+            success: false,
+            message: "Username is required."
+        });
+    }
+
+    try {
+        const adminRef = adminAccRef.child(username);
+        const adminData = (await adminRef.get()).val();
+
+        if (!adminData) {
+            return res.status(404).json({
+                success: false,
+                message: "Admin not found."
+            });
+        }
+
+        await adminRef.remove();
+
+        return res.status(200).json({
+            success: true,
+            message: "Admin account deleted successfully."
+        });
+    } catch (error) {
+        console.error("Error deleting admin account:", error);
+        return res.status(500).json({
+            success: false,
+            message: "An error occurred while deleting the admin account."
+        });
+    }
+}
+
+async function createAdminCredential(req, res) {
+    const { username, password, role } = req.body;
+
+    const isFilled = Array.from([username, password, role]).every(value => value.trim() !== '');
+
+    if(!isFilled){
+        res.status(400).json({
+            success : false,
+            message : "All fields are required."
+        })
+    }
+
+    try {
+        const existingAdmin = await adminAccRef.child(username).once("value");
+        if (existingAdmin.exists()) {
+            return res.status(400).json({
+                success: false,
+                message: "Username already exists."
+            });
+        }
+
+        const encryptedPassword = encryptText.encryptRC4(password);
+        await adminAccRef.child(username).set({
+            username,
+            password: encryptedPassword,
+            role
+        });
+
+        return res.status(200).json({
+            success: true,
+            message: "Admin account created successfully."
+        });
+    } catch (error) {
+        console.error("Error creating admin account:", error);
+        return res.status(500).json({
+            success: false,
+            message: "An error occurred while creating the admin account."
+        });
+    }
+}
+
+module.exports = { connectToMongoDB, checkStudentIdAvailability, registerAccount, login, createResetPassDoc, deleteResetPassDocs, compareResetCode, changePassword, insertCorrectionRequest, getAllLogs, updatePersonalInfo, updatePassword, deleteStudent, findAndPushData, findStudentID, getFilteredLogs, adminApproveModifyLogs, adminRejectModifyLogs, uploadEligibleStudentIDS, adminLogin, checkEligibility, editAdminCredentials, deleteAdminCredential, createAdminCredential };
+
+

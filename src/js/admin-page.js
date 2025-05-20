@@ -268,9 +268,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 body : stringifiedStudentIDSArr
             });
-
+            const responseData = await response.json();
             if(!response.ok) {
-                throw new Error();
+                createWarningAlert(responseData.message)
+                return
             }
             createSuccessAlert("The IDs of eligible students have been successfully uploaded.");
         }
@@ -361,24 +362,25 @@ adminLinks.forEach(link => {
             });
 
             switch (linkText) {
-                case "Retrieve Logs":
+                case "Homepage":
                     sections[0].classList.replace('hidden', 'flex');
                     break;
                 case "Analytics":
                     sections[1].classList.replace('hidden', 'flex');
                     break;
-                case "Correction Requests":
+                case "Import Eligible Students":
                     sections[2].classList.replace('hidden', 'flex');
                     break;
-                case "Import Eligible Students":
+                case "Correction Requests":
                     sections[3].classList.replace('hidden', 'flex');
                     break;
-                case "Bug Report":
+                case "Retrieve Logs":
                     sections[4].classList.replace('hidden', 'flex');
                     break;
-                case "Homepage":
+                case "Bug Report":
                     sections[5].classList.replace('hidden', 'flex');
                     break;
+                
             }
         }
     });
@@ -486,4 +488,284 @@ adminLogout.forEach(logoutLinks => {
         }
         
     })
+})
+
+
+const roleManagementBtn = document.querySelectorAll('.role-management-btns');
+const roleManagementontainer = document.querySelector('#role-management-modal-container');
+
+
+
+if (roleManagementBtn.length > 0 && roleManagementontainer) {
+    roleManagementBtn.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            if(roleManagementontainer.classList.contains('hidden')) {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth' 
+                });
+                roleManagementontainer.classList.replace('hidden', 'flex');
+                document.body.classList.replace('overflow-y-visible', 'overflow-y-hidden');
+            }
+            else {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth' 
+                });
+                roleManagementontainer.classList.replace('flex', 'hidden');
+                document.body.classList.replace('overflow-y-hidden', 'overflow-y-visible');
+            }
+
+        })
+    })
+
+    const adminTableShowHideBtns = document.querySelectorAll('.admin-table-show-hide-btns');
+
+    adminTableShowHideBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            const row = e.currentTarget.closest('tr'); // Find the closest table row
+            if (row) {
+                const permissionInput = row.querySelector('.admin-input-permission');
+                const passwordInput = row.querySelector('.admin-input-password');
+                const inputs = [permissionInput, passwordInput];
+
+                const firstSvg = e.currentTarget.querySelector('svg:nth-child(1)');
+                const secondSvg = e.currentTarget.querySelector('svg:nth-child(2)');
+
+                if (!e.currentTarget.classList.contains('show')) {
+                    if (secondSvg) secondSvg.classList.replace('hidden', 'block');
+                    if (firstSvg) firstSvg.classList.replace('block', 'hidden');
+                    e.currentTarget.classList.toggle('show');
+                    inputs.forEach(input => {
+                    if (input) input.type = 'text';
+                    });
+                } else {
+                    if (firstSvg) firstSvg.classList.replace('hidden', 'block');
+                    if (secondSvg) secondSvg.classList.replace('block', 'hidden');
+                    e.currentTarget.classList.toggle('show');
+                    inputs.forEach(input => {
+                    if (input) input.type = 'password';
+                    });
+                }
+            }
+        });
+    });
+}
+
+
+
+const editAdminForm = document.querySelector('.edit-admin-form');
+const editAdminInputs = editAdminForm.querySelectorAll('input, select');
+const slicedEditAdminInputs = Array.from(editAdminInputs).slice(0, 3);
+
+
+slicedEditAdminInputs.forEach(input => {
+    input.addEventListener('input', () => {
+        if(isInputsFilled(editAdminInputs)) {
+            editAdminForm.querySelector('button').disabled = false;
+        }
+        else {
+            editAdminForm.querySelector('button').disabled = true;
+        }
+    })
+    
+})
+editAdminInputs[3].addEventListener('change', () => {
+    if(isInputsFilled(editAdminInputs)) {
+        editAdminForm.querySelector('button').disabled = false;
+    }
+    else{
+        editAdminForm.querySelector('button').disabled = true;
+    }
+})
+
+
+
+
+editAdminForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    editAdminForm.parentElement.querySelector('button').click();
+    const formData = {
+        currentUsername : editAdminInputs[0].value,
+        newUsername : editAdminInputs[1].value,
+        newPassword : editAdminInputs[2].value,
+        newRole : editAdminInputs[3].value
+    }
+    const hasEmpty = Object.values(formData).some(value => value.trim() === '');
+
+    if (hasEmpty) {
+        createWarningAlert("All fields are required.");
+        return
+    }
+
+    try {
+        const response = await fetch('/admin/edit-admin', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        })
+        
+        if(!response.ok) {
+            createWarningAlert("There was an error updating the admin details.");
+            return
+        }
+        const data = await response.json();
+        if(data.success) {
+            const alertForAdmin = createSuccessAlert(data.message);
+
+            const observer = new MutationObserver((mutationsList) => {
+                for (const mutation of mutationsList) {
+                    for (const removedNode of mutation.removedNodes) {
+                        if (removedNode === alertForAdmin) {
+                            window.location.href = "/user/admin-logout"; // Reload the page
+                            observer.disconnect(); // Stop observing
+                        }
+                    }
+                }
+            });
+            observer.observe(document.body, { childList: true });
+            
+        }
+        else {
+            createWarningAlert(data.message);
+        } 
+
+    }
+    catch (error) {
+        createErrorAlert("There was an error updating the admin details. Please try again.");
+        console.error('Error:', error);
+    }
+    
+})
+
+const deleteAdminForm = document.querySelector('.delete-admin-form');
+const userNameToDelete = deleteAdminForm.querySelector('input');
+const delButton = deleteAdminForm.querySelector('button');
+userNameToDelete.addEventListener('input', () => {
+    if(userNameToDelete.value == "") {
+        delButton.disabled = true;
+    }
+    else {
+        delButton.disabled = false;
+    }
+})
+
+deleteAdminForm.addEventListener('submit', async(e) => {
+    e.preventDefault();
+
+    deleteAdminForm.parentElement.querySelector('button').click();
+    console.log(userNameToDelete.value.trim())
+    if(userNameToDelete.value == "") {
+        createWarningAlert("All fields are required.")
+        return
+    }
+
+    try {
+        const response = await fetch('/admin/delete-credentials', {
+            method : 'DELETE',
+            headers : {
+                "Content-Type" : "application/json"
+            },
+            body : JSON.stringify({
+                username : userNameToDelete.value.trim()
+            })
+
+        });
+        const responseData = await response.json();
+        if(!response.ok) {
+            createWarningAlert(responseData.message);
+            return
+        }
+
+        const alertForAdmin = createSuccessAlert(responseData.message);
+
+        const observer = new MutationObserver((mutationsList) => {
+            for (const mutation of mutationsList) {
+                for (const removedNode of mutation.removedNodes) {
+                    if (removedNode === alertForAdmin) {
+                        window.location.href = '/user/admin-logout'; 
+                        observer.disconnect(); 
+                    }
+                }
+            }
+        });
+        observer.observe(document.body, { childList: true });
+    }
+    catch(err) {
+        console.log(err)
+        createErrorAlert("We encountered some issues while deleting the account. Please try again.")
+    }
+})
+
+const addAdminForm = document.querySelector('.add-admin-form');
+const addAdminFormInputs = addAdminForm.querySelectorAll('input, select');
+const slicedAddAdminInputs = Array.from(addAdminFormInputs).slice(0, 2);
+const addAdminFormAddBtn = addAdminForm.querySelector('button');
+
+
+slicedAddAdminInputs.forEach(input => {
+    input.addEventListener('input', () => {
+        const isFilled = Array.from(addAdminFormInputs).every(input => input.value.trim() !== '');
+        addAdminFormAddBtn.disabled = !isFilled;
+    });
+});
+
+addAdminFormInputs[2].addEventListener('change', () => {
+    const isFilled = Array.from(addAdminFormInputs).every(input => input.value.trim() !== '');
+    addAdminFormAddBtn.disabled = !isFilled;
+})
+
+addAdminForm.addEventListener('submit', async (e) =>{
+    e.preventDefault();
+    addAdminForm.parentElement.querySelector('button').click();
+    const isFilled = Array.from(addAdminFormInputs).every(input => input.value.trim() !== '');
+
+    if(!isFilled) {
+        createWarningAlert("All fields are required.")
+        return
+    }
+    try {
+        const response = await fetch('/admin/create-credential', {
+            method : 'POST',
+            headers : {
+                "Content-Type" : "application/json"
+            },
+            body : JSON.stringify({
+                username : addAdminFormInputs[0].value.trim(),
+                password : addAdminFormInputs[1].value.trim(),
+                role : addAdminFormInputs[2].value
+            })
+        });
+        const responseData = await response.json();
+
+        if(!response.ok) {
+            createWarningAlert(responseData.message)
+            return
+        }
+
+        const alertForAdmin = createSuccessAlert(responseData.message);
+        const observer = new MutationObserver((mutationsList) => {
+            for (const mutation of mutationsList) {
+                for (const removedNode of mutation.removedNodes) {
+                    if (removedNode === alertForAdmin) {
+                        window.location.href = '/user/admin-logout'; 
+                        observer.disconnect(); 
+                    }
+                }
+            }
+        });
+        observer.observe(document.body, { childList: true });
+
+    }
+    catch (err){
+        console.log(err)
+        createErrorAlert("We encountered some issues while creating the account. Please try again.")
+    }
 })

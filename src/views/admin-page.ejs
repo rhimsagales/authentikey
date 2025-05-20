@@ -145,7 +145,7 @@
     <header class="header-container ">
         <div class="flex items-center justify-between h-full">
             <!-- Logo and Title -->
-            <a href="/pages/admin-page" class="flex items-center gap-3 cursor-pointer">
+            <a href="/users/admin-dashboard" class="flex items-center gap-3 cursor-pointer">
                 <img src="../assets/logo-auth-png.png" alt="Authentikey" class="header-logo">
                 <span
                     class="header-title font-monomakh font-bold relative tracking-tighter text-lg md:text-xl 3xl:text-2xl 4xl:text-3xl">
@@ -234,20 +234,25 @@
                             Admin Panel
                         </span>
                         <div class="divider my-1 h-2"></div>
-                        <li><a class="text-xs 3xl:text-sm 4xl:text-base flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
-                                <path d="M8 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM3.156 11.763c.16-.629.44-1.21.813-1.72a2.5 2.5 0 0 0-2.725 1.377c-.136.287.102.58.418.58h1.449c.01-.077.025-.156.045-.237ZM12.847 11.763c.02.08.036.16.046.237h1.446c.316 0 .554-.293.417-.579a2.5 2.5 0 0 0-2.722-1.378c.374.51.653 1.09.813 1.72ZM14 7.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0ZM3.5 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM5 13c-.552 0-1.013-.455-.876-.99a4.002 4.002 0 0 1 7.753 0c.136.535-.324.99-.877.99H5Z" />
-                            </svg>
-                            Role Management
-                        </a></li>
-                        <li><a class="text-xs 3xl:text-sm 4xl:text-base flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
-                                <path fill-rule="evenodd" d="M11.986 3H12a2 2 0 0 1 2 2v6a2 2 0 0 1-1.5 1.937V7A2.5 2.5 0 0 0 10 4.5H4.063A2 2 0 0 1 6 3h.014A2.25 2.25 0 0 1 8.25 1h1.5a2.25 2.25 0 0 1 2.236 2ZM10.5 4v-.75a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0-.75.75V4h3Z" clip-rule="evenodd" />
-                                <path fill-rule="evenodd" d="M3 6a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H3Zm1.75 2.5a.75.75 0 0 0 0 1.5h3.5a.75.75 0 0 0 0-1.5h-3.5ZM4 11.75a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 0 1.5h-3.5a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
-                            </svg>
-                            Activity Log
-                        </a></li>
-                        <div class="divider"></div>
+                        <% if(role === "Super Admin") { %>
+                                <li><button class="text-xs 3xl:text-sm 4xl:text-base flex items-center gap-2 role-management-btns">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+                                        <path d="M8 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM3.156 11.763c.16-.629.44-1.21.813-1.72a2.5 2.5 0 0 0-2.725 1.377c-.136.287.102.58.418.58h1.449c.01-.077.025-.156.045-.237ZM12.847 11.763c.02.08.036.16.046.237h1.446c.316 0 .554-.293.417-.579a2.5 2.5 0 0 0-2.722-1.378c.374.51.653 1.09.813 1.72ZM14 7.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0ZM3.5 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM5 13c-.552 0-1.013-.455-.876-.99a4.002 4.002 0 0 1 7.753 0c.136.535-.324.99-.877.99H5Z" />
+                                    </svg>
+                                    Role Management 
+                                </button></li>
+                        <% } %>
+                        
+                        <li>
+                            <button class="text-xs 3xl:text-sm 4xl:text-base flex items-center gap-2" popovertarget="activity-log-container-modal" popovertargetaction="show">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+                                    <path fill-rule="evenodd" d="M11.986 3H12a2 2 0 0 1 2 2v6a2 2 0 0 1-1.5 1.937V7A2.5 2.5 0 0 0 10 4.5H4.063A2 2 0 0 1 6 3h.014A2.25 2.25 0 0 1 8.25 1h1.5a2.25 2.25 0 0 1 2.236 2ZM10.5 4v-.75a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0-.75.75V4h3Z" clip-rule="evenodd" />
+                                    <path fill-rule="evenodd" d="M3 6a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H3Zm1.75 2.5a.75.75 0 0 0 0 1.5h3.5a.75.75 0 0 0 0-1.5h-3.5ZM4 11.75a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 0 1.5h-3.5a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
+                                </svg>
+                                Activity Log
+                            </button>
+                        </li>
+                        <div class="divider mt-3 h-fit"></div>
                         <li><a class="text-error text-xs 3xl:text-sm 4xl:text-base admin-logout font-semibold flex items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
                                 <path fill-rule="evenodd" d="M14 4.75A2.75 2.75 0 0 0 11.25 2h-3A2.75 2.75 0 0 0 5.5 4.75v.5a.75.75 0 0 0 1.5 0v-.5c0-.69.56-1.25 1.25-1.25h3c.69 0 1.25.56 1.25 1.25v6.5c0 .69-.56 1.25-1.25 1.25h-3c-.69 0-1.25-.56-1.25-1.25v-.5a.75.75 0 0 0-1.5 0v.5A2.75 2.75 0 0 0 8.25 14h3A2.75 2.75 0 0 0 14 11.25v-6.5Zm-9.47.47a.75.75 0 0 0-1.06 0L1.22 7.47a.75.75 0 0 0 0 1.06l2.25 2.25a.75.75 0 1 0 1.06-1.06l-.97-.97h7.19a.75.75 0 0 0 0-1.5H3.56l.97-.97a.75.75 0 0 0 0-1.06Z" clip-rule="evenodd" />
@@ -429,18 +434,20 @@
                             <div
                                 class="collapse-content text-primary-content peer-checked:bg-base-200 peer-checked:text-secondary-content w-full pt-0 pb-0 pr-0 pl-4">
                                 <ul tabindex="0" class="dropdown-content menu rounded-box z-[1] w-full p-2 shadow">
+                                    <% if(role === "Super Admin") { %>
+                                        <li>
+                                            <button class="text-xs rounded px-1 flex items-center gap-2 role-management-btns">
+                                                <!-- Role Management Icon -->
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+                                                    <path d="M8 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM3.156 11.763c.16-.629.44-1.21.813-1.72a2.5 2.5 0 0 0-2.725 1.377c-.136.287.102.58.418.58h1.449c.01-.077.025-.156.045-.237ZM12.847 11.763c.02.08.036.16.046.237h1.446c.316 0 .554-.293.417-.579a2.5 2.5 0 0 0-2.722-1.378c.374.51.653 1.09.813 1.72ZM14 7.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0ZM3.5 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM5 13c-.552 0-1.013-.455-.876-.99a4.002 4.002 0 0 1 7.753 0c.136.535-.324.99-.877.99H5Z" />
+                                                </svg>
+                                                
+                                                Role Management
+                                            </button>
+                                        </li>
+                                    <% }%>
                                     <li>
-                                        <a class="text-xs rounded px-1 flex items-center gap-2">
-                                            <!-- Role Management Icon -->
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
-                                                <path d="M8 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM3.156 11.763c.16-.629.44-1.21.813-1.72a2.5 2.5 0 0 0-2.725 1.377c-.136.287.102.58.418.58h1.449c.01-.077.025-.156.045-.237ZM12.847 11.763c.02.08.036.16.046.237h1.446c.316 0 .554-.293.417-.579a2.5 2.5 0 0 0-2.722-1.378c.374.51.653 1.09.813 1.72ZM14 7.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0ZM3.5 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM5 13c-.552 0-1.013-.455-.876-.99a4.002 4.002 0 0 1 7.753 0c.136.535-.324.99-.877.99H5Z" />
-                                            </svg>
-                                              
-                                            Role Management
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="text-xs rounded px-1 flex items-center gap-2">
+                                        <button class="text-xs rounded px-1 flex items-center gap-2" popovertarget="activity-log-container-modal" popovertargetaction="show">
                                             <!-- Activity Log Icon -->
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
                                                 <path fill-rule="evenodd" d="M11.986 3H12a2 2 0 0 1 2 2v6a2 2 0 0 1-1.5 1.937V7A2.5 2.5 0 0 0 10 4.5H4.063A2 2 0 0 1 6 3h.014A2.25 2.25 0 0 1 8.25 1h1.5a2.25 2.25 0 0 1 2.236 2ZM10.5 4v-.75a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0-.75.75V4h3Z" clip-rule="evenodd" />
@@ -448,7 +455,7 @@
                                             </svg>
                                               
                                             Activity Log
-                                        </a>
+                                        </button>
                                     </li>
                                     <div class="divider h-2 items-end mt-2 mb-2"></div>
                                     <li>
@@ -472,128 +479,54 @@
         </div>
     </nav>
 
-    <!-- Form Section -->
-    <main class="custom-container hidden items-center justify-center sections">
-        <!-- Form Container -->
-        <div id="formContainer" class="w-full">
-            <form class="space-y-2 sm:space-y-6 flex flex-col items-center justify-center w-full" id="filterForm">
-                <!-- Title and Supporting Text -->
-                <div class="text-center mb-4">
-                    <h1 class="text-xl md:text-3xl font-bold text-base-content mb-2">Personalize Your Table View</h1>
-                    <p class="text-base-content/70 text-xs lg:text-sm max-w-2xl px-4">
-                        Tailor the table to your needs—filter by section, date, student, and more.
-                    </p>
-                </div>
+    <!-- Homepage Section -->
+    <main class="custom-container sections flex flex-col items-start justify-center sm:items-center text-left sm:text-center homepage">
+        <h1 class="text-3xl sm:text-4xl font-bold">Effortless <span class="italic text-cyan-400">Lab Monitoring</span>,
+            Powered by <span class="header-title">Authentikey</span>.</h1>
+        <p class="text-xs sm:text-sm text-base-content/70">Track computer usage in real-time, streamline student logins,
+            and manage ICCT’s computer labs with precision and ease.</p>
+        <div class="flex items-center justify-between mt-6 gap-2 flex-wrap">
+            <button
+                class="btn-md btn-circle bg-neutral  text-neutral-content hover:text-base-100 duration-700 ease-in-out tooltip relative hover:scale-105 hover:bg-base-content admin-links"
+                data-tip="Go to Analytics" data-my-value="Analytics">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                    class="size-4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                    <path
+                        d="M15.5 2A1.5 1.5 0 0 0 14 3.5v13a1.5 1.5 0 0 0 1.5 1.5h1a1.5 1.5 0 0 0 1.5-1.5v-13A1.5 1.5 0 0 0 16.5 2h-1ZM9.5 6A1.5 1.5 0 0 0 8 7.5v9A1.5 1.5 0 0 0 9.5 18h1a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 10.5 6h-1ZM3.5 10A1.5 1.5 0 0 0 2 11.5v5A1.5 1.5 0 0 0 3.5 18h1A1.5 1.5 0 0 0 6 16.5v-5A1.5 1.5 0 0 0 4.5 10h-1Z" />
+                </svg>
+            </button>
+            <button
+                class="btn-md btn-circle bg-neutral  text-neutral-content hover:text-base-100 duration-700 ease-in-out tooltip relative hover:scale-105 hover:bg-base-content admin-links"
+                data-tip="Go to Import Eligible Students" data-my-value="Import Eligible Students">
 
-                <!-- Form Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-5 gap-2 md:gap-4 w-full max-w-6xl ">
-                    <!-- Student ID Input -->
-                    <div class="form-control w-full">
-                        <label class="label" for="studentId">
-                            <span class="label-text font-medium">Student ID</span>
-                        </label>
-                        <input type="text" id="studentId" class="input input-bordered w-full text-xs md:text-sm"
-                            placeholder="UA202200746" />
-                    </div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                    class="size-4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                    <path
+                        d="M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM1.49 15.326a.78.78 0 0 1-.358-.442 3 3 0 0 1 4.308-3.516 6.484 6.484 0 0 0-1.905 3.959c-.023.222-.014.442.025.654a4.97 4.97 0 0 1-2.07-.655ZM16.44 15.98a4.97 4.97 0 0 0 2.07-.654.78.78 0 0 0 .357-.442 3 3 0 0 0-4.308-3.517 6.484 6.484 0 0 1 1.907 3.96 2.32 2.32 0 0 1-.026.654ZM18 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM5.304 16.19a.844.844 0 0 1-.277-.71 5 5 0 0 1 9.947 0 .843.843 0 0 1-.277.71A6.975 6.975 0 0 1 10 18a6.974 6.974 0 0 1-4.696-1.81Z" />
+                </svg>
 
-                    <!-- Section Input -->
-                    <div class="form-control w-full">
-                        <label class="label" for="section">
-                            <span class="label-text font-medium">Section</span>
-                        </label>
-                        <input type="text" id="section" class="input input-bordered w-full text-xs md:text-sm"
-                            placeholder="LFA322E010" />
-                    </div>
+            </button>
+            <button
+                class="btn-md btn-circle bg-neutral  text-neutral-content hover:text-base-100 duration-700 ease-in-out tooltip relative hover:scale-105 hover:bg-base-content admin-links"
+                data-tip="Go to Correction Requests" data-my-value="Correction Requests">
+                <!--  class="size-4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                    class="size-4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                    <path fill-rule="evenodd"
+                        d="M15.75 3A2.25 2.25 0 0 1 18 5.25v1.214c0 .423-.277.788-.633 1.019A2.997 2.997 0 0 0 16 10c0 1.055.544 1.982 1.367 2.517.356.231.633.596.633 1.02v1.213A2.25 2.25 0 0 1 15.75 17H4.25A2.25 2.25 0 0 1 2 14.75v-1.213c0-.424.277-.789.633-1.02A2.998 2.998 0 0 0 4 10a2.997 2.997 0 0 0-1.367-2.517C2.277 7.252 2 6.887 2 6.463V5.25A2.25 2.25 0 0 1 4.25 3h11.5ZM13.5 7.396a.75.75 0 0 0-1.5 0v1.042a.75.75 0 0 0 1.5 0V7.396Zm0 4.167a.75.75 0 0 0-1.5 0v1.041a.75.75 0 0 0 1.5 0v-1.041Z"
+                        clip-rule="evenodd" />
+                </svg>
+            </button>
+            <button
+                class="btn-md btn-circle bg-neutral  text-neutral-content hover:text-base-100 duration-700 ease-in-out tooltip relative hover:scale-105 hover:bg-base-content admin-links"
+                data-tip="Go to Retrieve Logs" data-my-value="Retrieve Logs">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                    class="size-4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                    <path
+                        d="M3 3.5A1.5 1.5 0 0 1 4.5 2h6.879a1.5 1.5 0 0 1 1.06.44l4.122 4.12A1.5 1.5 0 0 1 17 7.622V16.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 3 16.5v-13Z" />
+                </svg>
+            </button>
 
-                    <!-- Course Input -->
-                    <div class="form-control w-full">
-                        <label class="label" for="course">
-                            <span class="label-text font-medium">Course <span class="text-xs text-info">(Abbreviation
-                                    only)</span></span>
-                        </label>
-                        <input type="text" id="course" class="input input-bordered w-full text-xs md:text-sm"
-                            placeholder="BSIT" />
-                    </div>
-
-                    <!-- Year Level Select -->
-                    <div class="form-control w-full">
-                        <label class="label" for="yearLevel">
-                            <span class="label-text font-medium">Year Level</span>
-                        </label>
-                        <select id="yearLevel" class="select select-bordered w-full text-xs md:text-sm">
-                            <option value="" class="bg-base-200 text-xs md:text-sm" disabled selected>Choose Year Level
-                            </option>
-                            <option value="1st Year" class="bg-base-200 text-xs md:text-sm">1st Year</option>
-                            <option value="2nd Year" class="bg-base-200 text-xs md:text-sm">2nd Year</option>
-                            <option value="3rd Year" class="bg-base-200 text-xs md:text-sm">3rd Year</option>
-                            <option value="4th Year" class="bg-base-200 text-xs md:text-sm">4th Year</option>
-                        </select>
-                    </div>
-
-                    <!-- Campus Input -->
-                    <div class="form-control w-full">
-                        <label class="label" for="campus">
-                            <span class="label-text font-medium">Campus</span>
-                        </label>
-                        <input type="text" id="campus" class="input input-bordered w-full text-xs md:text-sm"
-                            placeholder="Antipolo" />
-                    </div>
-
-                    <!-- PC Lab Input -->
-                    <div class="form-control w-full">
-                        <label class="label" for="pcLab">
-                            <span class="label-text font-medium">PC Lab</span>
-                        </label>
-                        <input type="number" id="pcLab" class="input input-bordered w-full text-xs md:text-sm"
-                            placeholder="1" />
-                    </div>
-
-                    <!-- Start Date Input -->
-                    <div class="form-control w-full">
-                        <label class="label" for="startDate">
-                            <span class="label-text font-medium">Start Date</span>
-                        </label>
-                        <input type="datetime-local" id="startDate"
-                            class="input input-bordered w-full text-xs md:text-sm" />
-                    </div>
-
-                    <!-- End Date Input -->
-                    <div class="form-control w-full">
-                        <label class="label" for="endDate">
-                            <span class="label-text font-medium">End Date</span>
-                        </label>
-                        <input type="datetime-local" id="endDate"
-                            class="input input-bordered w-full text-xs md:text-sm" />
-                    </div>
-
-                    <!-- Filter Select -->
-                    <div class="form-control w-full">
-                        <label class="label" for="filter">
-                            <span class="label-text font-medium">Filter</span>
-                        </label>
-                        <select id="filter" class="select select-bordered w-full text-xs md:text-sm">
-                            <option value="latest" class="bg-base-200 text-xs md:text-sm">Latest First</option>
-                            <option value="oldest" class="bg-base-200 text-xs md:text-sm">Oldest First</option>
-                        </select>
-                    </div>
-
-                    <!-- Submit Button -->
-                    <div class="w-full">
-                        <label class="label opacity-0">
-                            <span class="label-text">Submit</span>
-                        </label>
-                        <button type="submit" id="submitButton"
-                            class="btn btn-primary w-full bg-white text-black hover:text-white">
-                            Retrieve Logs
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div>
-
-        <!-- Table Container (Initially Hidden) -->
-        <div id="tableContainer" class="tableContainer hidden ">
-            Table will be dynamically inserted here
         </div>
     </main>
 
@@ -752,6 +685,35 @@
             </div>
         </div> -->
 
+    </main>
+    
+    <!-- Import Eligible Students -->
+    <main class="custom-container hidden flex-col gap-2 items-center justify-center sections">
+        <div class="text-center mb-4">
+            <h1 class="text-xl md:text-3xl font-bold text-base-content mb-2">Import Eligible Students</h1>
+            <p class="text-base-content/70 text-xs lg:text-sm max-w-2xl px-4">
+                Upload an <span class="h-auto py-1 px-2 bg-base-300 text-green-500">XLSX</span> file to import eligible
+                students into the system.
+            </p>
+        </div>
+        <div class="w-[90%] max-w-2xl h-auto flex flex-col items-start gap-2 italic">
+            <div
+                class="w-full h-[200px] outline-dashed outline-2 outline-secondary rounded-md italic text-xs font-bold sm:text-sm flex items-center justify-center box-border cursor-pointer xlsx-file-input-trigger">
+                Upload XLSX File
+            </div>
+            <input type="file" class="file-input file-input-bordered file-input-sm w-full hidden xlsx-file-input"
+                accept=".xlsx, .xls" />
+            <p class="text-[10px] lg:text-sm text-left ">
+                <span class="text-sky-500 font-semibold">Instruction:&nbsp;</span>Ensure that the first <strong>column
+                    contains only the student IDs</strong> of those allowed to register and use the system.
+            </p>
+            <p class="text-[10px] lg:text-sm text-left ">
+                <span class="text-red-500 font-semibold">Note:&nbsp;</span>This will <strong>overwrite the existing list of eligible students.</strong> Make sure to include any previously eligible students in this file.
+            </p>
+            <button
+                class="btn btn-sm btn-primary bg-white rounded px-12 hover:bg-cyan-500 text-black text-xs w-full mt-2 xlsx-file-submit-btn font-semibold"
+                disabled>Submit</button>
+        </div>
     </main>
 
     <!-- Correttion Request -->
@@ -1141,34 +1103,132 @@
 
     </main>
 
-    <!-- Import Eligible Students -->
-    <main class="custom-container hidden flex-col gap-2 items-center justify-center sections">
-        <div class="text-center mb-4">
-            <h1 class="text-xl md:text-3xl font-bold text-base-content mb-2">Import Eligible Students</h1>
-            <p class="text-base-content/70 text-xs lg:text-sm max-w-2xl px-4">
-                Upload an <span class="h-auto py-1 px-2 bg-base-300 text-green-500">XLSX</span> file to import eligible
-                students into the system.
-            </p>
-        </div>
-        <div class="w-[90%] max-w-2xl h-auto flex flex-col items-start gap-2 italic">
+    <!-- Form Section -->
+    <main class="custom-container hidden items-center justify-center sections">
+        <!-- Form Container -->
+        <div id="formContainer" class="w-full">
+            <form class="space-y-2 sm:space-y-6 flex flex-col items-center justify-center w-full" id="filterForm">
+                <!-- Title and Supporting Text -->
+                <div class="text-center mb-4">
+                    <h1 class="text-xl md:text-3xl font-bold text-base-content mb-2">Personalize Your Table View</h1>
+                    <p class="text-base-content/70 text-xs lg:text-sm max-w-2xl px-4">
+                        Tailor the table to your needs—filter by section, date, student, and more.
+                    </p>
+                </div>
 
-            <div
-                class="w-full h-[200px] outline-dashed outline-2 outline-secondary rounded-md italic text-xs font-bold sm:text-sm flex items-center justify-center box-border cursor-pointer xlsx-file-input-trigger">
-                Upload XLSX File
-            </div>
-            <input type="file" class="file-input file-input-bordered file-input-sm w-full hidden xlsx-file-input"
-                accept=".xlsx, .xls" />
-            <p class="text-[10px] lg:text-sm text-left ">
-                <span class="text-sky-500 font-semibold">Instruction:&nbsp;</span>Ensure that the first <strong>column
-                    contains only the student IDs</strong> of those allowed to register and use the system.
-            </p>
-            <button
-                class="btn btn-sm btn-primary bg-white rounded px-12 hover:bg-cyan-500 text-black text-xs w-full mt-2 xlsx-file-submit-btn font-semibold"
-                disabled>Submit</button>
+                <!-- Form Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-5 gap-2 md:gap-4 w-full max-w-6xl ">
+                    <!-- Student ID Input -->
+                    <div class="form-control w-full">
+                        <label class="label" for="studentId">
+                            <span class="label-text font-medium">Student ID</span>
+                        </label>
+                        <input type="text" id="studentId" class="input input-bordered w-full text-xs md:text-sm"
+                            placeholder="UA202200746" />
+                    </div>
+
+                    <!-- Section Input -->
+                    <div class="form-control w-full">
+                        <label class="label" for="section">
+                            <span class="label-text font-medium">Section</span>
+                        </label>
+                        <input type="text" id="section" class="input input-bordered w-full text-xs md:text-sm"
+                            placeholder="LFA322E010" />
+                    </div>
+
+                    <!-- Course Input -->
+                    <div class="form-control w-full">
+                        <label class="label" for="course">
+                            <span class="label-text font-medium">Course <span class="text-xs text-info">(Abbreviation
+                                    only)</span></span>
+                        </label>
+                        <input type="text" id="course" class="input input-bordered w-full text-xs md:text-sm"
+                            placeholder="BSIT" />
+                    </div>
+
+                    <!-- Year Level Select -->
+                    <div class="form-control w-full">
+                        <label class="label" for="yearLevel">
+                            <span class="label-text font-medium">Year Level</span>
+                        </label>
+                        <select id="yearLevel" class="select select-bordered w-full text-xs md:text-sm">
+                            <option value="" class="bg-base-200 text-xs md:text-sm" disabled selected>Choose Year Level
+                            </option>
+                            <option value="1st Year" class="bg-base-200 text-xs md:text-sm">1st Year</option>
+                            <option value="2nd Year" class="bg-base-200 text-xs md:text-sm">2nd Year</option>
+                            <option value="3rd Year" class="bg-base-200 text-xs md:text-sm">3rd Year</option>
+                            <option value="4th Year" class="bg-base-200 text-xs md:text-sm">4th Year</option>
+                        </select>
+                    </div>
+
+                    <!-- Campus Input -->
+                    <div class="form-control w-full">
+                        <label class="label" for="campus">
+                            <span class="label-text font-medium">Campus</span>
+                        </label>
+                        <input type="text" id="campus" class="input input-bordered w-full text-xs md:text-sm"
+                            placeholder="Antipolo" />
+                    </div>
+
+                    <!-- PC Lab Input -->
+                    <div class="form-control w-full">
+                        <label class="label" for="pcLab">
+                            <span class="label-text font-medium">PC Lab</span>
+                        </label>
+                        <input type="number" id="pcLab" class="input input-bordered w-full text-xs md:text-sm"
+                            placeholder="1" />
+                    </div>
+
+                    <!-- Start Date Input -->
+                    <div class="form-control w-full">
+                        <label class="label" for="startDate">
+                            <span class="label-text font-medium">Start Date</span>
+                        </label>
+                        <input type="datetime-local" id="startDate"
+                            class="input input-bordered w-full text-xs md:text-sm" />
+                    </div>
+
+                    <!-- End Date Input -->
+                    <div class="form-control w-full">
+                        <label class="label" for="endDate">
+                            <span class="label-text font-medium">End Date</span>
+                        </label>
+                        <input type="datetime-local" id="endDate"
+                            class="input input-bordered w-full text-xs md:text-sm" />
+                    </div>
+
+                    <!-- Filter Select -->
+                    <div class="form-control w-full">
+                        <label class="label" for="filter">
+                            <span class="label-text font-medium">Filter</span>
+                        </label>
+                        <select id="filter" class="select select-bordered w-full text-xs md:text-sm">
+                            <option value="latest" class="bg-base-200 text-xs md:text-sm">Latest First</option>
+                            <option value="oldest" class="bg-base-200 text-xs md:text-sm">Oldest First</option>
+                        </select>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="w-full">
+                        <label class="label opacity-0">
+                            <span class="label-text">Submit</span>
+                        </label>
+                        <button type="submit" id="submitButton"
+                            class="btn btn-primary w-full bg-white text-black hover:text-white">
+                            Retrieve Logs
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Table Container (Initially Hidden) -->
+        <div id="tableContainer" class="tableContainer hidden ">
+            Table will be dynamically inserted here
         </div>
     </main>
 
-
+    <!-- Report Bug Section -->
     <main class="custom-container sections hidden flex-col items-center justify-center">
         <h2 class="text-xl md:text-3xl font-bold text-base-conte text-center">Report Bugs</h2>
         <p class="text-xs md:text-sm text-base-content/70 mb-4 text-center">
@@ -1203,55 +1263,33 @@
         </form>
     </main>
     
-    <main class="custom-container sections flex flex-col items-start justify-center sm:items-center text-left sm:text-center homepage">
-        <h1 class="text-3xl sm:text-4xl font-bold">Effortless <span class="italic text-cyan-400">Lab Monitoring</span>,
-            Powered by <span class="header-title">Authentikey</span>.</h1>
-        <p class="text-xs sm:text-sm text-base-content/70">Track computer usage in real-time, streamline student logins,
-            and manage ICCT’s computer labs with precision and ease.</p>
-        <div class="flex items-center justify-between mt-6 gap-2 flex-wrap">
-            <button
-                class="btn-sm sm:btn-md btn-circle bg-neutral  text-neutral-content hover:text-base-100 duration-700 ease-in-out tooltip relative hover:scale-105 hover:bg-base-content admin-links"
-                data-tip="Go to Analytics" data-my-value="Analytics">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                    class="size-4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                    <path
-                        d="M15.5 2A1.5 1.5 0 0 0 14 3.5v13a1.5 1.5 0 0 0 1.5 1.5h1a1.5 1.5 0 0 0 1.5-1.5v-13A1.5 1.5 0 0 0 16.5 2h-1ZM9.5 6A1.5 1.5 0 0 0 8 7.5v9A1.5 1.5 0 0 0 9.5 18h1a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 10.5 6h-1ZM3.5 10A1.5 1.5 0 0 0 2 11.5v5A1.5 1.5 0 0 0 3.5 18h1A1.5 1.5 0 0 0 6 16.5v-5A1.5 1.5 0 0 0 4.5 10h-1Z" />
-                </svg>
-            </button>
-            <button
-                class="btn-sm sm:btn-md btn-circle bg-neutral  text-neutral-content hover:text-base-100 duration-700 ease-in-out tooltip relative hover:scale-105 hover:bg-base-content admin-links"
-                data-tip="Go to Import Eligible Students" data-my-value="Import Eligible Students">
-
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                    class="size-4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                    <path
-                        d="M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM1.49 15.326a.78.78 0 0 1-.358-.442 3 3 0 0 1 4.308-3.516 6.484 6.484 0 0 0-1.905 3.959c-.023.222-.014.442.025.654a4.97 4.97 0 0 1-2.07-.655ZM16.44 15.98a4.97 4.97 0 0 0 2.07-.654.78.78 0 0 0 .357-.442 3 3 0 0 0-4.308-3.517 6.484 6.484 0 0 1 1.907 3.96 2.32 2.32 0 0 1-.026.654ZM18 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM5.304 16.19a.844.844 0 0 1-.277-.71 5 5 0 0 1 9.947 0 .843.843 0 0 1-.277.71A6.975 6.975 0 0 1 10 18a6.974 6.974 0 0 1-4.696-1.81Z" />
-                </svg>
-
-            </button>
-            <button
-                class="btn-sm sm:btn-md btn-circle bg-neutral  text-neutral-content hover:text-base-100 duration-700 ease-in-out tooltip relative hover:scale-105 hover:bg-base-content admin-links"
-                data-tip="Go to Correction Requests" data-my-value="Correction Requests">
-                <!--  class="size-4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" -->
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                    class="size-4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                    <path fill-rule="evenodd"
-                        d="M15.75 3A2.25 2.25 0 0 1 18 5.25v1.214c0 .423-.277.788-.633 1.019A2.997 2.997 0 0 0 16 10c0 1.055.544 1.982 1.367 2.517.356.231.633.596.633 1.02v1.213A2.25 2.25 0 0 1 15.75 17H4.25A2.25 2.25 0 0 1 2 14.75v-1.213c0-.424.277-.789.633-1.02A2.998 2.998 0 0 0 4 10a2.997 2.997 0 0 0-1.367-2.517C2.277 7.252 2 6.887 2 6.463V5.25A2.25 2.25 0 0 1 4.25 3h11.5ZM13.5 7.396a.75.75 0 0 0-1.5 0v1.042a.75.75 0 0 0 1.5 0V7.396Zm0 4.167a.75.75 0 0 0-1.5 0v1.041a.75.75 0 0 0 1.5 0v-1.041Z"
-                        clip-rule="evenodd" />
-                </svg>
-            </button>
-            <button
-                class="btn-sm sm:btn-md btn-circle bg-neutral  text-neutral-content hover:text-base-100 duration-700 ease-in-out tooltip relative hover:scale-105 hover:bg-base-content admin-links"
-                data-tip="Go to Retrieve Logs" data-my-value="Retrieve Logs">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                    class="size-4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                    <path
-                        d="M3 3.5A1.5 1.5 0 0 1 4.5 2h6.879a1.5 1.5 0 0 1 1.06.44l4.122 4.12A1.5 1.5 0 0 1 17 7.622V16.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 3 16.5v-13Z" />
-                </svg>
-            </button>
-
+    <div class="w-screen h-svh bg-base-100/60 backdrop-blur-sm" id="activity-log-container-modal" popover>
+        <div class="w-full h-full flex items-center justify-center">
+            <div class="w-[90%] max-w-lg h-[500px] bg-base-300 relative pt-11 px-2 pb-2  lg:px-4 lg:pb-4">
+                <button class="btn-circle btn-sm btn-ghost flex items-center justify-center absolute top-2 right-2" popovertarget="activity-log-container-modal" popovertargetaction="hide">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="size-4">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+                <h1 class="min-h-fit text-xl font-semibold">Activity Logs</h1>
+                <p class="min-h-fit text-xs text-base-content/70">Track actions performed by administrators on the admin page.</p>
+                <div class="w-full h-[388px] overflow-y-auto bg-neutral mt-2 flex flex-col gap-2 p-1">
+                    <div class="w-full h-auto min-h-[60px] bg-base-200/40 rounded-sm flex text-base-content">
+                        <div class="w-[15%] h-full flex items-center justify-center bg-base-200/20">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4">
+                                <path d="M4.214 3.227a.75.75 0 0 0-1.156-.955 8.97 8.97 0 0 0-1.856 3.825.75.75 0 0 0 1.466.316 7.47 7.47 0 0 1 1.546-3.186ZM16.942 2.272a.75.75 0 0 0-1.157.955 7.47 7.47 0 0 1 1.547 3.186.75.75 0 0 0 1.466-.316 8.971 8.971 0 0 0-1.856-3.825Z" />
+                                <path fill-rule="evenodd" d="M10 2a6 6 0 0 0-6 6c0 1.887-.454 3.665-1.257 5.234a.75.75 0 0 0 .515 1.076 32.91 32.91 0 0 0 3.256.508 3.5 3.5 0 0 0 6.972 0 32.903 32.903 0 0 0 3.256-.508.75.75 0 0 0 .515-1.076A11.448 11.448 0 0 1 16 8a6 6 0 0 0-6-6Zm0 14.5a2 2 0 0 1-1.95-1.557 33.54 33.54 0 0 0 3.9 0A2 2 0 0 1 10 16.5Z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <div class="w-[85%] h-full flex flex-col items-center justify-center text-xs text-justify px-2 py-4 overflow-x-hidden break-all">
+                            <p><span class="font-semibold">2025-05-21T03:22 - </span><span class="font-semibold">admin</span>&nbsp;created a new admin account - <span class="font-semibold">gelo24</span>. </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </main>
+    </div>
 
     <footer class="footer bg-neutral text-neutral-content p-10 relative bottom-0">
         <aside>
@@ -1294,10 +1332,207 @@
             </div>
         </nav>
     </footer>
+    <% if(role === "Super Admin") { %>
+        <div class="absolute inset-0 w-full h-svh bg-base-100/60 backdrop-blur-sm hidden" id="role-management-modal-container">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="w-[90%] max-w-3xl h-[60%] bg-base-300 relative pt-11 px-2 pb-2  lg:px-4 lg:pb-4 flex flex-col gap-2 items-start justfy-start rounded-sm ">
+                    <button class="btn-circle btn-sm btn-ghost flex items-center justify-center absolute top-2 right-2 role-management-btns">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-4">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                    <div class="flex flex-col items-start justify-start gap-1">
+                        <h1 class="text-xl md:text-3xl font-bold text-base-content inline-flex items-center justify-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8 md:size-10">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
+                            </svg>
 
+                            Role Management
+                        </h1>
+                        <p class="text-base-content/70 text-xs lg:text-sm max-w-2xl">
+                            This section provides the tools to manage administrator accounts and their associated roles.
+                        </p>
+                    </div>
+                    <div class="w-full flex justify-start gap-2">
+                        <button class="btn-sm btn-outline rounded-full text-xs px-5 text-base-content border-[1px] border-base-content/20 ease-in-out duration-500 font-semibold" popovertarget="edit-modal-container" popovertargetaction="show" >Edit</button>
+                        <div class="w-screen h-svh bg-base-100/60 backdrop-blur-sm" id="edit-modal-container" popover>
+                            <div class="w-full h-full flex items-center justify-center">
+                                <div class="w-[90%] max-w-xl min-h-[400px] h-auto bg-base-300 relative pt-11 px-2 pb-2 lg:px-4 lg:pb-4">
+                                    <button class="btn-circle btn-sm btn-ghost flex items-center justify-center absolute top-2 right-2" popovertarget="edit-modal-container" popovertargetaction="hide">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                        stroke="currentColor" class="size-4">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    </button>
+                                    <h2 class="text-lg font-bold mb-2">Edit Admin Account</h2>
+                                    <form class="flex flex-col gap-3 edit-admin-form">
+                                        <div class="form-control">
+                                            <label class="label" for="edit-username">
+                                                <span class="label-text font-medium">Current Username</span>
+                                            </label>
+                                            <input type="text" id="edit-username" class="input input-bordered w-full text-xs" placeholder="Enter current username" required>
+                                        </div>
+                                        <div class="form-control">
+                                            <label class="label" for="edit-new-username">
+                                                <span class="label-text font-medium">New Username</span>
+                                            </label>
+                                            <input type="text" id="edit-new-username" class="input input-bordered w-full text-xs" placeholder="Enter new username">
+                                        </div>
+                                        <div class="form-control relative">
+                                            <label class="label" for="edit-new-password">
+                                                <span class="label-text font-medium">New Password</span>
+                                            </label>
+                                            <input type="text" id="edit-new-password" class="input input-bordered w-full text-xs" placeholder="Enter new password">
+                                            
+                                        </div>
+                                        <div class="form-control">
+                                            <label class="label" for="edit-new-role">
+                                                <span class="label-text font-medium">New Role</span>
+                                            </label>
+                                            <select id="edit-new-role" class="select select-bordered w-full text-xs">
+                                                <option class="bg-base-300" value="" disabled selected>Select new role</option>
+                                                <option class="bg-base-300" value="Super Admin">Super Admin (All Permissions)</option>
+                                                <option class="bg-base-300" value="Moderator">Moderator (Requests)</option>
+                                                <option class="bg-base-300" value="Viewer">Viewer (Logs & Analytics)</option>
+                                            </select>
+                                        </div>
+                                        <button type="submit" class="btn btn-md btn-primary bg-white text-base-100  hover:bg-white/60 w-full mt-2 ease-in-out duration-500" disabled>Save Changes</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn-sm btn-outline rounded-full text-xs px-5 text-base-content border-[1px] border-base-content/20 ease-in-out duration-500 font-semibold" popovertarget="delete-modal-container" popovertargetaction="show" >Delete</button>
+                        <div class="w-screen h-svh bg-base-100/60 backdrop-blur-sm" id="delete-modal-container" popover>
+                            <div class="w-full h-full flex items-center justify-center">
+                                <div class="w-[90%] max-w-xl h-auto bg-base-300 relative pt-11 px-2 pb-2 lg:px-4 lg:pb-4">
+                                    <button class="btn-circle btn-sm btn-ghost flex items-center justify-center absolute top-2 right-2" popovertarget="delete-modal-container" popovertargetaction="hide">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                        stroke="currentColor" class="size-4">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    </button>
+                                    <h2 class="text-lg font-bold mt-2">Delete Admin Account</h2>
+                                    <form class="flex flex-col gap-4 items-center justify-center h-full delete-admin-form">
+                                        <div class="form-control w-full">
+                                            <label class="label" for="delete-username">
+                                                <span class="label-text font-medium">Username to Delete</span>
+                                            </label>
+                                            <input type="text" id="delete-username" class="input input-bordered w-full text-xs" placeholder="Enter username" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-md  bg-white text-base-100 hover:bg-white/60 w-full mt-2 ease-in-out duration-500" disabled>
+                                            Delete Account
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="btn-sm btn-outline rounded-full text-xs px-5 text-base-content border-[1px] border-base-content/20 ease-in-out duration-500 font-semibold" popovertarget="add-modal-container" popovertargetaction="show" >Add</button>
+                        <div class="w-screen h-svh bg-base-100/60 backdrop-blur-sm" id="add-modal-container" popover>
+                            <div class="w-full h-full flex items-center justify-center">
+                                <div class="w-[90%] max-w-xl h-auto min-h-[400px] bg-base-300 relative pt-11 px-2 pb-2 lg:px-4 lg:pb-4">
+                                    <button class="btn-circle btn-sm btn-ghost flex items-center justify-center absolute top-2 right-2" popovertarget="add-modal-container" popovertargetaction="hide">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                        stroke="currentColor" class="size-4">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    </button>
+                                    <h2 class="text-lg font-bold mt-2">Add Admin Account</h2>
+                                    <form class="flex flex-col gap-4 items-center justify-center h-full add-admin-form">
+                                        <!-- Username -->
+                                        <div class="form-control w-full">
+                                            <label class="label" for="add-username">
+                                                <span class="label-text font-medium">Username</span>
+                                            </label>
+                                            <input type="text" id="add-username" class="input input-bordered w-full text-xs" placeholder="Enter username" required>
+                                        </div>
+                                        <!-- Password -->
+                                        <div class="form-control w-full relative">
+                                            <label class="label" for="add-password">
+                                                <span class="label-text font-medium">Password</span>
+                                            </label>
+                                            <input type="text" id="add-password" class="input input-bordered w-full text-xs pr-10" placeholder="Enter password" required>
+                                            
+                                        </div>
+                                        
+                                        <div class="form-control w-full">
+                                            <label class="label" for="edit-new-role">
+                                                <span class="label-text font-medium">New Role</span>
+                                            </label>
+                                            <select id="edit-new-role" class="select select-bordered w-full text-xs">
+                                                <option class="bg-base-300" value="" disabled selected>Select new role</option>
+                                                <option class="bg-base-300" value="Super Admin">Super Admin (All Permissions)</option>
+                                                <option class="bg-base-300" value="Moderator">Moderator (Requests)</option>
+                                                <option class="bg-base-300" value="Viewer">Viewer (Logs & Analytics)</option>
+                                            </select>
+                                        </div>
+                                        <button type="submit" class="btn btn-md btn-primary bg-white text-base-100 hover:bg-white/60 w-full mt-2 ease-in-out duration-500" disabled>
+                                            Add Account
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-full overflow-y-auto"> 
+                        <table class="w-full border-collapse">
+                        <caption class="w-full h-12 text-sm font-bold text-white text-center bg-base-200 border-[1px] border-base-content/10 rounded-tl-md rounded-tr-md py-[14px] sticky top-0 left-0 right-0">Admin Credentials</caption>
+                            <thead class="w-full h-10">
+                                <tr class="w-full h-full text-xs font-semibold text-base-content text-center bg-base-200/50">
+                                    <th class="min-w-1/4 max-w-[25%] border-[1px] border-base-content/10">
+                                        Username
+                                    </th>
+                                    <th class="min-w-1/4 max-w-[25%] border-[1px] border-base-content/10">
+                                        Password
+                                    </th>
+                                    <th class="min-w-1/4 max-w-[25%] border-[1px] border-base-content/10">
+                                        Role
+                                    </th>
+                                    <th class="min-w-1/4 max-w-[25%] border-[1px] border-base-content/10">
+                                        Show/Hide
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="">
+                                <% for(const key in adminCredentials){%>
+                                <% const admin = adminCredentials[key] %>
+                                    <tr class="text-xs font-normal text-center bg-base-200/20">
+                                        <td class="h-10 min-w-1/4 max-w-[25%] border-[1px] border-base-content/10 overflow-x-auto">
+                                            <input class="w-full text-center bg-transparent admin-input-username" type="text" name="" id="" value="<%= admin.username%>" disabled>
+                                        </td>
+                                        <td class="h-10 min-w-1/4 max-w-[25%] border-[1px] border-base-content/10 overflow-x-auto">
+                                            <input class="w-full text-center bg-transparent admin-input-password" type="password" name="" id="" value="<%= admin.password%>" disabled>
+                                        </td>
+                                        <td class="h-10 min-w-1/4 max-w-[25%] border-[1px] border-base-content/10">
+                                            <input class="w-full text-center bg-transparent  overflow-x-auto admin-input-permission" type="password" name="" id="" value="<%= admin.role%>" disabled>
+                                        </td>
+                                        <td class="h-10 min-w-[15%] max-w-[15%] border-[1px] border-base-content/10">
+                                            <div class="w-full flex items-center justify-center">
+                                                <button class="btn-xs btn-circle btn-ghost flex items-center justify-center text-base-content admin-table-show-hide-btns">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 block">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                                    </svg>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 hidden">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% } %>
+    
     <!-- Scripts -->
     <script>
-
+        
     </script>
 
     <!-- For sending email -->

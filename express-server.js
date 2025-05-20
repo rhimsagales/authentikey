@@ -8,7 +8,9 @@ const http = require("http");
 const socketIo = require("socket.io");
 const session = require("express-session");
 const MongoStore = require('connect-mongo');
-
+const { getAdminAccRef } = require("./firebase-config");
+const adminAccRef = getAdminAccRef();
+const CryptoJS = require('crypto-js');
 
 
 const { chromium } = require('playwright');
@@ -236,6 +238,26 @@ function sortLogsByDate(logs) {
 function isAuthenticated(req, res, next) {
     if (req.session.user) return next();
     res.status(401).json({ error: "Unauthorized" });
+}
+
+function isAdminAndModerator(req, res, next) {
+    if (req.session.admin && req.session.admin.role === "Moderator" || req.session.admin && req.session.admin.role === "Super Admin") {
+        return next();
+    }
+    res.status(403).json({ 
+        success : false,
+        message: "You lack the necessary permissions to perform this action." 
+    });
+}
+
+function isAdmin(req, res, next) {
+    if(req.session.admin) {
+        return next()
+    }
+    res.status(403).json({ 
+        success : false,
+        message: "You lack the necessary permissions to perform this action." 
+    });
 }
 
 function isValidKey(req, res, next) {
@@ -768,6 +790,29 @@ function findPeakHour(computerUsageLogs) {
     return peakInterval;
 }
 
+
+
+function decryptPasswords(data) {
+    const key = ''; // blank key
+
+    for (const userId in data) {
+        const user = data[userId];
+
+        if (typeof user.password === 'string' && user.password.startsWith('U2FsdGVkX1')) {
+            try {
+                const decrypted = CryptoJS.RC4.decrypt(user.password, key);
+                user.password = decrypted.toString(CryptoJS.enc.Utf8);
+            } catch (err) {
+                console.error(`Failed to decrypt password for ${userId}:`, err.message);
+                user.password = '[DECRYPTION ERROR]';
+            }
+        }
+    }
+
+    return data;
+}
+
+
 app.set("view engine", "ejs");
 app.use(cors());
 app.use(express.json());
@@ -1044,7 +1089,16 @@ app.get('/users/admin-dashboard', async(req, res) => {
     else if(req.session.studentID && !req.session.admin) {
         return res.redirect("/users/student-dashboard");
     }
-    res.render('admin-page');
+    const snapshot = await adminAccRef.once('value');
+    const adminCredentials = snapshot.val();
+    const adminCredentialDecrypted = decryptPasswords(adminCredentials);
+
+    const adminData = {
+        username : req.session.admin.username,
+        role : req.session.admin.role,
+        adminCredentials : adminCredentialDecrypted
+    }
+    res.render('admin-page', adminData);
 })
 
 app.post('/pages/sign-up/check-studentid-availability', async (req, res) => {
@@ -1125,7 +1179,7 @@ app.post('/firebase/push-log', isValidKey, (req, res) => {
     mongoFunctions.findAndPushData(req, res);
 });
 
-app.post('/firebase/get-filtered-logs', (req, res) => {
+app.post('/firebase/get-filtered-logs', isAdmin, (req, res) => {
     mongoFunctions.getFilteredLogs(req, res);
 });
 
@@ -1194,15 +1248,15 @@ app.post('/mongodb/find-student-id', isAuthenticated, (req, res) => {
 });
 
 
-app.post('/admin/edit-logs', (req, res) => {
+app.post('/admin/edit-logs', isAdminAndModerator, (req, res) => {
     mongoFunctions.adminApproveModifyLogs(req, res);
 })
 
-app.post('/admin/reject-request', (req, res) => {
+app.post('/admin/reject-request', isAdminAndModerator, (req, res) => {
     mongoFunctions.adminRejectModifyLogs(req, res);
 })
 
-app.post('/admin/upload-student-ids', (req, res) => {
+app.post('/admin/upload-student-ids', isAdminAndModerator, (req, res) => {
     mongoFunctions.uploadEligibleStudentIDS(req, res);
 })
 
@@ -1212,6 +1266,18 @@ app.post('/authenticate-admin', (req, res) => {
 
 app.post('/check-student-eligibility', (req, res) => {
     mongoFunctions.checkEligibility(req, res);
+})
+
+app.post('/admin/edit-admin', isAdminAndModerator, (req, res) => {
+    mongoFunctions.editAdminCredentials(req, res);
+});
+
+app.delete('/admin/delete-credentials', isAdminAndModerator, (req, res) => {
+    mongoFunctions.deleteAdminCredential(req, res);
+})
+
+app.post('/admin/create-credential', isAdminAndModerator, (req, res) => {
+    mongoFunctions.createAdminCredential(req, res);
 })
 
 server.listen(process.env.PORT || 3000, () => {

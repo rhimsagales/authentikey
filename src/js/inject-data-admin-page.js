@@ -516,6 +516,7 @@ function attachEventListeners() {
       cleanBtn.addEventListener('click', async (e) => {
           e.preventDefault();
 
+          e.target.closest('.request-modal-content').querySelector('button').click();
           const modal = e.target.closest('.request-modal-content');
           const requestCard = e.target.closest('.request-card');
           const requestModal = e.target.closest('.request-modal');
@@ -564,6 +565,7 @@ function attachEventListeners() {
       cleanBtn.addEventListener('click', async (e) => {
           e.preventDefault();
 
+          e.target.closest('.request-modal-content').querySelector('button').click();
           const modal = e.target.closest('.request-modal-content');
           const requestCard = e.target.closest('.request-card');
           const requestModal = e.target.closest('.request-modal');
