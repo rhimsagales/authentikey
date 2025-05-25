@@ -21,7 +21,7 @@ const getCorrectionRequestRef = () => getDatabase().ref("studentsRecord/correcti
 const getComputerUsageLogsRef = () => getDatabase().ref("studentsRecord/logs/");
 const getEligibleStudentsRef = () => getDatabase().ref("eligibleStudents/");
 const getAdminAccRef = () => getDatabase().ref("adminAccounts/");
-
+const getPCPasswordRef = () => getDatabase().ref("pcPassword/");
 
 module.exports = { 
     admin, 
@@ -29,5 +29,6 @@ module.exports = {
     getCorrectionRequestRef, 
     getComputerUsageLogsRef,
     getEligibleStudentsRef ,
-    getAdminAccRef
+    getAdminAccRef,
+    getPCPasswordRef
 };

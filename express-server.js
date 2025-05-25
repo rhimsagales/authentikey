@@ -24,11 +24,23 @@ const MainIo = socketIo(server, {
 const studentIo = MainIo.of("/websocket/student")
 const adminIo = MainIo.of("/websocket/admin");
 
-const { getDatabase } = require("./firebase-config");
+const { getDatabase, getPCPasswordRef } = require("./firebase-config");
 
-const db = getDatabase()
+const db = getDatabase();
+
+const pcPasswordRef = getPCPasswordRef();
 
 
+
+let pcPassword;
+async function getPCPassword() {
+    const snapshot = await pcPasswordRef.once('value');
+    const pcPasswordVal = snapshot.val().password;
+    // console.log(`initialPass: ${pcPasswordVal}`)
+    pcPassword = pcPasswordVal ? pcPasswordVal : "adminDefaultPassword"; // Fallback to a default password if null
+    // console.log(`PC Password: ${pcPassword}`);
+}
+getPCPassword();
 
 
 function getLastThreeMonthsLogins(data) {
@@ -350,10 +362,6 @@ function convertDateForAllLogsForCorrReq(data, timeZoneOffset = 8) {
     return data; 
 }
 
-
-
-
-
 function getTotalLogsForThisWeek(data) {
     if (typeof data !== 'object' || data === null || Object.keys(data).length === 0) {
         console.error("Input is not an object.");
@@ -413,23 +421,6 @@ function getTotalLogsForThisWeek(data) {
     return weeklyLogs;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function getTotalLogsPerMonthThisYear(dataObject) {
     if (typeof dataObject !== 'object' || !dataObject || dataObject === null || Object.keys(dataObject).length === 0) {
         console.log("Input is not an object. Returning default zero-filled array.");
@@ -465,7 +456,6 @@ function getTotalLogsPerMonthThisYear(dataObject) {
 
     return monthlyTotals;
 }
-
 
 function getTopSectionsByLogins(dataObject) {
     if (typeof dataObject !== 'object' || !dataObject || dataObject === null || Object.keys(dataObject).length === 0) {
@@ -628,9 +618,6 @@ function getRejectedUniqueRequestsAsObject(dataObject) {
     return rejectedRequestsObject;
 }
 
-
-
-
 function getTotalLogsPerYearLevel(dataObject) {
     if (typeof dataObject !== 'object' || !dataObject || dataObject === null || Object.keys(dataObject).length === 0) {
         return {
@@ -692,9 +679,6 @@ function getTopFourCoursesByUsage(dataObject) {
     return result;
 }
 
-
-
-
 function countNumberOfRequest(dataObject) {
     let counter = 0;
     for(const studentID in dataObject) {
@@ -702,7 +686,6 @@ function countNumberOfRequest(dataObject) {
     }
     return counter;
 }
-
 
 function countSections(dataObject) {
     let uniqueSections = new Set();
@@ -716,7 +699,6 @@ function countSections(dataObject) {
     
     return uniqueSections.size
 }
-
 
 function findMostUsedPC(computerUsageLogs) {
     if (!computerUsageLogs) {
@@ -752,7 +734,6 @@ function findMostUsedPC(computerUsageLogs) {
 
     return mostUsedPC;
 }
-
 
 function findPeakHour(computerUsageLogs) {
     if (!computerUsageLogs) {
@@ -790,8 +771,6 @@ function findPeakHour(computerUsageLogs) {
     return peakInterval;
 }
 
-
-
 function decryptPasswords(data) {
     const key = ''; // blank key
 
@@ -811,7 +790,6 @@ function decryptPasswords(data) {
 
     return data;
 }
-
 
 app.set("view engine", "ejs");
 app.use(cors());
@@ -957,11 +935,18 @@ adminIo.on("connection", (socket) => {
         socket.emit("newRequest", {totalCorrReqPerMonth, noOfReq, pendingRequest, rejectedRequest, approvedRequest})
     })
 
+    pcPasswordRef.on('value', (snapshot) => {
+        const pcPasswordVal = snapshot.val();
+        pcPassword = pcPasswordVal.password ? pcPasswordVal.password : "adminDefaultPassword";
+        console.log(pcPassword);
+    })
+
     
     
     socket.on("disconnect", () => {
         computerLogsRef.off(); 
         correctionRequestRef.off();
+        pcPasswordRef.off();
         
     });
 })
@@ -1265,7 +1250,7 @@ app.post('/authenticate-admin', (req, res) => {
 })
 
 app.post('/check-student-eligibility', (req, res) => {
-    mongoFunctions.checkEligibility(req, res);
+    mongoFunctions.checkEligibility(req, res, pcPassword);
 })
 
 app.post('/admin/edit-admin', isAdminAndModerator, (req, res) => {
@@ -1283,6 +1268,16 @@ app.post('/admin/create-credential', isAdminAndModerator, (req, res) => {
 app.delete('/admin/delete-logs', isAdminAndModerator, (req, res) => {
     mongoFunctions.deleteLogs(req, res);
 })
+
+app.post('/admin/change-pc-password', isAdminAndModerator, (req, res) => {
+    mongoFunctions.changePCPassword(req, res);
+});
+
+app.post('/admin/pc-password',  (req, res) => {
+    res.status(200).json({
+        pcPassword : pcPassword
+    })
+});
 
 server.listen(process.env.PORT || 3000, () => {
     console.log('Server running at http://localhost:3000');

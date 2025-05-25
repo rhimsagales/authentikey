@@ -254,13 +254,23 @@
                                 Activity Log
                             </button>
                         </li>
+                        <li>
+                            <button class="text-xs 3xl:text-sm 4xl:text-base flex items-center gap-2" popovertarget="change-password-container-modal" popovertargetaction="show">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+                                    <path fill-rule="evenodd" d="M8 1a3.5 3.5 0 0 0-3.5 3.5V7A1.5 1.5 0 0 0 3 8.5v5A1.5 1.5 0 0 0 4.5 15h7a1.5 1.5 0 0 0 1.5-1.5v-5A1.5 1.5 0 0 0 11.5 7V4.5A3.5 3.5 0 0 0 8 1Zm2 6V4.5a2 2 0 1 0-4 0V7h4Z" clip-rule="evenodd" />
+                                </svg>
+                                Change PC Password
+                            </button>
+                        </li>
                         <div class="divider mt-3 h-fit"></div>
-                        <li><a class="text-error text-xs 3xl:text-sm 4xl:text-base admin-logout font-semibold flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
-                                <path fill-rule="evenodd" d="M14 4.75A2.75 2.75 0 0 0 11.25 2h-3A2.75 2.75 0 0 0 5.5 4.75v.5a.75.75 0 0 0 1.5 0v-.5c0-.69.56-1.25 1.25-1.25h3c.69 0 1.25.56 1.25 1.25v6.5c0 .69-.56 1.25-1.25 1.25h-3c-.69 0-1.25-.56-1.25-1.25v-.5a.75.75 0 0 0-1.5 0v.5A2.75 2.75 0 0 0 8.25 14h3A2.75 2.75 0 0 0 14 11.25v-6.5Zm-9.47.47a.75.75 0 0 0-1.06 0L1.22 7.47a.75.75 0 0 0 0 1.06l2.25 2.25a.75.75 0 1 0 1.06-1.06l-.97-.97h7.19a.75.75 0 0 0 0-1.5H3.56l.97-.97a.75.75 0 0 0 0-1.06Z" clip-rule="evenodd" />
-                            </svg>
-                            Sign Out
-                        </a></li>
+                        <li>
+                            <a class="text-error text-xs 3xl:text-sm 4xl:text-base admin-logout font-semibold flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+                                    <path fill-rule="evenodd" d="M14 4.75A2.75 2.75 0 0 0 11.25 2h-3A2.75 2.75 0 0 0 5.5 4.75v.5a.75.75 0 0 0 1.5 0v-.5c0-.69.56-1.25 1.25-1.25h3c.69 0 1.25.56 1.25 1.25v6.5c0 .69-.56 1.25-1.25 1.25h-3c-.69 0-1.25-.56-1.25-1.25v-.5a.75.75 0 0 0-1.5 0v.5A2.75 2.75 0 0 0 8.25 14h3A2.75 2.75 0 0 0 14 11.25v-6.5Zm-9.47.47a.75.75 0 0 0-1.06 0L1.22 7.47a.75.75 0 0 0 0 1.06l2.25 2.25a.75.75 0 1 0 1.06-1.06l-.97-.97h7.19a.75.75 0 0 0 0-1.5H3.56l.97-.97a.75.75 0 0 0 0-1.06Z" clip-rule="evenodd" />
+                                </svg>
+                                Sign Out
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -468,6 +478,14 @@
                                             Activity Log
                                         </button>
                                     </li>
+                                    <li>
+                                        <button class="text-xs rounded px-1 flex items-center gap-2" popovertarget="change-password-container-modal" popovertargetaction="show">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+                                                <path fill-rule="evenodd" d="M8 1a3.5 3.5 0 0 0-3.5 3.5V7A1.5 1.5 0 0 0 3 8.5v5A1.5 1.5 0 0 0 4.5 15h7a1.5 1.5 0 0 0 1.5-1.5v-5A1.5 1.5 0 0 0 11.5 7V4.5A3.5 3.5 0 0 0 8 1Zm2 6V4.5a2 2 0 1 0-4 0V7h4Z" clip-rule="evenodd" />
+                                            </svg>
+                                            Change PC Password
+                                        </button>
+                                    </li>
                                     <div class="divider h-2 items-end mt-2 mb-2"></div>
                                     <li>
                                         <a class="text-xs rounded px-1 text-error font-semibold admin-logout flex items-center gap-2">
@@ -491,7 +509,7 @@
     </nav>
 
     <!-- Homepage Section -->
-    <main class="custom-container sections hidden flex-col items-start justify-center sm:items-center text-left sm:text-center homepage">
+    <main class="custom-container sections flex flex-col items-start justify-center sm:items-center text-left sm:text-center homepage">
         <h1 class="text-3xl sm:text-4xl font-bold">Effortless <span class="italic text-cyan-400">Lab Monitoring</span>,
             Powered by <span class="header-title">Authentikey</span>.</h1>
         <p class="text-xs sm:text-sm text-base-content/70">Track computer usage in real-time, streamline student logins,
@@ -1240,7 +1258,7 @@
     </main>
 
     <!-- Delete Logs Section -->
-    <main class="custom-container flex items-center justify-center sections">
+    <main class="custom-container hidden items-center justify-center sections">
         <!-- Form Container -->
         <div id="delete-formContainer" class="w-full">
             <form class="space-y-2 sm:space-y-6 flex flex-col items-center justify-center w-full" id="filterDeleteForm">
@@ -1408,6 +1426,34 @@
             <button class="btn btn-primary btn-sm w-full rounded-full bg-white text-base-100 hover:text-white duration-500 ease-in-out mt-2 text-xs md:btn-md md:text-sm" disabled>Submit Report</button>
         </form>
     </main>
+
+    <div class="w-screen h-svh bg-base-100/60 backdrop-blur-sm" id="change-password-container-modal" popover>
+        <div class="w-full h-full flex items-center justify-center">
+            <div class="w-[90%] max-w-xs h-auto bg-base-300 relative pt-11 px-2 pb-2  lg:px-4 lg:pb-4">
+                <button class="btn-circle btn-sm btn-ghost flex items-center justify-center absolute top-2 right-2" popovertarget="change-password-container-modal" popovertargetaction="hide">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="size-4">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+                <h1 class="min-h-fit text-xl font-semibold">Change PC Password</h1>
+                <p class="min-h-fit text-xs text-base-content/70">Modify the password used by the Authentikey device to authorize your access to the PC.</p>
+                <form class="w-full">
+                    <div class="form-control w-full">
+                            <label class="label" for="newPcPassword">
+                                <span class="label-text font-medium">New Password</span>
+                            </label>
+                            <input type="text" id="newPcPassword" class="input input-bordered w-full text-xs md:text-sm"
+                                placeholder="adminIcct2025" />
+                    </div>
+                    <div class="w-full h-[50px] flex justify-end items-end gap-2">
+                        <button class="text-xs font-semibold btn-sm btn-ghost rounded-full" popovertarget="change-password-container-modal" popovertargetaction="hide" type="button">Cancel</button>
+                        <button class="text-xs font-semibold btn-sm btn-primary bg-blue-600 text-white rounded-full disabled:bg-blue-950 disabled:cursor-not-allowed disabled:text-gray-600" type="submit" id="update-pc-password-btn" disabled>Update</button>
+                    </div>
+                </form> 
+            </div>
+        </div>
+    </div>
     
     <div class="w-screen h-svh bg-base-100/60 backdrop-blur-sm" id="activity-log-container-modal" popover>
         <div class="w-full h-full flex items-center justify-center">

@@ -2,7 +2,7 @@ require('dotenv').config();
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const mongoURI = process.env.MongoURI;
-const { getCorrectionRequestRef, getComputerUsageLogsRef, getEligibleStudentsRef, getAdminAccRef } = require("../../firebase-config");
+const { getCorrectionRequestRef, getComputerUsageLogsRef, getEligibleStudentsRef, getAdminAccRef, getPCPasswordRef } = require("../../firebase-config");
 const admin = require('firebase-admin');
 const CryptoJS = require('crypto-js');
 const encryptText = require('../../encrypt');
@@ -14,6 +14,7 @@ let correctionRequestRef = getCorrectionRequestRef();
 let computerUsageLogsRef = getComputerUsageLogsRef();
 let eligibleStudentsRef = getEligibleStudentsRef();
 let adminAccRef = getAdminAccRef();
+let pcPasswordRef = getPCPasswordRef();
 
 
 
@@ -1185,12 +1186,13 @@ async function uploadEligibleStudentIDS(req, res) {
 }
 
 
-async function checkEligibility(req, res) {
+async function checkEligibility(req, res, pcPassword) {
     const { studentID } = req.body;
 
     if (!studentID) {
         return res.status(400).json({
-            message: "Student ID is required."
+            message: "Student ID is required.",
+            pcPassword: pcPassword
         });
     }
 
@@ -1209,13 +1211,15 @@ async function checkEligibility(req, res) {
         if (isEligible) {
             return res.status(200).json({
                 isEligible : true,
-                message: "The student ID is eligible."
+                message: "The student ID is eligible.",
+                pcPassword : pcPassword
             });
         
         } else {
             return res.status(400).json({
                 isEligible : false,
-                message: "The student ID is not eligible."
+                message: "The student ID is not eligible.",
+                pcPassword : pcPassword
             });
         }
     }
@@ -1223,7 +1227,8 @@ async function checkEligibility(req, res) {
         console.error("Error checking eligibility:", error);
         return res.status(500).json({
             isEligible : null,
-            message: "An error occurred while checking eligibility."
+            message: "An error occurred while checking eligibility.",
+            pcPassword : pcPassword
         });
     }
 
@@ -1421,7 +1426,32 @@ async function deleteLogs(req, res) {
     }
 }
 
+async function changePCPassword(req, res) {
+    const { pcPassword } = req.body;
 
-module.exports = { connectToMongoDB, checkStudentIdAvailability, registerAccount, login, createResetPassDoc, deleteResetPassDocs, compareResetCode, changePassword, insertCorrectionRequest, getAllLogs, updatePersonalInfo, updatePassword, deleteStudent, findAndPushData, findStudentID, getFilteredLogs, adminApproveModifyLogs, adminRejectModifyLogs, uploadEligibleStudentIDS, adminLogin, checkEligibility, editAdminCredentials, deleteAdminCredential, createAdminCredential, deleteLogs };
+    if (!pcPassword) {
+        return res.status(400).json({
+            success: false,
+            message: "New password is required."
+        });
+    }
+
+    try {
+        await pcPasswordRef.set({ password: pcPassword });
+        return res.status(200).json({
+            success: true,
+            message: "PC password changed successfully."
+        });
+    } catch (error) {
+        console.error("Error changing PC password:", error);
+        return res.status(500).json({
+            success: false,
+            message: "An error occurred while changing the PC password."
+        });
+    }
+}
+
+
+module.exports = { connectToMongoDB, checkStudentIdAvailability, registerAccount, login, createResetPassDoc, deleteResetPassDocs, compareResetCode, changePassword, insertCorrectionRequest, getAllLogs, updatePersonalInfo, updatePassword, deleteStudent, findAndPushData, findStudentID, getFilteredLogs, adminApproveModifyLogs, adminRejectModifyLogs, uploadEligibleStudentIDS, adminLogin, checkEligibility, editAdminCredentials, deleteAdminCredential, createAdminCredential, deleteLogs, changePCPassword };
 
 

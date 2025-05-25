@@ -829,3 +829,47 @@ deleteForm.addEventListener('submit', async (e) => {
     }
     // deleteForm.reset(); 
 })
+
+
+const changePcPasswordForm = document.querySelector('#change-password-container-modal > div > div > form');
+const changePcPasswordInput = changePcPasswordForm.querySelector('input');
+const changePcPasswordUpdateBtn = changePcPasswordForm.querySelector('#update-pc-password-btn');
+
+changePcPasswordInput.addEventListener('input', () => {
+    const isFilled = changePcPasswordInput.value.trim() !== '';
+    changePcPasswordUpdateBtn.disabled = !isFilled;
+})
+
+changePcPasswordForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    changePcPasswordForm.parentElement.querySelector('button').click();
+
+    const newPcPassword = changePcPasswordInput.value.trim();
+
+    if (newPcPassword === "") {
+        createWarningAlert("Please enter a new PC password.");
+        return;
+    }
+
+    try {
+        const response = await fetch('/admin/change-pc-password', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ pcPassword: newPcPassword })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            createSuccessAlert(data.message);
+        } else {
+            createWarningAlert(data.message);
+        }
+    } catch (error) {
+        createErrorAlert('An error occurred while changing the PC password. Please try again.');
+        console.error('Error sending request:', error);
+    }
+})
