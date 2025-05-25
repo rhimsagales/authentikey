@@ -666,7 +666,7 @@ function iterateThroughAppReq(dataObject) {
   
 function updateNoOfRegistered(number) {
   let noOfRegistered = document.querySelector('.card-num-reg');
-  console.log(typeof number);
+  // console.log(typeof number);
 
   let count = 0;
   const interval = setInterval(() => {
@@ -847,8 +847,8 @@ socketAdmin.on("newRequest", (corrRequests) => {
 
       updateNoOfRequest(corrRequests.noOfReq);
       iterateThroughReq(corrRequests.pendingRequest);
-      console.log(corrRequests.approvedRequest);
-      console.log(corrRequests.rejectedRequest);
+      // console.log(corrRequests.approvedRequest);
+      // console.log(corrRequests.rejectedRequest);
       iterateThroughRejReq(corrRequests.rejectedRequest);
       iterateThroughAppReq(corrRequests.approvedRequest);
       

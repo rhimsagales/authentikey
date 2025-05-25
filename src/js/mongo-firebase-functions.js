@@ -1352,6 +1352,76 @@ async function createAdminCredential(req, res) {
     }
 }
 
-module.exports = { connectToMongoDB, checkStudentIdAvailability, registerAccount, login, createResetPassDoc, deleteResetPassDocs, compareResetCode, changePassword, insertCorrectionRequest, getAllLogs, updatePersonalInfo, updatePassword, deleteStudent, findAndPushData, findStudentID, getFilteredLogs, adminApproveModifyLogs, adminRejectModifyLogs, uploadEligibleStudentIDS, adminLogin, checkEligibility, editAdminCredentials, deleteAdminCredential, createAdminCredential };
+
+async function deleteLogs(req, res) {
+    const {
+        studentID,
+        section,
+        course,
+        yearLevel,
+        campus,
+        startDate,
+        endDate
+    } = req.body;
+
+    const isAllFieldsEmpty = Object.values(req.body).every(value => value === "");
+    if (isAllFieldsEmpty) {
+        return res.status(400).json({
+        success: false,
+        message: "At least one field is required to delete logs."
+        });
+    }
+
+    try {
+        const snapshot = await computerUsageLogsRef.get();
+        if (!snapshot.exists()) {
+        return res.status(404).json({
+            success: false,
+            message: "No logs found."
+        });
+        }
+
+        const logsData = snapshot.val();
+
+        
+        let deletedCount = 0;
+
+        for (const [studentId, studentLogs] of Object.entries(logsData)) {
+            for (const [logId, log] of Object.entries(studentLogs)) {
+                const shouldDelete = (
+                (!studentID || log.studentID === studentID) &&
+                (!section || log.section === section) &&
+                (!course || log.course === course) &&
+                (!yearLevel || log.yearLevel === yearLevel) &&
+                (!campus || log.campus === campus) &&
+                (!startDate || new Date(log.date) >= new Date(startDate)) &&
+                (!endDate || new Date(log.date) <= new Date(endDate))
+                );
+
+                if (shouldDelete) {
+                    await computerUsageLogsRef
+                    .child(studentId)
+                    .child(logId)
+                    .remove();
+                    deletedCount++;
+                }
+            }
+        }
+
+        return res.status(200).json({
+        success: true,
+        message: `${deletedCount} log(s) deleted successfully.`
+        });
+    } catch (err) {
+        console.error("Error deleting logs:", err);
+        return res.status(500).json({
+        success: false,
+        message: "An error occurred while deleting logs."
+        });
+    }
+}
+
+
+module.exports = { connectToMongoDB, checkStudentIdAvailability, registerAccount, login, createResetPassDoc, deleteResetPassDocs, compareResetCode, changePassword, insertCorrectionRequest, getAllLogs, updatePersonalInfo, updatePassword, deleteStudent, findAndPushData, findStudentID, getFilteredLogs, adminApproveModifyLogs, adminRejectModifyLogs, uploadEligibleStudentIDS, adminLogin, checkEligibility, editAdminCredentials, deleteAdminCredential, createAdminCredential, deleteLogs };
 
 

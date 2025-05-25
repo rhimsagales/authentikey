@@ -1280,6 +1280,10 @@ app.post('/admin/create-credential', isAdminAndModerator, (req, res) => {
     mongoFunctions.createAdminCredential(req, res);
 })
 
+app.delete('/admin/delete-logs', isAdminAndModerator, (req, res) => {
+    mongoFunctions.deleteLogs(req, res);
+})
+
 server.listen(process.env.PORT || 3000, () => {
     console.log('Server running at http://localhost:3000');
 });

@@ -24,8 +24,8 @@
 
 
     <!-- Tailwind and Daisy Cdn -->
-    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/daisyui/4.12.23/full.min.css" rel="stylesheet" type="text/css" />
-    <script src="https://cdn.tailwindcss.com"></script> -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/daisyui/4.12.23/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
         body {
@@ -201,6 +201,8 @@
                                             data-my-value="Correction Requests">Correction Requests</a></li>
                                     <li><a class="text-xs font-semibold 3xl:text-sm 4xl:text-base admin-links"
                                             data-my-value="Retrieve Logs">Retrieve Logs</a></li>
+                                    <li><a class="text-xs font-semibold 3xl:text-sm 4xl:text-base admin-links"
+                                            data-my-value="Delete Logs">Delete Logs</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -393,6 +395,15 @@
                                             Retrieve Logs
                                         </a>
                                     </li>
+                                    <li>
+                                        <a class="text-xs rounded px-1 admin-links flex items-center gap-2" data-my-value="Delete Logs">
+                                            <!-- Delete Logs Icon -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+                                                <path fill-rule="evenodd" d="M5 3.25V4H2.75a.75.75 0 0 0 0 1.5h.3l.815 8.15A1.5 1.5 0 0 0 5.357 15h5.285a1.5 1.5 0 0 0 1.493-1.35l.815-8.15h.3a.75.75 0 0 0 0-1.5H11v-.75A2.25 2.25 0 0 0 8.75 1h-1.5A2.25 2.25 0 0 0 5 3.25Zm2.25-.75a.75.75 0 0 0-.75.75V4h3v-.75a.75.75 0 0 0-.75-.75h-1.5ZM6.05 6a.75.75 0 0 1 .787.713l.275 5.5a.75.75 0 0 1-1.498.075l-.275-5.5A.75.75 0 0 1 6.05 6Zm3.9 0a.75.75 0 0 1 .712.787l-.275 5.5a.75.75 0 0 1-1.498-.075l.275-5.5a.75.75 0 0 1 .786-.711Z" clip-rule="evenodd" />
+                                            </svg>
+                                            Delete Logs
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -480,7 +491,7 @@
     </nav>
 
     <!-- Homepage Section -->
-    <main class="custom-container sections flex flex-col items-start justify-center sm:items-center text-left sm:text-center homepage">
+    <main class="custom-container sections hidden flex-col items-start justify-center sm:items-center text-left sm:text-center homepage">
         <h1 class="text-3xl sm:text-4xl font-bold">Effortless <span class="italic text-cyan-400">Lab Monitoring</span>,
             Powered by <span class="header-title">Authentikey</span>.</h1>
         <p class="text-xs sm:text-sm text-base-content/70">Track computer usage in real-time, streamline student logins,
@@ -1103,7 +1114,7 @@
 
     </main>
 
-    <!-- Form Section -->
+    <!-- Retrieve Logs Section -->
     <main class="custom-container hidden items-center justify-center sections">
         <!-- Form Container -->
         <div id="formContainer" class="w-full">
@@ -1228,6 +1239,141 @@
         </div>
     </main>
 
+    <!-- Delete Logs Section -->
+    <main class="custom-container flex items-center justify-center sections">
+        <!-- Form Container -->
+        <div id="delete-formContainer" class="w-full">
+            <form class="space-y-2 sm:space-y-6 flex flex-col items-center justify-center w-full" id="filterDeleteForm">
+                <!-- Title and Supporting Text -->
+                <div class="text-center mb-4 w-full max-w-6xl flex items-center justify-center flex-col">
+                    <h1 class="text-xl md:text-3xl font-bold text-base-content mb-2">Delete Logs</h1>
+                    <p class="text-base-content/70 text-xs lg:text-sm max-w-2xl">
+                        This section allows you to delete logs based on Student ID, section, course, and other criteria.
+                    </p>
+                </div>
+
+                <!-- <div class="w-full max-w-6xl text-xs lg:text-sm">
+                    <p><span class=text-info>Info:</span> Deleting logs may take some time. Please be patient and avoid clicking the "Delete Logs" button multiple times.</p>
+                    <p><span class="text-warning">Warning:</span> This action is irreversible. Make sure your applied filters accurately match the data you intend to delete.</p>
+                </div> -->
+                <!-- Form Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-4 gap-2 md:gap-4 w-full max-w-6xl ">
+                    <!-- Student ID Input -->
+                    <div class="form-control w-full">
+                        <label class="label" for="studentId-delete">
+                            <span class="label-text font-medium">Student ID</span>
+                        </label>
+                        <input type="text" id="studentId-delete" class="input input-bordered w-full text-xs md:text-sm"
+                            placeholder="UA202200746" />
+                    </div>
+
+                    <!-- Section Input -->
+                    <div class="form-control w-full">
+                        <label class="label" for="section-delete">
+                            <span class="label-text font-medium">Section</span>
+                        </label>
+                        <input type="text" id="section-delete" class="input input-bordered w-full text-xs md:text-sm"
+                            placeholder="LFA322E010" />
+                    </div>
+
+                    <!-- Course Input -->
+                    <div class="form-control w-full">
+                        <label class="label" for="course-delete">
+                            <span class="label-text font-medium">Course <span class="text-xs text-info">(Abbreviation
+                                    only)</span></span>
+                        </label>
+                        <input type="text" id="course-delete" class="input input-bordered w-full text-xs md:text-sm"
+                            placeholder="BSIT" />
+                    </div>
+
+                    <!-- Year Level Select -->
+                    <div class="form-control w-full">
+                        <label class="label" for="yearLevel-delete">
+                            <span class="label-text font-medium">Year Level</span>
+                        </label>
+                        <select id="yearLevel-delete" class="select select-bordered w-full text-xs md:text-sm">
+                            <option value="" class="bg-base-200 text-xs md:text-sm" disabled selected>Choose Year Level
+                            </option>
+                            <option value="1st Year" class="bg-base-200 text-xs md:text-sm">1st Year</option>
+                            <option value="2nd Year" class="bg-base-200 text-xs md:text-sm">2nd Year</option>
+                            <option value="3rd Year" class="bg-base-200 text-xs md:text-sm">3rd Year</option>
+                            <option value="4th Year" class="bg-base-200 text-xs md:text-sm">4th Year</option>
+                        </select>
+                    </div>
+
+                    <!-- Campus Input -->
+                    <div class="form-control w-full">
+                        <label class="label" for="campus-delete">
+                            <span class="label-text font-medium">Campus</span>
+                        </label>
+                        <input type="text" id="campus-delete" class="input input-bordered w-full text-xs md:text-sm"
+                            placeholder="Antipolo" />
+                    </div>
+
+                    
+
+                    <!-- Start Date Input -->
+                    <div class="form-control w-full">
+                        <label class="label" for="startDate-delete">
+                            <span class="label-text font-medium">Start Date</span>
+                        </label>
+                        <input type="datetime-local" id="startDate-delete"
+                            class="input input-bordered w-full text-xs md:text-sm" />
+                    </div>
+
+                    <!-- End Date Input -->
+                    <div class="form-control w-full">
+                        <label class="label" for="endDate-delete">
+                            <span class="label-text font-medium">End Date</span>
+                        </label>
+                        <input type="datetime-local" id="endDate-delete"
+                            class="input input-bordered w-full text-xs md:text-sm" />
+                    </div>
+
+
+                    <!-- Submit Button -->
+                    <div class="w-full">
+                        <label class="label opacity-0">
+                            <span class="label-text">Submit</span>
+                        </label>
+                        <button type="button" id="deleteButton"
+                            class="btn btn-primary w-full bg-white text-black hover:text-white" popovertarget="delete-filtered-logs-confirmation-modal" popovertargetaction="show" disabled>
+                            Delete Logs
+                        </button>
+                        <div class="w-screen h-svh bg-base-100/60 backdrop-blur-sm" id="delete-filtered-logs-confirmation-modal" popover>
+                            <div class="w-full h-full flex items-center justify-center">
+                                <div class="w-[90%] max-w-sm h-auto bg-base-300 relative pt-11 px-2 pb-2  lg:px-4 lg:pb-4">
+                                    <button type="button" class="btn-circle btn-sm btn-ghost flex items-center justify-center absolute top-2 right-2" popovertarget="delete-filtered-logs-confirmation-modal" popovertargetaction="hide" id="delete-filtered-logs-confirmation-modal-close-btn">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                        stroke="currentColor" class="size-4">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    </button>
+                                    <h1 class="text-xl text-white font-semibold mb-2">Delete Logs?</h1>
+                                    
+                                    <div class="w-full p-2 bg-neutral">
+                                        <p class="text-sm text-base-content/90">Please consider the following when deleting the logs:</p>
+                                        <ul class="text-sm text-base-content/80 list-disc list-inside pl-2">
+                                            <li>This cant be undone.</li>
+                                            <li>Deleting logs may take some time. Please be patient and avoid clicking the "Delete Logs" button multiple times.</li>
+                                            <li>This action is irreversible. Make sure your applied filters accurately match the data you intend to delete.</li>
+                                        </ul>
+                                    </div>
+                                    <div class="w-full h-[50px] flex items-end justify-end gap-2 rounded-full">
+                                        <button type="button" class="btn-sm btn-ghost rounded-full text-xs font-semibold" popovertarget="delete-filtered-logs-confirmation-modal" popovertargetaction="hide">Cancel</button>
+                                        <button type="submit" class="btn-sm btn-error bg-red-600 hover:bg-red-800 text-white text-xs rounded-full font-semibold">Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+
+    </main>
+
     <!-- Report Bug Section -->
     <main class="custom-container sections hidden flex-col items-center justify-center">
         <h2 class="text-xl md:text-3xl font-bold text-base-conte text-center">Report Bugs</h2>
@@ -1334,7 +1480,7 @@
     </footer>
     <% if(role === "Super Admin") { %>
         <div class="absolute inset-0 w-full h-svh bg-base-100/60 backdrop-blur-sm hidden" id="role-management-modal-container">
-            <div class="w-full h-full flex items-center justify-center">
+            <div` class="w-full h-full flex items-center justify-center">
                 <div class="w-[90%] max-w-3xl h-[60%] bg-base-300 relative pt-11 px-2 pb-2  lg:px-4 lg:pb-4 flex flex-col gap-2 items-start justfy-start rounded-sm ">
                     <button class="btn-circle btn-sm btn-ghost flex items-center justify-center absolute top-2 right-2 role-management-btns">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -1460,7 +1606,7 @@
                                             <label class="label" for="edit-new-role">
                                                 <span class="label-text font-medium">New Role</span>
                                             </label>
-                                            <select id="edit-new-role" class="select select-bordered w-full text-xs">
+                                            <select id="add-role" class="select select-bordered w-full text-xs">
                                                 <option class="bg-base-300" value="" disabled selected>Select new role</option>
                                                 <option class="bg-base-300" value="Super Admin">Super Admin (All Permissions)</option>
                                                 <option class="bg-base-300" value="Moderator">Moderator (Requests)</option>
@@ -1495,17 +1641,21 @@
                                 </tr>
                             </thead>
                             <tbody class="">
+                                <% let counter = 1 %>
+                                <% let idUsername = `adminUsername${counter}`; %>
+                                <% let idPassword = `adminPassword${counter}`; %>
+                                <% let idRole = `adminRole${counter}`; %>
                                 <% for(const key in adminCredentials){%>
-                                <% const admin = adminCredentials[key] %>
+                                    <% const admin = adminCredentials[key] %>
                                     <tr class="text-xs font-normal text-center bg-base-200/20">
                                         <td class="h-10 min-w-1/4 max-w-[25%] border-[1px] border-base-content/10 overflow-x-auto">
-                                            <input class="w-full text-center bg-transparent admin-input-username" type="text" name="" id="" value="<%= admin.username%>" disabled>
+                                            <input class="w-full text-center bg-transparent admin-input-username" type="text" name="" id="<%= idUsername%>" value="<%= admin.username%>" disabled>
                                         </td>
                                         <td class="h-10 min-w-1/4 max-w-[25%] border-[1px] border-base-content/10 overflow-x-auto">
-                                            <input class="w-full text-center bg-transparent admin-input-password" type="password" name="" id="" value="<%= admin.password%>" disabled>
+                                            <input class="w-full text-center bg-transparent admin-input-password" type="password" name="" id="<%= idPassword%>" value="<%= admin.password%>" disabled>
                                         </td>
                                         <td class="h-10 min-w-1/4 max-w-[25%] border-[1px] border-base-content/10">
-                                            <input class="w-full text-center bg-transparent  overflow-x-auto admin-input-permission" type="password" name="" id="" value="<%= admin.role%>" disabled>
+                                            <input class="w-full text-center bg-transparent  overflow-x-auto admin-input-permission" type="password" name="" id="<%= idRole%>" value="<%= admin.role%>" disabled>
                                         </td>
                                         <td class="h-10 min-w-[15%] max-w-[15%] border-[1px] border-base-content/10">
                                             <div class="w-full flex items-center justify-center">
@@ -1521,6 +1671,10 @@
                                             </div>
                                         </td>
                                     </tr>
+                                    <% counter += 1; %>
+                                    <% idUsername = `adminUsername${counter}`; %>
+                                    <% idPassword = `adminPassword${counter}`; %>
+                                    <% idRole = `adminRole${counter}`; %>
                                 <% } %>
                             </tbody>
                         </table>

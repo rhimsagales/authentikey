@@ -377,8 +377,11 @@ adminLinks.forEach(link => {
                 case "Retrieve Logs":
                     sections[4].classList.replace('hidden', 'flex');
                     break;
-                case "Bug Report":
+                case "Delete Logs":
                     sections[5].classList.replace('hidden', 'flex');
+                    break;
+                case "Bug Report":
+                    sections[6].classList.replace('hidden', 'flex');
                     break;
                 
             }
@@ -768,4 +771,61 @@ addAdminForm.addEventListener('submit', async (e) =>{
         console.log(err)
         createErrorAlert("We encountered some issues while creating the account. Please try again.")
     }
+})
+
+
+const deleteForm = document.querySelector('#delete-formContainer > form');
+const deleteFormInputs = deleteForm.querySelectorAll('input, select');
+const deleteFormButton = deleteForm.querySelector('button');
+
+
+deleteFormInputs.forEach(input => {
+    input.addEventListener('input', () => {
+        const isFilled = Array.from(deleteFormInputs).some(input => input.value.trim() !== '');
+        deleteFormButton.disabled = !isFilled;
+    });
+})
+
+deleteForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    deleteForm.querySelector('#delete-filtered-logs-confirmation-modal-close-btn').click();
+
+    const deleteFormInputsObj = {
+        studentID : deleteFormInputs[0].value.trim(),
+        section : deleteFormInputs[1].value.trim(),
+        course : deleteFormInputs[2].value.trim(),
+        yearLevel : deleteFormInputs[3].value.trim(),
+        campus : deleteFormInputs[4].value.trim(),
+        startDate : deleteFormInputs[5].value.trim(),
+        endDate : deleteFormInputs[6].value.trim(),
+    }
+    const isAllFieldsEmpty = Object.values(deleteFormInputsObj).every(value => value === "");
+
+    if (isAllFieldsEmpty) {
+        alert("Please fill in at least one filter field to delete specific logs. Mass deletion is disabled to prevent mistakes.");
+        return; 
+    }
+    try {
+        const response = await fetch('/admin/delete-logs', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(deleteFormInputsObj)
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            createSuccessAlert(data.message);
+        } 
+        else {
+            createWarningAlert(data.message);
+        }
+    } catch (error) {
+        createErrorAlert('An error occurred while deleting logs. Please try again.');
+        console.error('Error sending request:', error);
+    }
+    // deleteForm.reset(); 
 })
