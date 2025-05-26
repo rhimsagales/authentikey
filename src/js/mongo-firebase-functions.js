@@ -2,7 +2,7 @@ require('dotenv').config();
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const mongoURI = process.env.MongoURI;
-const { getCorrectionRequestRef, getComputerUsageLogsRef, getEligibleStudentsRef, getAdminAccRef, getPCPasswordRef } = require("../../firebase-config");
+const { getCorrectionRequestRef, getComputerUsageLogsRef, getEligibleStudentsRef, getAdminAccRef, getPCPasswordRef, getActivityLogsRef } = require("../../firebase-config");
 const admin = require('firebase-admin');
 const CryptoJS = require('crypto-js');
 const encryptText = require('../../encrypt');
@@ -15,7 +15,150 @@ let computerUsageLogsRef = getComputerUsageLogsRef();
 let eligibleStudentsRef = getEligibleStudentsRef();
 let adminAccRef = getAdminAccRef();
 let pcPasswordRef = getPCPasswordRef();
+let activityLogsRef = getActivityLogsRef();
 
+let activityLogsCreator = {
+    createLogAddAdmin : (adminName, newAdminAcc) => {
+        return `
+        <div class="w-[15%] h-full flex items-center justify-center bg-base-200/20">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+                <path d="M8.5 4.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0ZM10 13c.552 0 1.01-.452.9-.994a5.002 5.002 0 0 0-9.802 0c-.109.542.35.994.902.994h8ZM12.5 3.5a.75.75 0 0 1 .75.75v1h1a.75.75 0 0 1 0 1.5h-1v1a.75.75 0 0 1-1.5 0v-1h-1a.75.75 0 0 1 0-1.5h1v-1a.75.75 0 0 1 .75-.75Z" />
+            </svg>
+
+        </div>
+        <div class="w-[85%] h-full flex flex-col items-start justify-center text-xs text-justify px-2 py-4 overflow-x-hidden break-all">
+            <p>
+                <span class="font-semibold">[${new Date(Date.now() + 8 * 60 * 60 * 1000).toISOString().slice(0, 16).replace("T", " ")}]</span> ${adminName} created new admin account: <span class="font-semibold">${newAdminAcc}</span>.
+            </p>
+        </div>`
+    },
+    createLogEditAdmin : (adminName, editedAdminAcc) => {
+        return `
+            <div class="w-[15%] h-full flex items-center justify-center bg-base-200/20">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+                    <path fill-rule="evenodd" d="M11.013 2.513a1.75 1.75 0 0 1 2.475 2.474L6.226 12.25a2.751 2.751 0 0 1-.892.596l-2.047.848a.75.75 0 0 1-.98-.98l.848-2.047a2.75 2.75 0 0 1 .596-.892l7.262-7.261Z" clip-rule="evenodd" />
+                </svg>
+
+            </div>
+            <div class="w-[85%] h-full flex flex-col items-start justify-center text-xs text-justify px-2 py-4 overflow-x-hidden break-all">
+                <p>
+                    <span class="font-semibold">[${new Date(Date.now() + 8 * 60 * 60 * 1000).toISOString().slice(0, 16).replace("T", " ")}]</span> ${adminName} updated admin account: <span class="font-semibold">${editedAdminAcc}</span>.
+                </p>
+            </div>
+        `
+    },
+    createLogDeleteAdmin : (adminName, deletedAdminAcc) => {
+        return `
+        <div class="w-[15%] h-full flex items-center justify-center bg-base-200/20">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+                <path d="M8.5 4.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0ZM10 13c.552 0 1.01-.452.9-.994a5.002 5.002 0 0 0-9.802 0c-.109.542.35.994.902.994h8ZM10.75 5.25a.75.75 0 0 0 0 1.5h3.5a.75.75 0 0 0 0-1.5h-3.5Z" />
+            </svg>
+
+        </div>
+        <div class="w-[85%] h-full flex flex-col items-start justify-center text-xs text-justify px-2 py-4 overflow-x-hidden break-all">
+            <p>
+                <span class="font-semibold">[${new Date(Date.now() + 8 * 60 * 60 * 1000).toISOString().slice(0, 16).replace("T", " ")}]</span> ${adminName} deleted admin account: <span class="font-semibold">${deletedAdminAcc}</span>.
+            </p>
+        </div>
+        `
+    },
+    createLogImportStudents : (adminName) => {
+        return `
+            <div class="w-[15%] h-full flex items-center justify-center bg-base-200/20">
+                <!-- Upload icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+                    <path d="M8.75 6h-1.5V3.56L6.03 4.78a.75.75 0 0 1-1.06-1.06l2.5-2.5a.75.75 0 0 1 1.06 0l2.5 2.5a.75.75 0 1 1-1.06 1.06L8.75 3.56V6H11a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h2.25v5.25a.75.75 0 0 0 1.5 0V6Z" />
+                </svg>
+
+            </div>
+            <div class="w-[85%] h-full flex flex-col items-start justify-center text-xs text-justify px-2 py-4 overflow-x-hidden break-all">
+                <p>
+                    <span class="font-semibold">[${new Date(Date.now() + 8 * 60 * 60 * 1000).toISOString().slice(0, 16).replace("T", " ")}]</span> ${adminName} imported a list of eligible students.
+                </p>
+            </div>
+        `
+    },
+    createLogApprovedRequest : (adminName, studentID, requestNumber) => {
+        return `
+            <div class="w-[15%] h-full flex items-center justify-center bg-base-200/20">
+                <!-- Check circle icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+                    <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm3.844-8.791a.75.75 0 0 0-1.188-.918l-3.7 4.79-1.649-1.833a.75.75 0 1 0-1.114 1.004l2.25 2.5a.75.75 0 0 0 1.15-.043l4.25-5.5Z" clip-rule="evenodd" />
+                </svg>
+
+            </div>
+            <div class="w-[85%] h-full flex flex-col items-start justify-center text-xs text-justify px-2 py-4 overflow-x-hidden break-all">
+                <p>
+                    <span class="font-semibold">[${new Date(Date.now() + 8 * 60 * 60 * 1000).toISOString().slice(0, 16).replace("T", " ")}]</span> ${adminName} approved a correction request - ${requestNumber} - from student <span class="font-semibold">${studentID}</span>.
+                </p>
+            </div>
+        `
+    },
+    createLogRejectRequest : (adminName, studentID, requestNumber) => {
+        return `
+            <div class="w-[15%] h-full flex items-center justify-center bg-base-200/20">
+                    <!-- X circle icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+                        <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm2.78-4.22a.75.75 0 0 1-1.06 0L8 9.06l-1.72 1.72a.75.75 0 1 1-1.06-1.06L6.94 8 5.22 6.28a.75.75 0 0 1 1.06-1.06L8 6.94l1.72-1.72a.75.75 0 1 1 1.06 1.06L9.06 8l1.72 1.72a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
+                    </svg>
+
+                </div>
+                <div class="w-[85%] h-full flex flex-col items-start justify-center text-xs text-justify px-2 py-4 overflow-x-hidden break-all">
+                    <p>
+                        <span class="font-semibold">[${new Date(Date.now() + 8 * 60 * 60 * 1000).toISOString().slice(0, 16).replace("T", " ")}]</span> ${adminName} rejected a correction request - ${requestNumber} - from student <span class="font-semibold">${studentID}</span>.
+                    </p>
+                </div>
+        `
+    },
+    createLogRetrieveLogs : (adminName) => {
+        return `
+            <div class="w-[15%] h-full flex items-center justify-center bg-base-200/20">
+                <!-- Document arrow down icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+                    <path fill-rule="evenodd" d="M4 2a1.5 1.5 0 0 0-1.5 1.5v9A1.5 1.5 0 0 0 4 14h8a1.5 1.5 0 0 0 1.5-1.5V6.621a1.5 1.5 0 0 0-.44-1.06L9.94 2.439A1.5 1.5 0 0 0 8.878 2H4Zm4 3.5a.75.75 0 0 1 .75.75v2.69l.72-.72a.75.75 0 1 1 1.06 1.06l-2 2a.75.75 0 0 1-1.06 0l-2-2a.75.75 0 0 1 1.06-1.06l.72.72V6.25A.75.75 0 0 1 8 5.5Z" clip-rule="evenodd" />
+                </svg>
+
+            </div>
+            <div class="w-[85%] h-full flex flex-col items-start justify-center text-xs text-justify px-2 py-4 overflow-x-hidden break-all">
+                <p>
+                    <span class="font-semibold">[${new Date(Date.now() + 8 * 60 * 60 * 1000).toISOString().slice(0, 16).replace("T", " ")}]</span> ${adminName} retrieved computer usage logs.
+                </p>
+            </div>
+        `
+    },
+    createLogDeleteLogs : (adminName) => {
+        return `
+            <div class="w-[15%] h-full flex items-center justify-center bg-base-200/20">
+                <!-- Trash icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+                    <path fill-rule="evenodd" d="M5 3.25V4H2.75a.75.75 0 0 0 0 1.5h.3l.815 8.15A1.5 1.5 0 0 0 5.357 15h5.285a1.5 1.5 0 0 0 1.493-1.35l.815-8.15h.3a.75.75 0 0 0 0-1.5H11v-.75A2.25 2.25 0 0 0 8.75 1h-1.5A2.25 2.25 0 0 0 5 3.25Zm2.25-.75a.75.75 0 0 0-.75.75V4h3v-.75a.75.75 0 0 0-.75-.75h-1.5ZM6.05 6a.75.75 0 0 1 .787.713l.275 5.5a.75.75 0 0 1-1.498.075l-.275-5.5A.75.75 0 0 1 6.05 6Zm3.9 0a.75.75 0 0 1 .712.787l-.275 5.5a.75.75 0 0 1-1.498-.075l.275-5.5a.75.75 0 0 1 .786-.711Z" clip-rule="evenodd" />
+                </svg>
+
+            </div>
+            <div class="w-[85%] h-full flex flex-col items-start justify-center text-xs text-justify px-2 py-4 overflow-x-hidden break-all">
+                <p>
+                    <span class="font-semibold">[${new Date(Date.now() + 8 * 60 * 60 * 1000).toISOString().slice(0, 16).replace("T", " ")}]</span> ${adminName} deleted filtered computer usage logs.
+                </p>
+            </div>
+        `
+    },
+    createLogChangePCPassword : (adminName, newPCPassword) => {
+        return `
+            <div class="w-[15%] h-full flex items-center justify-center bg-base-200/20">
+                <!-- Key icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+                    <path fill-rule="evenodd" d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z" clip-rule="evenodd" />
+                </svg>
+
+            </div>
+            <div class="w-[85%] h-full flex flex-col items-start justify-center text-xs text-justify px-2 py-4 overflow-x-hidden break-all">
+                <p>
+                    <span class="font-semibold">[${new Date(Date.now() + 8 * 60 * 60 * 1000).toISOString().slice(0, 16).replace("T", " ")}]</span> ${adminName} updated the PC password used by Authentikey to ${newPCPassword}.
+                </p>
+            </div>
+        `
+    }
+}
 
 
 const flexibleSchema = new mongoose.Schema({
@@ -590,18 +733,39 @@ async function adminLogin(req, res) {
     }
 
     try {
-        const adminSnapShot = await adminAccRef.child(username).once("value");
-        if(!adminSnapShot.exists()) {
+        // const adminSnapShot = await adminAccRef.child(username).once("value");
+        // if(!adminSnapShot.exists()) {
+        //     return res.status(400).json({
+        //         success: false,
+        //         message : "The username you entered is not recognized."
+        //     });
+        // }
+        const adminSnapShot = await adminAccRef.once("value");
+        const adminInfo = adminSnapShot.val();
+        // console.log(adminInfo);
+        // console.log(password)
+        // console.log(adminInfo.password)
+
+        let exists = false;
+        let admin;
+        for(const key in adminInfo) {
+            admin = adminInfo[key];
+
+            if(admin.username == username) {
+                exists = true;
+                break;
+            }
+        }
+
+        if(!exists) {
             return res.status(400).json({
                 success: false,
                 message : "The username you entered is not recognized."
             });
         }
-        const adminInfo = adminSnapShot.val();
-        // console.log(adminInfo);
-        // console.log(password)
-        // console.log(adminInfo.password)
-        const decrypted = CryptoJS.RC4.decrypt(adminInfo.password, '');
+
+        // const decrypted = CryptoJS.RC4.decrypt(adminInfo.password, '');
+        const decrypted = CryptoJS.RC4.decrypt(admin.password, '');
         const pas = decrypted.toString(CryptoJS.enc.Utf8);
         // const isMatch = await bcrypt.compare(password, adminInfo.password);
         const isMatch = password === pas;
@@ -613,8 +777,8 @@ async function adminLogin(req, res) {
                 }
                 
                 req.session.admin = {
-                    username : adminInfo.username,
-                    role : adminInfo.role
+                    username : admin.username,
+                    role : admin.role
                 };
                 return res.status(200).json({
                     successLogin: true,
@@ -1080,6 +1244,7 @@ async function getFilteredLogs(req, res) {
             logs.sort((a, b) => new Date(a.date) - new Date(b.date));
         }
 
+        await activityLogsRef.push(activityLogsCreator.createLogRetrieveLogs(req.session.admin.username))
         return res.json({ success: true, logs });
     } catch (error) {
         console.error('Error in getFilteredLogs:', error);
@@ -1111,6 +1276,8 @@ async function adminApproveModifyLogs(req, res) {
         await correctionRecordRef.update({
             status : "Approved"
         });
+
+        await activityLogsRef.push(activityLogsCreator.createLogApprovedRequest(req.session.admin.username, studentID, requestID))
         return res.status(200).json({
             message: "Log updated successfully."
         });
@@ -1141,6 +1308,7 @@ async function adminRejectModifyLogs(req, res) {
             status : "Rejected"
         });
 
+        await activityLogsRef.push(activityLogsCreator.createLogRejectRequest(req.session.admin.username, studentID, requestID))
         res.status(200).json({
             message : "The rejection was successful."
         })
@@ -1174,7 +1342,7 @@ async function uploadEligibleStudentIDS(req, res) {
             updates[`/${newKey}`] = id;
         }
         await eligibleStudentsRef.update(updates); 
-
+        await activityLogsRef.push(activityLogsCreator.createLogImportStudents(req.session.admin.username))
         return res.status(200).json({ message: "Student IDs uploaded successfully." });
 
     } catch (error) {
@@ -1246,25 +1414,54 @@ async function editAdminCredentials (req, res) {
     }
 
     try {
-        const adminRef = adminAccRef.child(currentUsername);
-        const newAdminRef = adminAccRef.child(newUsername);
-        const adminData = (await adminRef.get()).val();
+        // const adminRef = adminAccRef.child(currentUsername);
+        // const newAdminRef = adminAccRef.child(newUsername);
+        // const adminData = (await adminRef.get()).val();
 
-        if (!adminData) {
+        // if (!adminData) {
+        //     return res.status(404).json({
+        //         success: false,
+        //         message: "Admin not found."
+        //     });
+        // }
+
+        // const updatedData = {
+        //     username: newUsername || adminData.username,
+        //     password: encryptText.encryptRC4(newPassword) || adminData.password,
+        //     role: newRole || adminData.role
+        // };
+
+        // await newAdminRef.set(updatedData);
+        // await adminRef.remove();
+
+        const adminSnapshot = await adminAccRef.once('value');
+        const adminInfo = await adminSnapshot.val();
+
+        let exists = false;
+        let adminKey;
+        for(const key in adminInfo) {
+            const admin = adminInfo[key];
+
+            if(admin.username == currentUsername) {
+                exists = true;
+                adminKey = key;
+                break;
+            }
+        }
+        if (!exists) {
             return res.status(404).json({
                 success: false,
                 message: "Admin not found."
             });
         }
-
         const updatedData = {
-            username: newUsername || adminData.username,
-            password: encryptText.encryptRC4(newPassword) || adminData.password,
-            role: newRole || adminData.role
+            username: newUsername || adminInfo[adminKey].username,
+            password: encryptText.encryptRC4(newPassword) || adminInfo[adminKey].password,
+            role: newRole || adminInfo[adminKey].role
         };
+        await adminAccRef.child(adminKey).set(updatedData);
 
-        await newAdminRef.set(updatedData);
-        await adminRef.remove();
+        await activityLogsRef.push(activityLogsCreator.createLogEditAdmin(req.session.admin.username, newUsername))
 
         return res.status(200).json({
             success: true,
@@ -1291,17 +1488,42 @@ async function deleteAdminCredential(req, res) {
     }
 
     try {
-        const adminRef = adminAccRef.child(username);
-        const adminData = (await adminRef.get()).val();
+        // const adminRef = adminAccRef.child(username);
+        // const adminData = (await adminRef.get()).val();
 
-        if (!adminData) {
+        // if (!adminData) {
+        //     return res.status(404).json({
+        //         success: false,
+        //         message: "Admin not found."
+        //     });
+        // }
+
+        // await adminRef.remove();
+        const adminSnapshot = await adminAccRef.once('value');
+        const adminInfo = await adminSnapshot.val();
+
+        let exists = false;
+        let adminKey;
+
+        for(const key in adminInfo) {
+            const admin = adminInfo[key];
+
+            if(admin.username == username) {
+                exists = true;
+                adminKey = key;
+                break;
+            }
+        }
+
+        if (!exists) {
             return res.status(404).json({
                 success: false,
                 message: "Admin not found."
             });
         }
+        await adminAccRef.child(adminKey).remove();
 
-        await adminRef.remove();
+        await activityLogsRef.push(activityLogsCreator.createLogDeleteAdmin(req.session.admin.username, username))
 
         return res.status(200).json({
             success: true,
@@ -1329,8 +1551,34 @@ async function createAdminCredential(req, res) {
     }
 
     try {
-        const existingAdmin = await adminAccRef.child(username).once("value");
-        if (existingAdmin.exists()) {
+        // const existingAdmin = await adminAccRef.child(username).once("value");
+        // if (existingAdmin.exists()) {
+        //     return res.status(400).json({
+        //         success: false,
+        //         message: "Username already exists."
+        //     });
+        // }
+
+        // const encryptedPassword = encryptText.encryptRC4(password);
+        // await adminAccRef.child(username).set({
+        //     username,
+        //     password: encryptedPassword,
+        //     role
+        // });
+        const adminSnapshot = await adminAccRef.once("value");
+        const adminInfo = await adminSnapshot.val()
+        let exists = false;
+
+        for(const key in adminInfo) {
+            const admin = adminInfo[key];
+            
+        
+            if(admin.username == username) {
+                exists = true;
+                break;
+            }
+        }
+        if (exists) {
             return res.status(400).json({
                 success: false,
                 message: "Username already exists."
@@ -1338,11 +1586,14 @@ async function createAdminCredential(req, res) {
         }
 
         const encryptedPassword = encryptText.encryptRC4(password);
-        await adminAccRef.child(username).set({
+        await adminAccRef.push({
             username,
             password: encryptedPassword,
             role
         });
+
+
+        await activityLogsRef.push(activityLogsCreator.createLogAddAdmin(req.session.admin.username, username));
 
         return res.status(200).json({
             success: true,
@@ -1413,9 +1664,10 @@ async function deleteLogs(req, res) {
             }
         }
 
+        await activityLogsRef.push(activityLogsCreator.createLogDeleteLogs(req.session.admin.username))
         return res.status(200).json({
-        success: true,
-        message: `${deletedCount} log(s) deleted successfully.`
+            success: true,
+            message: `${deletedCount} log(s) deleted successfully.`
         });
     } catch (err) {
         console.error("Error deleting logs:", err);
@@ -1438,6 +1690,7 @@ async function changePCPassword(req, res) {
 
     try {
         await pcPasswordRef.set({ password: pcPassword });
+        await activityLogsRef.push(activityLogsCreator.createLogChangePCPassword(req.session.admin.username, pcPassword));
         return res.status(200).json({
             success: true,
             message: "PC password changed successfully."
@@ -1452,6 +1705,6 @@ async function changePCPassword(req, res) {
 }
 
 
-module.exports = { connectToMongoDB, checkStudentIdAvailability, registerAccount, login, createResetPassDoc, deleteResetPassDocs, compareResetCode, changePassword, insertCorrectionRequest, getAllLogs, updatePersonalInfo, updatePassword, deleteStudent, findAndPushData, findStudentID, getFilteredLogs, adminApproveModifyLogs, adminRejectModifyLogs, uploadEligibleStudentIDS, adminLogin, checkEligibility, editAdminCredentials, deleteAdminCredential, createAdminCredential, deleteLogs, changePCPassword };
+module.exports = { connectToMongoDB, checkStudentIdAvailability, registerAccount, login, createResetPassDoc, deleteResetPassDocs, compareResetCode, changePassword, insertCorrectionRequest, getAllLogs, updatePersonalInfo, updatePassword, deleteStudent, findAndPushData, findStudentID, getFilteredLogs, adminApproveModifyLogs, adminRejectModifyLogs, uploadEligibleStudentIDS, adminLogin, checkEligibility, editAdminCredentials, deleteAdminCredential, createAdminCredential, deleteLogs, changePCPassword,  };
 
 

@@ -22,6 +22,7 @@ const getComputerUsageLogsRef = () => getDatabase().ref("studentsRecord/logs/");
 const getEligibleStudentsRef = () => getDatabase().ref("eligibleStudents/");
 const getAdminAccRef = () => getDatabase().ref("adminAccounts/");
 const getPCPasswordRef = () => getDatabase().ref("pcPassword/");
+const getActivityLogsRef = () => getDatabase().ref("activityLogs/");
 
 module.exports = { 
     admin, 
@@ -30,5 +31,6 @@ module.exports = {
     getComputerUsageLogsRef,
     getEligibleStudentsRef ,
     getAdminAccRef,
-    getPCPasswordRef
+    getPCPasswordRef,
+    getActivityLogsRef
 };

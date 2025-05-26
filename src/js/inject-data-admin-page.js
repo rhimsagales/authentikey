@@ -722,6 +722,25 @@ function updatePeakHour(peakHour) {
   peakHourElem.innerText = peakHour;
 }
 
+
+function createActLog(htmlContent) {
+  const activityLogWrapper = document.querySelector('.activity-log-wrapper');
+  const wrappingDiv = document.createElement('div');
+  wrappingDiv.className = "w-full h-auto min-h-[60px] bg-base-200/40 rounded-sm flex text-base-content";
+  wrappingDiv.innerHTML = htmlContent;
+
+  activityLogWrapper.prepend(wrappingDiv);
+}
+
+function updateActivityLogs(data) {
+  const activityLogWrapper = document.querySelector('.activity-log-wrapper');
+  activityLogWrapper.innerHTML = "";
+  Object.keys(data).forEach(key => {
+    const htmlContent = data[key];
+    createActLog(htmlContent)
+  })
+}
+
 const socketAdmin = io("/websocket/admin");
 
 
@@ -857,4 +876,8 @@ socketAdmin.on("newRequest", (corrRequests) => {
 
 socketAdmin.on("statusModified", (corrRequests) => {
   console.log(corrRequests)
+})
+
+socketAdmin.on("newActivityLog", (activityLog) => {
+  updateActivityLogs(activityLog);
 })

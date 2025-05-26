@@ -24,11 +24,12 @@ const MainIo = socketIo(server, {
 const studentIo = MainIo.of("/websocket/student")
 const adminIo = MainIo.of("/websocket/admin");
 
-const { getDatabase, getPCPasswordRef } = require("./firebase-config");
+const { getDatabase, getPCPasswordRef, getActivityLogsRef } = require("./firebase-config");
 
 const db = getDatabase();
 
 const pcPasswordRef = getPCPasswordRef();
+const activityLogsRef = getActivityLogsRef();
 
 
 
@@ -938,7 +939,13 @@ adminIo.on("connection", (socket) => {
     pcPasswordRef.on('value', (snapshot) => {
         const pcPasswordVal = snapshot.val();
         pcPassword = pcPasswordVal.password ? pcPasswordVal.password : "adminDefaultPassword";
-        console.log(pcPassword);
+        // console.log(pcPassword);
+    });
+
+    activityLogsRef.on('value', (snapshot) => {
+        const data = snapshot.val();
+
+        socket.emit('newActivityLog', data)
     })
 
     

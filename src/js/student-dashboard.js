@@ -1032,7 +1032,10 @@ crSubmitBtn.addEventListener('click', async (event) => {
         const responseData = await response.json();
 
         if(!response.ok) {
-            throw new CustomError(responseData.message, responseData.status);
+            console.log(response.status);
+            console.log(responseData.message);
+            console.log(responseData)
+            throw new CustomError(responseData.message, response.status);
         }
         const alertDiv = alert.createSuccessAlert(responseData.message);
         alertDiv.addEventListener('animationend', () => {
@@ -1042,11 +1045,13 @@ crSubmitBtn.addEventListener('click', async (event) => {
     catch(error) {
         console.log(error.statusCode);
         console.log(error.status);
+        console.log(error)
         if(error.statusCode === 500 || error.statusCode === 400 || error.statusCode === 404){
             const alertDiv = alert.createErrorAlert(error.message);
             alertDiv.addEventListener('animationend', () => {
                 crSubmitBtn.disabled = false;
             });
+            return
         }
         const alertDiv = alert.createErrorAlert("Oops! This action isn't allowed. Please check your request and try again.");
         
