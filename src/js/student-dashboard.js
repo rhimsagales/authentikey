@@ -1043,9 +1043,9 @@ crSubmitBtn.addEventListener('click', async (event) => {
         });
     }
     catch(error) {
-        console.log(error.statusCode);
-        console.log(error.status);
-        console.log(error)
+        // console.log(error.statusCode);
+        // console.log(error.status);
+        // console.log(error)
         if(error.statusCode === 500 || error.statusCode === 400 || error.statusCode === 404){
             const alertDiv = alert.createErrorAlert(error.message);
             alertDiv.addEventListener('animationend', () => {

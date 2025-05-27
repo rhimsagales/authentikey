@@ -1,6 +1,7 @@
 .driver-popover.driverjs-theme {
     background-color: #fde047;
     color: #000;
+    z-index: 10001;
 }
 
 .driver-popover.driverjs-theme .driver-popover-title {

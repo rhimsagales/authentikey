@@ -383,6 +383,9 @@ adminLinks.forEach(link => {
                 case "Bug Report":
                     sections[6].classList.replace('hidden', 'flex');
                     break;
+                case "Admin Instructions":
+                    sections[7].classList.replace('hidden', 'flex');
+                    break;
                 
             }
         }

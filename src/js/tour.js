@@ -26,15 +26,6 @@ const closeSvg = "✖";   // Close (X) icon
 
 
 
-// {
-//     element: ".",
-//     popover: {
-//         title: "",
-//         description: "",
-//         side: "left",
-//         align: "center"
-//     }
-// },
 
 
 window.overlayColor = "#2C3E50CC";
@@ -665,3 +656,6 @@ tourAnchorMobile.addEventListener('click', (event) => {
     driverObjMobile.drive()
 
 })
+
+
+
