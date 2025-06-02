@@ -1,13 +1,21 @@
-[
-    {
-        "studentID" : "UA202200740",
-        "requestNumber" : "1",
-        "fullName": "Rhim  Angelo Sagales",
-        "email" : "yeqiu.jinwoo@gmail.com",
-        "subject" : "sasasa",
-        "dateRecord " : "2025-02-20",
-        "correctionDetails" : "sas",
-        "status" : ""
-    }
+
+{
+    "studentID" : "UA202200726",
+    "timeIn" : "09:15 AM",
+    "timeOut" : "10:45 AM",
+    "date" : "2025-03-17T09:15",
+    "pcNumber" : 1,
+    "pcLab" : 1,
+    "activity" : [
+        {
+            "timestamp": "2025-03-17T09:18",
+            "activity": "Opened Google Chrome"
+        },
+        {
+            "timestamp": "2025-03-17T09:25",
+            "activity": "Visited https://icct.edu.ph"
+        }
+    ],
+    "password": "$2a$15$qA8d5vh8g0fC042HrZqNm..gHu9UuoPAG4QBMY2DCr4GiV69tdbr."    
+}
     
-]

@@ -24,12 +24,14 @@ const MainIo = socketIo(server, {
 const studentIo = MainIo.of("/websocket/student")
 const adminIo = MainIo.of("/websocket/admin");
 
-const { getDatabase, getPCPasswordRef, getActivityLogsRef } = require("./firebase-config");
+const { getDatabase, getPCPasswordRef, getActivityLogsRef, getEligibleStudentsRef } = require("./firebase-config");
+const { getegid } = require('process');
 
 const db = getDatabase();
 
 const pcPasswordRef = getPCPasswordRef();
 const activityLogsRef = getActivityLogsRef();
+const eligibleStudentsRef = getEligibleStudentsRef();
 
 
 
@@ -948,6 +950,13 @@ adminIo.on("connection", (socket) => {
         socket.emit('newActivityLog', data)
     })
 
+    eligibleStudentsRef.on('value', (snapshot) => {
+
+        const data = snapshot.val();
+        const eligibleStudents = data ? Object.values(data) : [];
+
+        socket.emit('newEligibleStudents', eligibleStudents);
+    })
     
     
     socket.on("disconnect", () => {

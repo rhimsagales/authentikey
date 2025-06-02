@@ -540,3 +540,4 @@ adminTourAnchorMobile.addEventListener('click', (event) => {
     adminDriverObjMobile.drive();
 });
 
+ 

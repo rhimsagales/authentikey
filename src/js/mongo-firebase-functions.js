@@ -1052,9 +1052,9 @@ async function deleteStudent  (req, res) {
 
 async function findAndPushData(req, res) {
     try {
-        const { studentID, timeIn, timeOut, date, pcNumber, pcLab } = req.body;
+        const { studentID, timeIn, timeOut, date, pcNumber, pcLab, activity } = req.body;
 
-        if (!studentID || !timeIn || !timeOut || !date || !pcNumber || !pcLab) {
+        if (!studentID || !timeIn || !timeOut || !date || !pcNumber || !pcLab || activity) {
             return res.status(400).json({ 
                 success: false, 
                 message: "Missing required fields",
@@ -1085,7 +1085,8 @@ async function findAndPushData(req, res) {
             timeOut,
             date : date.substring(0, 16),
             pcNumber,
-            pcLab
+            pcLab,
+            activity
 
         };
 

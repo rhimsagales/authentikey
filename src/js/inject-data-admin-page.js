@@ -741,6 +741,31 @@ function updateActivityLogs(data) {
   })
 }
 
+
+function populateStudentTable(studentIDs = []) {
+  const eligibleStudentContainer = document.querySelector('#eligible-table-modal-container');
+  const tbody = eligibleStudentContainer.querySelector('tbody');
+  if (!tbody) return;
+
+  tbody.innerHTML = ''; // Clear previous rows
+  const columnsPerRow = 5;
+
+  for (let i = 0; i < studentIDs.length; i += columnsPerRow) {
+    const row = document.createElement('tr');
+    row.className = 'w-full';
+
+    for (let j = 0; j < columnsPerRow; j++) {
+      const studentID = studentIDs[i + j];
+      const cell = document.createElement('td');
+      cell.className = 'border border-neutral min-w-[90px] w-[20%] h-10';
+      cell.textContent = studentID ?? '';
+      row.appendChild(cell);
+    }
+
+    tbody.appendChild(row);
+  }
+}
+
 const socketAdmin = io("/websocket/admin");
 
 
@@ -881,3 +906,9 @@ socketAdmin.on("statusModified", (corrRequests) => {
 socketAdmin.on("newActivityLog", (activityLog) => {
   updateActivityLogs(activityLog);
 })
+
+
+socketAdmin.on('newEligibleStudents', (studentIDs) => {
+  // console.log(studentIDs);
+  populateStudentTable(studentIDs);
+});

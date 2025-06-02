@@ -764,13 +764,18 @@
     </main>
     
     <!-- Import Eligible Students -->
-    <main class="custom-container hidden flex-col gap-2 items-center justify-center sections admin-import-section">
-        <div class="text-center mb-4">
-            <h1 class="text-xl md:text-3xl font-bold text-base-content mb-2">Import Eligible Students</h1>
-            <p class="text-base-content/70 text-xs lg:text-sm max-w-2xl px-4">
+    <main class="custom-container hidden flex-col gap-2 items-center justify-center sections admin-import-section relative">
+        <div class="mb-2 w-[90%] max-w-2xl text-center ">
+            <h1 class="text-xl md:text-3xl font-bold text-base-content mb-2 w-full">Import Eligible Students</h1>
+            <p class="text-base-content/70 text-xs lg:text-sm max-w-2xl w-full">
                 Upload an <span class="h-auto py-1 px-2 bg-base-300 text-green-500">XLSX</span> file to import eligible
                 students into the system.
             </p>
+        </div>
+        <div class="w-[90%] max-w-2xl flex items-center justify-start">
+            <button class="btn btn-sm rounded-full text-xs text-base-content/80 hover:text-white hover:bg-base-300" popovertarget="eligible-table-modal-container" popovertargetaction="show">
+                View Eligible
+            </button>
         </div>
         <div class="w-[90%] max-w-2xl h-auto flex flex-col items-start gap-2 italic">
             <div
@@ -1598,6 +1603,40 @@
                 <p class="min-h-fit text-xs text-base-content/70">Track actions performed by administrators on the admin page.</p>
                 <div class="w-full h-[388px] overflow-y-auto bg-neutral mt-2 flex flex-col gap-2 p-1 activity-log-wrapper">
                     
+
+                </div>
+            </div>
+        </div> 
+    </div>
+
+    <div id="eligible-table-modal-container" class="w-screen h-svh bg-base-100/60 backdrop-blur-sm" popover>
+        <div class="w-full h-full flex items-center justify-center">
+            <div class="w-[90%] max-w-xl h-auto bg-base-300 relative pt-11 px-2 pb-2  lg:px-4 lg:pb-4 admin-activity-log-section">
+                <button class="btn-circle btn-sm btn-ghost flex items-center justify-center absolute top-2 right-2 tour-activity-close" popovertarget="eligible-table-modal-container" popovertargetaction="hide">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="size-4">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+                <h1 class="min-h-fit text-xl font-semibold">Eligible Students</h1>
+                <p class="min-h-fit text-xs text-base-content/70">View uploaded students who are permitted to access the system.</p>
+                <div class="w-full h-auto overflow-y-auto mt-2 flex flex-col gap-2 p-1">
+                    <table class="border-collapse  w-full text-center">
+                        <thead class="w-full text-xs">
+                            <tr class="border border-neutral w-full h-10"><th colspan="5" class="text-left px-4">Eligible Students</th></tr>
+                        </thead>
+                        <tbody class="w-full text-[10px] md:text-xs">
+                            <tr class="w-full">
+                                <td class="border border-neutral min-w-[90px] w-[20%] h-10">UA202200726</td>
+                                <td class="border border-neutral min-w-[90px] w-[20%] h-10">UA202200726</td>
+                                <td class="border border-neutral min-w-[90px] w-[20%] h-10">UA202200726</td>
+                                <td class="border border-neutral min-w-[90px] w-[20%] h-10">UA202200726</td>
+                                <td class="border border-neutral min-w-[90px] w-[20%] h-10">UA202200726</td>
+                            </tr>
+                           
+                        </tbody>
+
+                    </table>
 
                 </div>
             </div>
