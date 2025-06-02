@@ -1052,7 +1052,7 @@ async function deleteStudent  (req, res) {
 
 async function findAndPushData(req, res) {
     try {
-        const { studentID, timeIn, timeOut, date, pcNumber, pcLab, activity } = req.body;
+        const { studentID, timeIn, timeOut, date, pcNumber, pcLab } = req.body;
 
         if (!studentID || !timeIn || !timeOut || !date || !pcNumber || !pcLab || activity) {
             return res.status(400).json({ 
