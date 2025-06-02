@@ -1054,7 +1054,7 @@ async function findAndPushData(req, res) {
     try {
         const { studentID, timeIn, timeOut, date, pcNumber, pcLab } = req.body;
 
-        if (!studentID || !timeIn || !timeOut || !date || !pcNumber || !pcLab || activity) {
+        if (!studentID || !timeIn || !timeOut || !date || !pcNumber || !pcLab) {
             return res.status(400).json({ 
                 success: false, 
                 message: "Missing required fields",
