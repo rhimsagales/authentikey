@@ -220,6 +220,8 @@
                                             data-my-value="Retrieve Logs">Retrieve Logs</a></li>
                                     <li><a class="text-xs font-semibold 3xl:text-sm 4xl:text-base admin-links tour-delete-logs"
                                             data-my-value="Delete Logs">Delete Logs</a></li>
+                                    <li><a class="text-xs font-semibold 3xl:text-sm 4xl:text-base admin-links tour-activity"
+                                            data-my-value="Retrieve Activity">Retrieve Activity</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -448,6 +450,16 @@
                                                 <path fill-rule="evenodd" d="M5 3.25V4H2.75a.75.75 0 0 0 0 1.5h.3l.815 8.15A1.5 1.5 0 0 0 5.357 15h5.285a1.5 1.5 0 0 0 1.493-1.35l.815-8.15h.3a.75.75 0 0 0 0-1.5H11v-.75A2.25 2.25 0 0 0 8.75 1h-1.5A2.25 2.25 0 0 0 5 3.25Zm2.25-.75a.75.75 0 0 0-.75.75V4h3v-.75a.75.75 0 0 0-.75-.75h-1.5ZM6.05 6a.75.75 0 0 1 .787.713l.275 5.5a.75.75 0 0 1-1.498.075l-.275-5.5A.75.75 0 0 1 6.05 6Zm3.9 0a.75.75 0 0 1 .712.787l-.275 5.5a.75.75 0 0 1-1.498-.075l.275-5.5a.75.75 0 0 1 .786-.711Z" clip-rule="evenodd" />
                                             </svg>
                                             Delete Logs
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="text-xs rounded px-1 admin-links flex items-center gap-2" data-my-value="Retrieve Activity">
+                                            <!-- Delete Logs Icon -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+                                            <path fill-rule="evenodd" d="M2 4.25A2.25 2.25 0 0 1 4.25 2h7.5A2.25 2.25 0 0 1 14 4.25v5.5A2.25 2.25 0 0 1 11.75 12h-1.312c.1.128.21.248.328.36a.75.75 0 0 1 .234.545v.345a.75.75 0 0 1-.75.75h-4.5a.75.75 0 0 1-.75-.75v-.345a.75.75 0 0 1 .234-.545c.118-.111.228-.232.328-.36H4.25A2.25 2.25 0 0 1 2 9.75v-5.5Zm2.25-.75a.75.75 0 0 0-.75.75v4.5c0 .414.336.75.75.75h7.5a.75.75 0 0 0 .75-.75v-4.5a.75.75 0 0 0-.75-.75h-7.5Z" clip-rule="evenodd" />
+                                            </svg>
+
+                                            Retrieve Activity
                                         </a>
                                     </li>
                                     
@@ -1442,6 +1454,158 @@
             </form>
         </div>
 
+    </main>
+
+    <!-- Retrieving Activity -->
+    <main class="custom-container hidden items-center justify-center sections admin-activity-logs-section">
+        <!-- Form Container -->
+        <div id="activityFormContainer" class="w-full flex">
+            <form class="space-y-2 sm:space-y-6 flex flex-col items-center justify-center w-full" id="activityFilterForm">
+                <!-- Title and Supporting Text -->
+                <div class="text-center mb-4">
+                    <h1 class="text-xl md:text-3xl font-bold text-base-content mb-2">Retrieve Computer Activity Logs</h1>
+                    <p class="text-base-content/70 text-xs lg:text-sm max-w-2xl px-4">
+                        Filter and view detailed computer activity—see which websites were visited and which applications were opened.
+                    </p>
+                </div>
+
+                <!-- Form Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-5 gap-2 md:gap-4 w-full max-w-6xl ">
+                    <!-- Student ID Input -->
+                    <div class="form-control w-full">
+                        <label class="label" for="activityStudentId">
+                            <span class="label-text font-medium">Student ID</span>
+                        </label>
+                        <input type="text" id="activityStudentId" class="input input-bordered w-full text-xs md:text-sm"
+                            placeholder="UA202200746" />
+                    </div>
+
+                    <!-- Section Input -->
+                    <div class="form-control w-full">
+                        <label class="label" for="activitySection">
+                            <span class="label-text font-medium">Section</span>
+                        </label>
+                        <input type="text" id="activitySection" class="input input-bordered w-full text-xs md:text-sm"
+                            placeholder="LFA322E010" />
+                    </div>
+
+                    <!-- Course Input -->
+                    <div class="form-control w-full">
+                        <label class="label" for="activityCourse">
+                            <span class="label-text font-medium">Course <span class="text-xs text-info">(Abbreviation only)</span></span>
+                        </label>
+                        <input type="text" id="activityCourse" class="input input-bordered w-full text-xs md:text-sm"
+                            placeholder="BSIT" />
+                    </div>
+
+                    <!-- Year Level Select -->
+                    <div class="form-control w-full">
+                        <label class="label" for="activityYearLevel">
+                            <span class="label-text font-medium">Year Level</span>
+                        </label>
+                        <select id="activityYearLevel" class="select select-bordered w-full text-xs md:text-sm">
+                            <option value="" class="bg-base-200 text-xs md:text-sm" disabled selected>Choose Year Level</option>
+                            <option value="1st Year" class="bg-base-200 text-xs md:text-sm">1st Year</option>
+                            <option value="2nd Year" class="bg-base-200 text-xs md:text-sm">2nd Year</option>
+                            <option value="3rd Year" class="bg-base-200 text-xs md:text-sm">3rd Year</option>
+                            <option value="4th Year" class="bg-base-200 text-xs md:text-sm">4th Year</option>
+                        </select>
+                    </div>
+
+                    <!-- Campus Input -->
+                    <div class="form-control w-full">
+                        <label class="label" for="activityCampus">
+                            <span class="label-text font-medium">Campus</span>
+                        </label>
+                        <input type="text" id="activityCampus" class="input input-bordered w-full text-xs md:text-sm"
+                            placeholder="Antipolo" />
+                    </div>
+
+                    <!-- PC Lab Input -->
+                    <div class="form-control w-full">
+                        <label class="label" for="activityPcLab">
+                            <span class="label-text font-medium">PC Lab</span>
+                        </label>
+                        <input type="number" id="activityPcLab" class="input input-bordered w-full text-xs md:text-sm"
+                            placeholder="1" />
+                    </div>
+
+                    <!-- Start Date Input -->
+                    <div class="form-control w-full">
+                        <label class="label" for="activityStartDate">
+                            <span class="label-text font-medium">Start Date</span>
+                        </label>
+                        <input type="datetime-local" id="activityStartDate"
+                            class="input input-bordered w-full text-xs md:text-sm" />
+                    </div>
+
+                    <!-- End Date Input -->
+                    <div class="form-control w-full">
+                        <label class="label" for="activityEndDate">
+                            <span class="label-text font-medium">End Date</span>
+                        </label>
+                        <input type="datetime-local" id="activityEndDate"
+                            class="input input-bordered w-full text-xs md:text-sm" />
+                    </div>
+
+                    <!-- Filter Select -->
+                    <div class="form-control w-full">
+                        <label class="label" for="activityFilter">
+                            <span class="label-text font-medium">Filter</span>
+                        </label>
+                        <select id="activityFilter" class="select select-bordered w-full text-xs md:text-sm">
+                            <option value="latest" class="bg-base-200 text-xs md:text-sm">Latest First</option>
+                            <option value="oldest" class="bg-base-200 text-xs md:text-sm">Oldest First</option>
+                        </select>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="w-full">
+                        <label class="label opacity-0">
+                            <span class="label-text">Submit</span>
+                        </label>
+                        <button type="submit" id="activitySubmitButton"
+                            class="btn btn-primary w-full bg-white text-black hover:text-white">
+                            Retrieve Activity Logs
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="w-full hidden flex-col gap-2" id="activityTableContainer">
+            <div class="w-full flex item-start justify-between activityBackExportContainer">
+                <button class="btn-sm btn-ghost rounded-full text-xs bg-base-200 hover:bg-green-600 hover:text-white duration-300 ease-in-out font-semibold">
+                    Export to Excel
+                </button>
+                <button class="btn-sm btn-ghost rounded-full text-xs bg-base-200 hover:bg-base-300 hover:text-white duration-300 ease-in-out font-semibold">
+                    Go back
+                </button>
+            </div>
+            <!-- Table Container (Initially Hidden) -->
+            <div class="tableContainer flex flex-col gap-2 overflow-x-auto w-full border border-base-300/60">
+                <!-- Activity table will be dynamically inserted here -->
+            
+                <table class="border-collapse w-full text-[10px] md:text-xs text-center">
+                    <thead>
+                        <tr>
+                            <th class="border border-base-300/60 h-10 min-w-[90px]">Student ID</th>
+                            <th class="border border-base-300/60 h-10 min-w-[90px]">Name</th>
+                            <th class="border border-base-300/60 h-10 min-w-[90px]">Section</th>
+                            <th class="border border-base-300/60 h-10 min-w-[90px]">Course</th>
+                            <th class="border border-base-300/60 h-10 min-w-[90px]">Year Level</th>
+                            <th class="border border-base-300/60 h-10 min-w-[90px]">Campus</th>
+                            <th class="border border-base-300/60 h-10 min-w-[90px]">PC Lab</th>
+                            <th class="border border-base-300/60 h-10 min-w-[90px]">Pc no.</th>
+                            <th class="border border-base-300/60 h-10 min-w-[90px]">Timestamp</th>
+                            <th class="border border-base-300/60 h-10 min-w-[90px]">Activity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </main>
 
     <!-- Report Bug Section -->

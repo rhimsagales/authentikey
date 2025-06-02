@@ -1706,6 +1706,122 @@ async function changePCPassword(req, res) {
 }
 
 
-module.exports = { connectToMongoDB, checkStudentIdAvailability, registerAccount, login, createResetPassDoc, deleteResetPassDocs, compareResetCode, changePassword, insertCorrectionRequest, getAllLogs, updatePersonalInfo, updatePassword, deleteStudent, findAndPushData, findStudentID, getFilteredLogs, adminApproveModifyLogs, adminRejectModifyLogs, uploadEligibleStudentIDS, adminLogin, checkEligibility, editAdminCredentials, deleteAdminCredential, createAdminCredential, deleteLogs, changePCPassword,  };
+async function getActivityLogs(req, res) {
+    try {
+        const { studentID, section, course, yearLevel, campus, pcLab, startDate, endDate, filter } = req.body;
+
+
+        const logsSnapshot = await computerUsageLogsRef.once('value');
+        const logsData = logsSnapshot.val();
+        
+        if (!logsData) {
+            return res.json({ success: true, logs: [] });
+        }
+
+        let logs = [];
+        Object.entries(logsData).forEach(([studentId, studentLogs]) => {
+            if (studentLogs) {
+                Object.entries(studentLogs).forEach(([logId, log]) => {
+                    logs.push({
+                        ...log,
+                        id: logId,
+                        studentID: studentId
+                    });
+                });
+            }
+        });
+        if (studentID) {
+            logs = logs.filter(log => log.studentID === studentID);
+        }
+
+        if (section) {
+            logs = logs.filter(log => log.section === section);
+        }
+
+        if (course) {
+            logs = logs.filter(log => log.course === course);
+        }
+
+        if (yearLevel) {
+            logs = logs.filter(log => {
+                const match = log.yearLevel === yearLevel;
+                return match;
+            });
+        }
+        
+        if (campus) {
+            logs = logs.filter(log => {
+                const match = log.campus === campus;
+                console.log(`Filtering by campus (${campus}): Log campus = ${log.campus}, Match = ${match}`);
+                return match;
+            });
+        }
+        
+        if (pcLab) {
+            logs = logs.filter(log => {
+                const match = log.pcLab == pcLab;
+                console.log(`Filtering by pcLab (${pcLab}): Log pcLab = ${log.pcLab}, Match = ${match}`);
+                return match;
+            });
+        }
+        
+        if (course) {
+            logs = logs.filter(log => log.course === course);
+        }
+
+        if (yearLevel) {
+            logs = logs.filter(log => log.yearLevel === yearLevel);
+        }
+
+        if (campus) {
+            logs = logs.filter(log => log.campus === campus);
+        }
+
+        if (pcLab) {
+            logs = logs.filter(log => log.pcLab == pcLab);
+        }
+        
+
+        if (startDate || endDate) {
+            logs = logs.filter(log => {
+                const logDate = new Date(log.date); 
+        
+                if (startDate && endDate) {
+                    const start = new Date(startDate);
+                    const end = new Date(endDate);
+                    start.setHours(0, 0, 0, 0);
+                    end.setHours(23, 59, 59, 999);
+                    return logDate >= start && logDate <= end;
+                } else if (startDate) {
+                    const start = new Date(startDate);
+                    start.setHours(0, 0, 0, 0);
+                    return logDate >= start;
+                } else if (endDate) {
+                    const end = new Date(endDate);
+                    end.setHours(23, 59, 59, 999);
+                    return logDate <= end;
+                }
+                return true;
+            });
+        }
+
+        if (filter === 'latest') {
+            logs.sort((a, b) => new Date(b.date) - new Date(a.date));
+        } 
+        else if (filter === 'oldest') {
+            logs.sort((a, b) => new Date(a.date) - new Date(b.date));
+        }
+        
+        return res.json({ success: true, logs, message : "Successfully retrieved logs." });
+    } catch (error) {
+        console.error('Error in getFilteredLogs:', error);
+        return res.status(500).json({ 
+            success: false, 
+            message: 'An error occurred while fetching logs' 
+        });
+    }
+}
+
+module.exports = { connectToMongoDB, checkStudentIdAvailability, registerAccount, login, createResetPassDoc, deleteResetPassDocs, compareResetCode, changePassword, insertCorrectionRequest, getAllLogs, updatePersonalInfo, updatePassword, deleteStudent, findAndPushData, findStudentID, getFilteredLogs, adminApproveModifyLogs, adminRejectModifyLogs, uploadEligibleStudentIDS, adminLogin, checkEligibility, editAdminCredentials, deleteAdminCredential, createAdminCredential, deleteLogs, changePCPassword,  getActivityLogs};
 
 

@@ -1295,6 +1295,11 @@ app.post('/admin/pc-password',  (req, res) => {
     })
 });
 
+app.post('/admin/get-activity-logs', (req, res) => {
+    mongoFunctions.getActivityLogs(req, res);
+})
+
+
 server.listen(process.env.PORT || 3000, () => {
     console.log('Server running at http://localhost:3000');
 });

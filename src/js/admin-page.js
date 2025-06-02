@@ -380,11 +380,14 @@ adminLinks.forEach(link => {
                 case "Delete Logs":
                     sections[5].classList.replace('hidden', 'flex');
                     break;
-                case "Bug Report":
+                case "Retrieve Activity":
                     sections[6].classList.replace('hidden', 'flex');
+                    break
+                case "Bug Report":
+                    sections[7].classList.replace('hidden', 'flex');
                     break;
                 case "Admin Instructions":
-                    sections[7].classList.replace('hidden', 'flex');
+                    sections[8].classList.replace('hidden', 'flex');
                     break;
                 
             }
@@ -876,3 +879,111 @@ changePcPasswordForm.addEventListener('submit', async (e) => {
         console.error('Error sending request:', error);
     }
 })
+
+
+const activityForm = document.querySelector('#activityFilterForm');
+
+const activityFormInputs = activityForm.querySelectorAll('input, select');
+
+const activityTableContainer = document.querySelector('#activityTableContainer');
+
+const activityTbody = activityTableContainer.querySelector('tbody');
+
+const activityFormContainer = document.querySelector('#activityFormContainer');
+
+const activityBackExportBtns = document.querySelector('.activityBackExportContainer').querySelectorAll('button');
+
+const activityExportBtn = activityBackExportBtns[0];
+const activityBackBtn = activityBackExportBtns[1];
+
+activityBackBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    console.log("Back button clicked");
+    activityFormContainer.classList.replace('hidden', 'flex');
+    activityTableContainer.classList.replace('flex','hidden');
+})
+
+
+activityExportBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    // Get the table element
+    const table = activityTbody.parentElement;
+    
+    // Convert table to workbook
+    const wb = XLSX.utils.table_to_book(table);
+    
+    // Generate Excel file
+    XLSX.writeFile(wb, "Student-Activity.xlsx");
+});
+
+
+activityForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    activityTbody.innerHTML = ''; // Clear previous logs
+    
+    activityFormContainer.classList.replace('flex','hidden');
+    activityTableContainer.classList.replace('hidden', 'flex');
+
+    const formData = {
+        studentID: activityFormInputs[0].value.trim(),
+        section: activityFormInputs[1].value.trim(),
+        course: activityFormInputs[2].value.trim(),
+        yearLevel: activityFormInputs[3].value.trim(),
+        campus: activityFormInputs[4].value.trim(),
+        pcLab: activityFormInputs[5].value.trim().toString(),
+        startDate: activityFormInputs[6].value,
+        endDate: activityFormInputs[7].value,
+        filter: activityFormInputs[8].value
+    };
+
+    try {
+        const response = await fetch('/admin/get-activity-logs', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            console.log(data)
+            for(const log of data.logs) {
+                const row = document.createElement('tr');
+
+                if(log.activity) {
+                    for(const key in log.activity) {
+                        const activity = log.activity[key];
+
+                        row.innerHTML = `
+                        <td class="border border-base-300/60 h-10 min-w-[90px]">${log.studentID}</td>
+                        <td class="border border-base-300/60 h-10 min-w-[90px]">${log.name}</td>
+                        <td class="border border-base-300/60 h-10 min-w-[90px]">${log.section}</td>
+                        <td class="border border-base-300/60 h-10 min-w-[90px]">${log.course}</td>
+                        <td class="border border-base-300/60 h-10 min-w-[90px]">${log.yearLevel}</td>
+                        <td class="border border-base-300/60 h-10 min-w-[90px]">${log.campus}</td>
+                        <td class="border border-base-300/60 h-10 min-w-[90px]">${log.pcLab}</td>
+                        <td class="border border-base-300/60 h-10 min-w-[90px]">\u200B${log.pcNumber}</td>
+                        <td class="border border-base-300/60 h-10 min-w-[90px]">\u200B${activity.timestamp}</td>
+                        <td class="border border-base-300/60 h-10 min-w-[90px]">${activity.activity}</td>
+                        `;
+
+                        activityTbody.appendChild(row);
+                    }
+                }
+            }
+            
+            
+
+        } else {
+            createWarningAlert(data.message);
+        }
+    } 
+    catch (error) {
+        createErrorAlert('An error occurred while fetching the logs. Please try again.');
+        console.error('Error sending request:', error);
+    }
+});
+
